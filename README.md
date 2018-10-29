@@ -32,5 +32,5 @@ For getting working source codes of this demo you need do the following steps:
   <li><a href="https://github.com/vintasoft/Pdf-Demos-Common-Code/archive/master.zip">Download files</a> of <a href="https://github.com/vintasoft/Pdf-Demos-Common-Code">PdfDemosCommonCode</a> project as ZIP-archive and extract content of ZIP-archive into temporary directory.</li>
   <li>Copy files from "tempDir\Pdf-Demos-Common-Code-master\CSharp" directory into "Sources" directory.</li>
   <li>Delete the "TempDir" directory from your computer.</li>
-  <li>Open the solution file "Sources\ImagingDemo\ImagingDemo.VS2017.sln" in Visual Studio .NET 2017 and compile the project.</li>
+  <li>Open the solution file "Sources\ImagingDemo.VS2017.sln" in Visual Studio .NET 2017 and compile the project.</li>
 </ol>
