@@ -26,11 +26,11 @@ For getting working source codes of this demo you need do the following steps:
   <li>Create the "Sources" directory on your computer. The directory will contain working source codes of this demo and auxiliary projects.</li>
   <li>Create the "TempDir" directory on your computer. The directory will contain temporary files.</li>
   <li><a href="https://github.com/vintasoft/Imaging-Demo/archive/master.zip">Download files</a> of this project as ZIP-archive and extract content of ZIP-archive into temporary directory.</li>
-  <li>Create the "Sources\ImagingDemo" directory and copy content from "tempDir\Imaging-Demo-master\CSharp" directory into "Sources\ImagingDemo" directory.</li>
+  <li>Copy files from "tempDir\Imaging-Demo-master\CSharp" directory into "Sources" directory.</li>
   <li><a href="https://github.com/vintasoft/Imaging-Demos-Common-Code/archive/master.zip">Download files</a> of <a href="https://github.com/vintasoft/Imaging-Demos-Common-Code">ImagingDemosCommonCode</a> project as ZIP-archive and extract content of ZIP-archive into temporary directory.</li>
-  <li>Create the "Sources\ImagingDemosCommonCode" directory and copy content from "tempDir\Imaging-Demos-Common-Code-master\CSharp" directory into "Sources\ImagingDemosCommonCode" directory.</li>
+  <li>Copy files from "tempDir\Imaging-Demos-Common-Code-master\CSharp" directory into "Sources" directory.</li>
   <li><a href="https://github.com/vintasoft/Pdf-Demos-Common-Code/archive/master.zip">Download files</a> of <a href="https://github.com/vintasoft/Pdf-Demos-Common-Code">PdfDemosCommonCode</a> project as ZIP-archive and extract content of ZIP-archive into temporary directory.</li>
-  <li>Create the "Sources\PdfDemosCommonCode" directory and copy content from "tempDir\Pdf-Demos-Common-Code-master\CSharp" directory into "Sources\PdfDemosCommonCode" directory.</li>
+  <li>Copy files from "tempDir\Pdf-Demos-Common-Code-master\CSharp" directory into "Sources" directory.</li>
   <li>Delete the "TempDir" directory from your computer.</li>
   <li>Open the solution file "Sources\ImagingDemo\ImagingDemo.VS2017.sln" in Visual Studio .NET 2017 and compile the project.</li>
 </ol>
