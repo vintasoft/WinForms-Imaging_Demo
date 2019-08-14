@@ -799,9 +799,6 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Content Include="VintasoftTwainService.exe">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
     <EmbeddedResource Include="CustomControls\TreeViewSearchControl.resx">
       <DependentUpon>TreeViewSearchControl.cs</DependentUpon>
     </EmbeddedResource>
