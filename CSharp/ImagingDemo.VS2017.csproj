@@ -78,11 +78,11 @@
     <Reference Include="Vintasoft.Barcode, Version=12.0.7.1, Culture=neutral, PublicKeyToken=153caf29a10d2e31, processorArchitecture=MSIL">
       <HintPath>packages\Vintasoft.Barcode.12.0.7.1\lib\net40\Vintasoft.Barcode.dll</HintPath>
     </Reference>
-    <Reference Include="Vintasoft.Imaging, Version=8.8.0.3, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
-      <HintPath>packages\Vintasoft.Imaging.8.8.0.3\lib\net40\Vintasoft.Imaging.dll</HintPath>
+    <Reference Include="Vintasoft.Imaging, Version=8.8.0.5, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
+      <HintPath>packages\Vintasoft.Imaging.8.8.0.5\lib\net40\Vintasoft.Imaging.dll</HintPath>
     </Reference>
-    <Reference Include="Vintasoft.Imaging.Annotation, Version=8.8.0.3, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
-      <HintPath>packages\Vintasoft.Imaging.Annotation.8.8.0.3\lib\net40\Vintasoft.Imaging.Annotation.dll</HintPath>
+    <Reference Include="Vintasoft.Imaging.Annotation, Version=8.8.0.5, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
+      <HintPath>packages\Vintasoft.Imaging.Annotation.8.8.0.5\lib\net40\Vintasoft.Imaging.Annotation.dll</HintPath>
     </Reference>
     <Reference Include="Vintasoft.Imaging.Annotation.Pdf, Version=2.8.0.3, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
       <HintPath>packages\Vintasoft.Imaging.Annotation.Pdf.2.8.0.3\lib\net40\Vintasoft.Imaging.Annotation.Pdf.dll</HintPath>
