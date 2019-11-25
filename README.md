@@ -5,7 +5,7 @@ Demo application shows how to load, view, process, print and save images and doc
 Demo uses functionality of <a href="http://www.vintasoft.com/vsimaging-dotnet-index.html">VintaSoft Imaging .NET SDK</a>.
 
 <h2>Screenshot</h2>
-<img src="https://www.vintasoft.com/images/imaging_dotnet/screenshots/vintasoft-imaging-demo.png" alt="VintaSoft Imaging Demo">
+<img src="http://www.vintasoft.com/images/imaging_dotnet/screenshots/vintasoft-imaging-demo.png" alt="VintaSoft Imaging Demo">
 
 
 <h2>Download</h2>
