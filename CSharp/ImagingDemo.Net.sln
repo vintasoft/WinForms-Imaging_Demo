@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 15
-VisualStudioVersion = 15.0.26228.9
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29509.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImagingDemo", "ImagingDemo.VS2017.csproj", "{A451CED9-D17C-440F-A50D-DD2AA30FA2E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ImagingDemo.Net", "ImagingDemo.Net.csproj", "{A451CED9-D17C-440F-A50D-DD2AA30FA2E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +32,6 @@ Global
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {5A087C59-1FF8-48B2-BDAA-1D35E6FF453B}
+		SolutionGuid = {7D16D05A-1CE6-4A51-BE11-58152AD14877}
 	EndGlobalSection
 EndGlobal

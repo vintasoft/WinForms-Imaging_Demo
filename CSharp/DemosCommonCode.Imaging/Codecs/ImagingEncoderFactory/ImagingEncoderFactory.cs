@@ -68,7 +68,7 @@ namespace DemosCommonCode.Imaging.Codecs
 
         bool _canAddImagesToExistingFile = true;
         /// <summary>
-        /// Gets or sets a value indicating whether encoder can add images to the existing multipage image file.</param>
+        /// Gets or sets a value indicating whether encoder can add images to the existing multipage image file.
         /// </summary>
         /// <value>
         /// <b>True</b> - encoder can add images to the existing GIF file;

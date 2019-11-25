@@ -34,6 +34,8 @@ using DemosCommonCode.Imaging.Codecs;
 using DemosCommonCode.Imaging.ColorManagement;
 using DemosCommonCode.Twain;
 using DemosCommonCode.Barcode;
+using Vintasoft.Imaging.Drawing.Gdi;
+using Vintasoft.Barcode;
 #if !REMOVE_PDF_PLUGIN
 using DemosCommonCode.Pdf;
 using Vintasoft.Imaging.Pdf.Tree;
@@ -238,6 +240,7 @@ namespace ImagingDemo
             RawAssemblyLoader.Load();
             DicomAssemblyLoader.Load();
             PdfAnnotationsAssemblyLoader.Load();
+            DocxAssemblyLoader.Load();
 
             _imageMapTool = new ImageMapTool();
 
@@ -246,7 +249,6 @@ namespace ImagingDemo
 
             thumbnailViewer1.ThumbnailRenderingThreadCount = Math.Max(1, Environment.ProcessorCount / 2);
 
-            //
             imageViewer1.Images.ImageCollectionChanged += new EventHandler<ImageCollectionChangeEventArgs>(Images_CollectionChanged);
 
             // init "View => Image Display Mode" menu
@@ -1834,6 +1836,14 @@ namespace ImagingDemo
         private void overlayImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
             _imageProcessingCommandExecutor.ExecuteOverlayCommand();
+        }
+
+        /// <summary>
+        /// Overlays binary image.
+        /// </summary>
+        private void overlayBinaryImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteOverlayBinaryCommand();
         }
 
         /// <summary>

@@ -96,7 +96,7 @@ namespace DemosCommonCode.Twain
                     catch (Exception ex)
                     {
                         // show dialog with error message
-                        MessageBox.Show(ex.Message, "TWAIN device manager", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        DemosTools.ShowErrorMessage("TWAIN device manager", ex);
                         return;
                     }
 

@@ -457,6 +457,26 @@ namespace ImagingDemo
         }
 
         /// <summary>
+        /// Executes the OverlayBinaryCommand command.
+        /// </summary>
+        public void ExecuteOverlayBinaryCommand()
+        {
+            // create the processing command
+            OverlayBinaryCommand command = new OverlayBinaryCommand();
+
+            // set properties of command
+            PropertyGridForm propertyGridForm = new PropertyGridForm(command, "Overlay Binary Command Properties", true);
+            if (propertyGridForm.ShowDialog() != DialogResult.OK)
+                return;
+
+            // save a reference to the overlay image, image will be disposed when command is finished
+            _overlayImage = command.OverlayImage;
+
+            // execute the command
+            ExecuteProcessingCommand(command, true);
+        }
+
+        /// <summary>
         /// Executes the OverlayCommand command.
         /// </summary>
         public void ExecuteOverlayWithBlendingCommand()

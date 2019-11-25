@@ -10,7 +10,8 @@
     <AssemblyName>ImagingDemo</AssemblyName>
     <ApplicationIcon>App.ico</ApplicationIcon>
     <StartupObject>ImagingDemo.Program</StartupObject>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <OutputPath>bin\</OutputPath>
@@ -41,6 +42,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -51,6 +53,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Optimize>true</Optimize>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -61,6 +64,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Optimize>false</Optimize>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <PlatformTarget>x64</PlatformTarget>
@@ -71,56 +75,66 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Optimize>true</Optimize>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="Vintasoft.Barcode, Version=12.0.7.1, Culture=neutral, PublicKeyToken=153caf29a10d2e31, processorArchitecture=MSIL">
-      <HintPath>packages\Vintasoft.Barcode.12.0.7.1\lib\net40\Vintasoft.Barcode.dll</HintPath>
+    <Reference Include="Vintasoft.Barcode, Version=12.0.15.1, Culture=neutral, PublicKeyToken=153caf29a10d2e31, processorArchitecture=MSIL">
+      <HintPath>packages\Vintasoft.Barcode.12.0.15.1\lib\net40\Vintasoft.Barcode.dll</HintPath>
     </Reference>
-    <Reference Include="Vintasoft.Imaging, Version=8.8.0.15, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
-      <HintPath>packages\Vintasoft.Imaging.8.8.0.15\lib\net40\Vintasoft.Imaging.dll</HintPath>
+    <Reference Include="Vintasoft.Imaging, Version=9.0.0.1, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
+      <HintPath>packages\Vintasoft.Imaging.9.0.0.1\lib\net40\Vintasoft.Imaging.dll</HintPath>
     </Reference>
-    <Reference Include="Vintasoft.Imaging.Annotation, Version=8.8.0.15, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
-      <HintPath>packages\Vintasoft.Imaging.Annotation.8.8.0.15\lib\net40\Vintasoft.Imaging.Annotation.dll</HintPath>
+    <Reference Include="Vintasoft.Imaging.Annotation, Version=9.0.0.1, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
+      <HintPath>packages\Vintasoft.Imaging.Annotation.9.0.0.1\lib\net40\Vintasoft.Imaging.Annotation.dll</HintPath>
     </Reference>
-    <Reference Include="Vintasoft.Imaging.Annotation.Pdf, Version=2.8.0.15, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
-      <HintPath>packages\Vintasoft.Imaging.Annotation.Pdf.2.8.0.15\lib\net40\Vintasoft.Imaging.Annotation.Pdf.dll</HintPath>
+    <Reference Include="Vintasoft.Imaging.Annotation.Pdf, Version=3.0.0.1, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
+      <HintPath>packages\Vintasoft.Imaging.Annotation.Pdf.3.0.0.1\lib\net40\Vintasoft.Imaging.Annotation.Pdf.dll</HintPath>
     </Reference>
-    <Reference Include="Vintasoft.Imaging.Dicom, Version=1.8.0.15, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
-      <HintPath>packages\Vintasoft.Imaging.Dicom.1.8.0.15\lib\net40\Vintasoft.Imaging.Dicom.dll</HintPath>
+    <Reference Include="Vintasoft.Imaging.Dicom, Version=2.0.0.1, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
+      <HintPath>packages\Vintasoft.Imaging.Dicom.2.0.0.1\lib\net40\Vintasoft.Imaging.Dicom.dll</HintPath>
     </Reference>
-    <Reference Include="Vintasoft.Imaging.DocCleanup, Version=3.8.0.15, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
-      <HintPath>packages\Vintasoft.Imaging.DocCleanup.3.8.0.15\lib\net40\Vintasoft.Imaging.DocCleanup.dll</HintPath>
+    <Reference Include="Vintasoft.Imaging.DocCleanup, Version=4.0.0.1, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
+      <HintPath>packages\Vintasoft.Imaging.DocCleanup.4.0.0.1\lib\net40\Vintasoft.Imaging.DocCleanup.dll</HintPath>
     </Reference>
-    <Reference Include="Vintasoft.Imaging.Jbig2Codec, Version=5.8.0.15, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
-      <HintPath>packages\Vintasoft.Imaging.Jbig2Codec.5.8.0.15\lib\net40\Vintasoft.Imaging.Jbig2Codec.dll</HintPath>
+    <Reference Include="Vintasoft.Imaging.Jbig2Codec, Version=6.0.0.1, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
+      <HintPath>packages\Vintasoft.Imaging.Jbig2Codec.6.0.0.1\lib\net40\Vintasoft.Imaging.Jbig2Codec.dll</HintPath>
     </Reference>
-    <Reference Include="Vintasoft.Imaging.Jpeg2000Codec, Version=4.8.0.15, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
-      <HintPath>packages\Vintasoft.Imaging.Jpeg2000Codec.4.8.0.15\lib\net40\Vintasoft.Imaging.Jpeg2000Codec.dll</HintPath>
+    <Reference Include="Vintasoft.Imaging.Jpeg2000Codec, Version=5.0.0.1, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
+      <HintPath>packages\Vintasoft.Imaging.Jpeg2000Codec.5.0.0.1\lib\net40\Vintasoft.Imaging.Jpeg2000Codec.dll</HintPath>
     </Reference>
-    <Reference Include="Vintasoft.Imaging.Media, Version=2.8.0.15, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
-      <HintPath>packages\Vintasoft.Imaging.Media.2.8.0.15\lib\net40\Vintasoft.Imaging.Media.dll</HintPath>
+    <Reference Include="Vintasoft.Imaging.Media, Version=3.0.0.1, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
+      <HintPath>packages\Vintasoft.Imaging.Media.3.0.0.1\lib\net40\Vintasoft.Imaging.Media.dll</HintPath>
     </Reference>
-    <Reference Include="Vintasoft.Imaging.Pdf, Version=5.8.0.15, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
-      <HintPath>packages\Vintasoft.Imaging.Pdf.5.8.0.15\lib\net40\Vintasoft.Imaging.Pdf.dll</HintPath>
+    <Reference Include="Vintasoft.Imaging.Office.OpenXml, Version=1.0.0.1, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
+      <HintPath>packages\Vintasoft.Imaging.Office.OpenXml.1.0.0.1\lib\net40\Vintasoft.Imaging.Office.OpenXml.dll</HintPath>
     </Reference>
-    <Reference Include="Vintasoft.Imaging.Pdf.Mrc, Version=5.8.0.15, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
-      <HintPath>packages\Vintasoft.Imaging.Pdf.Mrc.1.8.0.15\lib\net40\Vintasoft.Imaging.Pdf.Mrc.dll</HintPath>
+    <Reference Include="Vintasoft.Imaging.Pdf, Version=6.0.0.1, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
+      <HintPath>packages\Vintasoft.Imaging.Pdf.6.0.0.1\lib\net40\Vintasoft.Imaging.Pdf.dll</HintPath>
     </Reference>
-    <Reference Include="Vintasoft.Imaging.RawCodec, Version=2.8.0.15, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
-      <HintPath>packages\Vintasoft.Imaging.RawCodec.2.8.0.15\lib\net40\Vintasoft.Imaging.RawCodec.dll</HintPath>
+    <Reference Include="Vintasoft.Imaging.Pdf.Mrc, Version=6.0.0.1, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
+      <HintPath>packages\Vintasoft.Imaging.Pdf.Mrc.2.0.0.1\lib\net40\Vintasoft.Imaging.Pdf.Mrc.dll</HintPath>
     </Reference>
-    <Reference Include="Vintasoft.Shared, Version=1.3.1.3, Culture=neutral, PublicKeyToken=153caf29a10d2e31, processorArchitecture=MSIL">
-      <HintPath>packages\Vintasoft.Shared.1.3.1.3\lib\net40\Vintasoft.Shared.dll</HintPath>
+    <Reference Include="Vintasoft.Imaging.RawCodec, Version=3.0.0.1, Culture=neutral, PublicKeyToken=e553c7d3e075f61c, processorArchitecture=MSIL">
+      <HintPath>packages\Vintasoft.Imaging.RawCodec.3.0.0.1\lib\net40\Vintasoft.Imaging.RawCodec.dll</HintPath>
     </Reference>
-    <Reference Include="Vintasoft.Twain, Version=10.3.8.1, Culture=neutral, PublicKeyToken=153caf29a10d2e31, processorArchitecture=MSIL">
-      <HintPath>packages\Vintasoft.Twain.AnyCPU.10.3.8.1\lib\net40\Vintasoft.Twain.dll</HintPath>
+    <Reference Include="Vintasoft.Shared, Version=1.4.0.1, Culture=neutral, PublicKeyToken=153caf29a10d2e31, processorArchitecture=MSIL">
+      <HintPath>packages\Vintasoft.Shared.1.4.0.1\lib\net40\Vintasoft.Shared.dll</HintPath>
+    </Reference>
+    <Reference Include="Vintasoft.Twain, Version=10.3.11.1, Culture=neutral, PublicKeyToken=153caf29a10d2e31, processorArchitecture=MSIL">
+      <HintPath>packages\Vintasoft.Twain.AnyCPU.10.3.11.1\lib\net40\Vintasoft.Twain.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CustomControls\AnchorTypeEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="CustomControls\AnchorTypeEditorControl.designer.cs">
+      <DependentUpon>AnchorTypeEditorControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="CustomControls\CheckedToolStripSplitButton.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -155,6 +169,8 @@
       <DependentUpon>ActionProgressForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DemosCommonCode.Imaging\AssembliesLoader\DicomAssemblyLoader.cs">
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\AssembliesLoader\DocxAssemblyLoader.cs">
     </Compile>
     <Compile Include="DemosCommonCode.Imaging\AssembliesLoader\Jbig2AssemblyLoader.cs">
     </Compile>
@@ -801,6 +817,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CustomControls\AnchorTypeEditorControl.resx">
+      <DependentUpon>AnchorTypeEditorControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CustomControls\TreeViewSearchControl.resx">
       <DependentUpon>TreeViewSearchControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -1171,6 +1190,7 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="DemosCommonCode.Imaging\VisualToolsToolStrip\VisualTools\BarcodeWriterTools\Resources\BarcodeWriterTool.png" />
+    <Content Include="directives.txt" />
     <Content Include="Resources\Processing_Base.png" />
     <Content Include="Resources\Processing_Channels.png" />
     <Content Include="Resources\Processing_FFT.png" />
@@ -1225,7 +1245,5 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>
-    </PostBuildEvent>
   </PropertyGroup>
 </Project>
