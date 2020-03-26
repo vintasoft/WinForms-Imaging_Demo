@@ -1,6 +1,8 @@
 ﻿using System.Windows.Forms;
 
-using Vintasoft.Barcode;
+#if !REMOVE_BARCODE_SDK
+using Vintasoft.Barcode; 
+#endif
 
 using DemosCommonCode.Imaging;
 using System.Drawing;
@@ -43,9 +45,11 @@ namespace DemosCommonCode.Barcode
             params VisualToolAction[] subactions)
             : base(visualTool, text, toolTip, icon, subactions)
         {
+#if !REMOVE_BARCODE_SDK
             visualTool.ReaderSettings.AutomaticRecognition = true;
             visualTool.ReaderSettings.ScanDirection = ScanDirection.Horizontal | ScanDirection.Vertical;
-            visualTool.ReaderSettings.ScanBarcodeTypes = BarcodeType.Code128 | BarcodeType.Code39;
+            visualTool.ReaderSettings.ScanBarcodeTypes = BarcodeType.Code128 | BarcodeType.Code39; 
+#endif
         }
 
         #endregion

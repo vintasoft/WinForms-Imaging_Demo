@@ -1,4 +1,4 @@
-﻿namespace DemosCommonCode.CustomControls
+namespace DemosCommonCode.CustomControls
 {
     partial class TreeViewSearchControl
     {
@@ -58,7 +58,6 @@
             // 
             // TreeViewSearchControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.findPatternTextBox);
             this.Controls.Add(this.findButton);

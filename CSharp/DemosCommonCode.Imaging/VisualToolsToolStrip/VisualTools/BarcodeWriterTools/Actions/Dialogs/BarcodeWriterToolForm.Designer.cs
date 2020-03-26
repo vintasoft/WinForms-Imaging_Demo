@@ -1,4 +1,4 @@
-﻿namespace DemosCommonCode.Barcode
+namespace DemosCommonCode.Barcode
 {
     partial class BarcodeWriterToolForm
     {
@@ -33,7 +33,9 @@
             // 
             // barcodeWriterSettingsControl1
             // 
-            this.barcodeWriterSettingsControl1.BarcodeWriterSettings = null;
+#if !REMOVE_BARCODE_SDK
+            this.barcodeWriterSettingsControl1.BarcodeWriterSettings = null; 
+#endif
             this.barcodeWriterSettingsControl1.Location = new System.Drawing.Point(4, 2);
             this.barcodeWriterSettingsControl1.Name = "barcodeWriterSettingsControl1";
             this.barcodeWriterSettingsControl1.Size = new System.Drawing.Size(277, 530);
@@ -41,7 +43,6 @@
             // 
             // BarcodeWriterToolForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(284, 537);
             this.Controls.Add(this.barcodeWriterSettingsControl1);

@@ -4,7 +4,9 @@ using System.Drawing.Drawing2D;
 using System.Threading;
 using System.Windows.Forms;
 
-using Vintasoft.Barcode;
+#if !REMOVE_BARCODE_SDK
+using Vintasoft.Barcode; 
+#endif
 using Vintasoft.Imaging;
 using Vintasoft.Imaging.UI;
 using Vintasoft.Imaging.UI.VisualTools;
@@ -24,10 +26,12 @@ namespace DemosCommonCode.Barcode
 
         #region Fields
 
+#if !REMOVE_BARCODE_SDK
         /// <summary>
         /// Barcode reader.
         /// </summary>
-        BarcodeReader _reader;
+        BarcodeReader _reader; 
+#endif
 
         /// <summary>
         /// Indicates that the barcode recognition process should be started.
@@ -55,8 +59,10 @@ namespace DemosCommonCode.Barcode
         /// </summary>
         public BarcodeReaderTool()
         {
+#if !REMOVE_BARCODE_SDK
             _reader = new BarcodeReader();
-            _reader.Progress += new EventHandler<BarcodeReaderProgressEventArgs>(Reader_Progress);
+            _reader.Progress += new EventHandler<BarcodeReaderProgressEventArgs>(Reader_Progress); 
+#endif
 
             base.Cursor = System.Windows.Forms.Cursors.Cross;
             
@@ -105,10 +111,15 @@ namespace DemosCommonCode.Barcode
         {
             get
             {
-                return _reader.RecognizeTime;
+#if !REMOVE_BARCODE_SDK
+                return _reader.RecognizeTime; 
+#else
+                return TimeSpan.MinValue;
+#endif
             }
         }
 
+#if !REMOVE_BARCODE_SDK
         /// <summary>
         /// Gets or sets the barcode reader settings.
         /// </summary>
@@ -139,7 +150,8 @@ namespace DemosCommonCode.Barcode
                 _recognitionResults = value;
                 InvalidateViewer();
             }
-        }
+        } 
+#endif
 
         Pen _recognizedBarcodePen = new Pen(Color.FromArgb(192, Color.Green), 2);
         /// <summary>
@@ -263,6 +275,7 @@ namespace DemosCommonCode.Barcode
 
             try
             {
+#if !REMOVE_BARCODE_SDK
                 if (ImageViewer != null)
                 {
                     VintasoftImage image = ImageViewer.Image;
@@ -275,9 +288,9 @@ namespace DemosCommonCode.Barcode
                                 convertCommand = new ChangePixelFormatCommand(PixelFormat.Gray8);
                                 break;
                         }
-                        if (convertCommand != null)                        
+                        if (convertCommand != null)
                             image = convertCommand.Execute(image);
-                        
+
                         // set settings
                         if (Rectangle.Size.IsEmpty)
                             ReaderSettings.ScanRectangle = Rectangle.Empty;
@@ -287,7 +300,7 @@ namespace DemosCommonCode.Barcode
                         // recognize barcodes
                         using (Image bitmap = image.GetAsBitmap())
                             RecognitionResults = _reader.ReadBarcodes(bitmap);
-                        
+
                         if (convertCommand != null)
                             image.Dispose();
                     }
@@ -299,8 +312,8 @@ namespace DemosCommonCode.Barcode
                 else
                 {
                     RecognitionResults = null;
-                }
-
+                } 
+#endif
             }
             catch (Exception ex)
             {
@@ -339,11 +352,13 @@ namespace DemosCommonCode.Barcode
         public override RectangleF GetDrawingBox(ImageViewer viewer)
         {
             RectangleF drawingBox = base.GetDrawingBox(viewer);
+#if !REMOVE_BARCODE_SDK
             if (RecognitionResults != null)
             {
                 for (int i = 0; i < _recognitionResults.Length; i++)
                     drawingBox = RectangleF.Union(drawingBox, GetDrawBarcodeInfoBoundingBox(_recognitionResults[i]));
-            }
+            } 
+#endif
             return drawingBox;
         }
 
@@ -354,6 +369,7 @@ namespace DemosCommonCode.Barcode
         /// <param name="g">A graphics where this tool must be drawn.</param>
         public override void Draw(ImageViewer viewer, System.Drawing.Graphics g)
         {
+#if !REMOVE_BARCODE_SDK
             if (RecognitionResults != null)
             {
                 using (Matrix oldTransformation = g.Transform)
@@ -363,7 +379,8 @@ namespace DemosCommonCode.Barcode
                         DrawBarcodeInfo(g, _recognitionResults[i]);
                     g.Transform = oldTransformation;
                 }
-            }
+            } 
+#endif
             base.Draw(viewer, g);
         }
 
@@ -372,6 +389,7 @@ namespace DemosCommonCode.Barcode
 
         #region PROTECTED
 
+#if !REMOVE_BARCODE_SDK
         /// <summary>
         /// Returns a bounding box of barcode info's drawing content.
         /// </summary>
@@ -420,7 +438,7 @@ namespace DemosCommonCode.Barcode
                 pen = _unrecognizedBarcodePen;
                 brush = _unrecognizedBarcodeBrush;
             }
-            
+
             if (brush != null)
                 g.FillPolygon(brush, info.Region.GetPoints());
             if (pen != null)
@@ -439,7 +457,7 @@ namespace DemosCommonCode.Barcode
             info.ShowNonDataFlagsInValue = true;
             int index = Array.IndexOf(_recognitionResults, info);
             return string.Format("[{0}]: {1}", index + 1, info.Value);
-        }
+        } 
 
         /// <summary>
         /// Resets this tool.
@@ -449,6 +467,7 @@ namespace DemosCommonCode.Barcode
             _recognitionResults = null;
             base.Reset();
         }
+#endif
 
 
         /// <summary>
@@ -461,6 +480,7 @@ namespace DemosCommonCode.Barcode
                 RecognitionStarted(this, e);
         }
 
+#if !REMOVE_BARCODE_SDK
         /// <summary>
         /// Raises the <see cref="RecognitionProgress"/> event.
         /// </summary>
@@ -470,7 +490,8 @@ namespace DemosCommonCode.Barcode
         {
             if (RecognitionProgress != null)
                 RecognitionProgress(this, e);
-        }
+        } 
+#endif
 
         /// <summary>
         /// Raises the <see cref="RecognitionFinished"/> event.
@@ -488,6 +509,7 @@ namespace DemosCommonCode.Barcode
 
         #region PRIVATE
 
+#if !REMOVE_BARCODE_SDK
         /// <summary>
         /// BarcodeReader.Progress event handler.
         /// </summary>
@@ -497,7 +519,8 @@ namespace DemosCommonCode.Barcode
                 Invoke(new OnRecoginitionProgressDelegate(OnRecoginitionProgress), e);
             else
                 OnRecoginitionProgress(e);
-        }
+        } 
+#endif
 
         /// <summary>
         /// TransformController interaction logic.
@@ -565,6 +588,7 @@ namespace DemosCommonCode.Barcode
         /// </summary>
         public event EventHandler RecognitionStarted;
 
+#if !REMOVE_BARCODE_SDK
         /// <summary>
         /// Occurs when progress of barcode reading is changed. 
         /// </summary>
@@ -574,7 +598,8 @@ namespace DemosCommonCode.Barcode
         /// and
         /// <see cref="Vintasoft.Imaging.Barcode.ReaderSettings.ThresholdIterations">iteration process</see>.
         /// </remarks>
-        public event EventHandler<BarcodeReaderProgressEventArgs> RecognitionProgress;
+        public event EventHandler<BarcodeReaderProgressEventArgs> RecognitionProgress; 
+#endif
 
         /// <summary>
         /// Occurs when barcode recognition process is finished.
@@ -589,7 +614,9 @@ namespace DemosCommonCode.Barcode
 
         private delegate void OnRecoginitionStartedDelegate(EventArgs e);
 
-        private delegate void OnRecoginitionProgressDelegate(BarcodeReaderProgressEventArgs e);
+#if !REMOVE_BARCODE_SDK
+        private delegate void OnRecoginitionProgressDelegate(BarcodeReaderProgressEventArgs e); 
+#endif
 
         private delegate void OnRecoginitionFinishedDelegate(EventArgs e);
 

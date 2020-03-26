@@ -2,7 +2,9 @@
 using System.Drawing;
 using System.Drawing.Drawing2D;
 
-using Vintasoft.Barcode;
+#if !REMOVE_BARCODE_SDK
+using Vintasoft.Barcode; 
+#endif
 using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.UI.VisualTools;
@@ -20,10 +22,12 @@ namespace DemosCommonCode.Barcode
 
         #region Fields
 
+#if !REMOVE_BARCODE_SDK
         /// <summary>
         /// Barcode writer.
         /// </summary>
-        BarcodeWriter _writer;
+        BarcodeWriter _writer; 
+#endif
 
         /// <summary>
         /// Panel with buttons.
@@ -75,9 +79,11 @@ namespace DemosCommonCode.Barcode
         /// </summary>
         public BarcodeWriterTool()
         {
+#if !REMOVE_BARCODE_SDK
             _writer = new BarcodeWriter();
             _writer.Settings.Changed += new EventHandler(Settings_Changed);
-            _writer.Settings.PixelFormat = BarcodeImagePixelFormat.Bgra32;
+            _writer.Settings.PixelFormat = BarcodeImagePixelFormat.Bgra32; 
+#endif
 
             base.Cursor = System.Windows.Forms.Cursors.Cross;
             base.ActionCursor = base.Cursor;
@@ -195,6 +201,7 @@ namespace DemosCommonCode.Barcode
             }
         }
 
+#if !REMOVE_BARCODE_SDK
         /// <summary>
         /// Gets or sets the barcode writer settings.
         /// </summary>
@@ -213,7 +220,8 @@ namespace DemosCommonCode.Barcode
                     _writer.Settings.Changed += new EventHandler(Settings_Changed);
                 }
             }
-        }
+        } 
+#endif
 
         #endregion
 
@@ -254,7 +262,11 @@ namespace DemosCommonCode.Barcode
         /// </summary>
         public VintasoftImage GetBarcodeImage()
         {
-            return new VintasoftImage(_writer.GetBarcodeAsBitmap(), true);
+#if !REMOVE_BARCODE_SDK
+            return new VintasoftImage(_writer.GetBarcodeAsBitmap(), true); 
+#else
+            return null;
+#endif
         }
 
         /// <summary>
@@ -262,7 +274,11 @@ namespace DemosCommonCode.Barcode
         /// </summary>
         public GraphicsPath GetBarcodeGraphicsPath()
         {
-            return _writer.GetBarcodeAsGraphicsPath();
+#if !REMOVE_BARCODE_SDK
+            return _writer.GetBarcodeAsGraphicsPath(); 
+#else
+            return null;
+#endif
         }
 
         /// <summary>
@@ -273,6 +289,7 @@ namespace DemosCommonCode.Barcode
         /// </param>
         public void RefreshBarcodeImage(bool needAlignRectangleSize)
         {
+#if !REMOVE_BARCODE_SDK
             // if selection is empty
             if (Rectangle.Width <= 0 || Rectangle.Height <= 0)
             {
@@ -353,7 +370,8 @@ namespace DemosCommonCode.Barcode
             {
                 Rectangle = new Rectangle(Rectangle.X, Rectangle.Y, BarcodeImage.Width, BarcodeImage.Height);
                 _alignedRectangle = Rectangle;
-            }
+            } 
+#endif
         }
 
         /// <summary>
@@ -468,9 +486,12 @@ namespace DemosCommonCode.Barcode
         /// </summary>
         private Rectangle GetDestBarcodeImageRectangle()
         {
-            BarcodeType barcode = WriterSettings.Barcode;
+#if !REMOVE_BARCODE_SDK
+            BarcodeType barcode = WriterSettings.Barcode; 
+#endif
 
             bool needMaintainAspectRatio = false;
+#if !REMOVE_BARCODE_SDK
             switch (barcode)
             {
                 case BarcodeType.Aztec:
@@ -482,7 +503,8 @@ namespace DemosCommonCode.Barcode
                 case BarcodeType.MaxiCode:
                     needMaintainAspectRatio = true;
                     break;
-            }
+            } 
+#endif
             // if we do not need to maintain the aspect ratio
             if (!needMaintainAspectRatio)
                 // return the selection region of this tool as rectangle where barcode must be drawn

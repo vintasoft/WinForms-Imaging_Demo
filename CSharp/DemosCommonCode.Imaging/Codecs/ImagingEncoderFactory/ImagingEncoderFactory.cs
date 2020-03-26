@@ -126,7 +126,7 @@ namespace DemosCommonCode.Imaging.Codecs
             // set encoder settings
             return ShowEncoderSettingsDialogAndCheckOverwrite(
                 filename,
-                encoder,
+                ref encoder,
                 canAddImagesToExistingFile,
                 true);
         }
@@ -150,7 +150,7 @@ namespace DemosCommonCode.Imaging.Codecs
                 throw new NotSupportedException(string.Format("Can not find encoder for '{0}'.", name));
 
             // set encoder settings
-            return ShowEncoderSettingsDialogAndCheckOverwrite(name, encoder, false, false);
+            return ShowEncoderSettingsDialogAndCheckOverwrite(name, ref encoder, false, false);
         }
 
         /// <summary> 
@@ -187,11 +187,15 @@ namespace DemosCommonCode.Imaging.Codecs
             }
 
             // set encoder settings
-            return ShowEncoderSettingsDialogAndCheckOverwrite(
+            bool result = ShowEncoderSettingsDialogAndCheckOverwrite(
                 filename,
-                multipageEncoder,
+                ref encoder,
                 canAddImagesToExistingFile,
                 multipageEncoder.CreateNewFile);
+
+            multipageEncoder = encoder as MultipageEncoderBase;
+
+            return result;
         }
 
         #endregion
@@ -208,7 +212,7 @@ namespace DemosCommonCode.Imaging.Codecs
         /// <b>True</b> if settings are applied to the encoder; otherwise, <b>false</b>.
         /// </returns>
         protected virtual bool ShowEncoderSettingsDialog(
-            EncoderBase encoder,
+            ref EncoderBase encoder,
             bool canAddImagesToExistingFile)
         {
             // set encoder settings
@@ -316,13 +320,13 @@ namespace DemosCommonCode.Imaging.Codecs
         /// </returns>
         private bool ShowEncoderSettingsDialogAndCheckOverwrite(
             string filename,
-            EncoderBase encoder,
+            ref EncoderBase encoder,
             bool canAddImagesToExistingFile,
             bool askIfFileCanBeOverwritten)
         {
             //
             // show the encoder settings dialog and initialize the encoder
-            bool result = ShowEncoderSettingsDialog(encoder, canAddImagesToExistingFile);
+            bool result = ShowEncoderSettingsDialog(ref encoder, canAddImagesToExistingFile);
             // if encoder is not initialized
             if (!result)
                 // exit

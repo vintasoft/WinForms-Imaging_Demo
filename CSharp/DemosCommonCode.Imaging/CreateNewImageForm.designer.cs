@@ -1,4 +1,4 @@
-﻿namespace DemosCommonCode.Imaging
+namespace DemosCommonCode.Imaging
 {
     partial class CreateNewImageForm
     {
@@ -208,7 +208,6 @@
             // 
             // CreateNewImageForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(326, 175);
             this.Controls.Add(this.label5);

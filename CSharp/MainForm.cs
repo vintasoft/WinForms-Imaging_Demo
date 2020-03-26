@@ -35,7 +35,9 @@ using DemosCommonCode.Imaging.ColorManagement;
 using DemosCommonCode.Twain;
 using DemosCommonCode.Barcode;
 using Vintasoft.Imaging.Drawing.Gdi;
-using Vintasoft.Barcode;
+#if !REMOVE_BARCODE_SDK
+using Vintasoft.Barcode; 
+#endif
 #if !REMOVE_PDF_PLUGIN
 using DemosCommonCode.Pdf;
 using Vintasoft.Imaging.Pdf.Tree;
@@ -241,6 +243,9 @@ namespace ImagingDemo
             DicomAssemblyLoader.Load();
             PdfAnnotationsAssemblyLoader.Load();
             DocxAssemblyLoader.Load();
+            PdfAssemblyLoader.Load();
+
+            ImagingTypeEditorRegistrator.Register();
 
             _imageMapTool = new ImageMapTool();
 
@@ -307,6 +312,13 @@ namespace ImagingDemo
             UpdateUI();
 
             imageViewer1.Focus();
+
+            DocumentPasswordForm.EnableAuthentication(imageViewer1);
+
+#if !REMOVE_PDF_PLUGIN
+            // set CustomFontProgramsController for all opened PDF documents
+            CustomFontProgramsController.EnableUsageOfDefaultFontProgramsController();
+#endif
         }
 
         #endregion
@@ -521,6 +533,7 @@ namespace ImagingDemo
             // "Edit" menu
             //
             UpdateEditMenu();
+            documentMetadataToolStripMenuItem.Enabled = imageCount > 0;
             editImageMetadataToolStripMenuItem.Enabled = isImageLoaded;
             editImagePaletteToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && currentImage.BitsPerPixel <= 8 && currentImage.PixelFormat != PixelFormat.Undefined;
             enableUndoRedoToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
@@ -595,13 +608,6 @@ namespace ImagingDemo
                 _historyForm.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
 
             UpdateUndoRedoMenu(_undoManager);
-
-#if !REMOVE_PDF_PLUGIN
-            // enable PDF Password Dialog
-            PdfAuthenticateTools.EnableAuthenticateRequest = true;
-            // set CustomFontProgramsController for all opened PDF documents
-            PdfFontProgramsTools.UseCustomFontProgramsController = true;
-#endif
 
             // update information about the focused image
             UpdateImageInfo();
@@ -1172,6 +1178,26 @@ namespace ImagingDemo
 
 
         /// <summary>
+        /// Shows document metadata window.
+        /// </summary>
+        private void documentMetadataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DocumentMetadata metadata = imageViewer1.Image.SourceInfo.Decoder.GetDocumentMetadata();
+
+            if (metadata != null)
+            {
+                using (PropertyGridForm propertyForm = new PropertyGridForm(metadata, "Document Metadata"))
+                {
+                    propertyForm.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("File does not contain metadata.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        /// <summary>
         /// Shows a form for editing image metadata.
         /// </summary>
         private void imageMetadataEditorToolStripMenuItem_Click(object sender, EventArgs e)
@@ -1567,6 +1593,7 @@ namespace ImagingDemo
                     ImagingEnvironment.MaxThreads = dlg.MaxThreads;
             }
         }
+
 
         #endregion
 
@@ -2102,7 +2129,9 @@ namespace ImagingDemo
         /// </summary>
         private void desaturateToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new DesaturateCommand());
+            DesaturateCommand command = ImageProcessingCommandFactory.CreateDesaturateCommand(imageViewer1.Image);
+            command.DesaturateMethod = DesaturateMethod.Luminosity;
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(command);
         }
 
         /// <summary>
@@ -3657,13 +3686,13 @@ namespace ImagingDemo
                         compression = page.BackgroundImage.Compression.ToString();
                     break;
 #endif
-
+#if !REMOVE_RAW_PLUGIN
                 case "Raw":
                     DigitalCameraRawMetadata rawMetadata = image.Metadata.MetadataTree as DigitalCameraRawMetadata;
                     if (rawMetadata != null)
                         compression = rawMetadata.FileFormat.ToString();
                     break;
-
+#endif
                 case "Jpeg":
                     JpegMetadata jpegMetadata = image.Metadata.MetadataTree as JpegMetadata;
                     if (jpegMetadata != null)

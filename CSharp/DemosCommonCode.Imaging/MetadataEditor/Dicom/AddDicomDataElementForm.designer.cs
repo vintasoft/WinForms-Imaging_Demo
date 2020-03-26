@@ -1,4 +1,4 @@
-﻿namespace DemosCommonCode.Imaging
+namespace DemosCommonCode.Imaging
 {
     partial class AddDicomDataElementForm
     {
@@ -222,7 +222,6 @@
             // 
             // AddDicomDataElementForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelButton1;
             this.ClientSize = new System.Drawing.Size(304, 221);

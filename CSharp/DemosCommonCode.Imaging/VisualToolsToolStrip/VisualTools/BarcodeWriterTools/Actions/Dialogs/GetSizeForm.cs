@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Globalization;
 using System.Windows.Forms;
-using Vintasoft.Barcode;
+#if !REMOVE_BARCODE_SDK
+using Vintasoft.Barcode; 
+#endif
 
 namespace DemosCommonCode.Barcode
 {
@@ -10,6 +12,7 @@ namespace DemosCommonCode.Barcode
 
         #region Constructors
 
+#if !REMOVE_BARCODE_SDK
         public GetSizeForm(string variable, float value, int dpi, UnitOfMeasure units)
         {
             InitializeComponent();
@@ -25,7 +28,8 @@ namespace DemosCommonCode.Barcode
             _dpi = dpi;
             _value = value;
             _units = units;
-        }
+        } 
+#endif
 
 
 
@@ -53,6 +57,7 @@ namespace DemosCommonCode.Barcode
             }
         }
 
+#if !REMOVE_BARCODE_SDK
         UnitOfMeasure _units;
         internal UnitOfMeasure Units
         {
@@ -60,9 +65,10 @@ namespace DemosCommonCode.Barcode
             {
                 return _units;
             }
-        }
+        } 
+#endif
 
-        #endregion 
+        #endregion
 
 
 
@@ -70,7 +76,9 @@ namespace DemosCommonCode.Barcode
 
         private void buttonOK_Click(object sender, EventArgs e)
         {
-            _units = (UnitOfMeasure)cbUnits.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            _units = (UnitOfMeasure)cbUnits.SelectedItem; 
+#endif
             _dpi = (int)dpiValue.Value;
             _value = float.Parse(variableValue.Text.Replace(',', '.'), CultureInfo.InvariantCulture);
             DialogResult = DialogResult.OK;

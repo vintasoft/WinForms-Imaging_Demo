@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using Vintasoft.Barcode.GS1;
+#if !REMOVE_BARCODE_SDK
+using Vintasoft.Barcode.GS1; 
+#endif
 
 namespace DemosCommonCode.Barcode
 {
@@ -13,7 +15,9 @@ namespace DemosCommonCode.Barcode
 
         bool _readOnly = false;
         bool _existsAISelected = false;
-        List<GS1ApplicationIdentifierValue> _identifierValuesList = new List<GS1ApplicationIdentifierValue>();
+#if !REMOVE_BARCODE_SDK
+        List<GS1ApplicationIdentifierValue> _identifierValuesList = new List<GS1ApplicationIdentifierValue>(); 
+#endif
 
         #endregion
 
@@ -21,7 +25,7 @@ namespace DemosCommonCode.Barcode
 
         #region Constructors
 
-
+#if !REMOVE_BARCODE_SDK
         public GS1ValueEditorForm(GS1ApplicationIdentifierValue[] gs1ApplicationIdentifierValues, bool readOnly)
         {
             InitializeComponent();
@@ -45,7 +49,8 @@ namespace DemosCommonCode.Barcode
             }
             ShowPrintableValue();
             ShowAI();
-        }
+        } 
+#endif
 
         #endregion
 
@@ -53,6 +58,7 @@ namespace DemosCommonCode.Barcode
 
         #region Properties
 
+#if !REMOVE_BARCODE_SDK
         GS1ApplicationIdentifierValue[] _GS1ApplicationIdentifierValues;
         public GS1ApplicationIdentifierValue[] GS1ApplicationIdentifierValues
         {
@@ -60,8 +66,8 @@ namespace DemosCommonCode.Barcode
             {
                 return _GS1ApplicationIdentifierValues;
             }
-        }
-
+        } 
+#endif
 
         #endregion
 
@@ -73,13 +79,15 @@ namespace DemosCommonCode.Barcode
         {
             if (!_existsAISelected)
             {
+#if !REMOVE_BARCODE_SDK
                 GS1ApplicationIdentifier ai = GS1ApplicationIdentifiers.ApplicationIdentifiers[aiNumberComboBox.SelectedIndex];
                 aiDataContentLabel.Text = ai.DataContent;
                 string format = ai.Format;
                 if (ai.IsContainsDecimalPoint)
                     format += " (with decimal point)";
                 aiDataFormatLabel.Text = format;
-                aiValueTextBox.Text = "";
+                aiValueTextBox.Text = ""; 
+#endif
             }
         }
 
@@ -87,30 +95,38 @@ namespace DemosCommonCode.Barcode
         {
             if (aiListDataGridView.Rows[e.RowIndex].Cells[0].Value != null)
             {
+#if !REMOVE_BARCODE_SDK
                 aiNumberComboBox.SelectedIndex = GS1ApplicationIdentifiers.IndexOfApplicationIdentifier((string)aiListDataGridView.Rows[e.RowIndex].Cells[0].Value);
-                aiValueTextBox.Text = (string)aiListDataGridView.Rows[e.RowIndex].Cells[2].Value;
+                aiValueTextBox.Text = (string)aiListDataGridView.Rows[e.RowIndex].Cells[2].Value; 
+#endif
             }
         }
 
         private void addButton_Click(object sender, EventArgs e)
         {
-            AddAI(GS1ApplicationIdentifiers.ApplicationIdentifiers[aiNumberComboBox.SelectedIndex].ApplicationIdentifier, aiValueTextBox.Text);
+#if !REMOVE_BARCODE_SDK
+            AddAI(GS1ApplicationIdentifiers.ApplicationIdentifiers[aiNumberComboBox.SelectedIndex].ApplicationIdentifier, aiValueTextBox.Text); 
+#endif
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
+#if !REMOVE_BARCODE_SDK
             if (aiListDataGridView.Rows.Count > 0 && aiListDataGridView.SelectedRows.Count > 0)
             {
                 int index = aiListDataGridView.SelectedRows[0].Index;
                 _identifierValuesList.RemoveAt(index);
                 aiListDataGridView.Rows.RemoveAt(index);
                 ShowPrintableValue();
-            }
+            } 
+#endif
         }
 
         private void okButton_Click(object sender, EventArgs e)
         {
-            _GS1ApplicationIdentifierValues = _identifierValuesList.ToArray();
+#if !REMOVE_BARCODE_SDK
+            _GS1ApplicationIdentifierValues = _identifierValuesList.ToArray(); 
+#endif
             DialogResult = DialogResult.OK;
         }
 
@@ -122,6 +138,7 @@ namespace DemosCommonCode.Barcode
 
         private void ShowAI()
         {
+#if !REMOVE_BARCODE_SDK
             if (_GS1ApplicationIdentifierValues.Length == 0)
             {
                 aiNumberComboBox.SelectedIndex = 0;
@@ -130,9 +147,11 @@ namespace DemosCommonCode.Barcode
             {
                 for (int i = 0; i < _identifierValuesList.Count; i++)
                     AddAIToTable(_identifierValuesList[i]);
-            }
+            } 
+#endif
         }
 
+#if !REMOVE_BARCODE_SDK
         private void AddAIToTable(GS1ApplicationIdentifierValue value)
         {
             int index = aiListDataGridView.Rows.Count;
@@ -140,31 +159,36 @@ namespace DemosCommonCode.Barcode
             aiListDataGridView.Rows[index].Cells[0].Value = value.ApplicationIdentifier.ApplicationIdentifier;
             aiListDataGridView.Rows[index].Cells[1].Value = value.ApplicationIdentifier.DataTitle;
             aiListDataGridView.Rows[index].Cells[2].Value = value.Value;
-        }
+        } 
+#endif
 
         private void AddAI(string number, string value)
         {
+#if !REMOVE_BARCODE_SDK
             GS1ApplicationIdentifierValue ai = null;
             try
             {
                 ai = new GS1ApplicationIdentifierValue(GS1ApplicationIdentifiers.FindApplicationIdentifier(number), value);
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             _identifierValuesList.Add(ai);
             ShowPrintableValue();
-            AddAIToTable(ai);
+            AddAIToTable(ai); 
+#endif
         }
 
         private void ShowPrintableValue()
         {
+#if !REMOVE_BARCODE_SDK
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < _identifierValuesList.Count; i++)
                 sb.Append(_identifierValuesList[i].ToString());
-            gs1BarcodePrintableValueLabel.Text = sb.ToString();
+            gs1BarcodePrintableValueLabel.Text = sb.ToString(); 
+#endif
         }
 
         #endregion

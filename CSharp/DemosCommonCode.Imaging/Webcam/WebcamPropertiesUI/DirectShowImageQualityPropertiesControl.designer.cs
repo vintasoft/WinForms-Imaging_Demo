@@ -1,4 +1,4 @@
-﻿namespace DemosCommonCode.Imaging
+namespace DemosCommonCode.Imaging
 {
     partial class DirectShowImageQualityPropertiesControl
     {
@@ -437,7 +437,6 @@
             // 
             // DirectShowImageQualityPropertiesControl
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.imageQualityPropertiesGroupBox);
             this.Name = "DirectShowImageQualityPropertiesControl";

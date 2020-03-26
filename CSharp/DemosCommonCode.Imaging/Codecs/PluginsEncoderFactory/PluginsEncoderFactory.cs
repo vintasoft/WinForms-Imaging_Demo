@@ -60,10 +60,10 @@ namespace DemosCommonCode.Imaging.Codecs
         /// <b>True</b> if settings are applied to the encoder; otherwise, <b>false</b>.
         /// </returns>
         protected override bool ShowEncoderSettingsDialog(
-            EncoderBase encoder,
+            ref EncoderBase encoder,
             bool canAddImagesToExistingFile)
         {
-            if (base.ShowEncoderSettingsDialog(encoder, canAddImagesToExistingFile))
+            if (base.ShowEncoderSettingsDialog(ref encoder, canAddImagesToExistingFile))
                 return true;
 
             // set encoder settings

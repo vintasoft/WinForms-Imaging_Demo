@@ -2,7 +2,9 @@ using System;
 using System.Windows.Forms;
 
 using Vintasoft.Imaging;
-using Vintasoft.Twain;
+#if !REMOVE_TWAIN_SDK
+using Vintasoft.Twain; 
+#endif
 
 namespace DemosCommonCode.Twain
 {
@@ -49,7 +51,13 @@ namespace DemosCommonCode.Twain
         /// </summary>
         public void SelectDeviceAndAcquireImage()
         {
-            using (DeviceManager deviceManager = new DeviceManager(_parentForm))
+#if !REMOVE_TWAIN_SDK
+#if NETCORE
+            DeviceManager deviceManager = new DeviceManager(_parentForm, _parentForm.Handle);
+#else
+            DeviceManager deviceManager = new DeviceManager(_parentForm);
+#endif
+            try
             {
                 Device device = null;
                 try
@@ -76,7 +84,7 @@ namespace DemosCommonCode.Twain
                             MessageBox.Show("TWAIN device manager is not found.", "TWAIN device manager", MessageBoxButtons.OK, MessageBoxIcon.Error);
 
                             // open a HTML page with article describing how to solve the problem
-                            System.Diagnostics.Process.Start("http://www.vintasoft.com/docs/vstwain-dotnet/Programming-Twain-Device_Manager.html");
+                            DemosTools.OpenBrowser("https://www.vintasoft.com/docs/vstwain-dotnet/Programming-Twain-Device_Manager.html");
                             return;
                         }
                     }
@@ -167,6 +175,11 @@ namespace DemosCommonCode.Twain
                         deviceManager.Close();
                 }
             }
+            finally
+            {
+                deviceManager.Dispose();
+            }            
+#endif
         }
 
         #endregion
@@ -174,6 +187,7 @@ namespace DemosCommonCode.Twain
 
         #region PRIVATE
 
+#if !REMOVE_TWAIN_SDK
         /// <summary>
         /// Initializes the device manager mode.
         /// </summary>
@@ -217,7 +231,8 @@ namespace DemosCommonCode.Twain
             }
 
             return true;
-        }
+        } 
+#endif
 
         #endregion
 

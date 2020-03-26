@@ -1,6 +1,8 @@
 ﻿using System.Windows.Forms;
 
-using Vintasoft.Barcode;
+#if !REMOVE_BARCODE_SDK
+using Vintasoft.Barcode; 
+#endif
 using System.Drawing;
 
 namespace DemosCommonCode.Barcode
@@ -13,12 +15,14 @@ namespace DemosCommonCode.Barcode
             InitializeComponent();
         }
 
+#if !REMOVE_BARCODE_SDK
         public BarcodeWriterToolForm(WriterSettings settings)
-            : this()
+           : this()
         {
             barcodeWriterSettingsControl1.BarcodeWriterSettings = settings;
             barcodeWriterSettingsControl1.CanChangeBarcodeSize = false;
-        }
+        } 
+#endif
 
         public Image BarcodeImage
         {

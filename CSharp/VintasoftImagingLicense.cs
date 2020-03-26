@@ -1,4 +1,4 @@
-﻿namespace Vintasoft
+﻿namespace VintasoftImaging
 {
     /// <summary>
     /// Provides information about VintaSoft Imaging.NET SDK Evaluation License.

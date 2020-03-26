@@ -1,4 +1,4 @@
-﻿namespace DemosCommonCode.Barcode
+namespace DemosCommonCode.Barcode
 {
     partial class GS1ValueEditorForm
     {
@@ -242,7 +242,6 @@
             // GS1ValueEditorForm
             // 
             this.AcceptButton = this.okButton;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(570, 366);

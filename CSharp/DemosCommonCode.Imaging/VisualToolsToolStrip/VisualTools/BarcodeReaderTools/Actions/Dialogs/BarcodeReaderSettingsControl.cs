@@ -2,11 +2,13 @@
 using System.Collections.Generic;
 using System.Windows.Forms;
 
+#if !REMOVE_BARCODE_SDK
 using Vintasoft.Barcode;
 using Vintasoft.Barcode.SymbologySubsets;
 using Vintasoft.Barcode.SymbologySubsets.GS1;
 using Vintasoft.Barcode.SymbologySubsets.RoyalMailMailmark;
-using Vintasoft.Barcode.SymbologySubsets.XFACompressed;
+using Vintasoft.Barcode.SymbologySubsets.XFACompressed; 
+#endif
 
 namespace DemosCommonCode.Barcode
 {
@@ -19,6 +21,7 @@ namespace DemosCommonCode.Barcode
         {
             InitializeComponent();
 
+#if !REMOVE_BARCODE_SDK
             if (Vintasoft.Barcode.BarcodeGlobalSettings.IsDemoVersion)
             {
                 barcodeGs1_128CheckBox.Enabled = false;
@@ -51,7 +54,8 @@ namespace DemosCommonCode.Barcode
                 barcodeXFAPDF417.Enabled = false;
                 barcodeXFAQR.Enabled = false;
                 barcodePatchCode.Enabled = false;
-            }
+            } 
+#endif
         }
 
         #endregion
@@ -62,6 +66,7 @@ namespace DemosCommonCode.Barcode
 
         #region PUBLIC
 
+#if !REMOVE_BARCODE_SDK
         public void SetReaderSettings(ReaderSettings readerSettings)
         {
             readerSettings.AutomaticRecognition = true;
@@ -414,7 +419,8 @@ namespace DemosCommonCode.Barcode
                 if (subset is XFACompressedQRCodeBarcodeSymbology)
                     barcodeXFAQR.Checked = true;
             }
-        }
+        } 
+#endif
 
         #endregion
 

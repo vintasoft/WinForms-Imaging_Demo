@@ -12,13 +12,16 @@ namespace ImagingDemo
 		/// </summary>
         [STAThread]
 		static void Main()
-		{
-            Vintasoft.VintasoftImagingLicense.Register();
+        {
+            VintasoftImaging.VintasoftImagingLicense.Register();
+            VintasoftTwain.VintasoftTwainLicense.Register();
+            VintasoftBarcode.VintasoftBarcodeLicense.Register();
+
             DemosCommonCode.DemosTools.EnableLicenseExceptionDisplaying();
 
             Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new MainForm());            
+			Application.Run(new MainForm());
 		}
 
 	}

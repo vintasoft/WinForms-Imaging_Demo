@@ -1,4 +1,4 @@
-﻿namespace ImagingDemo
+namespace ImagingDemo
 {
     partial class ColorTransformForm
     {
@@ -43,12 +43,15 @@
             this.previewCheckBox = new System.Windows.Forms.CheckBox();
             this.removeInputProfileButton = new System.Windows.Forms.Button();
             this.removeOutputProfileButton = new System.Windows.Forms.Button();
+            this.colorTransformComboBox = new System.Windows.Forms.ComboBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 13);
+            this.label1.Location = new System.Drawing.Point(7, 17);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(63, 13);
             this.label1.TabIndex = 0;
@@ -57,7 +60,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(12, 52);
+            this.label2.Location = new System.Drawing.Point(6, 56);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(71, 13);
             this.label2.TabIndex = 1;
@@ -66,7 +69,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(12, 97);
+            this.label3.Location = new System.Drawing.Point(6, 101);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(86, 13);
             this.label3.TabIndex = 2;
@@ -75,7 +78,7 @@
             // useBlackPointCompensationCheckBox
             // 
             this.useBlackPointCompensationCheckBox.AutoSize = true;
-            this.useBlackPointCompensationCheckBox.Location = new System.Drawing.Point(16, 121);
+            this.useBlackPointCompensationCheckBox.Location = new System.Drawing.Point(10, 125);
             this.useBlackPointCompensationCheckBox.Name = "useBlackPointCompensationCheckBox";
             this.useBlackPointCompensationCheckBox.Size = new System.Drawing.Size(169, 17);
             this.useBlackPointCompensationCheckBox.TabIndex = 3;
@@ -87,7 +90,7 @@
             // 
             this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.buttonOk.Location = new System.Drawing.Point(201, 141);
+            this.buttonOk.Location = new System.Drawing.Point(235, 199);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 4;
@@ -98,7 +101,7 @@
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(282, 141);
+            this.buttonCancel.Location = new System.Drawing.Point(316, 199);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 5;
@@ -107,30 +110,30 @@
             // 
             // renderingIntentComboBox
             // 
-            this.renderingIntentComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.renderingIntentComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.renderingIntentComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.renderingIntentComboBox.FormattingEnabled = true;
-            this.renderingIntentComboBox.Location = new System.Drawing.Point(103, 94);
+            this.renderingIntentComboBox.Location = new System.Drawing.Point(97, 98);
             this.renderingIntentComboBox.Name = "renderingIntentComboBox";
-            this.renderingIntentComboBox.Size = new System.Drawing.Size(196, 21);
+            this.renderingIntentComboBox.Size = new System.Drawing.Size(219, 21);
             this.renderingIntentComboBox.TabIndex = 6;
             this.renderingIntentComboBox.SelectedIndexChanged += new System.EventHandler(this.renderingIntentComboBox_SelectedIndexChanged);
             // 
             // inputProfileTextBox
             // 
-            this.inputProfileTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.inputProfileTextBox.Location = new System.Drawing.Point(16, 29);
+            this.inputProfileTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.inputProfileTextBox.Location = new System.Drawing.Point(10, 33);
             this.inputProfileTextBox.Name = "inputProfileTextBox";
             this.inputProfileTextBox.ReadOnly = true;
-            this.inputProfileTextBox.Size = new System.Drawing.Size(283, 20);
+            this.inputProfileTextBox.Size = new System.Drawing.Size(306, 20);
             this.inputProfileTextBox.TabIndex = 7;
             // 
             // inputProfileButton
             // 
             this.inputProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.inputProfileButton.Location = new System.Drawing.Point(305, 29);
+            this.inputProfileButton.Location = new System.Drawing.Point(322, 33);
             this.inputProfileButton.Name = "inputProfileButton";
             this.inputProfileButton.Size = new System.Drawing.Size(24, 20);
             this.inputProfileButton.TabIndex = 8;
@@ -140,18 +143,18 @@
             // 
             // outputProfileTextBox
             // 
-            this.outputProfileTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.outputProfileTextBox.Location = new System.Drawing.Point(16, 68);
+            this.outputProfileTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.outputProfileTextBox.Location = new System.Drawing.Point(10, 72);
             this.outputProfileTextBox.Name = "outputProfileTextBox";
             this.outputProfileTextBox.ReadOnly = true;
-            this.outputProfileTextBox.Size = new System.Drawing.Size(283, 20);
+            this.outputProfileTextBox.Size = new System.Drawing.Size(306, 20);
             this.outputProfileTextBox.TabIndex = 9;
             // 
             // outputProfileButton
             // 
             this.outputProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.outputProfileButton.Location = new System.Drawing.Point(305, 68);
+            this.outputProfileButton.Location = new System.Drawing.Point(322, 72);
             this.outputProfileButton.Name = "outputProfileButton";
             this.outputProfileButton.Size = new System.Drawing.Size(24, 20);
             this.outputProfileButton.TabIndex = 10;
@@ -168,7 +171,7 @@
             // 
             this.previewCheckBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.previewCheckBox.AutoSize = true;
-            this.previewCheckBox.Location = new System.Drawing.Point(16, 145);
+            this.previewCheckBox.Location = new System.Drawing.Point(16, 203);
             this.previewCheckBox.Name = "previewCheckBox";
             this.previewCheckBox.Size = new System.Drawing.Size(143, 17);
             this.previewCheckBox.TabIndex = 47;
@@ -179,7 +182,7 @@
             // removeInputProfileButton
             // 
             this.removeInputProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.removeInputProfileButton.Location = new System.Drawing.Point(333, 29);
+            this.removeInputProfileButton.Location = new System.Drawing.Point(350, 33);
             this.removeInputProfileButton.Name = "removeInputProfileButton";
             this.removeInputProfileButton.Size = new System.Drawing.Size(24, 20);
             this.removeInputProfileButton.TabIndex = 48;
@@ -190,7 +193,7 @@
             // removeOutputProfileButton
             // 
             this.removeOutputProfileButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.removeOutputProfileButton.Location = new System.Drawing.Point(333, 68);
+            this.removeOutputProfileButton.Location = new System.Drawing.Point(350, 72);
             this.removeOutputProfileButton.Name = "removeOutputProfileButton";
             this.removeOutputProfileButton.Size = new System.Drawing.Size(24, 20);
             this.removeOutputProfileButton.TabIndex = 49;
@@ -198,33 +201,59 @@
             this.removeOutputProfileButton.UseVisualStyleBackColor = true;
             this.removeOutputProfileButton.Click += new System.EventHandler(this.removeOutputProfileButton_Click);
             // 
+            // colorTransformComboBox
+            // 
+            this.colorTransformComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.colorTransformComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.colorTransformComboBox.FormattingEnabled = true;
+            this.colorTransformComboBox.Location = new System.Drawing.Point(12, 12);
+            this.colorTransformComboBox.Name = "colorTransformComboBox";
+            this.colorTransformComboBox.Size = new System.Drawing.Size(381, 21);
+            this.colorTransformComboBox.TabIndex = 50;
+            this.colorTransformComboBox.SelectedIndexChanged += new System.EventHandler(this.colorTransformComboBox_SelectedIndexChanged);
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.useBlackPointCompensationCheckBox);
+            this.groupBox1.Controls.Add(this.removeOutputProfileButton);
+            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.removeInputProfileButton);
+            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.outputProfileButton);
+            this.groupBox1.Controls.Add(this.renderingIntentComboBox);
+            this.groupBox1.Controls.Add(this.outputProfileTextBox);
+            this.groupBox1.Controls.Add(this.inputProfileTextBox);
+            this.groupBox1.Controls.Add(this.inputProfileButton);
+            this.groupBox1.Location = new System.Drawing.Point(12, 39);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(381, 148);
+            this.groupBox1.TabIndex = 51;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "ICC Color Transform";
+            // 
             // ColorTransformForm
             // 
             this.AcceptButton = this.buttonOk;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(369, 176);
-            this.Controls.Add(this.removeOutputProfileButton);
-            this.Controls.Add(this.removeInputProfileButton);
+            this.ClientSize = new System.Drawing.Size(403, 234);
+            this.Controls.Add(this.colorTransformComboBox);
             this.Controls.Add(this.previewCheckBox);
-            this.Controls.Add(this.outputProfileButton);
-            this.Controls.Add(this.outputProfileTextBox);
-            this.Controls.Add(this.inputProfileButton);
-            this.Controls.Add(this.inputProfileTextBox);
-            this.Controls.Add(this.renderingIntentComboBox);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOk);
-            this.Controls.Add(this.useBlackPointCompensationCheckBox);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.label2);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ColorTransformForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Color Transform";
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -247,5 +276,7 @@
         private System.Windows.Forms.CheckBox previewCheckBox;
         private System.Windows.Forms.Button removeInputProfileButton;
         private System.Windows.Forms.Button removeOutputProfileButton;
+        private System.Windows.Forms.ComboBox colorTransformComboBox;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }

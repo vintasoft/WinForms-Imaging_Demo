@@ -2,7 +2,9 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-using Vintasoft.Barcode;
+#if !REMOVE_BARCODE_SDK
+using Vintasoft.Barcode; 
+#endif
 using Vintasoft.Imaging;
 
 using DemosCommonCode.Imaging;
@@ -44,13 +46,15 @@ namespace DemosCommonCode.Barcode
             params VisualToolAction[] subactions)
             : base(visualTool, text, toolTip, icon, subactions)
         {
+#if !REMOVE_BARCODE_SDK
             visualTool.WriterSettings.Barcode = BarcodeType.Code128;
             visualTool.WriterSettings.PixelFormat = BarcodeImagePixelFormat.Bgra32;
             visualTool.WriterSettings.Value = "0123456789";
             visualTool.WriterSettings.Padding = 4;
             visualTool.Rectangle = new Rectangle(0, 0, 120, 40);
             visualTool.WriterSettings.Changed += new EventHandler(WriterSettings_Changed);
-            visualTool.RefreshBarcodeImage(true);
+            visualTool.RefreshBarcodeImage(true); 
+#endif
         }
 
         #endregion
@@ -68,6 +72,7 @@ namespace DemosCommonCode.Barcode
         {
             base.Activate();
 
+#if !REMOVE_BARCODE_SDK
             if (_barcodeWriterToolForm == null)
             {
                 _barcodeWriterToolForm = new BarcodeWriterToolForm(((BarcodeWriterTool)VisualTool).WriterSettings);
@@ -75,7 +80,8 @@ namespace DemosCommonCode.Barcode
                 _barcodeWriterToolForm.StartPosition = FormStartPosition.Manual;
                 _barcodeWriterToolForm.Location = new Point(5, 70);
                 _barcodeWriterToolForm.Show();
-            }
+            } 
+#endif
         }
 
         /// <summary>
@@ -103,6 +109,7 @@ namespace DemosCommonCode.Barcode
         /// </summary>
         private void WriterSettings_Changed(object sender, EventArgs e)
         {
+#if !REMOVE_BARCODE_SDK
             if (_barcodeWriterToolForm == null)
                 return;
             BarcodeWriterToolForm form = _barcodeWriterToolForm as BarcodeWriterToolForm;
@@ -117,7 +124,8 @@ namespace DemosCommonCode.Barcode
             catch (WriterSettingsException)
             {
                 form.BarcodeImage = null;
-            }
+            } 
+#endif
         }
 
         #endregion

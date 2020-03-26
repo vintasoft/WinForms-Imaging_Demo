@@ -903,7 +903,9 @@ namespace ImagingDemo
             {
                 _blendMode = dlg.BlendMode;
                 _blendColor = dlg.BlendColor;
-                ColorBlendCommand command = new ColorBlendCommand(_blendMode, _blendColor);
+                ColorBlendCommand command = ImageProcessingCommandFactory.CreateColorBlendCommand(_viewer.Image);
+                command.BlendingMode = _blendMode;
+                command.BlendColor = _blendColor;
                 ExecuteProcessingCommand(command);
             }
         }

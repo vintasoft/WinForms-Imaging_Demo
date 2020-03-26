@@ -74,6 +74,7 @@ namespace ImagingDemo
             this.deleteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deleteAllToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator28 = new System.Windows.Forms.ToolStripSeparator();
+            this.documentMetadataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editImageMetadataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editImagePaletteToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.editImagePixelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -348,7 +349,6 @@ namespace ImagingDemo
             this.menuStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zoomTrackBar)).BeginInit();
-            
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -544,6 +544,7 @@ namespace ImagingDemo
             this.deleteToolStripMenuItem,
             this.deleteAllToolStripMenuItem,
             this.toolStripSeparator28,
+            this.documentMetadataToolStripMenuItem,
             this.editImageMetadataToolStripMenuItem,
             this.editImagePaletteToolStripMenuItem,
             this.editImagePixelsToolStripMenuItem,
@@ -662,6 +663,13 @@ namespace ImagingDemo
             // 
             this.toolStripSeparator28.Name = "toolStripSeparator28";
             this.toolStripSeparator28.Size = new System.Drawing.Size(282, 6);
+            // 
+            // documentMetadataToolStripMenuItem
+            // 
+            this.documentMetadataToolStripMenuItem.Name = "documentMetadataToolStripMenuItem";
+            this.documentMetadataToolStripMenuItem.Size = new System.Drawing.Size(285, 22);
+            this.documentMetadataToolStripMenuItem.Text = "Edit Document Metadata...";
+            this.documentMetadataToolStripMenuItem.Click += new System.EventHandler(this.documentMetadataToolStripMenuItem_Click);
             // 
             // editImageMetadataToolStripMenuItem
             // 
@@ -1703,7 +1711,7 @@ namespace ImagingDemo
             // 
             this.colorTransformToolStripMenuItem.Name = "colorTransformToolStripMenuItem";
             this.colorTransformToolStripMenuItem.Size = new System.Drawing.Size(250, 22);
-            this.colorTransformToolStripMenuItem.Text = "ICC-based color transform...";
+            this.colorTransformToolStripMenuItem.Text = "Color Transform (ICC)...";
             this.colorTransformToolStripMenuItem.Click += new System.EventHandler(this.colorTransformToolStripMenuItem_Click);
             // 
             // filtersToolStripMenuItem
@@ -2834,7 +2842,6 @@ namespace ImagingDemo
             // 
             // MainForm
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(844, 564);
             this.Controls.Add(this.panel2);
@@ -2842,6 +2849,7 @@ namespace ImagingDemo
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
             this.Controls.Add(this.panel1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.KeyPreview = true;
             this.MainMenuStrip = this.menuStrip1;
             this.MinimumSize = new System.Drawing.Size(639, 368);
@@ -2859,7 +2867,6 @@ namespace ImagingDemo
             ((System.ComponentModel.ISupportInitialize)(this.zoomTrackBar)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
-            
             this.splitContainer1.ResumeLayout(false);
             this.thumbnailViewerContextMenuStrip.ResumeLayout(false);
             this.thumbnailContextMenu.ResumeLayout(false);
@@ -3185,6 +3192,6 @@ namespace ImagingDemo
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator31;
         private System.Windows.Forms.ToolStripMenuItem drawImageToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem overlayBinaryImageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem documentMetadataToolStripMenuItem;
     }
 }
-

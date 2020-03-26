@@ -4,9 +4,11 @@ using System.Windows.Forms;
 
 using DemosCommonCode;
 
+#if !REMOVE_BARCODE_SDK
 using Vintasoft.Barcode;
 using Vintasoft.Barcode.BarcodeInfo;
-using Vintasoft.Barcode.GS1;
+using Vintasoft.Barcode.GS1; 
+#endif
 
 
 namespace DemosCommonCode.Barcode
@@ -32,14 +34,16 @@ namespace DemosCommonCode.Barcode
         public BarcodeReaderToolForm(BarcodeReaderTool readerTool)
             : this()
         {
+#if !REMOVE_BARCODE_SDK
             _readerTool = readerTool;
             _readerTool.RecognitionStarted += new EventHandler(readerTool_RecognitionStarted);
-            _readerTool.RecognitionProgress += new EventHandler<BarcodeReaderProgressEventArgs>(readerTool_RecognitionProgress);
+            _readerTool.RecognitionProgress += new EventHandler<BarcodeReaderProgressEventArgs>(readerTool_RecognitionProgress); 
             _readerTool.RecognitionFinished += new EventHandler(readerTool_RecognitionFinished);
             barcodeReaderSettingsControl1.RestoreSettings(_readerTool.ReaderSettings);
             recognitionResultsTextBox.AppendText(string.Format("VintaSoftBarcode.NET SDK v{0}", Vintasoft.Barcode.BarcodeGlobalSettings.AssemblyVersion));
             if (Vintasoft.Barcode.BarcodeGlobalSettings.IsDemoVersion)
-                recognitionResultsTextBox.AppendText(" (Demo Version)");
+                recognitionResultsTextBox.AppendText(" (Demo Version)"); 
+#endif
         }
 
         #endregion
@@ -56,6 +60,7 @@ namespace DemosCommonCode.Barcode
 
         private string GetRecognitionResults()
         {
+#if !REMOVE_BARCODE_SDK
             if (_readerTool.RecognitionResults != null)
             {
                 if (_readerTool.RecognitionResults.Length == 0)
@@ -64,12 +69,14 @@ namespace DemosCommonCode.Barcode
                 sb.AppendLine(string.Format("{0} barcode found. ({1}ms)", _readerTool.RecognitionResults.Length, _readerTool.RecognizeTime.TotalMilliseconds));
                 sb.AppendLine();
                 for (int i = 0; i < _readerTool.RecognitionResults.Length; i++)
-                    sb.AppendLine(GetBarcodeInfo(i, _readerTool.RecognitionResults[i]));
+                    sb.AppendLine(GetBarcodeInfo(i, _readerTool.RecognitionResults[i])); 
                 return sb.ToString();
             }
+#endif
             return "";
         }
 
+#if !REMOVE_BARCODE_SDK
         private string GetBarcodeInfo(int index, IBarcodeInfo info)
         {
             info.ShowNonDataFlagsInValue = true;
@@ -110,17 +117,22 @@ namespace DemosCommonCode.Barcode
             result.AppendLine(string.Format("Threshold: {0}", info.Threshold));
             result.AppendLine(string.Format("Region: {0}", info.Region));
             return result.ToString();
-        }
+        } 
+#endif
 
         private string GetGS1BarcodeValue(string value)
         {
+#if !REMOVE_BARCODE_SDK
             GS1ApplicationIdentifierValue[] ai = GS1Codec.Decode(value);
             if (ai == null)
                 return null;
             StringBuilder sb = new StringBuilder();
             for (int i = 0; i < ai.Length; i++)
                 sb.Append(ai[i].ToString());
-            return sb.ToString();
+            return sb.ToString(); 
+#else
+            return string.Empty;
+#endif
         }
 
 
@@ -139,7 +151,9 @@ namespace DemosCommonCode.Barcode
         private void readerTool_RecognitionStarted(object sender, EventArgs e)
         {
             recognizeBarcodeButton.Enabled = false;
-            barcodeReaderSettingsControl1.SetReaderSettings(_readerTool.ReaderSettings);
+#if !REMOVE_BARCODE_SDK
+            barcodeReaderSettingsControl1.SetReaderSettings(_readerTool.ReaderSettings); 
+#endif
         }
 
         private void recognizeBarcodeButton_Click(object sender, EventArgs e)
@@ -157,10 +171,12 @@ namespace DemosCommonCode.Barcode
             }
         }
 
+#if !REMOVE_BARCODE_SDK
         private void readerTool_RecognitionProgress(object sender, BarcodeReaderProgressEventArgs e)
         {
             recognitionProgressBar.Value = e.Progress;
-        }
+        } 
+#endif
 
         #endregion
 

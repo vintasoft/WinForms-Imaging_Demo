@@ -37,10 +37,37 @@ namespace ImagingDemo
 
         #region Constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ColorTransformForm"/> class.
+        /// </summary>
+        /// <param name="viewer"></param>
         public ColorTransformForm(ImageViewer viewer)
             : base(viewer)
         {
             InitializeComponent();
+
+            // BGR->RGB
+            ColorTransform bgrToRgb = new ChannelsOrderConverterTransform(ColorSpaceType.sRGB, new ColorChannelsOrder(2, 1, 0), new ColorChannelsOrder(0, 1, 2));
+
+            // RGB->BGR
+            ColorTransform rgbToBgr = new ChannelsOrderConverterTransform(ColorSpaceType.sRGB, new ColorChannelsOrder(0, 1, 2), new ColorChannelsOrder(2, 1, 0));
+
+            // ICC-based color transform
+            colorTransformComboBox.Items.Add("ICC-based color transform");
+
+            // RgbToGrayLuminosity
+            colorTransformComboBox.Items.Add(FastCompositeColorTransform.Create("Luminosity", bgrToRgb, ColorTransforms.RgbToGrayLuminosity));
+
+            // RgbToGrayAverage
+            colorTransformComboBox.Items.Add(FastCompositeColorTransform.Create("Average", bgrToRgb, ColorTransforms.RgbToGrayAverage));
+
+            // RgbToGrayLightness
+            colorTransformComboBox.Items.Add(FastCompositeColorTransform.Create("Lightness", bgrToRgb, ColorTransforms.RgbToGrayLightness));
+
+            // GrayToRgb
+            colorTransformComboBox.Items.Add(FastCompositeColorTransform.Create("", ColorTransforms.GrayToRgb, rgbToBgr));
+
+            colorTransformComboBox.SelectedIndex = 0;
 
             _imageColorSpaceFormat = viewer.Image.ColorSpaceFormat;
             this.Text = String.Format("Color Transform ({0})", _imageColorSpaceFormat.ColorSpace);
@@ -72,7 +99,14 @@ namespace ImagingDemo
         {
             ColorTransformCommand command = new ColorTransformCommand();
             _settings.ConstructThreadSafeColorTransforms = true;
-            command.ColorTransform = _settings.GetColorTransform(_imageColorSpaceFormat, _imageColorSpaceFormat);
+            if (colorTransformComboBox.SelectedIndex == 0)
+            {
+                command.ColorTransform = _settings.GetColorTransform(_imageColorSpaceFormat, _imageColorSpaceFormat);
+            }
+            else
+            {
+                command.ColorTransform = (ColorTransform)colorTransformComboBox.SelectedItem;
+            }
             return command;
         }
 
@@ -223,7 +257,13 @@ namespace ImagingDemo
             ExecuteProcessing();
         }
 
+        private void colorTransformComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            groupBox1.Enabled = colorTransformComboBox.SelectedIndex == 0;
+        }
+
         #endregion
+
 
     }
 }

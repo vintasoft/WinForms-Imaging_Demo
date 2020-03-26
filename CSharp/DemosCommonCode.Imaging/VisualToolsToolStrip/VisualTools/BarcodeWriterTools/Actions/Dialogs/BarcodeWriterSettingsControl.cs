@@ -4,12 +4,14 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
 
+#if !REMOVE_BARCODE_SDK
 using Vintasoft.Barcode;
 using Vintasoft.Barcode.BarcodeInfo;
 using Vintasoft.Barcode.SymbologySubsets;
 using Vintasoft.Barcode.SymbologySubsets.GS1;
 using Vintasoft.Barcode.SymbologySubsets.RoyalMailMailmark;
-using Vintasoft.Barcode.GS1;
+using Vintasoft.Barcode.GS1; 
+#endif
 using DemosCommonCode.Imaging;
 
 
@@ -20,11 +22,13 @@ namespace DemosCommonCode.Barcode
 
         #region Fields
 
+#if !REMOVE_BARCODE_SDK
         GS1ApplicationIdentifierValue[] _GS1ApplicationIdentifierValues;
 
         MailmarkCmdmValueItem _mailmarkCmdmValueItem = new MailmarkCmdmValueItem();
 
-        PpnBarcodeValue _ppnBarcodeValue = new PpnBarcodeValue();
+        PpnBarcodeValue _ppnBarcodeValue = new PpnBarcodeValue(); 
+#endif
 
         #endregion
 
@@ -36,8 +40,9 @@ namespace DemosCommonCode.Barcode
         {
             InitializeComponent();
 
+#if !REMOVE_BARCODE_SDK
             // default GS1 value
-            _GS1ApplicationIdentifierValues = new GS1ApplicationIdentifierValue[] { 
+            _GS1ApplicationIdentifierValues = new GS1ApplicationIdentifierValue[] {
                 new GS1ApplicationIdentifierValue(
                     GS1ApplicationIdentifiers.FindApplicationIdentifier("01"),
                     "0123456789012C")
@@ -262,7 +267,8 @@ namespace DemosCommonCode.Barcode
             hanXinCodeSymbolVersionComboBox.Items.Add(HanXinCodeSymbolVersion.Undefined);
             for (int i = 1; i <= 84; i++)
                 hanXinCodeSymbolVersionComboBox.Items.Add((HanXinCodeSymbolVersion)i);
-            AddEnumValues(hanXinCodeECCLevelComboBox, typeof(HanXinCodeErrorCorrectionLevel));
+            AddEnumValues(hanXinCodeECCLevelComboBox, typeof(HanXinCodeErrorCorrectionLevel)); 
+#endif
         }
 
         #endregion
@@ -271,6 +277,7 @@ namespace DemosCommonCode.Barcode
 
         #region Properties
 
+#if !REMOVE_BARCODE_SDK
         BarcodeSymbologySubset _selectedBarcodeSubset = null;
         /// <summary>
         /// Gets or sets a selected barcode subset.
@@ -368,7 +375,8 @@ namespace DemosCommonCode.Barcode
                     mainPanel.Enabled = false;
                 }
             }
-        }
+        } 
+#endif
 
         /// <summary>
         /// Gets a barcode image.
@@ -434,8 +442,10 @@ namespace DemosCommonCode.Barcode
 
         internal void UpdateBarcodeWriterSettings()
         {
+#if !REMOVE_BARCODE_SDK
             if (barcodeWidthPanel.Visible)
-                minWidthNumericUpDown.Value = Math.Max(BarcodeWriterSettings.MinWidth, minWidthNumericUpDown.Minimum);
+                minWidthNumericUpDown.Value = Math.Max(BarcodeWriterSettings.MinWidth, minWidthNumericUpDown.Minimum); 
+#endif
         }
 
         #endregion
@@ -452,8 +462,10 @@ namespace DemosCommonCode.Barcode
             if (colorDialog1.ShowDialog() == DialogResult.OK)
                 foregroundColorPanel.BackColor = colorDialog1.Color;
 
+#if !REMOVE_BARCODE_SDK
             if (BarcodeWriterSettings.ForeColor != foregroundColorPanel.BackColor)
-                BarcodeWriterSettings.ForeColor = foregroundColorPanel.BackColor;
+                BarcodeWriterSettings.ForeColor = foregroundColorPanel.BackColor; 
+#endif
         }
 
         private void selectBackgroundColorButton_Click(object sender, EventArgs e)
@@ -463,29 +475,39 @@ namespace DemosCommonCode.Barcode
             if (colorDialog1.ShowDialog() == DialogResult.OK)
                 backgroundColorPanel.BackColor = colorDialog1.Color;
 
+#if !REMOVE_BARCODE_SDK
             if (BarcodeWriterSettings.BackColor != backgroundColorPanel.BackColor)
-                BarcodeWriterSettings.BackColor = backgroundColorPanel.BackColor;
+                BarcodeWriterSettings.BackColor = backgroundColorPanel.BackColor; 
+#endif
         }
 
         private void pixelFormatComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.PixelFormat = (BarcodeImagePixelFormat)pixelFormatComboBox.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.PixelFormat = (BarcodeImagePixelFormat)pixelFormatComboBox.SelectedItem; 
+#endif
         }
 
         private void minWidthNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
+#if !REMOVE_BARCODE_SDK
             if (barcodeWidthPanel.Visible)
-                BarcodeWriterSettings.MinWidth = (int)minWidthNumericUpDown.Value;
+                BarcodeWriterSettings.MinWidth = (int)minWidthNumericUpDown.Value; 
+#endif
         }
 
         private void paddingNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.Padding = (int)paddingNumericUpDown.Value;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.Padding = (int)paddingNumericUpDown.Value; 
+#endif
         }
 
         private void widthAdjustNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.BarsWidthAdjustment = (double)widthAdjustNumericUpDown.Value * 0.1;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.BarsWidthAdjustment = (double)widthAdjustNumericUpDown.Value * 0.1; 
+#endif
         }
 
         private void barcodeValueTextBox_TextChanged(object sender, EventArgs e)
@@ -498,6 +520,7 @@ namespace DemosCommonCode.Barcode
         /// </summary>
         public bool EncodeValue()
         {
+#if !REMOVE_BARCODE_SDK
             if (BarcodeWriterSettings == null)
                 return false;
             string oldValue = BarcodeWriterSettings.Value;
@@ -542,13 +565,15 @@ namespace DemosCommonCode.Barcode
             {
                 OnWriterException(exc);
                 return false;
-            }
+            } 
+#endif
             return true;
         }
 
 
         private void linearBarcodeTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+#if !REMOVE_BARCODE_SDK
             if (BarcodeWriterSettings == null)
                 return;
             BarcodeType oldBarcodeType = BarcodeWriterSettings.Barcode;
@@ -695,17 +720,22 @@ namespace DemosCommonCode.Barcode
                 }
                 if (SelectedBarcodeSubset is Code39ExtendedBarcodeSymbology)
                     useOptionalCheckSumPanel.Visible = true;
-            }
+            } 
+#endif
         }
 
         private void linearBarcodeHeight_ValueChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.Height = (int)(linearBarcodeHeight.Value);
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.Height = (int)(linearBarcodeHeight.Value); 
+#endif
         }
 
         private void valueAutoLetterSpacingCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.ValueAutoLetterSpacing = valueAutoLetterSpacingCheckBox.Checked;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.ValueAutoLetterSpacing = valueAutoLetterSpacingCheckBox.Checked; 
+#endif
         }
 
         private void valueVisibleCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -715,27 +745,34 @@ namespace DemosCommonCode.Barcode
             valueGapNumericUpDown.Enabled = enabled;
             valueFontSizeNumericUpDown.Enabled = enabled;
             fontSelector.Enabled = enabled;
+#if !REMOVE_BARCODE_SDK
             if (barcodeGroupsTabControl.SelectedTab == linearBarcodesTabPage)
                 BarcodeWriterSettings.ValueVisible = valueVisibleCheckBox.Checked;
             else
-                BarcodeWriterSettings.Value2DVisible = valueVisibleCheckBox.Checked;
+                BarcodeWriterSettings.Value2DVisible = valueVisibleCheckBox.Checked; 
+#endif
         }
 
         private void valueGapNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.ValueGap = (int)valueGapNumericUpDown.Value;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.ValueGap = (int)valueGapNumericUpDown.Value; 
+#endif
         }
 
         private void fontSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
+#if !REMOVE_BARCODE_SDK
             if (fontSelector.SelectedItem != null)
                 BarcodeWriterSettings.ValueFont = new Font(fontSelector.SelectedItem.ToString(),
-                    (float)valueFontSizeNumericUpDown.Value);
+                    (float)valueFontSizeNumericUpDown.Value); 
+#endif
         }
 
 
         private void barcodeGroupsTabPages_SelectedIndexChanged(object sender, EventArgs e)
         {
+#if !REMOVE_BARCODE_SDK
             barcodeWidthPanel.Visible = CanChangeBarcodeSize;
             SelectedBarcodeSubset = null;
             BarcodeType oldValue = BarcodeWriterSettings.Barcode;
@@ -816,11 +853,13 @@ namespace DemosCommonCode.Barcode
                 OnWriterException(exc);
                 BarcodeWriterSettings.Barcode = oldValue;
                 BarcodeWriterSettings.EndInit();
-            }
+            } 
+#endif
         }
 
         private void UpdateUI()
         {
+#if !REMOVE_BARCODE_SDK
             if (BarcodeWriterSettings == null)
                 return;
             bool canEncodeECI = false;
@@ -846,11 +885,13 @@ namespace DemosCommonCode.Barcode
                 SelectedBarcodeSubset is PpnBarcodeSymbology)
                 useCustomValueDialog = true;
             subsetBarcodeValueButton.Visible = useCustomValueDialog;
-            barcodeValueTextBox.Visible = !useCustomValueDialog;
+            barcodeValueTextBox.Visible = !useCustomValueDialog; 
+#endif
         }
 
         private void writerGS1ValueButton_Click(object sender, EventArgs e)
         {
+#if !REMOVE_BARCODE_SDK
             if (SelectedBarcodeSubset is GS1BarcodeSymbologySubset)
             {
                 using (GS1ValueEditorForm gs1Editor = new GS1ValueEditorForm(_GS1ApplicationIdentifierValues, false))
@@ -887,7 +928,8 @@ namespace DemosCommonCode.Barcode
             else
             {
                 throw new NotImplementedException();
-            }
+            } 
+#endif
         }
 
         private void encodingInfoComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -897,7 +939,9 @@ namespace DemosCommonCode.Barcode
 
         private void barsRatioNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.BarsRatio = (double)barsRatioNumericUpDown.Value / 10.0;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.BarsRatio = (double)barsRatioNumericUpDown.Value / 10.0; 
+#endif
         }
 
         private void encodingInfoCheckBox_CheckedChanged(object sender, EventArgs e)
@@ -912,11 +956,14 @@ namespace DemosCommonCode.Barcode
 
         private void useOptionalCheckSum_CheckedChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.OptionalCheckSum = useOptionalCheckSum.Checked;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.OptionalCheckSum = useOptionalCheckSum.Checked; 
+#endif
         }
 
         private void twoDimensionalBarcodeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+#if !REMOVE_BARCODE_SDK
             aztecSettingsPanel.Visible = false;
             qrSettingsPanel.Visible = false;
             microPDF417SettingsPanel.Visible = false;
@@ -990,7 +1037,8 @@ namespace DemosCommonCode.Barcode
                     if (BarcodeWriterSettings != null)
                         BarcodeWriterSettings.EndInit();
                 }
-            }
+            } 
+#endif
         }
 
         #endregion
@@ -999,7 +1047,9 @@ namespace DemosCommonCode.Barcode
 
         private void msiChecksumComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.MSIChecksum = (MSIChecksumType)msiChecksumComboBox.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.MSIChecksum = (MSIChecksumType)msiChecksumComboBox.SelectedItem; 
+#endif
         }
 
         #endregion
@@ -1008,7 +1058,9 @@ namespace DemosCommonCode.Barcode
 
         private void code128ModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.Code128EncodingMode = (Code128EncodingMode)code128ModeComboBox.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.Code128EncodingMode = (Code128EncodingMode)code128ModeComboBox.SelectedItem; 
+#endif
         }
 
         #endregion
@@ -1017,7 +1069,9 @@ namespace DemosCommonCode.Barcode
 
         private void enableTelepenNumericMode_CheckedChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.EnableTelepenNumericMode = enableTelepenNumericMode.Checked;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.EnableTelepenNumericMode = enableTelepenNumericMode.Checked; 
+#endif
         }
 
         #endregion
@@ -1026,17 +1080,23 @@ namespace DemosCommonCode.Barcode
 
         private void rssLinkageFlag_CheckedChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.RSSLinkageFlag = rssLinkageFlag.Checked;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.RSSLinkageFlag = rssLinkageFlag.Checked; 
+#endif
         }
 
         private void rss14StackedOmni_CheckedChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.RSS14StackedOmnidirectional = rss14StackedOmni.Checked;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.RSS14StackedOmnidirectional = rss14StackedOmni.Checked; 
+#endif
         }
 
         private void rssExpandedStackedSegmentPerRow_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.RSSExpandedStackedSegmentPerRow = (int)rssExpandedStackedSegmentPerRow.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.RSSExpandedStackedSegmentPerRow = (int)rssExpandedStackedSegmentPerRow.SelectedItem; 
+#endif
         }
 
 
@@ -1046,12 +1106,16 @@ namespace DemosCommonCode.Barcode
 
         private void postalADMiltiplierNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.PostBarcodesADMultiplier = (double)postalADMiltiplierNumericUpDown.Value / 10.0;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.PostBarcodesADMultiplier = (double)postalADMiltiplierNumericUpDown.Value / 10.0; 
+#endif
         }
 
         private void australianPostCustomInfoComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.AustralianPostCustomerInfoFormat = (AustralianPostCustomerInfoFormat)australianPostCustomInfoComboBox.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.AustralianPostCustomerInfoFormat = (AustralianPostCustomerInfoFormat)australianPostCustomInfoComboBox.SelectedItem; 
+#endif
         }
 
         #endregion
@@ -1060,6 +1124,7 @@ namespace DemosCommonCode.Barcode
 
         private void aztecSymbolComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+#if !REMOVE_BARCODE_SDK
             AztecSymbolType oldValue = BarcodeWriterSettings.AztecSymbol;
             try
             {
@@ -1070,11 +1135,13 @@ namespace DemosCommonCode.Barcode
                 OnWriterException(exc);
                 BarcodeWriterSettings.AztecSymbol = oldValue;
                 aztecSymbolComboBox.SelectedItem = oldValue;
-            }
+            } 
+#endif
         }
 
         private void aztecLayersCountComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+#if !REMOVE_BARCODE_SDK
             int oldValue = BarcodeWriterSettings.AztecDataLayers;
             try
             {
@@ -1085,17 +1152,22 @@ namespace DemosCommonCode.Barcode
                 OnWriterException(exc);
                 BarcodeWriterSettings.AztecDataLayers = oldValue;
                 aztecLayersCountComboBox.SelectedIndex = oldValue;
-            }
+            } 
+#endif
         }
 
         private void aztecEncodingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.AztecEncodingMode = (AztecEncodingMode)aztecEncodingModeComboBox.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.AztecEncodingMode = (AztecEncodingMode)aztecEncodingModeComboBox.SelectedItem; 
+#endif
         }
 
         private void aztecErrorCorrectionNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.AztecErrorCorrectionDataPercent = (double)aztecErrorCorrectionNumericUpDown.Value;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.AztecErrorCorrectionDataPercent = (double)aztecErrorCorrectionNumericUpDown.Value; 
+#endif
         }
 
         #endregion
@@ -1104,11 +1176,14 @@ namespace DemosCommonCode.Barcode
 
         private void datamatrixEncodingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.DataMatrixEncodingMode = (DataMatrixEncodingMode)datamatrixEncodingModeComboBox.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.DataMatrixEncodingMode = (DataMatrixEncodingMode)datamatrixEncodingModeComboBox.SelectedItem; 
+#endif
         }
 
         private void datamatrixSymbolSizeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+#if !REMOVE_BARCODE_SDK
             if (BarcodeWriterSettings == null)
                 return;
             DataMatrixSymbolType oldValue = BarcodeWriterSettings.DataMatrixSymbol;
@@ -1121,7 +1196,8 @@ namespace DemosCommonCode.Barcode
                 OnWriterException(exc);
                 BarcodeWriterSettings.DataMatrixSymbol = oldValue;
                 datamatrixSymbolSizeComboBox.SelectedItem = oldValue;
-            }
+            } 
+#endif
         }
 
         #endregion
@@ -1130,6 +1206,7 @@ namespace DemosCommonCode.Barcode
 
         private void qrEncodingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+#if !REMOVE_BARCODE_SDK
             QREncodingMode oldValue = BarcodeWriterSettings.QREncodingMode;
             try
             {
@@ -1149,17 +1226,22 @@ namespace DemosCommonCode.Barcode
                 OnWriterException(exc);
                 BarcodeWriterSettings.QREncodingMode = oldValue;
                 qrEncodingModeComboBox.SelectedItem = oldValue;
-            }
+            } 
+#endif
         }
 
         private void qrSymbolSizeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.QRSymbol = (QRSymbolVersion)qrSymbolSizeComboBox.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.QRSymbol = (QRSymbolVersion)qrSymbolSizeComboBox.SelectedItem; 
+#endif
         }
 
         private void qrECCLevelComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.QRErrorCorrectionLevel = (QRErrorCorrectionLevel)qrECCLevelComboBox.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.QRErrorCorrectionLevel = (QRErrorCorrectionLevel)qrECCLevelComboBox.SelectedItem; 
+#endif
         }
 
         #endregion
@@ -1168,11 +1250,14 @@ namespace DemosCommonCode.Barcode
 
         private void microQrEncodingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.QREncodingMode = (QREncodingMode)microQrEncodingModeComboBox.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.QREncodingMode = (QREncodingMode)microQrEncodingModeComboBox.SelectedItem; 
+#endif
         }
 
         private void microQrSymbolSizeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+#if !REMOVE_BARCODE_SDK
             QRSymbolVersion oldValue = BarcodeWriterSettings.QRSymbol;
             try
             {
@@ -1183,12 +1268,15 @@ namespace DemosCommonCode.Barcode
                 OnWriterException(exc);
                 BarcodeWriterSettings.QRSymbol = oldValue;
                 microQrSymbolSizeComboBox.SelectedItem = oldValue;
-            }
+            } 
+#endif
         }
 
         private void microQrECCLevelComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.QRErrorCorrectionLevel = (QRErrorCorrectionLevel)microQrECCLevelComboBox.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.QRErrorCorrectionLevel = (QRErrorCorrectionLevel)microQrECCLevelComboBox.SelectedItem; 
+#endif
         }
 
         #endregion
@@ -1197,11 +1285,14 @@ namespace DemosCommonCode.Barcode
 
         private void maxiCodeResolutonNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.MaxiCodeResolution = (double)maxiCodeResolutonNumericUpDown.Value;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.MaxiCodeResolution = (double)maxiCodeResolutonNumericUpDown.Value; 
+#endif
         }
 
         private void maxiCodeEncodingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+#if !REMOVE_BARCODE_SDK
             MaxiCodeEncodingMode oldValue = BarcodeWriterSettings.MaxiCodeEncodingMode;
             try
             {
@@ -1212,7 +1303,8 @@ namespace DemosCommonCode.Barcode
                 OnWriterException(exc);
                 BarcodeWriterSettings.MaxiCodeEncodingMode = oldValue;
                 maxiCodeEncodingModeComboBox.SelectedItem = oldValue;
-            }
+            } 
+#endif
         }
 
         #endregion
@@ -1221,21 +1313,28 @@ namespace DemosCommonCode.Barcode
 
         private void pdf417EncodingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.PDF417EncodingMode = (PDF417EncodingMode)pdf417EncodingModeComboBox.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.PDF417EncodingMode = (PDF417EncodingMode)pdf417EncodingModeComboBox.SelectedItem; 
+#endif
         }
 
         private void pdf417ErrorCorrectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.PDF417ErrorCorrectionLevel = (PDF417ErrorCorrectionLevel)pdf417ErrorCorrectionComboBox.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.PDF417ErrorCorrectionLevel = (PDF417ErrorCorrectionLevel)pdf417ErrorCorrectionComboBox.SelectedItem; 
+#endif
         }
 
         private void pdf417RowsNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.PDF417Rows = (int)pdf417RowsNumericUpDown.Value;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.PDF417Rows = (int)pdf417RowsNumericUpDown.Value; 
+#endif
         }
 
         private void pdf417ColsNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
+#if !REMOVE_BARCODE_SDK
             int oldValue = BarcodeWriterSettings.PDF417Columns;
             try
             {
@@ -1246,20 +1345,25 @@ namespace DemosCommonCode.Barcode
                 OnWriterException(exc);
                 BarcodeWriterSettings.PDF417Columns = oldValue;
                 pdf417ColsNumericUpDown.Value = oldValue;
-            }
+            } 
+#endif
         }
 
         private void pdf417RowHeightNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.PDF417RowHeight = (int)pdf417RowHeightNumericUpDown.Value;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.PDF417RowHeight = (int)pdf417RowHeightNumericUpDown.Value; 
+#endif
         }
 
         private void pdf417CompactCheckBox_CheckedChanged(object sender, EventArgs e)
         {
+#if !REMOVE_BARCODE_SDK
             if (pdf417CompactCheckBox.Checked)
                 BarcodeWriterSettings.Barcode = BarcodeType.PDF417Compact;
             else
-                BarcodeWriterSettings.Barcode = BarcodeType.PDF417;
+                BarcodeWriterSettings.Barcode = BarcodeType.PDF417; 
+#endif
         }
 
         #endregion
@@ -1268,22 +1372,30 @@ namespace DemosCommonCode.Barcode
 
         private void microPDF417EncodingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.MicroPDF417EncodingMode = (PDF417EncodingMode)microPDF417EncodingModeComboBox.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.MicroPDF417EncodingMode = (PDF417EncodingMode)microPDF417EncodingModeComboBox.SelectedItem; 
+#endif
         }
 
         private void micropDF417SymbolSizeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.MicroPDF417Symbol = (MicroPDF417SymbolType)microPDF417SymbolSizeComboBox.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.MicroPDF417Symbol = (MicroPDF417SymbolType)microPDF417SymbolSizeComboBox.SelectedItem; 
+#endif
         }
 
         private void microPDF417ColumnsNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.MicroPDF417Columns = (int)microPDF417ColumnsNumericUpDown.Value;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.MicroPDF417Columns = (int)microPDF417ColumnsNumericUpDown.Value; 
+#endif
         }
 
         private void microPED417RowHeightNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.MicroPDF417RowHeight = (int)microPED417RowHeightNumericUpDown.Value;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.MicroPDF417RowHeight = (int)microPED417RowHeightNumericUpDown.Value; 
+#endif
         }
 
         #endregion
@@ -1292,12 +1404,16 @@ namespace DemosCommonCode.Barcode
 
         private void code16KEncodingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.Code16KEncodingMode = (Code128EncodingMode)code16KEncodingModeComboBox.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.Code16KEncodingMode = (Code128EncodingMode)code16KEncodingModeComboBox.SelectedItem; 
+#endif
         }
 
         private void code16KRowsComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.Code16KRows = (int)code16KRowsComboBox.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.Code16KRows = (int)code16KRowsComboBox.SelectedItem; 
+#endif
         }
 
 
@@ -1307,6 +1423,7 @@ namespace DemosCommonCode.Barcode
 
         private void hanXinCodeEncodingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
+#if !REMOVE_BARCODE_SDK
             HanXinCodeEncodingMode oldValue = BarcodeWriterSettings.HanXinCodeEncodingMode;
             try
             {
@@ -1326,17 +1443,22 @@ namespace DemosCommonCode.Barcode
                 OnWriterException(exc);
                 BarcodeWriterSettings.HanXinCodeEncodingMode = oldValue;
                 hanXinCodeEncodingModeComboBox.SelectedItem = oldValue;
-            }
+            } 
+#endif
         }
 
         private void hanXinCodeSymbolVersionComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.HanXinCodeSymbol = (HanXinCodeSymbolVersion)hanXinCodeSymbolVersionComboBox.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.HanXinCodeSymbol = (HanXinCodeSymbolVersion)hanXinCodeSymbolVersionComboBox.SelectedItem; 
+#endif
         }
 
         private void hanXinCodeECCLevelComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            BarcodeWriterSettings.HanXinCodeErrorCorrectionLevel = (HanXinCodeErrorCorrectionLevel)hanXinCodeECCLevelComboBox.SelectedItem;
+#if !REMOVE_BARCODE_SDK
+            BarcodeWriterSettings.HanXinCodeErrorCorrectionLevel = (HanXinCodeErrorCorrectionLevel)hanXinCodeECCLevelComboBox.SelectedItem; 
+#endif
         }
 
         #endregion
@@ -1357,6 +1479,7 @@ namespace DemosCommonCode.Barcode
                 comboBox.Items.Add(values.GetValue(i));
         }
 
+#if !REMOVE_BARCODE_SDK
         /// <summary>
         /// Called when writer exception occurs.
         /// </summary>
@@ -1367,7 +1490,8 @@ namespace DemosCommonCode.Barcode
                 WriterException(this, new Vintasoft.Imaging.ExceptionEventArgs(ex));
             else
                 MessageBox.Show(ex.Message, ex.GetType().Name, MessageBoxButtons.OK, MessageBoxIcon.Error);
-        }
+        } 
+#endif
 
         #endregion
 
