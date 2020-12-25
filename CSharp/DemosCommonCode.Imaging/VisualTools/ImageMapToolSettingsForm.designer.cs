@@ -142,7 +142,6 @@ namespace DemosCommonCode.Imaging
             this.buttonCancel.TabIndex = 9;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // canvasPenCheckBox
             // 
@@ -210,7 +209,7 @@ namespace DemosCommonCode.Imaging
             this.canvasPenColorPanelControl.Size = new System.Drawing.Size(110, 22);
             this.canvasPenColorPanelControl.TabIndex = 18;
             // 
-            // ImageViewerMapSettingsForm
+            // ImageMapToolSettingsForm
             // 
             this.AcceptButton = this.buttonOk;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -235,7 +234,8 @@ namespace DemosCommonCode.Imaging
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "ImageViewerMapSettingsForm";
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Name = "ImageMapToolSettingsForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Image Map Settings";

@@ -27,9 +27,9 @@ namespace ImagingDemo
         FrequencyFilterType _filter = FrequencyFilterType.Gaussian;
 
         /// <summary>
-        /// Indicates that grayscale filtration should be used.
+        /// A value indicating whether the grayscale filtration must be used.
         /// </summary>
-        bool _grayscaleFiltration = false;
+        bool _useGrayscaleFiltration = false;
 
         #endregion
 
@@ -49,7 +49,7 @@ namespace ImagingDemo
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageSmoothingForm"/> class.
         /// </summary>
-        /// <param name="viewer">Image viewer.</param>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public ImageSmoothingForm(ImageViewer viewer)
             : base(viewer)
         {
@@ -99,7 +99,7 @@ namespace ImagingDemo
         #region Properties
 
         /// <summary>
-        /// Gets or sets a value indicating whether the preview in ImageViewer is enabled.
+        /// Gets or sets a value indicating whether the preview in image viewer is enabled.
         /// </summary>
         public override bool IsPreviewEnabled
         {
@@ -126,9 +126,9 @@ namespace ImagingDemo
         #region PUBLIC
 
         /// <summary>
-        /// Returns the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override Vintasoft.Imaging.ImageProcessing.ProcessingCommandBase GetProcessingCommand()
         {
             ImageSmoothingCommand command = new ImageSmoothingCommand();
@@ -136,7 +136,7 @@ namespace ImagingDemo
             command.OverlayAlpha = overlayAlphaEditorControl.Value;
             command.BlendingMode = _blendingMode;
             command.Filter = _filter;
-            command.GrayscaleFiltration = _grayscaleFiltration;
+            command.GrayscaleFiltration = _useGrayscaleFiltration;
             return command;
         }
 
@@ -145,8 +145,10 @@ namespace ImagingDemo
 
         #region PRIVATE
 
+        #region UI
+
         /// <summary>
-        /// "OK" button is clicked.
+        /// Handles the Click event of ButtonOk object.
         /// </summary>
         private void buttonOk_Click(object sender, EventArgs e)
         {
@@ -154,7 +156,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// "Cancel" button is clicked.
+        /// Handles the Click event of ButtonCancel object.
         /// </summary>
         private void buttonCancel_Click(object sender, EventArgs e)
         {
@@ -162,7 +164,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// The checked state in the preview check box is changed.
+        /// Handles the CheckedChanged event of PreviewCheckBox object.
         /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -174,7 +176,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// The selected index of "Blending Mode" combo box is changed.
+        /// Handles the SelectedIndexChanged event of BlendingModeComboBox object.
         /// </summary>
         private void blendingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -183,7 +185,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// The selected index of "Filter Type combo box is changed.
+        /// Handles the SelectedIndexChanged event of FilterTypeComboBox object.
         /// </summary>
         private void filterTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -192,21 +194,23 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// The "Use Grayscale Filtration" check box is pressed.
+        /// Handles the CheckedChanged event of GrayscaleFiltrationCheckBox object.
         /// </summary>
         private void grayscaleFiltrationCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            _grayscaleFiltration = grayscaleFiltrationCheckBox.Checked;
+            _useGrayscaleFiltration = grayscaleFiltrationCheckBox.Checked;
             ExecuteProcessing();
         }
 
         /// <summary>
-        /// The checked state of "Use Grayscale Filtration" check box is changed.
+        /// Handles the ValueChanged event of ValueEditorControl object.
         /// </summary>
         private void valueEditorControl_ValueChanged(object sender, EventArgs e)
         {
             ExecuteProcessing();
         }
+
+        #endregion
 
         #endregion
 

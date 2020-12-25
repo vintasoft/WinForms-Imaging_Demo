@@ -1,5 +1,4 @@
-using System;
-using System.Drawing.Drawing2D;
+﻿using System;
 using System.Text;
 using System.Windows.Forms;
 
@@ -14,7 +13,7 @@ namespace ImagingDemo
     public partial class RotateForm : Form
     {
 
-        #region Constructor
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="RotateForm"/> class.
@@ -43,7 +42,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Gets the type of border color.
+        /// Gets the type of the border color.
         /// </summary>
         public BorderColorType BorderColorType
         {
@@ -61,7 +60,7 @@ namespace ImagingDemo
 
         PixelFormat _sourceImagePixelFormat;
         /// <summary>
-        /// Gets the pixel format of source image.
+        /// Gets the pixel format of the source image.
         /// </summary>
         public PixelFormat SourceImagePixelFormat
         {
@@ -92,8 +91,10 @@ namespace ImagingDemo
 
         #region Methods
 
+        #region UI
+
         /// <summary>
-        /// "Ok" button is clicked.
+        /// Handles the Click event of OkButton object.
         /// </summary>
         private void okButton_Click(object sender, EventArgs e)
         {
@@ -124,10 +125,13 @@ namespace ImagingDemo
             DialogResult = System.Windows.Forms.DialogResult.OK;
         }
 
+        #endregion
+
+
         /// <summary>
         /// Returns a pixel format, which supports transparency.
         /// </summary>
-        /// <param name="sourceImagePixelFormat">The pixel format of source image.</param>
+        /// <param name="sourceImagePixelFormat">The pixel format of the source image.</param>
         /// <returns>The pixel format, which supports transparency.</returns>
         private PixelFormat GetPixelFormatWithTransparencySupport(PixelFormat sourceImagePixelFormat)
         {

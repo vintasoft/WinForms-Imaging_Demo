@@ -286,6 +286,18 @@ namespace DemosCommonCode.Imaging.Codecs
                         tiffEncoder.CreateNewFile = !tiffEncoderSettingsForm.AddImagesToExistingFile;
                         return true;
                     }
+                case "Svg":
+                    using (SvgEncoderSettingsForm svgEncoderSettingsForm = new SvgEncoderSettingsForm())
+                    {
+                        SetEncoderSettingsDialogProperties(svgEncoderSettingsForm);
+                        if (svgEncoderSettingsForm.ShowDialog() != DialogResult.OK)
+                            return false;
+
+                        SvgEncoder svgEncoder = (SvgEncoder)encoder;
+
+                        svgEncoder.Settings = svgEncoderSettingsForm.EncoderSettings;
+                        return true;
+                    }
             }
 
             return false;

@@ -90,6 +90,107 @@ namespace DemosCommonCode.Imaging
 
         #region PRIVATE
 
+        #region UI
+
+        /// <summary>
+        /// Handles the AfterSelect event of MetadataTreeView object.
+        /// </summary>
+        private void metadataTreeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            // get metadata node
+            MetadataNode metadataNode = metadataTreeView.SelectedMetadataNode;
+
+            // show metadata node properties
+            ShowMetadataNodeProperties(metadataNode);
+
+            string selectedNodeDescription = string.Empty;
+            string addButtonText = "Add DICOM Data Element...";
+
+            // if metadata node is selected
+            if (metadataNode != null)
+            {
+                // update metadata node description
+                selectedNodeDescription = string.Format("{0} ({1})", metadataNode.Name, metadataNode.GetType().Name);
+
+#if !REMOVE_DICOM_PLUGIN
+                if (metadataNode is DicomDataElementMetadata &&
+                           ((DicomDataElementMetadata)metadataNode).ValueRepresentation == DicomValueRepresentation.SQ)
+                    addButtonText = "Add DICOM Sequence Item";
+#endif
+            }
+
+            selectedNodeGroupBox.Text = selectedNodeDescription;
+            addButton.Text = addButtonText;
+
+            UpdateUI();
+        }
+
+        /// <summary>
+        /// Handles the Click event of AddButton object.
+        /// </summary>
+        private void addButton_Click(object sender, EventArgs e)
+        {
+            // get selected metadta node
+            MetadataNode metadataNode = metadataTreeView.SelectedMetadataNode;
+            bool isMetadataNodeChanged = false;
+
+#if !REMOVE_DICOM_PLUGIN
+            if (metadataNode is DicomDataElementMetadata)
+            {
+                // get data element
+                DicomDataElementMetadata node = (DicomDataElementMetadata)metadataNode;
+                // add child
+                node.AddChild();
+                // metadata node is changed
+                isMetadataNodeChanged = true;
+            }
+            else
+            {
+                // create add data element form
+                using (AddDicomDataElementForm dialog = new AddDicomDataElementForm(metadataNode))
+                {
+                    dialog.StartPosition = FormStartPosition.CenterParent;
+                    dialog.Owner = this;
+                    // if data element is changed
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        isMetadataNodeChanged = true;
+                    }
+                }
+            }
+#endif
+
+            // if metadata node is changed
+            if (isMetadataNodeChanged)
+            {
+                // update node
+                metadataTreeView.UpdateNode(metadataNode);
+                metadataTreeView.Focus();
+
+                treeViewSearchControl1.ResetSearchResult();
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of RemoveButton object.
+        /// </summary>
+        private void removeButton_Click(object sender, EventArgs e)
+        {
+            // get the selected metadata node
+            MetadataNode metadataNode = metadataTreeView.SelectedMetadataNode;
+            // remove the selected metadata node
+            metadataNode.Parent.RemoveChild(metadataNode);
+
+            // update parent of selected node
+            metadataTreeView.UpdateNode(metadataNode.Parent);
+
+            metadataTreeView.Focus();
+            treeViewSearchControl1.ResetSearchResult();
+        }
+
+        #endregion
+
+
         /// <summary>
         /// Updates the user interface of this form.
         /// </summary>
@@ -133,93 +234,6 @@ namespace DemosCommonCode.Imaging
 #endif
 
             nodePropertyGrid.SelectedObject = selectedObject;
-        }
-
-        /// <summary>
-        /// Node of tree view is selected.
-        /// </summary>
-        private void metadataTreeView_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            MetadataNode metadataNode = metadataTreeView.SelectedMetadataNode;
-
-            ShowMetadataNodeProperties(metadataNode);
-
-            string selectedNodeDescription = string.Empty;
-            string addButtonText = "Add DICOM Data Element...";
-
-            if (metadataNode != null)
-            {
-                selectedNodeDescription = string.Format("{0} ({1})", metadataNode.Name, metadataNode.GetType().Name);
-
-#if !REMOVE_DICOM_PLUGIN
-                if (metadataNode is DicomDataElementMetadata &&
-                           ((DicomDataElementMetadata)metadataNode).ValueRepresentation == DicomValueRepresentation.SQ)
-                    addButtonText = "Add DICOM Sequence Item"; 
-#endif
-            }
-
-            selectedNodeGroupBox.Text = selectedNodeDescription;
-            addButton.Text = addButtonText;
-
-            UpdateUI();
-        }
-
-        /// <summary>
-        /// Adds new metadata node to the selected metadata node.
-        /// </summary>
-        private void addButton_Click(object sender, EventArgs e)
-        {
-            MetadataNode metadataNode = metadataTreeView.SelectedMetadataNode;
-            bool isMetadataNodeChanged = false;
-
-#if !REMOVE_DICOM_PLUGIN
-            if (metadataNode is DicomDataElementMetadata)
-            {
-                DicomDataElementMetadata node = (DicomDataElementMetadata)metadataNode;
-
-                node.AddChild();
-                isMetadataNodeChanged = true;
-            }
-            else
-            {
-                MetadataNode node = (MetadataNode)metadataNode;
-
-                using (AddDicomDataElementForm dialog = new AddDicomDataElementForm(node))
-                {
-                    dialog.StartPosition = FormStartPosition.CenterParent;
-                    dialog.Owner = this;
-                    if (dialog.ShowDialog() == DialogResult.OK)
-                    {
-                        isMetadataNodeChanged = true;
-                    }
-                }
-            } 
-#endif
-
-            if (isMetadataNodeChanged)
-            {
-                metadataTreeView.UpdateNode(metadataNode);
-                metadataTreeView.Focus();
-
-                treeViewSearchControl1.ResetSearchResult();
-            }
-        }
-
-        /// <summary>
-        /// Removes the selected metadata node.
-        /// </summary>
-        private void removeButton_Click(object sender, EventArgs e)
-        {
-            // get the selected metadata node
-            MetadataNode metadataNode = metadataTreeView.SelectedMetadataNode;
-            // remove the selected metadata node
-            metadataNode.Parent.RemoveChild(metadataNode);
-
-            // update parent of selected node
-            metadataTreeView.UpdateNode(metadataNode.Parent);
-
-            metadataTreeView.Focus();
-            treeViewSearchControl1.ResetSearchResult();
         }
 
         #endregion

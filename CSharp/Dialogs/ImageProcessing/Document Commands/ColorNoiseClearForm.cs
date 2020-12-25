@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Drawing;
 
-using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageColors;
 using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.ImageProcessing.Document;
@@ -22,6 +21,7 @@ namespace ImagingDemo
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorNoiseClearForm"/> class.
         /// </summary>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public ColorNoiseClearForm(ImageViewer viewer)
             : base(viewer)
         {
@@ -37,11 +37,13 @@ namespace ImagingDemo
 
         #region Methods
 
+        #region PUBLIC
+
 #if !REMOVE_DOCCLEANUP_PLUGIN
         /// <summary> 
-        /// Returns the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override ProcessingCommandBase GetProcessingCommand()
         {
             ColorNoiseClearCommand command = new ColorNoiseClearCommand();
@@ -72,9 +74,15 @@ namespace ImagingDemo
             return command;
         }
 #endif
+        #endregion
+
+
+        #region PRIVATE
+
+        #region UI
 
         /// <summary>
-        /// The color noise removal is enabled/disabled.
+        /// Handles the CheckedChanged event of ColorCheckBox object.
         /// </summary>
         private void colorCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -90,7 +98,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Radius of white sphere is changed.
+        /// Handles the Scroll event of WhiteTrackBar object.
         /// </summary>
         private void whiteTrackBar_Scroll(object sender, EventArgs e)
         {
@@ -99,7 +107,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Radius of black sphere is changed.
+        /// Handles the Scroll event of BlackTrackBar object.
         /// </summary>
         private void blackTrackBar_Scroll(object sender, EventArgs e)
         {
@@ -108,7 +116,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Radius of red sphere is changed.
+        /// Handles the Scroll event of RedTrackBar object.
         /// </summary>
         private void redTrackBar_Scroll(object sender, EventArgs e)
         {
@@ -117,7 +125,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Radius of green sphere is changed.
+        /// Handles the Scroll event of GreenTrackBar object.
         /// </summary>
         private void greenTrackBar_Scroll(object sender, EventArgs e)
         {
@@ -126,7 +134,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Radius of blue sphere is changed.
+        /// Handles the Scroll event of BlueTrackBar object.
         /// </summary>
         private void blueTrackBar_Scroll(object sender, EventArgs e)
         {
@@ -135,7 +143,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Radius of cyan sphere is changed.
+        /// Handles the Scroll event of CyanTrackBar object.
         /// </summary>
         private void cyanTrackBar_Scroll(object sender, EventArgs e)
         {
@@ -144,7 +152,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Radius of magenta sphere is changed.
+        /// Handles the Scroll event of MagentaTrackBar object.
         /// </summary>
         private void magentaTrackBar_Scroll(object sender, EventArgs e)
         {
@@ -153,7 +161,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Radius of yellow sphere is changed.
+        /// Handles the Scroll event of YellowTrackBar object.
         /// </summary>
         private void yellowTrackBar_Scroll(object sender, EventArgs e)
         {
@@ -162,7 +170,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Interpolation radius is changed.
+        /// Handles the Scroll event of InterpolationTrackBar object.
         /// </summary>
         private void interpolationTrackBar_Scroll(object sender, EventArgs e)
         {
@@ -172,12 +180,16 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Image processing preview on image viewer is enabled/disabled.
+        /// Handles the CheckedChanged event of PreviewCheckBox object.
         /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             IsPreviewEnabled = previewCheckBox.Checked;
         }
+
+        #endregion
+
+        #endregion
 
         #endregion
 

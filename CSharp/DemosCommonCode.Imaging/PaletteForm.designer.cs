@@ -52,13 +52,13 @@ namespace DemosCommonCode.Imaging
             // 
             // buttonOk
             // 
+            this.buttonOk.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.buttonOk.Location = new System.Drawing.Point(238, 436);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 0;
             this.buttonOk.Text = "OK";
             this.buttonOk.UseVisualStyleBackColor = true;
-            this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
             // 
             // buttonCancel
             // 
@@ -69,7 +69,6 @@ namespace DemosCommonCode.Imaging
             this.buttonCancel.TabIndex = 1;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // panel1
             // 
@@ -82,7 +81,6 @@ namespace DemosCommonCode.Imaging
             // 
             // paletteViewer1
             // 
-            this.paletteViewer1.CanChangePalette = true;
             this.paletteViewer1.EmptyCellColor = System.Drawing.Color.FromArgb(((int)(((byte)(196)))), ((int)(((byte)(196)))), ((int)(((byte)(196)))));
             this.paletteViewer1.Location = new System.Drawing.Point(0, 0);
             this.paletteViewer1.Name = "paletteViewer1";
@@ -198,7 +196,7 @@ namespace DemosCommonCode.Imaging
             this.colorIndexNumericUpDown.TabIndex = 11;
             this.colorIndexNumericUpDown.ValueChanged += new System.EventHandler(this.colorIndexNumericUpDown_ValueChanged);
             // 
-            // PaletteDialog
+            // PaletteForm
             // 
             this.AcceptButton = this.buttonOk;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -220,7 +218,8 @@ namespace DemosCommonCode.Imaging
             this.KeyPreview = true;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "PaletteDialog";
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Name = "PaletteForm";
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

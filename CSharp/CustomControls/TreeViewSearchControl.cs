@@ -13,9 +13,9 @@ namespace DemosCommonCode.CustomControls
         #region Fields
 
         /// <summary>
-        /// The searched tree nodes.
+        /// The found tree nodes.
         /// </summary>
-        List<TreeNode> _searchedTreeNodes = null;
+        List<TreeNode> _foundTreeNodes = null;
 
         /// <summary>
         /// The current tree node index of searched tree nodes.
@@ -81,7 +81,7 @@ namespace DemosCommonCode.CustomControls
         /// </summary>
         public void ResetSearchResult()
         {
-            _searchedTreeNodes = null;
+            _foundTreeNodes = null;
             _currentSelectedNodeIndex = -1;
         }
 
@@ -90,36 +90,45 @@ namespace DemosCommonCode.CustomControls
 
         #region PRIVATE
 
+        #region UI
+
         /// <summary>
-        /// The "Find" button is clicked.
+        /// Handles the Click event of FindButton object.
         /// </summary>
         private void findButton_Click(object sender, EventArgs e)
         {
+            // search nodes
             SearchNodes();
-
+            // select first searched node
             SelectNextSearchedNode();
         }
 
         /// <summary>
-        /// The search pattern text is changed.
+        /// Handles the TextChanged event of FindPatternTextBox object.
         /// </summary>
         private void findPatternTextBox_TextChanged(object sender, EventArgs e)
         {
+            // remove search result
             ResetSearchResult();
         }
 
         /// <summary>
-        /// The key is pressed in the "Find pattern" text box.
+        /// Handles the KeyUp event of FindPatternTextBox object.
         /// </summary>
         private void findPatternTextBox_KeyUp(object sender, KeyEventArgs e)
         {
+            // if search nodes must be started
             if (e.Modifiers == Keys.None && e.KeyCode == Keys.Enter)
             {
+                // search nodes
                 SearchNodes();
-
+                // select first searched node
                 SelectNextSearchedNode();
             }
         }
+
+        #endregion
+
 
         /// <summary>
         /// Selects the next searched node.
@@ -129,24 +138,27 @@ namespace DemosCommonCode.CustomControls
             if (TreeView == null)
                 return;
 
-            if (_searchedTreeNodes == null ||
-                _searchedTreeNodes.Count == 0)
+            // if nodes are not found
+            if (_foundTreeNodes == null || _foundTreeNodes.Count == 0)
                 return;
 
+            // change currently selected node index
             _currentSelectedNodeIndex++;
 
             bool isAllNodesSelected = false;
-
-            if (_currentSelectedNodeIndex >= _searchedTreeNodes.Count)
+            // if index of currently selected node is greater than count of found nodes
+            if (_currentSelectedNodeIndex >= _foundTreeNodes.Count)
             {
                 _currentSelectedNodeIndex = 0;
                 isAllNodesSelected = true;
             }
 
-            TreeView.SelectedNode = _searchedTreeNodes[_currentSelectedNodeIndex];
-
+            // update selected node
+            TreeView.SelectedNode = _foundTreeNodes[_currentSelectedNodeIndex];
+            // move focus to the tree view
             TreeView.Focus();
 
+            // if all nodes are selected
             if (isAllNodesSelected)
             {
                 MessageBox.Show(
@@ -158,25 +170,31 @@ namespace DemosCommonCode.CustomControls
         }
 
         /// <summary>
-        /// Search the tree nodes.
+        /// Searches the tree nodes.
         /// </summary>
         private void SearchNodes()
         {
             if (TreeView == null)
                 return;
 
-            if (_searchedTreeNodes == null)
+            // if nodes are not found
+            if (_foundTreeNodes == null)
             {
+                // get search pattern
                 string searchPattern = findPatternTextBox.Text;
 
+                // if pattern is empty
                 if (string.IsNullOrEmpty(searchPattern))
                     return;
 
-                _searchedTreeNodes = new List<TreeNode>();
+                // create new search result list
+                _foundTreeNodes = new List<TreeNode>();
 
-                SearchNodes(TreeView.Nodes, searchPattern.ToLowerInvariant(), _searchedTreeNodes);
+                // search nodes
+                SearchNodes(TreeView.Nodes, searchPattern.ToLowerInvariant(), _foundTreeNodes);
 
-                if (_searchedTreeNodes.Count == 0)
+                // if nodes are not found
+                if (_foundTreeNodes.Count == 0)
                 {
                     MessageBox.Show(
                         string.Format("The specified text was not found:\r\n{0}", searchPattern),
@@ -190,7 +208,7 @@ namespace DemosCommonCode.CustomControls
         /// <summary>
         /// Search the tree node in the specified tree node collection.
         /// </summary>
-        /// <param name="nodes">The collection for search.</param>
+        /// <param name="nodes">The collection to search.</param>
         /// <param name="searchPattern">The search pattern.</param>
         /// <param name="searchedNodes">The searched nodes list.</param>
         private void SearchNodes(

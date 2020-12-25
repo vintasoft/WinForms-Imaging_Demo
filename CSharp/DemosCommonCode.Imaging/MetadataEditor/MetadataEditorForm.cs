@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
@@ -89,6 +89,134 @@ namespace DemosCommonCode.Imaging
 
 
         #region PRIVATE
+
+        #region UI
+
+        /// <summary>
+        /// Handles the Click event of ButtonOk object.
+        /// </summary>
+        private void buttonOk_Click(object sender, EventArgs e)
+        {
+            // close this form
+            Close();
+        }
+
+        /// <summary>
+        /// Handles the AfterSelect event of MetadataTreeView object.
+        /// </summary>
+        private void metadataTreeView_AfterSelect(object sender, TreeViewEventArgs e)
+        {
+            // show selected metadata node properties
+            ShowMetadataNodeProperties(metadataTreeView.SelectedMetadataNode);
+
+            // update user interface
+            UpdateUI();
+        }
+
+        private void nodePropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
+        {
+            // update user interface
+            UpdateUI();
+        }
+
+        /// <summary>
+        /// Handles the Click event of ExecuteButton object.
+        /// </summary>
+        private void executeButton_Click(object sender, EventArgs e)
+        {
+            // if execute method is selected
+            if (methodsComboBox.SelectedItem != null)
+            {
+                // execute method
+                ((MethodExecutor)methodsComboBox.SelectedItem).Execute();
+
+                // if node is selected in tree view
+                if (metadataTreeView.SelectedNode != null)
+                {
+                    if (metadataTreeView.SelectedNode.Parent == null)
+                        metadataTreeView.UpdateNode(metadataTreeView.SelectedNode);
+                    else
+                        metadataTreeView.UpdateNode(metadataTreeView.SelectedNode.Parent);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of ButtonDelete object.
+        /// </summary>
+        private void buttonDelete_Click(object sender, EventArgs e)
+        {
+            // get selected node
+            MetadataNode metadataNode = metadataTreeView.SelectedMetadataNode;
+            // remove selected node
+            metadataNode.Parent.RemoveChild(metadataNode);
+
+            metadataTreeView.UpdateNode(metadataNode.Parent);
+
+            metadataTreeView.Focus();
+        }
+
+        /// <summary>
+        /// Handles the Click event of SaveBinaryValueToFileButton object.
+        /// </summary>
+        private void saveBinaryValueToFileButton_Click(object sender, EventArgs e)
+        {
+            // get selected metadata node
+            MetadataNode selectedMetadataNode = metadataTreeView.SelectedMetadataNode;
+
+            // if selected metadata node must be saved to binary file
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                // get value as byte array
+                byte[] byteArray = selectedMetadataNode.Value as byte[];
+                // get file path
+                string filePath = Path.GetFullPath(saveFileDialog.FileName);
+                // save file
+                File.WriteAllBytes(filePath, byteArray);
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of LoadBinaryValueFromFileButton object.
+        /// </summary>
+        private void loadBinaryValueFromFileButton_Click(object sender, EventArgs e)
+        {
+            // get selected metadata node
+            MetadataNode selectedMetadataNode = metadataTreeView.SelectedMetadataNode;
+
+            // if selected metadata node must be loaded from file
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                // get file path
+                string filePath = Path.GetFullPath(openFileDialog.FileName);
+                // load metadata node value
+                byte[] byteArray = File.ReadAllBytes(filePath);
+                // update metadata node value
+                selectedMetadataNode.Value = byteArray;
+
+                UpdateUI();
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of AddNewNodeToSelectedNodeButton object.
+        /// </summary>
+        private void addNewNodeToSelectedNodeButton_Click(object sender, EventArgs e)
+        {
+            // if the metadata node has been added
+            if (AddMetadataNode())
+            {
+                // if metadata node must be updated
+                if (metadataTreeView.SelectedNode != null)
+                    // update metadata node
+                    metadataTreeView.UpdateNode(metadataTreeView.SelectedNode.Parent);
+
+                UpdateUI();
+            }
+        }
+
+        #endregion
+
 
         /// <summary>
         /// Adds new metadata node to the selected metadata node.
@@ -235,67 +363,6 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// "OK" button is clicked.
-        /// </summary>
-        private void buttonOk_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
-
-        /// <summary>
-        /// Node of tree view is selected.
-        /// </summary>
-        private void metadataTreeView_AfterSelect(object sender, TreeViewEventArgs e)
-        {
-            ShowMetadataNodeProperties(metadataTreeView.SelectedMetadataNode);
-
-            UpdateUI();
-        }
-
-        /// <summary>
-        /// Property of node is changed.
-        /// </summary>
-        private void nodePropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
-        {
-            UpdateUI();
-        }
-
-        /// <summary>
-        /// "Execute method" button is clicked.
-        /// </summary>
-        private void executeButton_Click(object sender, EventArgs e)
-        {
-            if (methodsComboBox.SelectedItem != null)
-            {
-                // execute method
-                ((MethodExecutor)methodsComboBox.SelectedItem).Execute();
-
-                if (metadataTreeView.SelectedNode != null)
-                {
-                    if (metadataTreeView.SelectedNode.Parent == null)
-                        metadataTreeView.UpdateNode(metadataTreeView.SelectedNode);
-                    else
-                        metadataTreeView.UpdateNode(metadataTreeView.SelectedNode.Parent);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Remove selected node.
-        /// </summary>
-        private void buttonDelete_Click(object sender, EventArgs e)
-        {
-            // get selected node
-            MetadataNode metadataNode = metadataTreeView.SelectedMetadataNode;
-            // remove selected node
-            metadataNode.Parent.RemoveChild(metadataNode);
-
-            metadataTreeView.UpdateNode(metadataNode.Parent);
-
-            metadataTreeView.Focus();
-        }
-
-        /// <summary>
         /// Updates methods of the metadata node.
         /// </summary>
         /// <param name="metadataNode">The metadata node.</param>
@@ -334,7 +401,9 @@ namespace DemosCommonCode.Imaging
                 {
                     tagId = dlg.TagId;
 
-                    //
+
+                    // get the tag data value
+
                     switch (dlg.TagDataType)
                     {
                         case TiffTagDataType.Ascii:
@@ -344,6 +413,7 @@ namespace DemosCommonCode.Imaging
                         case TiffTagDataType.Short:
                             tagValue = (ushort)dlg.IntegerValue;
                             break;
+
                         case TiffTagDataType.SShort:
                             tagValue = (short)dlg.IntegerValue;
                             break;
@@ -351,6 +421,7 @@ namespace DemosCommonCode.Imaging
                         case TiffTagDataType.Long:
                             tagValue = (uint)dlg.IntegerValue;
                             break;
+
                         case TiffTagDataType.SLong:
                             tagValue = (int)dlg.IntegerValue;
                             break;
@@ -358,14 +429,17 @@ namespace DemosCommonCode.Imaging
                         case TiffTagDataType.Float:
                             tagValue = (float)dlg.DoubleValue;
                             break;
+
                         case TiffTagDataType.Double:
                             tagValue = dlg.DoubleValue;
                             break;
 
                         case TiffTagDataType.Rational:
+                            // create long rational value
                             tagValue = new TiffRational((uint)dlg.NumeratorValue, (uint)dlg.DenominatorValue);
                             break;
                         case TiffTagDataType.SRational:
+                            // create short long rational value
                             tagValue = new TiffSRational((int)dlg.NumeratorValue, (uint)dlg.DenominatorValue);
                             break;
                     }
@@ -373,52 +447,6 @@ namespace DemosCommonCode.Imaging
                 }
             }
             return false;
-        }
-
-        /// <summary>
-        /// Saves binary value to a file.
-        /// </summary>
-        private void saveBinaryValueToFileButton_Click(object sender, EventArgs e)
-        {
-            MetadataNode selectedMetadataNode = metadataTreeView.SelectedMetadataNode;
-
-            if (saveFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                byte[] byteArray = selectedMetadataNode.Value as byte[];
-                string filePath = Path.GetFullPath(saveFileDialog.FileName);
-                File.WriteAllBytes(filePath, byteArray);
-            }
-        }
-
-        /// <summary>
-        /// Loads binary value from a file.
-        /// </summary>
-        private void loadBinaryValueFromFileButton_Click(object sender, EventArgs e)
-        {
-            MetadataNode selectedMetadataNode = metadataTreeView.SelectedMetadataNode;
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                string filePath = Path.GetFullPath(openFileDialog.FileName);
-                byte[] byteArray = File.ReadAllBytes(filePath);
-                selectedMetadataNode.Value = byteArray;
-
-                UpdateUI();
-            }
-        }
-
-        /// <summary>
-        /// Adds new node to the selected node.
-        /// </summary>
-        private void addNewNodeToSelectedNodeButton_Click(object sender, EventArgs e)
-        {
-            if (AddMetadataNode())
-            {
-                if (metadataTreeView.SelectedNode != null)
-                    metadataTreeView.UpdateNode(metadataTreeView.SelectedNode.Parent);
-
-                UpdateUI();
-            }
         }
 
         #endregion

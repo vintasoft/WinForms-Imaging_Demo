@@ -1,64 +1,78 @@
-using System;
-using System.Drawing;
-using System.Windows.Forms;
-using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageProcessing.Color;
 using Vintasoft.Imaging.UI;
 
 namespace ImagingDemo
 {
-	public partial class HueSaturationLuminanceForm : ThreeParamsConfigForm
-	{
+    /// <summary>
+    /// A form that allows to view and edit settings of the ChangeHueSaturationLuminanceCommand.
+    /// </summary>
+    public partial class HueSaturationLuminanceForm : ThreeParamsConfigForm
+    {
 
-		#region Constructor
+        #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="HueSaturationLuminanceForm"/> class.
+        /// </summary>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public HueSaturationLuminanceForm(ImageViewer viewer)
-			: base(viewer,
+            : base(viewer,
             "Hue, saturation and luminance",
             new ImageProcessingParameter("Hue", -180, 180, 0),
             new ImageProcessingParameter("Saturation", -100, 100, 0),
             new ImageProcessingParameter("Luminance", -100, 100, 0))
-		{
-		}
+        {
+        }
 
-		#endregion
+        #endregion
 
 
-		#region Properties
 
-		public int Hue
-		{
-			get
-			{
-				return Parameter1;
-			}
-		}
+        #region Properties
 
-		public int Saturation
-		{
-			get
-			{
-				return Parameter2;
-			}
-		}
+        /// <summary>
+        /// Gets the hue value.
+        /// </summary>
+        public int Hue
+        {
+            get
+            {
+                return Parameter1;
+            }
+        }
 
-		public int Luminance
-		{
-			get
-			{
-				return Parameter3;
-			}
-		}
+        /// <summary>
+        /// Gets the saturation value.
+        /// </summary>
+        public int Saturation
+        {
+            get
+            {
+                return Parameter2;
+            }
+        }
 
-		#endregion
+        /// <summary>
+        /// Gets the luminance value.
+        /// </summary>
+        public int Luminance
+        {
+            get
+            {
+                return Parameter3;
+            }
+        }
+
+        #endregion
+
 
 
         #region Methods
 
         /// <summary>
-        /// Gets the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override Vintasoft.Imaging.ImageProcessing.ProcessingCommandBase GetProcessingCommand()
         {
             return new ChangeHueSaturationLuminanceCommand(Hue, Saturation, Luminance);

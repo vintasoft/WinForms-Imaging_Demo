@@ -14,15 +14,25 @@ namespace DemosCommonCode.Imaging
 
         #region Fields
 
+        /// <summary>
+        /// The image size.
+        /// </summary>
         ImageSize _imageSize = null;
+
+        /// <summary>
+        /// The image pixel format.
+        /// </summary>
         PixelFormat _pixelFormat;
 
         #endregion
 
 
 
-        #region Constructor
+        #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="CreateNewImageForm"/> class.
+        /// </summary>
         public CreateNewImageForm()
         {
             InitializeComponent();
@@ -57,9 +67,17 @@ namespace DemosCommonCode.Imaging
 
         #region PUBLIC
 
+        /// <summary>
+        /// Creates an image.
+        /// </summary>
+        /// <returns>An image.</returns>
         public VintasoftImage CreateImage()
         {
+            // crete image
             VintasoftImage image = new VintasoftImage(_imageSize, _pixelFormat);
+
+
+            // create palette
 
             Palette palette = null;
             if (_pixelFormat == PixelFormat.Indexed1)
@@ -68,9 +86,10 @@ namespace DemosCommonCode.Imaging
                 palette = Palette.CreateGrayscalePalette(16);
             else if (_pixelFormat == PixelFormat.Indexed8)
                 palette = Palette.CreateGrayscalePalette();
-            
+            // if palette must be updates
             if (palette != null)
                 image.Palette.SetColors(palette.GetAsArray());
+
 
             return image;
         }
@@ -80,6 +99,61 @@ namespace DemosCommonCode.Imaging
 
         #region PRIVATE
 
+        /// <summary>
+        /// Handles the Click event of OkButton object.
+        /// </summary>
+        private void okButton_Click(object sender, EventArgs e)
+        {
+            // get the horizontal image size
+
+            float horizontalResolution;
+            if (!float.TryParse(horizontalResolutionTextBox.Text, out horizontalResolution))
+            {
+                MessageBox.Show("Horizontal resolution value is incorrect.", "Create new image");
+                horizontalResolutionTextBox.Focus();
+                horizontalResolutionTextBox.SelectAll();
+                return;
+            }
+            else if (horizontalResolution <= 0)
+            {
+                MessageBox.Show("Horizontal resolution value can not be negative.", "Create new image");
+                horizontalResolutionTextBox.Focus();
+                horizontalResolutionTextBox.SelectAll();
+                return;
+            }
+
+
+            // get the vertical image size
+
+            float verticalResolution;
+            if (!float.TryParse(verticalResolutionTextBox.Text, out verticalResolution))
+            {
+                MessageBox.Show("Vertical resolution value is incorrect.", "Create new image");
+                verticalResolutionTextBox.Focus();
+                verticalResolutionTextBox.SelectAll();
+                return;
+            }
+            else if (verticalResolution <= 0)
+            {
+                MessageBox.Show("Vertical resolution value can not be negative.", "Create new image");
+                verticalResolutionTextBox.Focus();
+                verticalResolutionTextBox.SelectAll();
+                return;
+            }
+
+            // create resolution
+            Resolution resolution = new Resolution(horizontalResolution, verticalResolution);
+            // update image size
+            SetImageParams(resolution);
+
+            DialogResult = DialogResult.OK;
+        }
+
+
+        /// <summary>
+        /// Updates the image size and format.
+        /// </summary>
+        /// <param name="resolution">The resolution.</param>
         private void SetImageParams(Resolution resolution)
         {
             int widthImage = Convert.ToInt32(widthImageNumericUpDown.Value);
@@ -87,46 +161,6 @@ namespace DemosCommonCode.Imaging
             _imageSize = ImageSize.FromPixels(widthImage, heightImage, resolution);
 
             _pixelFormat = (PixelFormat)pixelFormatComboBox.SelectedItem;
-        }
-
-        private void okButton_Click(object sender, EventArgs e)
-        {
-            float horizontalResolution;
-            if (!float.TryParse(horizontalResolutionTextBox.Text, out horizontalResolution))
-            {
-                MessageBox.Show("Horizontal resolution value is incorrect!", "Create new image");
-                horizontalResolutionTextBox.Focus();
-                horizontalResolutionTextBox.SelectAll();
-                return;
-            }
-            else if (horizontalResolution <= 0)
-            {
-                MessageBox.Show("Horizontal resolution value is incorrect!", "Create new image");
-                horizontalResolutionTextBox.Focus();
-                horizontalResolutionTextBox.SelectAll();
-                return;
-            }
-
-            float verticalResolution;
-            if (!float.TryParse(verticalResolutionTextBox.Text, out verticalResolution))
-            {
-                MessageBox.Show("Vertical resolution value is incorrect!", "Create new image");
-                verticalResolutionTextBox.Focus();
-                verticalResolutionTextBox.SelectAll();
-                return;
-            }
-            else if (verticalResolution <= 0)
-            {
-                MessageBox.Show("Vertical resolution value is incorrect!", "Create new image");
-                verticalResolutionTextBox.Focus();
-                verticalResolutionTextBox.SelectAll();
-                return;
-            }
-
-            Resolution resolution = new Resolution(horizontalResolution, verticalResolution);
-            SetImageParams(resolution);
-
-            DialogResult = DialogResult.OK;
         }
 
         #endregion

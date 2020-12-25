@@ -68,7 +68,7 @@ namespace DemosCommonCode.Imaging
         #region Methods
 
         /// <summary>
-        /// Value type is changed.
+        /// Handles the SelectedIndexChanged event of ValueRepresentationComboBox object.
         /// </summary>
         private void valueRepresentationComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -77,7 +77,8 @@ namespace DemosCommonCode.Imaging
                 return;
 
             // get DICOM value type from combo-box
-            DicomValueRepresentation vr = (DicomValueRepresentation)valueRepresentationComboBox.SelectedItem;
+            DicomValueRepresentation selectedValueRepresentation = 
+                (DicomValueRepresentation)valueRepresentationComboBox.SelectedItem;
 
 
             // reset the user interface
@@ -104,7 +105,7 @@ namespace DemosCommonCode.Imaging
 
             // init the user interface
 
-            switch (vr)
+            switch (selectedValueRepresentation)
             {
                 // Age String
                 case DicomValueRepresentation.AS:
@@ -143,7 +144,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Key is pressed in text box.
+        /// Handles the KeyPress event of ValueTextBox object.
         /// </summary>
         private void valueTextBox_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -153,23 +154,23 @@ namespace DemosCommonCode.Imaging
                 return;
 
             // get selected type of value
-            DicomValueRepresentation valueRepresentation =
+            DicomValueRepresentation selectedValueRepresentation =
                 (DicomValueRepresentation)valueRepresentationComboBox.SelectedItem;
 
-            // key is a digit?
+            // indicates that a digit character key is pressed
             bool isDigit = char.IsDigit(e.KeyChar);
-            // key is a letter?
+            // indicates that a letter character key is pressed
             bool isLetter = char.IsLetter(e.KeyChar);
-            // key is negative char
-            bool isNegativeChar = false;
+            // indicates that a negative digit character key is pressed
+            bool isNegativeDigit = false;
             if (e.KeyChar == CultureInfo.CurrentCulture.NumberFormat.NegativeSign[0])
-                isNegativeChar = true;
-            // key is a separator of decimal?
+                isNegativeDigit = true;
+            // indicates that a decimal separator key is pressed 
             bool isDecimalSeparatorChar = false;
             if (e.KeyChar == CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator[0])
                 isDecimalSeparatorChar = true;
 
-            switch (valueRepresentation)
+            switch (selectedValueRepresentation)
             {
                 // Application Entity
                 case DicomValueRepresentation.AE:
@@ -199,7 +200,7 @@ namespace DemosCommonCode.Imaging
                 case DicomValueRepresentation.SL:
                 // Signed Short
                 case DicomValueRepresentation.SS:
-                    if (!isDigit && !isNegativeChar)
+                    if (!isDigit && !isNegativeDigit)
                         e.Handled = true;
                     break;
 
@@ -213,7 +214,7 @@ namespace DemosCommonCode.Imaging
                 case DicomValueRepresentation.OD:
                 // Other Float String
                 case DicomValueRepresentation.OF:
-                    if (!isDigit && !isNegativeChar && !isDecimalSeparatorChar)
+                    if (!isDigit && !isNegativeDigit && !isDecimalSeparatorChar)
                         e.Handled = true;
                     break;
 
@@ -227,7 +228,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// "OK" button is clicked.
+        /// Handles the Click event of OkButton object.
         /// </summary>
         private void okButton_Click(object sender, EventArgs e)
         {
@@ -237,13 +238,14 @@ namespace DemosCommonCode.Imaging
             // element number
             ushort elementNumber = (ushort)elementNumberNumericUpDown.Value;
             // value type
-            DicomValueRepresentation valueRepresentation = (DicomValueRepresentation)valueRepresentationComboBox.SelectedItem;
+            DicomValueRepresentation selectedValueRepresentation =
+                (DicomValueRepresentation)valueRepresentationComboBox.SelectedItem;
             // DataElement value
             object value = null;
 
             try
             {
-                switch (valueRepresentation)
+                switch (selectedValueRepresentation)
                 {
                     // Unique Identifier(UID)
                     case DicomValueRepresentation.UI:
@@ -296,11 +298,11 @@ namespace DemosCommonCode.Imaging
                 }
 
                 // if type of value is sequence
-                if (valueRepresentation == DicomValueRepresentation.SQ)
+                if (selectedValueRepresentation == DicomValueRepresentation.SQ)
                 {
                     DicomDataSetMetadata collectionMetadata = _metadata as DicomDataSetMetadata;
                     if (collectionMetadata != null)
-                        // sequence not contains value
+                        // sequence does not contain value
                         collectionMetadata.AddChild(groupNumber, elementNumber, DicomValueRepresentation.SQ);
                     else
                     {
@@ -313,13 +315,13 @@ namespace DemosCommonCode.Imaging
                 {
                     DicomDataSetMetadata collectionMetadata = _metadata as DicomDataSetMetadata;
                     if (collectionMetadata != null)
-                        // sequence not contains value
-                        collectionMetadata.AddChild(groupNumber, elementNumber, valueRepresentation, value);
+                        // sequence does not contain value
+                        collectionMetadata.AddChild(groupNumber, elementNumber, selectedValueRepresentation, value);
                     else
                     {
                         DicomFrameMetadata frameMetadata = _metadata as DicomFrameMetadata;
                         if (frameMetadata != null)
-                            frameMetadata.AddChild(groupNumber, elementNumber, valueRepresentation, value);
+                            frameMetadata.AddChild(groupNumber, elementNumber, selectedValueRepresentation, value);
                     }
                 }
 

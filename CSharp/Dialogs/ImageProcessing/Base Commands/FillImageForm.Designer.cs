@@ -53,7 +53,7 @@ namespace ImagingDemo
             this.buttonOk.TabIndex = 54;
             this.buttonOk.Text = "OK";
             this.buttonOk.UseVisualStyleBackColor = true;
-            this.buttonOk.Click += new System.EventHandler(this.buttonOk_Click);
+            this.buttonOk.Click += new System.EventHandler(this.okButton_Click);
             // 
             // fillColorLabel
             // 
@@ -102,6 +102,7 @@ namespace ImagingDemo
             this.Location = new System.Drawing.Point(40, 110);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "FillImageForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Fill Image";

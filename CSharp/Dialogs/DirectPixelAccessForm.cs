@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -18,10 +18,29 @@ namespace ImagingDemo
 
         #region Fields
 
+        /// <summary>
+        /// Selected color.
+        /// </summary>
         ColorBase _selectedColor;
+
+        /// <summary>
+        /// X coordinate of selected pixel.
+        /// </summary>
         int _selectedColorX;
+
+        /// <summary>
+        /// Y coordinate of selected pixel.
+        /// </summary>
         int _selectedColorY;
+
+        /// <summary>
+        /// A value indicating whether the pixel is selected.
+        /// </summary>
         bool _pixelSelect = false;
+
+        /// <summary>
+        /// An image viewer.
+        /// </summary>
         ImageViewer _viewer;
 
         #endregion
@@ -30,6 +49,10 @@ namespace ImagingDemo
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DirectPixelAccessForm"/> class.
+        /// </summary>
+        /// <param name="viewer">Image viewer.</param>
         public DirectPixelAccessForm(ImageViewer viewer)
         {
             InitializeComponent();
@@ -45,6 +68,12 @@ namespace ImagingDemo
 
         #region Methods
 
+        #region PROTECTED
+
+        /// <summary>
+        /// Raises the form closed event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected override void OnClosed(EventArgs e)
         {
             base.OnClosed(e);
@@ -53,45 +82,16 @@ namespace ImagingDemo
             _viewer.MouseDown -= viewer_MouseDown;
         }
 
-        // Updates information about selected pixel.
-        void viewer_MouseDown(object sender, MouseEventArgs e)
-        {
-            if (pixelsGroupBox.Enabled && _viewer.IsEntireImageLoaded)
-            {
-                if (_viewer.FocusedIndex >= 0)
-                {
-                    if (e.Button == MouseButtons.Left)
-                    {
-                        Point pt = _viewer.PointToImage(e.Location);
-                        SelectPixel(pt.X, pt.Y);
-                    }
-                }
-            }
-        }
+        #endregion
 
-        // Updates information about focused pixel.
-        void viewer_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (_viewer.FocusedIndex >= 0)
-            {
-                Point pt = _viewer.PointToImage(e.Location);
-                string text = string.Format("Pixel (X={0},Y={1})", pt.X, pt.Y);
-                if (text != pixelsGroupBox.Text)
-                {
-                    pixelsGroupBox.Text = text;
-                    if (e.Button == MouseButtons.Left && pixelsGroupBox.Enabled && _viewer.IsEntireImageLoaded)
-                    {
-                        SelectPixel(pt.X, pt.Y);
-                    }
-                }
-            }
-            else
-            {
-                pixelsGroupBox.Text = string.Format("Pixel");
-            }
-        }
-       
 
+        #region INTERNAL
+
+        /// <summary>
+        /// Updates the form when the image pixel is selected.
+        /// </summary>
+        /// <param name="x">Pixel X coordinate.</param>
+        /// <param name="y">Pixel Y coordinate.</param>
         internal void SelectPixel(int x, int y)
         {
             if (x >= 0 && y >= 0)
@@ -118,22 +118,169 @@ namespace ImagingDemo
             selectedPixelColorPanel.BackColor = Color.Transparent;
         }
 
+        #endregion
+
+
+        #region PRIVATE
+
+        #region UI
+
+        /// <summary>
+        /// Handles the MouseDown event of Viewer object.
+        /// </summary>
+        void viewer_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (pixelsGroupBox.Enabled && _viewer.IsEntireImageLoaded)
+            {
+                if (_viewer.FocusedIndex >= 0)
+                {
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        // select pixel
+                        Point pt = _viewer.PointToImage(e.Location);
+                        SelectPixel(pt.X, pt.Y);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the MouseMove event of Viewer object.
+        /// </summary>
+        void viewer_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (_viewer.FocusedIndex >= 0)
+            {
+                Point pt = _viewer.PointToImage(e.Location);
+                string text = string.Format("Pixel (X={0},Y={1})", pt.X, pt.Y);
+                if (text != pixelsGroupBox.Text)
+                {
+                    // update information about focused pixel
+                    pixelsGroupBox.Text = text;
+                    if (e.Button == MouseButtons.Left && pixelsGroupBox.Enabled && _viewer.IsEntireImageLoaded)
+                    {
+                        SelectPixel(pt.X, pt.Y);
+                    }
+                }
+            }
+            else
+            {
+                pixelsGroupBox.Text = string.Format("Pixel");
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of SelectInPaletteButton object.
+        /// </summary>
         private void selectInPaletteButton_Click(object sender, EventArgs e)
         {
-            PaletteForm paletteDlg = new PaletteForm();
-            paletteDlg.PaletteViewer.CanChangePalette = false;
-            IndexedColor indColor = ((IndexedColor)_selectedColor);
-            paletteDlg.PaletteViewer.Palette = indColor.Palette;
-            paletteDlg.PaletteViewer.SelectedColorIndex = indColor.Index;
-            if (paletteDlg.ShowDialog() == DialogResult.OK)
+            // create pallete viewer form
+            using (PaletteForm paletteDlg = new PaletteForm())
             {
-                indexNumericUpDown.Value = (int)paletteDlg.PaletteViewer.SelectedColorIndex;
-                ShowSelectedPixelColor(_selectedColorX, _selectedColorY, new IndexedColor(paletteDlg.PaletteViewer.Palette, paletteDlg.PaletteViewer.SelectedColorIndex));
+                paletteDlg.PaletteViewer.CanChangePalette = false;
+                IndexedColor indColor = ((IndexedColor)_selectedColor);
+                paletteDlg.PaletteViewer.Palette = indColor.Palette;
+                paletteDlg.PaletteViewer.SelectedColorIndex = indColor.Index;
+
+                if (paletteDlg.ShowDialog() == DialogResult.OK)
+                {
+                    // set new color to pixel
+                    indexNumericUpDown.Value = (int)paletteDlg.PaletteViewer.SelectedColorIndex;
+                    ShowSelectedPixelColor(_selectedColorX, _selectedColorY, new IndexedColor(paletteDlg.PaletteViewer.Palette, paletteDlg.PaletteViewer.SelectedColorIndex));
+                    SetColorOfSelectedPixel();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of ChangeRGBComponentsButton object.
+        /// </summary>
+        private void changeRGBComponentsButton_Click(object sender, EventArgs e)
+        {
+            using (ColorDialog dialog = new ColorDialog())
+            {
+                dialog.Color = _selectedColor.ToColor();
+                if (dialog.ShowDialog() == DialogResult.OK)
+                {
+                    // get new color
+                    Color newColor = dialog.Color;
+                    UpdateSelectedPixelColorValue((int)alphaNumericUpDown.Value, newColor.R, newColor.G, newColor.B, false);
+
+                    ShowSelectedPixelColor(
+                        _selectedColorX,
+                        _selectedColorY,
+                        _selectedColor);
+
+                    // set new color to pixel
+                    SetColorOfSelectedPixel();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the ValueChanged event of ColorChannel object.
+        /// </summary>
+        private void colorChannel_ValueChanged(object sender, EventArgs e)
+        {
+            if (!_pixelSelect)
+            {
+                // update color
+                UpdateSelectedPixelColorValue(
+                    (int)alphaNumericUpDown.Value,
+                    (int)redNumericUpDown.Value,
+                    (int)greenNumericUpDown.Value,
+                    (int)blueNumericUpDown.Value,
+                    true);
+                selectedPixelColorPanel.BackColor = _selectedColor.ToColor();
+
+                // set new color to pixel
                 SetColorOfSelectedPixel();
             }
         }
 
-        private void UpdateSelectedPixelColorValue(int alpha, int red, int green, int blue, bool isNativeValues)
+        /// <summary>
+        /// Handles the ValueChanged event of IndexNumericUpDown object.
+        /// </summary>
+        private void indexNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            if (!_pixelSelect)
+            {
+                _selectedColor = new IndexedColor(_viewer.Image.Palette, (byte)indexNumericUpDown.Value);
+                selectedPixelColorPanel.BackColor = _selectedColor.ToColor();
+                SetColorOfSelectedPixel();
+            }
+        }
+
+        /// <summary>
+        /// Handles the ValueChanged event of Gray16LumNumericUpDown object.
+        /// </summary>
+        private void gray16LumNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            if (!_pixelSelect)
+            {
+                _selectedColor = new Gray16Color((int)gray16LumNumericUpDown.Value);
+                selectedPixelColorPanel.BackColor = _selectedColor.ToColor();
+                SetColorOfSelectedPixel();
+            }
+        }
+
+        #endregion
+
+
+        /// <summary>
+        /// Updates the selected color.
+        /// </summary>
+        /// <param name="alpha">The alpha channel.</param>
+        /// <param name="red">The red channel.</param>
+        /// <param name="green">The green channel.</param>
+        /// <param name="blue">The blue channel.</param>
+        /// <param name="isNativeValues">Indivates whether the values are native.</param>
+        private void UpdateSelectedPixelColorValue(
+            int alpha,
+            int red,
+            int green,
+            int blue,
+            bool isNativeValues)
         {
             byte alpha8 = (byte)alpha;
             byte red8 = (byte)red;
@@ -177,24 +324,12 @@ namespace ImagingDemo
             }
         }
 
-        private void changeRGBComponentsButton_Click(object sender, EventArgs e)
-        {
-            ColorDialog dialog = new ColorDialog();
-            dialog.Color = _selectedColor.ToColor();
-            if (dialog.ShowDialog() == DialogResult.OK)
-            {
-                Color newColor = dialog.Color;
-                UpdateSelectedPixelColorValue((int)alphaNumericUpDown.Value, newColor.R, newColor.G, newColor.B, false);
-
-                ShowSelectedPixelColor(
-                    _selectedColorX,
-                    _selectedColorY,
-                    _selectedColor);
-
-                SetColorOfSelectedPixel();
-            }
-        }
-
+        /// <summary>
+        /// Updates the information about selected pixel.
+        /// </summary>
+        /// <param name="x">Selected pixel x coordinate.</param>
+        /// <param name="y">Selected pixel y coordinate.</param>
+        /// <param name="pixelColor">Selected pixel color.</param>
         private void ShowSelectedPixelColor(int x, int y, ColorBase pixelColor)
         {
             VintasoftImage image = _viewer.Image;
@@ -298,6 +433,9 @@ namespace ImagingDemo
             pixelsGroupBox.Refresh();
         }
 
+        /// <summary>
+        /// Sets color to selected pixel.
+        /// </summary>
         private void SetColorOfSelectedPixel()
         {
             try
@@ -310,40 +448,7 @@ namespace ImagingDemo
             }
         }
 
-        private void colorChannel_ValueChanged(object sender, EventArgs e)
-        {
-            if (!_pixelSelect)
-            {
-                UpdateSelectedPixelColorValue(
-                    (int)alphaNumericUpDown.Value,
-                    (int)redNumericUpDown.Value,
-                    (int)greenNumericUpDown.Value,
-                    (int)blueNumericUpDown.Value,
-                    true);
-                selectedPixelColorPanel.BackColor = _selectedColor.ToColor();
-                SetColorOfSelectedPixel();
-            }
-        }
-
-        private void indexNumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            if (!_pixelSelect)
-            {
-                _selectedColor = new IndexedColor(_viewer.Image.Palette, (byte)indexNumericUpDown.Value);
-                selectedPixelColorPanel.BackColor = _selectedColor.ToColor();
-                SetColorOfSelectedPixel();
-            }
-        }
-
-        private void gray16LumNumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            if (!_pixelSelect)
-            {
-                _selectedColor = new Gray16Color((int)gray16LumNumericUpDown.Value);
-                selectedPixelColorPanel.BackColor = _selectedColor.ToColor();
-                SetColorOfSelectedPixel();
-            }
-        }
+        #endregion
 
         #endregion
 

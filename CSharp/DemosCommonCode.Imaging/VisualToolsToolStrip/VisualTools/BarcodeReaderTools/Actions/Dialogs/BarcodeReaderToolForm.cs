@@ -52,6 +52,9 @@ namespace DemosCommonCode.Barcode
 
         #region Methods
 
+        /// <summary>
+        /// Handles the RecognitionFinished event of ReaderTool object.
+        /// </summary>
         private void readerTool_RecognitionFinished(object sender, EventArgs e)
         {
             recognitionResultsTextBox.Text = GetRecognitionResults();
@@ -148,6 +151,9 @@ namespace DemosCommonCode.Barcode
             return sb.ToString();
         }
 
+        /// <summary>
+        /// Handles the RecognitionStarted event of ReaderTool object.
+        /// </summary>
         private void readerTool_RecognitionStarted(object sender, EventArgs e)
         {
             recognizeBarcodeButton.Enabled = false;
@@ -156,6 +162,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the Click event of RecognizeBarcodeButton object.
+        /// </summary>
         private void recognizeBarcodeButton_Click(object sender, EventArgs e)
         {
             if (!_readerTool.IsRecognitionStarted)
@@ -172,6 +181,9 @@ namespace DemosCommonCode.Barcode
         }
 
 #if !REMOVE_BARCODE_SDK
+        /// <summary>
+        /// Handles the RecognitionProgress event of ReaderTool object.
+        /// </summary>
         private void readerTool_RecognitionProgress(object sender, BarcodeReaderProgressEventArgs e)
         {
             recognitionProgressBar.Value = e.Progress;

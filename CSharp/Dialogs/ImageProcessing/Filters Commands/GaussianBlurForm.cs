@@ -1,22 +1,28 @@
-using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.ImageProcessing.Filters;
 using Vintasoft.Imaging.UI;
 
 namespace ImagingDemo
 {
-	public partial class GaussianBlurForm : OneParamConfigForm
-	{
+    /// <summary>
+    /// A form that allows to view and edit settings of the GaussianBlurCommand.
+    /// </summary>
+    public partial class GaussianBlurForm : OneParamConfigForm
+    {
 
-		#region Constructor
+        #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GaussianBlurForm"/> class.
+        /// </summary>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public GaussianBlurForm(ImageViewer viewer)
             : base(viewer, "Convolution.GaussianBlur",
             new ImageProcessingParameter("Window Radius", 1, 20, 3))
         {
         }
 
-		#endregion	
+        #endregion
 
 
 
@@ -40,9 +46,9 @@ namespace ImagingDemo
         #region Methods
 
         /// <summary>
-        /// Gets the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override ProcessingCommandBase GetProcessingCommand()
         {
             return new GaussianBlurCommand(WindowSize);

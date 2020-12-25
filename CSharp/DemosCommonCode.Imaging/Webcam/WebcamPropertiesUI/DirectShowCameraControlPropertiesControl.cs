@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+
 using Vintasoft.Imaging.Media;
 
 namespace DemosCommonCode.Imaging
@@ -10,72 +11,11 @@ namespace DemosCommonCode.Imaging
     public partial class DirectShowCameraControlPropertiesControl : UserControl
     {
 
-        #region Structs
-
-        /// <summary>
-        /// Stores information about values of the camera control property.
-        /// </summary>
-        class CameraControlPropertyInfo
-        {
-            internal int CurrentValue;
-            internal int DefaultValue;
-            internal int MinValue;
-            internal int MaxValue;
-            internal int StepSize;
-            internal bool Auto;
-
-
-            internal CameraControlPropertyInfo(
-                DirectShowCameraControlPropertyValue currentValue,
-                int defaultValue,
-                int minValue,
-                int maxValue,
-                int stepSize)
-            {
-                this.StepSize = stepSize;
-
-                this.MinValue = minValue / stepSize;
-                this.MaxValue = maxValue / stepSize;
-
-                this.DefaultValue = GetValueInRange(defaultValue / stepSize);
-
-                this.CurrentValue = GetValueInRange(currentValue.Value / stepSize);
-                this.Auto = currentValue.Auto;
-            }
-
-
-
-            private int GetValueInRange(int value)
-            {
-                if (value < MinValue)
-                    return MinValue;
-                if (value > MaxValue)
-                    return MaxValue;
-                return value;
-            }
-        }
-
-        #endregion
-
-
-        #region Fields
-
-        CameraControlPropertyInfo _exposurePropertyInfo;
-        CameraControlPropertyInfo _focusPropertyInfo;
-        CameraControlPropertyInfo _irisPropertyInfo;
-        CameraControlPropertyInfo _panPropertyInfo;
-        CameraControlPropertyInfo _rollPropertyInfo;
-        CameraControlPropertyInfo _tiltPropertyInfo;
-        CameraControlPropertyInfo _zoomPropertyInfo;
-
-        bool _isInitialized;
-
-        #endregion
-
-
-
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DirectShowCameraControlPropertiesControl"/> class.
+        /// </summary>
         public DirectShowCameraControlPropertiesControl()
         {
             InitializeComponent();
@@ -89,12 +29,18 @@ namespace DemosCommonCode.Imaging
 
         DirectShowCamera _camera;
         /// <summary>
-        /// Webcam to manage.
+        /// Gets or sets the webcam.
         /// </summary>
         public DirectShowCamera Camera
         {
-            get { return _camera; }
-            set { _camera = value; }
+            get
+            {
+                return _camera;
+            }
+            set
+            {
+                _camera = value;
+            }
         }
 
         #endregion
@@ -103,295 +49,170 @@ namespace DemosCommonCode.Imaging
 
         #region Methods
 
+        #region UI
+
+        /// <summary>
+        /// Handles the Load event of DirectShowCameraControlPropertiesControl object.
+        /// </summary>
         private void DirectShowCameraControlPropertiesControl_Load(object sender, EventArgs e)
         {
+            // if webcam is not specified
             if (_camera == null)
             {
                 cameraControlPropertiesGroupBox.Enabled = false;
                 return;
             }
 
-            DirectShowCameraControlPropertyValue currentValue;
-            int defaultValue, minValue, maxValue, stepSize;
+            // get camera control
+            DirectShowCameraControlProperties cameraControl = _camera.CameraControl;
 
-            // exposure
             try
             {
-                _camera.CameraControl.GetSupportedExposureValues(out minValue, out maxValue, out stepSize, out defaultValue);
-                currentValue = _camera.CameraControl.Exposure;
+                // load exposure property
+                InitializePropertyControl(
+                    exposureDirectShowPropertyControl,
+                    cameraControl.Exposure,
+                    cameraControl.GetSupportedExposureValues);
 
-                _exposurePropertyInfo = new CameraControlPropertyInfo(currentValue, defaultValue, minValue, maxValue, stepSize);
-                InitProperty(exposureTrackBar, exposureCheckBox, _exposurePropertyInfo);
+                exposureDirectShowPropertyControl.Enabled = true;
             }
             catch (DirectShowCameraException)
             {
-                DisableProperty(exposureLabel, exposureTrackBar, exposureCheckBox);
+                exposureDirectShowPropertyControl.Enabled = false;
             }
 
-            // focus
             try
             {
-                _camera.CameraControl.GetSupportedFocusValues(out minValue, out maxValue, out stepSize, out defaultValue);
-                currentValue = _camera.CameraControl.Focus;
+                // load focus property
+                InitializePropertyControl(
+                    focusDirectShowPropertyControl,
+                    cameraControl.Focus,
+                    cameraControl.GetSupportedFocusValues);
 
-                _focusPropertyInfo = new CameraControlPropertyInfo(currentValue, defaultValue, minValue, maxValue, stepSize);
-                InitProperty(focusTrackBar, focusCheckBox, _focusPropertyInfo);
+                focusDirectShowPropertyControl.Enabled = true;
             }
             catch (DirectShowCameraException)
             {
-                DisableProperty(focusLabel, focusTrackBar, focusCheckBox);
+                focusDirectShowPropertyControl.Enabled = false;
             }
 
-            // iris
             try
             {
-                _camera.CameraControl.GetSupportedIrisValues(out minValue, out maxValue, out stepSize, out defaultValue);
-                currentValue = _camera.CameraControl.Iris;
+                // load iris property
+                InitializePropertyControl(
+                    irisDirectShowPropertyControl,
+                    cameraControl.Iris,
+                    cameraControl.GetSupportedIrisValues);
 
-                _irisPropertyInfo = new CameraControlPropertyInfo(currentValue, defaultValue, minValue, maxValue, stepSize);
-                InitProperty(irisTrackBar, irisCheckBox, _irisPropertyInfo);
+                irisDirectShowPropertyControl.Enabled = true;
             }
             catch (DirectShowCameraException)
             {
-                DisableProperty(irisLabel, irisTrackBar, irisCheckBox);
+                irisDirectShowPropertyControl.Enabled = false;
             }
 
-            // pan
             try
             {
-                _camera.CameraControl.GetSupportedPanValues(out minValue, out maxValue, out stepSize, out defaultValue);
-                currentValue = _camera.CameraControl.Pan;
+                // load pan property
+                InitializePropertyControl(
+                    panDirectShowPropertyControl,
+                    cameraControl.Pan,
+                    cameraControl.GetSupportedPanValues);
 
-                _panPropertyInfo = new CameraControlPropertyInfo(currentValue, defaultValue, minValue, maxValue, stepSize);
-                InitProperty(panTrackBar, panCheckBox, _panPropertyInfo);
+                panDirectShowPropertyControl.Enabled = true;
             }
             catch (DirectShowCameraException)
             {
-                DisableProperty(panLabel, panTrackBar, panCheckBox);
+                panDirectShowPropertyControl.Enabled = false;
             }
 
-            // roll
             try
             {
-                _camera.CameraControl.GetSupportedRollValues(out minValue, out maxValue, out stepSize, out defaultValue);
-                currentValue = _camera.CameraControl.Roll;
+                // load roll property
+                InitializePropertyControl(
+                    rollDirectShowPropertyControl,
+                    cameraControl.Roll,
+                    cameraControl.GetSupportedRollValues);
 
-                _rollPropertyInfo = new CameraControlPropertyInfo(currentValue, defaultValue, minValue, maxValue, stepSize);
-                InitProperty(rollTrackBar, rollCheckBox, _rollPropertyInfo);
+                rollDirectShowPropertyControl.Enabled = true;
             }
             catch (DirectShowCameraException)
             {
-                DisableProperty(rollLabel, rollTrackBar, rollCheckBox);
+                rollDirectShowPropertyControl.Enabled = false;
             }
 
-            // tilt
             try
             {
-                _camera.CameraControl.GetSupportedTiltValues(out minValue, out maxValue, out stepSize, out defaultValue);
-                currentValue = _camera.CameraControl.Tilt;
+                // load tilt property
+                InitializePropertyControl(
+                    tiltDirectShowPropertyControl,
+                    cameraControl.Tilt,
+                    cameraControl.GetSupportedTiltValues);
 
-                _tiltPropertyInfo = new CameraControlPropertyInfo(currentValue, defaultValue, minValue, maxValue, stepSize);
-                InitProperty(tiltTrackBar, tiltCheckBox, _tiltPropertyInfo);
+                tiltDirectShowPropertyControl.Enabled = true;
             }
             catch (DirectShowCameraException)
             {
-                DisableProperty(tiltLabel, tiltTrackBar, tiltCheckBox);
+                tiltDirectShowPropertyControl.Enabled = false;
             }
 
-            // zoom
             try
             {
-                _camera.CameraControl.GetSupportedZoomValues(out minValue, out maxValue, out stepSize, out defaultValue);
-                currentValue = _camera.CameraControl.Zoom;
+                // load zoom property
+                InitializePropertyControl(
+                    zoomDirectShowPropertyControl,
+                    cameraControl.Zoom,
+                    cameraControl.GetSupportedZoomValues);
 
-                _zoomPropertyInfo = new CameraControlPropertyInfo(currentValue, defaultValue, minValue, maxValue, stepSize);
-                InitProperty(zoomTrackBar, zoomCheckBox, _zoomPropertyInfo);
+                zoomDirectShowPropertyControl.Enabled = true;
             }
             catch (DirectShowCameraException)
             {
-                DisableProperty(zoomLabel, zoomTrackBar, zoomCheckBox);
+                zoomDirectShowPropertyControl.Enabled = false;
             }
-
-            _isInitialized = true;
         }
-
-        private void InitProperty(
-            TrackBar trackBar,
-            CheckBox checkBox,
-            CameraControlPropertyInfo propertyInfo)
-        {
-            trackBar.Minimum = propertyInfo.MinValue;
-            trackBar.Maximum = propertyInfo.MaxValue;
-            trackBar.Value = propertyInfo.CurrentValue;
-            trackBar.Enabled = !propertyInfo.Auto;
-
-            checkBox.Checked = propertyInfo.Auto;
-        }
-
-        private void DisableProperty(Label label, TrackBar trackBar, CheckBox checkBox)
-        {
-            label.Enabled = false;
-            trackBar.Enabled = false;
-            checkBox.Enabled = false;
-        }
-
-
-        #region Trackbars
-
-        private void exposureTrackBar_Scroll(object sender, EventArgs e)
-        {
-            SetExposureValue(exposureTrackBar.Value, false);
-        }
-
-        private void focusTrackBar_Scroll(object sender, EventArgs e)
-        {
-            SetFocusValue(focusTrackBar.Value, false);
-        }
-
-        private void irisTrackBar_Scroll(object sender, EventArgs e)
-        {
-            SetIrisValue(irisTrackBar.Value, false);
-        }
-
-        private void panTrackBar_Scroll(object sender, EventArgs e)
-        {
-            SetPanValue(panTrackBar.Value, false);
-        }
-
-        private void rollTrackBar_Scroll(object sender, EventArgs e)
-        {
-            SetRollValue(rollTrackBar.Value, false);
-        }
-
-        private void tiltTrackBar_Scroll(object sender, EventArgs e)
-        {
-            SetTiltValue(tiltTrackBar.Value, false);
-        }
-
-        private void zoomTrackBar_Scroll(object sender, EventArgs e)
-        {
-            SetZoomValue(zoomTrackBar.Value, false);
-        }
-
-        #endregion
-
-
-        #region Check boxes
-
-        private void exposureCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            SetExposureValue(exposureTrackBar.Value, exposureCheckBox.Checked);
-        }
-
-        private void focusCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            SetFocusValue(focusTrackBar.Value, focusCheckBox.Checked);
-        }
-
-        private void irisCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            SetIrisValue(irisTrackBar.Value, irisCheckBox.Checked);
-        }
-
-        private void panCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            SetPanValue(panTrackBar.Value, panCheckBox.Checked);
-        }
-
-        private void rollCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            SetRollValue(rollTrackBar.Value, rollCheckBox.Checked);
-        }
-
-        private void tiltCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            SetTiltValue(tiltTrackBar.Value, tiltCheckBox.Checked);
-        }
-
-        private void zoomCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            SetZoomValue(zoomTrackBar.Value, zoomCheckBox.Checked);
-        }
-
-        #endregion
-
 
         /// <summary>
-        /// Resets the values of camera control properties.
+        /// Handles the Click event of ResetButton object.
         /// </summary>
         private void resetButton_Click(object sender, EventArgs e)
         {
-            if (exposureLabel.Enabled)
-                SetExposureValue(_exposurePropertyInfo.DefaultValue, false);
-
-            if (focusLabel.Enabled)
-                SetExposureValue(_focusPropertyInfo.DefaultValue, false);
-
-            if (irisLabel.Enabled)
-                SetIrisValue(_irisPropertyInfo.DefaultValue, false);
-
-            if (panLabel.Enabled)
-                SetPanValue(_panPropertyInfo.DefaultValue, false);
-
-            if (rollLabel.Enabled)
-                SetRollValue(_rollPropertyInfo.DefaultValue, false);
-
-            if (tiltLabel.Enabled)
-                SetTiltValue(_tiltPropertyInfo.DefaultValue, false);
-
-            if (zoomLabel.Enabled)
-                SetZoomValue(_zoomPropertyInfo.DefaultValue, false);
+            // for each control in this control
+            foreach (Control control in cameraControlPropertiesGroupBox.Controls)
+            {
+                DirectShowPropertyControl propertiesControl = control as DirectShowPropertyControl;
+                // if current control is property control
+                if (propertiesControl != null)
+                    propertiesControl.ResetValue();
+            }
         }
 
         /// <summary>
-        /// Restores the values of camera control properties.
+        /// Handles the Click event of RestoreButton object.
         /// </summary>
         private void restoreButton_Click(object sender, EventArgs e)
         {
-            if (exposureLabel.Enabled)
-                SetExposureValue(_exposurePropertyInfo.CurrentValue, _exposurePropertyInfo.Auto);
-
-            if (focusLabel.Enabled)
-                SetExposureValue(_focusPropertyInfo.CurrentValue, _focusPropertyInfo.Auto);
-
-            if (irisLabel.Enabled)
-                SetIrisValue(_irisPropertyInfo.CurrentValue, _irisPropertyInfo.Auto);
-
-            if (panLabel.Enabled)
-                SetPanValue(_panPropertyInfo.CurrentValue, _panPropertyInfo.Auto);
-
-            if (rollLabel.Enabled)
-                SetRollValue(_rollPropertyInfo.CurrentValue, _rollPropertyInfo.Auto);
-
-            if (tiltLabel.Enabled)
-                SetTiltValue(_tiltPropertyInfo.CurrentValue, _tiltPropertyInfo.Auto);
-
-            if (zoomLabel.Enabled)
-                SetZoomValue(_zoomPropertyInfo.CurrentValue, _zoomPropertyInfo.Auto);
+            // for each control in this control
+            foreach (Control control in cameraControlPropertiesGroupBox.Controls)
+            {
+                DirectShowPropertyControl propertiesControl = control as DirectShowPropertyControl;
+                // if current control is property control
+                if (propertiesControl != null)
+                    propertiesControl.RestoreValue();
+            }
         }
 
-
-        #region Set property value
-
         /// <summary>
-        /// Sets the exposure value.
+        /// Handles the PropertyChanged event of ExposureDirectShowPropertyControl object.
         /// </summary>
-        private void SetExposureValue(int value, bool autoMode)
+        private void exposureDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
-            if (!_isInitialized)
-                return;
-
             try
             {
-                _camera.CameraControl.Exposure = new DirectShowCameraControlPropertyValue(value * _exposurePropertyInfo.StepSize, autoMode);
-
-                if (exposureTrackBar.Value != value)
-                    exposureTrackBar.Value = value;
-
-                if (exposureCheckBox.Checked != autoMode)
-                    exposureCheckBox.Checked = autoMode;
-
-                exposureTrackBar.Enabled = !autoMode;
+                // if control is enabled
+                if (((Control)sender).Enabled)
+                    // update webcam exposure value
+                    _camera.CameraControl.Exposure = new DirectShowCameraControlPropertyValue(e.Value, e.IsAuto);
             }
             catch (DirectShowCameraException ex)
             {
@@ -400,24 +221,16 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Sets the focus value.
+        /// Handles the PropertyChanged event of FocusDirectShowPropertyControl object.
         /// </summary>
-        private void SetFocusValue(int value, bool autoMode)
+        private void focusDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
-            if (!_isInitialized)
-                return;
-
             try
             {
-                _camera.CameraControl.Focus = new DirectShowCameraControlPropertyValue(value * _focusPropertyInfo.StepSize, autoMode);
-
-                if (focusTrackBar.Value != value)
-                    focusTrackBar.Value = value;
-
-                if (focusCheckBox.Checked != autoMode)
-                    focusCheckBox.Checked = autoMode;
-
-                focusTrackBar.Enabled = !autoMode;
+                // if control is enabled
+                if (((Control)sender).Enabled)
+                    // update webcam focus value
+                    _camera.CameraControl.Focus = new DirectShowCameraControlPropertyValue(e.Value, e.IsAuto);
             }
             catch (DirectShowCameraException ex)
             {
@@ -426,24 +239,16 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Sets the iris value.
+        /// Handles the PropertyChanged event of IrisDirectShowPropertyControl object.
         /// </summary>
-        private void SetIrisValue(int value, bool autoMode)
+        private void irisDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
-            if (!_isInitialized)
-                return;
-
             try
             {
-                _camera.CameraControl.Iris = new DirectShowCameraControlPropertyValue(value * _irisPropertyInfo.StepSize, autoMode);
-
-                if (irisTrackBar.Value != value)
-                    irisTrackBar.Value = value;
-
-                if (irisCheckBox.Checked != autoMode)
-                    irisCheckBox.Checked = autoMode;
-
-                irisTrackBar.Enabled = !autoMode;
+                // if control is enabled
+                if (((Control)sender).Enabled)
+                    // update webcam iris value
+                    _camera.CameraControl.Iris = new DirectShowCameraControlPropertyValue(e.Value, e.IsAuto);
             }
             catch (DirectShowCameraException ex)
             {
@@ -452,24 +257,16 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Sets the pan value.
+        /// Handles the PropertyChanged event of PanDirectShowPropertyControl object.
         /// </summary>
-        private void SetPanValue(int value, bool autoMode)
+        private void panDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
-            if (!_isInitialized)
-                return;
-
             try
             {
-                _camera.CameraControl.Pan = new DirectShowCameraControlPropertyValue(value * _panPropertyInfo.StepSize, autoMode);
-
-                if (panTrackBar.Value != value)
-                    panTrackBar.Value = value;
-
-                if (panCheckBox.Checked != autoMode)
-                    panCheckBox.Checked = autoMode;
-
-                panTrackBar.Enabled = !autoMode;
+                // if control is enabled
+                if (((Control)sender).Enabled)
+                    // update webcam pan value
+                    _camera.CameraControl.Pan = new DirectShowCameraControlPropertyValue(e.Value, e.IsAuto);
             }
             catch (DirectShowCameraException ex)
             {
@@ -478,24 +275,16 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Sets the roll value.
+        /// Handles the PropertyChanged event of RollDirectShowPropertyControl object.
         /// </summary>
-        private void SetRollValue(int value, bool autoMode)
+        private void rollDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
-            if (!_isInitialized)
-                return;
-
             try
             {
-                _camera.CameraControl.Roll = new DirectShowCameraControlPropertyValue(value * _rollPropertyInfo.StepSize, autoMode);
-
-                if (rollTrackBar.Value != value)
-                    rollTrackBar.Value = value;
-
-                if (rollCheckBox.Checked != autoMode)
-                    rollCheckBox.Checked = autoMode;
-
-                rollTrackBar.Enabled = !autoMode;
+                // if control is enabled
+                if (((Control)sender).Enabled)
+                    // update webcam roll value
+                    _camera.CameraControl.Roll = new DirectShowCameraControlPropertyValue(e.Value, e.IsAuto);
             }
             catch (DirectShowCameraException ex)
             {
@@ -504,24 +293,16 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Sets the tilt value.
+        /// Handles the PropertyChanged event of TiltDirectShowPropertyControl object.
         /// </summary>
-        private void SetTiltValue(int value, bool autoMode)
+        private void tiltDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
-            if (!_isInitialized)
-                return;
-
             try
             {
-                _camera.CameraControl.Tilt = new DirectShowCameraControlPropertyValue(value * _tiltPropertyInfo.StepSize, autoMode);
-
-                if (tiltTrackBar.Value != value)
-                    tiltTrackBar.Value = value;
-
-                if (tiltCheckBox.Checked != autoMode)
-                    tiltCheckBox.Checked = autoMode;
-
-                tiltTrackBar.Enabled = !autoMode;
+                // if control is enabled
+                if (((Control)sender).Enabled)
+                    // update webcam tilt value
+                    _camera.CameraControl.Tilt = new DirectShowCameraControlPropertyValue(e.Value, e.IsAuto);
             }
             catch (DirectShowCameraException ex)
             {
@@ -530,24 +311,16 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Sets the zoom value.
+        /// Handles the PropertyChanged event of ZoomDirectShowPropertyControl object.
         /// </summary>
-        private void SetZoomValue(int value, bool autoMode)
+        private void zoomDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
-            if (!_isInitialized)
-                return;
-
             try
             {
-                _camera.CameraControl.Zoom = new DirectShowCameraControlPropertyValue(value * _zoomPropertyInfo.StepSize, autoMode);
-
-                if (zoomTrackBar.Value != value)
-                    zoomTrackBar.Value = value;
-
-                if (zoomCheckBox.Checked != autoMode)
-                    zoomCheckBox.Checked = autoMode;
-
-                zoomTrackBar.Enabled = !autoMode;
+                // if control is enabled
+                if (((Control)sender).Enabled)
+                    // update webcam zoom value
+                    _camera.CameraControl.Zoom = new DirectShowCameraControlPropertyValue(e.Value, e.IsAuto);
             }
             catch (DirectShowCameraException ex)
             {
@@ -556,6 +329,41 @@ namespace DemosCommonCode.Imaging
         }
 
         #endregion
+
+
+        /// <summary>
+        /// Initializes the specified <see cref="DirectShowPropertyControl"/>.
+        /// </summary>
+        /// <param name="propertyControl">The property control.</param>
+        /// <param name="currentValue">The current property value.</param>
+        /// <param name="supportedValueDelegate">A delegate that allows to get camera supported values.</param>
+        private void InitializePropertyControl(
+            DirectShowPropertyControl propertyControl,
+            DirectShowCameraControlPropertyValue currentValue,
+            GetSupportedValuesDelegate supportedValueDelegate)
+        {
+            int defaultValue, minValue, maxValue, stepSize;
+            // get supported values
+            supportedValueDelegate(out minValue, out maxValue, out stepSize, out defaultValue);
+
+            // initialize control
+            propertyControl.Initialize(currentValue.Value, currentValue.Auto, defaultValue, minValue, maxValue, stepSize);
+        }
+
+        #endregion
+
+
+
+        #region Delegates
+
+        /// <summary>
+        /// A delegate that allows to get camera supported values.
+        /// </summary>
+        /// <param name="minValue">The minimum value.</param>
+        /// <param name="maxValue">The maximum value.</param>
+        /// <param name="stepSize">The step size.</param>
+        /// <param name="defaultValue">The default value.</param>
+        delegate void GetSupportedValuesDelegate(out int minValue, out int maxValue, out int stepSize, out int defaultValue);
 
         #endregion
 

@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+
 using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.ImageProcessing.Color;
@@ -10,26 +11,56 @@ using Vintasoft.Imaging.UI;
 namespace ImagingDemo
 {
     /// <summary>
-    /// A form that allows to specify parameters for color blend command.
+    /// A form that allows to view and edit settings of the ColorBlendCommand.
     /// </summary>
     public partial class ColorBlendForm : Form
     {
 
         #region Fields
 
-        // color components
-        int _r, _g, _b, _a;
+        /// <summary>
+        /// Red channel component.
+        /// </summary>
+        int _r;
 
+        /// <summary>
+        /// Green channel component.
+        /// </summary>
+        int _g;
+
+        /// <summary>
+        /// Blue channel component.
+        /// </summary>
+        int _b;
+
+        /// <summary>
+        /// Alpha channel component.
+        /// </summary>
+        int _a;
+
+        /// <summary>
+        /// Preview manager for image processing.
+        /// </summary>
         ImageProcessingPreviewManager _imageProcessingPreviewInViewer;
 
+        /// <summary>
+        /// A value indicating whether the color blending functionality must be disabled.
+        /// </summary>
         bool _disableBlending = true;
 
         #endregion
 
 
 
-        #region Constructor
+        #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdaptiveBinarizeForm"/> class.
+        /// </summary>
+        /// <param name="viewer">The image viewer for image preview.</param>
+        /// <param name="rect">Selection rectangle.</param>
+        /// <param name="blendColor">Blend color.</param>
+        /// <param name="blendMode">Blending mode.</param>
         public ColorBlendForm(ImageViewer viewer, Rectangle rect, Color blendColor, BlendingMode blendMode)
         {
             InitializeComponent();
@@ -63,6 +94,9 @@ namespace ImagingDemo
         #region Properties
 
         Color _blendColor;
+        /// <summary>
+        /// Gets the blend color.
+        /// </summary>
         public Color BlendColor
         {
             get
@@ -72,6 +106,9 @@ namespace ImagingDemo
         }
 
         BlendingMode _blendMode;
+        /// <summary>
+        /// Gets the blending mode.
+        /// </summary>
         public BlendingMode BlendMode
         {
             get
@@ -86,6 +123,12 @@ namespace ImagingDemo
 
         #region Methods
 
+        #region PUBLIC
+
+        /// <summary>
+        /// Shows this dialog.
+        /// </summary>
+        /// <returns><b>True</b> if the color blending confirmed, otherwise - <b>false</b>.</returns>
         public bool ShowProcessingDialog()
         {
             try
@@ -104,7 +147,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Blend the thumbnail.
+        /// Blends an image.
         /// </summary>
         public void Blend()
         {
@@ -115,6 +158,16 @@ namespace ImagingDemo
             _imageProcessingPreviewInViewer.SetCommand(command);
         }
 
+        #endregion
+
+
+        #region PRIVATE
+
+        #region UI
+
+        /// <summary>
+        /// Handles the ValueChanged event of Channel object.
+        /// </summary>
         private void channel_ValueChanged(object sender, EventArgs e)
         {
             if (_disableBlending)
@@ -123,6 +176,37 @@ namespace ImagingDemo
             Blend();
         }
 
+        /// <summary>
+        /// Handles the Click event of OkButton object.
+        /// </summary>
+        private void okButton_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.OK;
+        }
+
+        /// <summary>
+        /// Handles the Click event of CancelButton object.
+        /// </summary>
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            DialogResult = DialogResult.Cancel;
+        }
+
+        /// <summary>
+        /// Handles the SelectedValueChanged event of ComboBoxBlendMode object.
+        /// </summary>
+        private void comboBoxBlendMode_SelectedValueChanged(object sender, EventArgs e)
+        {
+            _blendMode = (BlendingMode)blendModeComboBox.SelectedItem;
+            Blend();
+        }
+
+        #endregion
+
+
+        /// <summary>
+        /// Updates the channels component values.
+        /// </summary>
         private void SetColor()
         {
             if (lockRgbCheckBox.Checked)
@@ -179,8 +263,9 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Blend two color with alpha component.
+        /// Blends two colors with alpha component.
         /// </summary>
+        /// <returns>Result color.</returns>
         private Color BlendColors(Color sourceColor, Color blendColor)
         {
             int alpha = blendColor.A;
@@ -190,21 +275,7 @@ namespace ImagingDemo
                 (sourceColor.B * (255 - alpha)) / 255 + (blendColor.B * alpha) / 255);
         }
 
-        private void btOk_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.OK;
-        }
-
-        private void btCancel_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-        }
-
-        private void comboBoxBlendMode_SelectedValueChanged(object sender, EventArgs e)
-        {
-            _blendMode = (BlendingMode)blendModeComboBox.SelectedItem;
-            Blend();
-        }
+        #endregion
 
         #endregion
 

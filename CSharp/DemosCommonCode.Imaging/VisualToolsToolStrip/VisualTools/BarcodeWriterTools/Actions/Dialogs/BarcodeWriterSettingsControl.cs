@@ -37,7 +37,7 @@ namespace DemosCommonCode.Barcode
         #region Constructor
 
         public BarcodeWriterSettingsControl()
-        {
+        {             
             InitializeComponent();
 
 #if !REMOVE_BARCODE_SDK
@@ -144,6 +144,7 @@ namespace DemosCommonCode.Barcode
             // 2D
             twoDimensionalBarcodeComboBox.Items.Add(BarcodeType.Aztec);
             twoDimensionalBarcodeComboBox.Items.Add(BarcodeType.DataMatrix);
+            twoDimensionalBarcodeComboBox.Items.Add(BarcodeType.DotCode);
             twoDimensionalBarcodeComboBox.Items.Add(BarcodeType.PDF417);
             twoDimensionalBarcodeComboBox.Items.Add(BarcodeType.MicroPDF417);
             twoDimensionalBarcodeComboBox.Items.Add(BarcodeType.HanXinCode);
@@ -152,6 +153,7 @@ namespace DemosCommonCode.Barcode
             twoDimensionalBarcodeComboBox.Items.Add(BarcodeType.MaxiCode);
             twoDimensionalBarcodeComboBox.Items.Add(BarcodeSymbologySubsets.GS1Aztec);
             twoDimensionalBarcodeComboBox.Items.Add(BarcodeSymbologySubsets.GS1DataMatrix);
+            twoDimensionalBarcodeComboBox.Items.Add(BarcodeSymbologySubsets.GS1DotCode);
             twoDimensionalBarcodeComboBox.Items.Add(BarcodeSymbologySubsets.GS1QR);
             twoDimensionalBarcodeComboBox.Items.Add(BarcodeSymbologySubsets.MailmarkCmdmType7);
             twoDimensionalBarcodeComboBox.Items.Add(BarcodeSymbologySubsets.MailmarkCmdmType9);
@@ -295,7 +297,7 @@ namespace DemosCommonCode.Barcode
             }
         }
 
-        WriterSettings _barcodeWriterSettings = null;
+        WriterSettings _barcodeWriterSettings = new WriterSettings();
         /// <summary>
         /// Gest or sets a writer settings.
         /// </summary>
@@ -369,6 +371,10 @@ namespace DemosCommonCode.Barcode
                     hanXinCodeEncodingModeComboBox.SelectedItem = value.HanXinCodeEncodingMode;
                     hanXinCodeSymbolVersionComboBox.SelectedItem = value.HanXinCodeSymbol;
                     hanXinCodeECCLevelComboBox.SelectedItem = value.HanXinCodeErrorCorrectionLevel;
+                    dotCodeRectangularModulesCheckBox.Checked = value.DotCodeRectangularModules;
+                    dotCodeWidthNumericUpDown.Value = value.DotCodeMatrixWidth;
+                    dotCodeHeightNumericUpDown.Value = value.DotCodeMatrixHeight;
+                    dotCodeAspectRatioNumericUpDown.Value = (int)Math.Round(10 * value.DotCodeMatrixWidthHeightRatio);
                 }
                 else
                 {
@@ -418,6 +424,7 @@ namespace DemosCommonCode.Barcode
                 barcodeWidthPanel.Visible = value;
                 linearBarcodeHeight.Visible = value;
                 linearBarcodeHeightLabel.Visible = value;
+                label43.Visible = value;
             }
         }
 
@@ -455,6 +462,9 @@ namespace DemosCommonCode.Barcode
 
         #region Common
 
+        /// <summary>
+        /// Handles the Click event of SelectForegroundColorLabel object.
+        /// </summary>
         private void selectForegroundColorLabel_Click(object sender, EventArgs e)
         {
             colorDialog1.Color = foregroundColorPanel.BackColor;
@@ -468,6 +478,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the Click event of SelectBackgroundColorButton object.
+        /// </summary>
         private void selectBackgroundColorButton_Click(object sender, EventArgs e)
         {
             colorDialog1.Color = backgroundColorPanel.BackColor;
@@ -481,6 +494,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of PixelFormatComboBox object.
+        /// </summary>
         private void pixelFormatComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -488,6 +504,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of MinWidthNumericUpDown object.
+        /// </summary>
         private void minWidthNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -496,6 +515,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of PaddingNumericUpDown object.
+        /// </summary>
         private void paddingNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -503,6 +525,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of WidthAdjustNumericUpDown object.
+        /// </summary>
         private void widthAdjustNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -510,6 +535,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the TextChanged event of BarcodeValueTextBox object.
+        /// </summary>
         private void barcodeValueTextBox_TextChanged(object sender, EventArgs e)
         {
             EncodeValue();
@@ -571,6 +599,9 @@ namespace DemosCommonCode.Barcode
         }
 
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of LinearBarcodeTypeComboBox object.
+        /// </summary>
         private void linearBarcodeTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -690,7 +721,7 @@ namespace DemosCommonCode.Barcode
             }
             else
             {
-                switch (SelectedBarcodeSubset.BaseType)
+                switch (SelectedBarcodeSubset.BarcodeType)
                 {
 
                     case BarcodeType.MSI:
@@ -724,6 +755,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of LinearBarcodeHeight object.
+        /// </summary>
         private void linearBarcodeHeight_ValueChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -731,6 +765,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the CheckedChanged event of ValueAutoLetterSpacingCheckBox object.
+        /// </summary>
         private void valueAutoLetterSpacingCheckBox_CheckedChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -738,6 +775,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the CheckedChanged event of ValueVisibleCheckBox object.
+        /// </summary>
         private void valueVisibleCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             bool enabled = valueVisibleCheckBox.Checked;
@@ -753,6 +793,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of ValueGapNumericUpDown object.
+        /// </summary>
         private void valueGapNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -760,6 +803,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of FontSelector object.
+        /// </summary>
         private void fontSelector_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -770,6 +816,9 @@ namespace DemosCommonCode.Barcode
         }
 
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of BarcodeGroupsTabPages object.
+        /// </summary>
         private void barcodeGroupsTabPages_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -798,7 +847,7 @@ namespace DemosCommonCode.Barcode
                     BarcodeSymbologySubset barcodeSubset = twoDimensionalBarcodeComboBox.SelectedItem as BarcodeSymbologySubset;
                     BarcodeType baseBarcodeType;
                     if (barcodeSubset != null)
-                        baseBarcodeType = barcodeSubset.BaseType;
+                        baseBarcodeType = barcodeSubset.BarcodeType;
                     else
                         baseBarcodeType = (BarcodeType)twoDimensionalBarcodeComboBox.SelectedItem;
 
@@ -841,6 +890,10 @@ namespace DemosCommonCode.Barcode
                     {
                         BarcodeWriterSettings.Barcode = BarcodeType.HanXinCode;
                     }
+                    else if (baseBarcodeType == BarcodeType.DotCode)
+                    {
+                        BarcodeWriterSettings.Barcode = BarcodeType.DotCode;
+                    }
 
                     valueVisibleCheckBox.Checked = BarcodeWriterSettings.Value2DVisible;
                 }
@@ -873,6 +926,7 @@ namespace DemosCommonCode.Barcode
                     case BarcodeType.PDF417Compact:
                     case BarcodeType.MicroPDF417:
                     case BarcodeType.HanXinCode:
+                    case BarcodeType.DotCode:
                         canEncodeECI = true;
                         break;
                 }
@@ -889,6 +943,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the Click event of WriterGS1ValueButton object.
+        /// </summary>
         private void writerGS1ValueButton_Click(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -932,11 +989,17 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of EncodingInfoComboBox object.
+        /// </summary>
         private void encodingInfoComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             EncodeValue();
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of BarsRatioNumericUpDown object.
+        /// </summary>
         private void barsRatioNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -944,6 +1007,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the CheckedChanged event of EncodingInfoCheckBox object.
+        /// </summary>
         private void encodingInfoCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             encodingInfoComboBox.Enabled = encodingInfoCheckBox.Checked;
@@ -954,6 +1020,9 @@ namespace DemosCommonCode.Barcode
 
         #region Common
 
+        /// <summary>
+        /// Handles the CheckedChanged event of UseOptionalCheckSum object.
+        /// </summary>
         private void useOptionalCheckSum_CheckedChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -961,6 +1030,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of TwoDimensionalBarcodeComboBox object.
+        /// </summary>
         private void twoDimensionalBarcodeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -972,12 +1044,13 @@ namespace DemosCommonCode.Barcode
             dataMatrixSettingsPanel.Visible = false;
             maxiCodeSettingsPanel.Visible = false;
             hanXinCodeSettingsPanel.Visible = false;
+            dotCodeSettingsPanel.Visible = false;
 
 
             BarcodeSymbologySubset barcodeSubset = twoDimensionalBarcodeComboBox.SelectedItem as BarcodeSymbologySubset;
             BarcodeType baseBarcodeType;
             if (barcodeSubset != null)
-                baseBarcodeType = barcodeSubset.BaseType;
+                baseBarcodeType = barcodeSubset.BarcodeType;
             else
                 baseBarcodeType = (BarcodeType)twoDimensionalBarcodeComboBox.SelectedItem;
 
@@ -1027,6 +1100,9 @@ namespace DemosCommonCode.Barcode
                     case BarcodeType.MaxiCode:
                         maxiCodeSettingsPanel.Visible = true;
                         break;
+                    case BarcodeType.DotCode:
+                        dotCodeSettingsPanel.Visible = true;
+                        break;
                 }
                 EncodeValue();
             }
@@ -1045,6 +1121,9 @@ namespace DemosCommonCode.Barcode
 
         #region MSI
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of MsiChecksumComboBox object.
+        /// </summary>
         private void msiChecksumComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1056,6 +1135,9 @@ namespace DemosCommonCode.Barcode
 
         #region Code128
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of Code128ModeComboBox object.
+        /// </summary>
         private void code128ModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1067,6 +1149,9 @@ namespace DemosCommonCode.Barcode
 
         #region Telepen
 
+        /// <summary>
+        /// Handles the CheckedChanged event of EnableTelepenNumericMode object.
+        /// </summary>
         private void enableTelepenNumericMode_CheckedChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1078,6 +1163,9 @@ namespace DemosCommonCode.Barcode
 
         #region RSS
 
+        /// <summary>
+        /// Handles the CheckedChanged event of RssLinkageFlag object.
+        /// </summary>
         private void rssLinkageFlag_CheckedChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1085,6 +1173,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the CheckedChanged event of Rss14StackedOmni object.
+        /// </summary>
         private void rss14StackedOmni_CheckedChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1092,6 +1183,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of RssExpandedStackedSegmentPerRow object.
+        /// </summary>
         private void rssExpandedStackedSegmentPerRow_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1104,6 +1198,9 @@ namespace DemosCommonCode.Barcode
 
         #region Postal
 
+        /// <summary>
+        /// Handles the ValueChanged event of PostalADMiltiplierNumericUpDown object.
+        /// </summary>
         private void postalADMiltiplierNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1111,6 +1208,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of AustralianPostCustomInfoComboBox object.
+        /// </summary>
         private void australianPostCustomInfoComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1122,6 +1222,9 @@ namespace DemosCommonCode.Barcode
 
         #region Aztec
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of AztecSymbolComboBox object.
+        /// </summary>
         private void aztecSymbolComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1139,6 +1242,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of AztecLayersCountComboBox object.
+        /// </summary>
         private void aztecLayersCountComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1156,6 +1262,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of AztecEncodingModeComboBox object.
+        /// </summary>
         private void aztecEncodingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1163,6 +1272,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of AztecErrorCorrectionNumericUpDown object.
+        /// </summary>
         private void aztecErrorCorrectionNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1174,6 +1286,9 @@ namespace DemosCommonCode.Barcode
 
         #region DataMatrix
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of DatamatrixEncodingModeComboBox object.
+        /// </summary>
         private void datamatrixEncodingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1181,6 +1296,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of DatamatrixSymbolSizeComboBox object.
+        /// </summary>
         private void datamatrixSymbolSizeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1189,14 +1307,15 @@ namespace DemosCommonCode.Barcode
             DataMatrixSymbolType oldValue = BarcodeWriterSettings.DataMatrixSymbol;
             try
             {
-                BarcodeWriterSettings.DataMatrixSymbol = (DataMatrixSymbolType)datamatrixSymbolSizeComboBox.SelectedItem;
+                if (datamatrixSymbolSizeComboBox.SelectedItem != null)
+                    BarcodeWriterSettings.DataMatrixSymbol = (DataMatrixSymbolType)datamatrixSymbolSizeComboBox.SelectedItem;
             }
             catch (WriterSettingsException exc)
             {
                 OnWriterException(exc);
                 BarcodeWriterSettings.DataMatrixSymbol = oldValue;
                 datamatrixSymbolSizeComboBox.SelectedItem = oldValue;
-            } 
+            }
 #endif
         }
 
@@ -1204,6 +1323,9 @@ namespace DemosCommonCode.Barcode
 
         #region QR
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of QrEncodingModeComboBox object.
+        /// </summary>
         private void qrEncodingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1230,6 +1352,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of QrSymbolSizeComboBox object.
+        /// </summary>
         private void qrSymbolSizeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1237,6 +1362,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of QrECCLevelComboBox object.
+        /// </summary>
         private void qrECCLevelComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1248,6 +1376,9 @@ namespace DemosCommonCode.Barcode
 
         #region MicroQR
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of MicroQrEncodingModeComboBox object.
+        /// </summary>
         private void microQrEncodingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1255,6 +1386,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of MicroQrSymbolSizeComboBox object.
+        /// </summary>
         private void microQrSymbolSizeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1272,6 +1406,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of MicroQrECCLevelComboBox object.
+        /// </summary>
         private void microQrECCLevelComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1283,6 +1420,9 @@ namespace DemosCommonCode.Barcode
 
         #region MaxiCode
 
+        /// <summary>
+        /// Handles the ValueChanged event of MaxiCodeResolutonNumericUpDown object.
+        /// </summary>
         private void maxiCodeResolutonNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1290,6 +1430,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of MaxiCodeEncodingModeComboBox object.
+        /// </summary>
         private void maxiCodeEncodingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1311,6 +1454,9 @@ namespace DemosCommonCode.Barcode
 
         #region PDF417
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of Pdf417EncodingModeComboBox object.
+        /// </summary>
         private void pdf417EncodingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1318,6 +1464,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of Pdf417ErrorCorrectionComboBox object.
+        /// </summary>
         private void pdf417ErrorCorrectionComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1325,6 +1474,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of Pdf417RowsNumericUpDown object.
+        /// </summary>
         private void pdf417RowsNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1332,6 +1484,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of Pdf417ColsNumericUpDown object.
+        /// </summary>
         private void pdf417ColsNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1349,6 +1504,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of Pdf417RowHeightNumericUpDown object.
+        /// </summary>
         private void pdf417RowHeightNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1356,6 +1514,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the CheckedChanged event of Pdf417CompactCheckBox object.
+        /// </summary>
         private void pdf417CompactCheckBox_CheckedChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1370,6 +1531,9 @@ namespace DemosCommonCode.Barcode
 
         #region Micro PDF417
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of MicroPDF417EncodingModeComboBox object.
+        /// </summary>
         private void microPDF417EncodingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1377,6 +1541,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of MicropDF417SymbolSizeComboBox object.
+        /// </summary>
         private void micropDF417SymbolSizeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1384,6 +1551,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of MicroPDF417ColumnsNumericUpDown object.
+        /// </summary>
         private void microPDF417ColumnsNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1391,6 +1561,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of MicroPED417RowHeightNumericUpDown object.
+        /// </summary>
         private void microPED417RowHeightNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1402,6 +1575,9 @@ namespace DemosCommonCode.Barcode
 
         #region Code 16K
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of Code16KEncodingModeComboBox object.
+        /// </summary>
         private void code16KEncodingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1409,6 +1585,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of Code16KRowsComboBox object.
+        /// </summary>
         private void code16KRowsComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1421,6 +1600,9 @@ namespace DemosCommonCode.Barcode
 
         #region Han Xin Code
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of HanXinCodeEncodingModeComboBox object.
+        /// </summary>
         private void hanXinCodeEncodingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1447,6 +1629,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of HanXinCodeSymbolVersionComboBox object.
+        /// </summary>
         private void hanXinCodeSymbolVersionComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1454,6 +1639,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of HanXinCodeECCLevelComboBox object.
+        /// </summary>
         private void hanXinCodeECCLevelComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -1463,6 +1651,68 @@ namespace DemosCommonCode.Barcode
 
         #endregion
 
+        #region DotCode
+
+        /// <summary>
+        /// Handles the CheckedChanged event of DotCodeRectangularModulesCheckBox object.
+        /// </summary>
+        private void dotCodeRectangularModulesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+#if !REMOVE_BARCODE_SDK
+            if (BarcodeWriterSettings == null)
+                return;
+
+            BarcodeWriterSettings.DotCodeRectangularModules = dotCodeRectangularModulesCheckBox.Checked;
+#endif
+        }
+
+        /// <summary>
+        /// Handles the ValueChanged event of DotCodeAspectRatioNumericUpDown object.
+        /// </summary>
+        private void dotCodeAspectRatioNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+#if !REMOVE_BARCODE_SDK
+            SetDotCodeAspectRatio();
+#endif
+        }
+
+        private void SetDotCodeAspectRatio()
+        {
+#if !REMOVE_BARCODE_SDK
+            if (BarcodeWriterSettings == null)
+                return;
+
+            BarcodeWriterSettings.DotCodeMatrixWidthHeightRatio = (int)dotCodeAspectRatioNumericUpDown.Value / 10.0;
+#endif
+        }
+
+        /// <summary>
+        /// Handles the ValueChanged event of DotCodeWidthNumericUpDown object.
+        /// </summary>
+        private void dotCodeWidthNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+#if !REMOVE_BARCODE_SDK
+            if (BarcodeWriterSettings == null)
+                return;
+
+            BarcodeWriterSettings.DotCodeMatrixWidth = (int)dotCodeWidthNumericUpDown.Value;
+#endif
+        }
+
+        /// <summary>
+        /// Handles the ValueChanged event of DotCodeHeightNumericUpDown object.
+        /// </summary>
+        private void dotCodeHeightNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+#if !REMOVE_BARCODE_SDK
+            if (BarcodeWriterSettings == null)
+                return;
+
+            BarcodeWriterSettings.DotCodeMatrixHeight = (int)dotCodeHeightNumericUpDown.Value;
+#endif
+        }
+
+        #endregion
 
         #endregion
 

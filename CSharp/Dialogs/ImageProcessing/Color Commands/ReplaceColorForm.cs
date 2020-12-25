@@ -1,9 +1,7 @@
-using System;
-using System.Windows.Forms;
-using System.ComponentModel;
+﻿using System;
 using System.Drawing;
+using System.Windows.Forms;
 
-using Vintasoft.Imaging;
 using Vintasoft.Imaging.ColorManagement;
 using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.ImageProcessing.Color;
@@ -12,7 +10,7 @@ using Vintasoft.Imaging.UI;
 namespace ImagingDemo
 {
     /// <summary>
-    /// A form that allows to specify parameters for replace color command.
+    /// A form that allows to view and edit settings of the ReplaceColorCommand.
     /// </summary>
     public partial class ReplaceColorForm : ParamsConfigForm
     {
@@ -30,6 +28,7 @@ namespace ImagingDemo
         /// <summary>
         /// Initializes a new instance of the <see cref="ReplaceColorForm"/> class.
         /// </summary>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public ReplaceColorForm(ImageViewer viewer)
             : base(viewer)
         {
@@ -48,10 +47,12 @@ namespace ImagingDemo
 
         #region Methods
 
+        #region PUBLIC
+
         /// <summary>
-        /// Gets the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override ProcessingCommandBase GetProcessingCommand()
         {
             string colorSpaceTypeString = (string)colorSpaceComboBox.SelectedItem;
@@ -61,7 +62,7 @@ namespace ImagingDemo
                 colorSpaceType = ColorSpaceType.sRGB;
             else
                 colorSpaceType = ColorSpaceType.CIELab;
-                        
+
             return new ReplaceColorCommand(
                 oldColorPanelControl.Color,
                 newColorPanelControl.Color,
@@ -69,21 +70,40 @@ namespace ImagingDemo
                 colorSpaceType);
         }
 
+        #endregion
+
+
+        #region PRIVATE
+
+        #region UI
+
+        /// <summary>
+        /// Handles the ColorChanged event of ColorPanelControl object.
+        /// </summary>
         private void ColorPanelControl_ColorChanged(object sender, EventArgs e)
         {
             ExecuteProcessing();
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of ColorToleranceNumericUpDown object.
+        /// </summary>
         private void colorToleranceNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
             ExecuteProcessing();
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of ColorSpaceComboBox object.
+        /// </summary>
         private void colorSpaceComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             ExecuteProcessing();
         }
 
+        /// <summary>
+        /// Handles the CheckedChanged event of PreviewCheckBox object.
+        /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             IsPreviewEnabled = previewCheckBox.Checked;
@@ -93,10 +113,17 @@ namespace ImagingDemo
                 previewCheckBox.ForeColor = Color.Green;
         }
 
+        /// <summary>
+        /// Handles the Click event of ButtonOk object.
+        /// </summary>
         private void buttonOk_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
         }
+
+        #endregion
+
+        #endregion
 
         #endregion
 

@@ -1,6 +1,7 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
+
 using Vintasoft.Imaging.UI;
 
 namespace DemosCommonCode.Imaging
@@ -13,14 +14,20 @@ namespace DemosCommonCode.Imaging
 
         #region Fields
 
-        bool _showingColor = false;
+        /// <summary>
+        /// A value indicating whether the selected color is updating.
+        /// </summary>
+        bool _isUpdatingSelectedColor = false;
 
         #endregion
 
 
 
-        #region Constructor
+        #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PaletteForm"/> class.
+        /// </summary>
         public PaletteForm()
         {
             InitializeComponent();
@@ -66,9 +73,51 @@ namespace DemosCommonCode.Imaging
 
         #region Methods
 
+        #region UI
+
+        /// <summary>
+        /// Handles the SelectedColorChanged event of PaletteViewer object.
+        /// </summary>
+        private void PaletteViewer_SelectedColorChanged(object sender, EventArgs e)
+        {
+            // update selected color
+            UpdateSelectedColor();
+        }
+
+        /// <summary>
+        /// Handles the Click event of InvertButton object.
+        /// </summary>
+        private void invertButton_Click(object sender, EventArgs e)
+        {
+            // invert the current palette
+            PaletteViewer.Palette.Invert();
+            // update selected color
+            UpdateSelectedColor();
+        }
+
+        /// <summary>
+        /// Handles the Click event of ToGrayButton object.
+        /// </summary>
+        private void toGrayButton_Click(object sender, EventArgs e)
+        {
+            // convert the current palette to gray palette
+            PaletteViewer.Palette.ConvertToGrayColors();
+            // update selected color
+            UpdateSelectedColor();
+        }
+
+        #endregion
+
+
+        /// <summary>
+        /// Raises the <see cref="E:System.Windows.Forms.Form.Shown" /> event.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected override void OnShown(EventArgs e)
         {
             base.OnShown(e);
+
+            // if palette can not be changed
             if (!PaletteViewer.CanChangePalette)
             {
                 toGrayButton.Visible = false;
@@ -80,27 +129,29 @@ namespace DemosCommonCode.Imaging
 
             }
             colorIndexNumericUpDown.Maximum = PaletteViewer.Palette.ColorCount - 1;
-            UpdateColor();
+            // update selected color
+            UpdateSelectedColor();
         }
 
-        private void PaletteViewer_SelectedColorChanged(object sender, EventArgs e)
-        {
-            UpdateColor();
-        }
-
-        private void UpdateColor()
+        /// <summary>
+        /// Updates the selected color.
+        /// </summary>
+        private void UpdateSelectedColor()
         {
             Color selectedColor = PaletteViewer.SelectedColor;
-            _showingColor = true;
+            _isUpdatingSelectedColor = true;
             alphaNumericUpDown.Value = selectedColor.A;
             redNumericUpDown.Value = selectedColor.R;
             greenNumericUpDown.Value = selectedColor.G;
             blueNumericUpDown.Value = selectedColor.B;
             colorIndexNumericUpDown.Value = PaletteViewer.SelectedColorIndex;
-            _showingColor = false;
+            _isUpdatingSelectedColor = false;
             UpdateTitle();
         }
 
+        /// <summary>
+        /// Updates the form title.
+        /// </summary>
         private void UpdateTitle()
         {
             Color selectedColor = PaletteViewer.SelectedColor;
@@ -111,47 +162,41 @@ namespace DemosCommonCode.Imaging
                 selectedColor.B);
         }
 
-        private void buttonOk_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.OK;
-        }
-
-        private void buttonCancel_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-        }
-
-        private void invertButton_Click(object sender, EventArgs e)
-        {
-            PaletteViewer.Palette.Invert();
-            UpdateColor();
-        }
-
-        private void toGrayButton_Click(object sender, EventArgs e)
-        {
-            PaletteViewer.Palette.ConvertToGrayColors();
-            UpdateColor();
-        }
-
+        /// <summary>
+        /// Changes the selected color value.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void colorNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            if (!_showingColor)
-            {
-                Color selectedColor = Color.FromArgb(
-                    (int)redNumericUpDown.Value,
-                    (int)greenNumericUpDown.Value,
-                    (int)blueNumericUpDown.Value);
-                selectedColor = Color.FromArgb((int)alphaNumericUpDown.Value, selectedColor);
-                PaletteViewer.SelectedColor = selectedColor;
-            }
+            // if selected color is updating
+            if (_isUpdatingSelectedColor)
+                return;
+
+            // create color
+            Color selectedColor = Color.FromArgb(
+                (int)redNumericUpDown.Value,
+                (int)greenNumericUpDown.Value,
+                (int)blueNumericUpDown.Value);
+            // create color with alpha channel
+            selectedColor = Color.FromArgb((int)alphaNumericUpDown.Value, selectedColor);
+
+            // update selected color
+            PaletteViewer.SelectedColor = selectedColor;
         }
 
+        /// <summary>
+        /// Changes the selected color.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void colorIndexNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            if (!_showingColor)
-            {
-                PaletteViewer.SelectedColorIndex = (byte)colorIndexNumericUpDown.Value;
-            }
+            if (_isUpdatingSelectedColor)
+                return;
+
+            // update selected color index
+            PaletteViewer.SelectedColorIndex = (byte)colorIndexNumericUpDown.Value;
         }
 
         #endregion

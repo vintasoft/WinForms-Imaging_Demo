@@ -314,8 +314,8 @@ namespace DemosCommonCode.Barcode
                     int height = Rectangle.Height - WriterSettings.Padding * WriterSettings.MinWidth * 2;
                     if (width <= 0 || height <= 0)
                     {
-                        BarcodeImage = null;
-                        return;
+                        width = Rectangle.Width;
+                        height = Rectangle.Height;
                     }
 
                     bool is2dBarcode =

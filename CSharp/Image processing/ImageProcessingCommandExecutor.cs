@@ -5,7 +5,6 @@ using System.Drawing.Drawing2D;
 using System.Threading;
 using System.Windows.Forms;
 
-using Vintasoft.Data;
 using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.ImageProcessing.Color;
@@ -23,6 +22,9 @@ using DemosCommonCode.Imaging.Codecs;
 
 namespace ImagingDemo
 {
+    /// <summary>
+    /// Controls the execution of image processing commands.
+    /// </summary>
     internal class ImageProcessingCommandExecutor
     {
 
@@ -36,7 +38,14 @@ namespace ImagingDemo
 
             #region Fields
 
+            /// <summary>
+            /// Image processing command to execute.
+            /// </summary>
             ProcessingCommandBase _command;
+
+            /// <summary>
+            /// Image to process.
+            /// </summary>
             VintasoftImage _image;
 
             #endregion
@@ -44,6 +53,11 @@ namespace ImagingDemo
 
             #region Constructor
 
+            /// <summary>
+            /// Initializes a new instance of the <see cref="ProcessingCommandTask"/> class.
+            /// </summary>
+            /// <param name="command">Image processing command to execute.</param>
+            /// <param name="image">Image to process.</param>
             public ProcessingCommandTask(ProcessingCommandBase command, VintasoftImage image)
             {
                 _command = command;
@@ -81,7 +95,7 @@ namespace ImagingDemo
             #region Events
 
             /// <summary>
-            /// Occurs if exception occurs during image processing.
+            /// Occurs when an exception occurs during image processing.
             /// </summary>
             public event EventHandler ImageProcessingExceptionOccurs;
 
@@ -109,6 +123,7 @@ namespace ImagingDemo
         /// Blending mode for ColorBlendCommand.
         /// </summary>
         BlendingMode _blendMode = BlendingMode.Multiply;
+
         /// <summary>
         /// Blending color for ColorBlendCommand.
         /// </summary>
@@ -118,6 +133,7 @@ namespace ImagingDemo
         /// Overlay image for OverlayCommand, OverlayWithBlendingCommand and OverlayMaskedCommand.
         /// </summary>
         VintasoftImage _overlayImage = null;
+
         /// <summary>
         /// Mask image for OverlayCommand, OverlayWithBlendingCommand and OverlayMaskedCommand.
         /// </summary>
@@ -139,12 +155,16 @@ namespace ImagingDemo
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ProcessingCommandTask"/> class.
+        /// </summary>
+        /// <param name="viewer">Image viewer that shows the image.</param>
         public ImageProcessingCommandExecutor(ImageViewer viewer)
         {
             _viewer = viewer;
 
             _openFileDialog = new OpenFileDialog();
-            CodecsFileFilters.SetFilters(_openFileDialog);
+            CodecsFileFilters.SetOpenFileDialogFilter(_openFileDialog);
         }
 
         #endregion
@@ -155,7 +175,7 @@ namespace ImagingDemo
 
         bool _isImageProcessingWorking = false;
         /// <summary>
-        /// Gets the value indicating whether the image is processing.
+        /// Gets a value indicating whether the image is processing.
         /// </summary>
         public bool IsImageProcessingWorking
         {
@@ -167,7 +187,7 @@ namespace ImagingDemo
 
         bool _executeMultithread = false;
         /// <summary>
-        /// Gets the value indicating whether the processing command must be
+        /// Gets a value indicating whether the processing command must be
         /// executed in multiple threads.
         /// </summary>
         public bool ExecuteMultithread
@@ -203,7 +223,7 @@ namespace ImagingDemo
 
         DateTime _processingCommandStartTime;
         /// <summary>
-        /// Gets the time when image processing is started.
+        /// Gets the time when the image processing is started.
         /// </summary>
         public DateTime ProcessingCommandStartTime
         {
@@ -237,7 +257,7 @@ namespace ImagingDemo
             get
             {
                 Rectangle selectionRect = Rectangle.Empty;
-                RectangularSelectionToolWithCopyPaste selection = _viewer.VisualTool as RectangularSelectionToolWithCopyPaste;
+                RectangularSelectionToolWithCopyPaste selection = CompositeVisualTool.FindVisualTool<RectangularSelectionToolWithCopyPaste>(_viewer.VisualTool);
                 if (selection != null)
                     selectionRect = selection.Rectangle;
                 return selectionRect;
@@ -255,6 +275,7 @@ namespace ImagingDemo
         /// <summary>
         /// Executes image processing command asynchronously.
         /// </summary>
+        /// <param name="command">Command to execute.</param>
         public void ExecuteProcessingCommand(ProcessingCommandBase command)
         {
             ExecuteProcessingCommand(command, true);
@@ -263,9 +284,14 @@ namespace ImagingDemo
         /// <summary>
         /// Executes image processing command synchronously or asynchronously.
         /// </summary>
+        /// <param name="command">Command to execute.</param>
+        /// <param name="async">A value indicating whether to execute command asynchronously.</param>
         public bool ExecuteProcessingCommand(ProcessingCommandBase command, bool async)
         {
-            if (_viewer.VisualTool is RectangularSelectionToolWithCopyPaste)
+            RectangularSelectionToolWithCopyPaste rectSelectionTool = CompositeVisualTool.FindVisualTool<RectangularSelectionToolWithCopyPaste>(_viewer.VisualTool);
+            CustomSelectionTool customSelectionTool = CompositeVisualTool.FindVisualTool<CustomSelectionTool>(_viewer.VisualTool);
+
+            if (rectSelectionTool != null)
             {
                 // set the region of interest
                 Rectangle selectionRectangle = ViewerSelectionRectangle;
@@ -284,13 +310,11 @@ namespace ImagingDemo
                         "Warning", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
-            else if (_viewer.VisualTool is CustomSelectionTool)
+            else if (customSelectionTool != null)
             {
-                // process custom selection
-                CustomSelectionTool selectionTool = (CustomSelectionTool)_viewer.VisualTool;
                 RectangleF selectionBBox = RectangleF.Empty;
-                if (selectionTool.Selection != null)
-                    selectionBBox = selectionTool.Selection.GetBoundingBox();
+                if (customSelectionTool.Selection != null)
+                    selectionBBox = customSelectionTool.Selection.GetBoundingBox();
                 if (selectionBBox.Width >= 1 && selectionBBox.Height >= 1)
                 {
                     if (command is ChangePixelFormatCommand ||
@@ -308,7 +332,7 @@ namespace ImagingDemo
                     }
                     else
                     {
-                        GraphicsPath path = selectionTool.Selection.GetAsGraphicsPath();
+                        GraphicsPath path = customSelectionTool.Selection.GetAsGraphicsPath();
                         RectangleF pathBounds = path.GetBounds();
                         if (pathBounds.Width > 0 && pathBounds.Height > 0)
                         {
@@ -317,7 +341,7 @@ namespace ImagingDemo
                                 // crop to custom selection
                                 command = GetCropToPathCommand(path, pathBounds, (CropCommand)command);
                                 // clear selection
-                                selectionTool.Selection = null;
+                                customSelectionTool.Selection = null;
                             }
                             else
                             {
@@ -976,8 +1000,12 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Create "Crop to custom selection" composite command. 
+        /// Returns "Crop to custom selection" composite command. 
         /// </summary>
+        /// <param name="path">Custom selection path.</param>
+        /// <param name="pathBounds">Selection path bounds.</param>
+        /// <param name="crop">Crop command.</param>
+        /// <returns>Crop command for custom selection.</returns>
         ProcessingCommandBase GetCropToPathCommand(
             GraphicsPath path,
             RectangleF pathBounds,
@@ -1003,6 +1031,8 @@ namespace ImagingDemo
         /// <summary>
         /// Returns a bounding rectangle of specified <see cref="RectangleF"/>.
         /// </summary>
+        /// <param name="rect">Rectangle of <see cref="RectangleF"/> type.</param>
+        /// <returns>Bounding rectangle of <see cref="Rectangle"> type.</returns>
         static Rectangle GetBoundingRect(RectangleF rect)
         {
             float dx = rect.X - (int)rect.X;
@@ -1010,41 +1040,44 @@ namespace ImagingDemo
             return new Rectangle((int)rect.X, (int)rect.Y, (int)(rect.Width + 1 + dx), (int)(rect.Height + 1 + dy));
         }
 
-
         /// <summary>
-        /// Handler of the ProcessingCommandTask.ImageProcessingException event.
+        /// Handler of the ProcessingCommandTask.ImageProcessingExceptionOccurs event.
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         void executor_ImageProcessingExceptionOccurs(object sender, EventArgs e)
         {
             _isImageProcessingWorking = false;
         }
 
-
         /// <summary>
-        /// Image processing is started.
+        /// Handler of the ProcessingCommandBase.Started event.
         /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ImageProcessingEventArgs"/> instance containing the event data.</param>
         void command_Started(object sender, ImageProcessingEventArgs e)
         {
             ProcessingCommandBase command = (ProcessingCommandBase)sender;
             command.Started -= new EventHandler<ImageProcessingEventArgs>(command_Started);
 
-            //
             OnImageProcessingCommandStarted((ProcessingCommandBase)sender, e);
         }
 
         /// <summary>
-        /// Image processing is in progress.
+        /// Handler of the ProcessingCommandBase.Progress event.
         /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ImageProcessingProgressEventArgs"/> instance containing the event data.</param>
         void command_Progress(object sender, ImageProcessingProgressEventArgs e)
         {
             OnImageProcessingCommandProgress((ProcessingCommandBase)sender, e);
         }
 
         /// <summary>
-        /// Image processing is finished.
+        /// Handler of the ProcessingCommandBase.Finished event.
         /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ImageProcessedEventArgs"/> instance containing the event data.</param>
         void command_Finished(object sender, ImageProcessedEventArgs e)
         {
             ProcessingCommandBase command = (ProcessingCommandBase)sender;
@@ -1053,7 +1086,6 @@ namespace ImagingDemo
             if (command is ParallelizingProcessingCommand)
                 command = ((ParallelizingProcessingCommand)command).ProcessingCommand;
 
-            //
             if (command is OverlayCommand ||
                 command is OverlayWithBlendingCommand ||
                 command is OverlayMaskedCommand)
@@ -1087,14 +1119,14 @@ namespace ImagingDemo
                 _imageProcessingUndoMonitor = null;
             }
 
-            //
             OnImageProcessingCommandFinished((ProcessingCommandBase)sender, e);
         }
-
 
         /// <summary>
         /// Raises the ImageProcessingCommandStarted event.
         /// </summary>
+        /// <param name="command">Executing command.</param>
+        /// <param name="e">The <see cref="ImageProcessingEventArgs"/> instance containing the event data.</param>
         void OnImageProcessingCommandStarted(ProcessingCommandBase command, ImageProcessingEventArgs e)
         {
             if (ImageProcessingCommandStarted != null)
@@ -1104,6 +1136,8 @@ namespace ImagingDemo
         /// <summary>
         /// Raises the ImageProcessingCommandProgress event.
         /// </summary>
+        /// <param name="command">Executing command.</param>
+        /// <param name="e">The <see cref="ImageProcessingProgressEventArgs"/> instance containing the event data.</param>
         void OnImageProcessingCommandProgress(ProcessingCommandBase command, ImageProcessingProgressEventArgs e)
         {
             if (ImageProcessingCommandProgress != null)
@@ -1113,6 +1147,8 @@ namespace ImagingDemo
         /// <summary>
         /// Raises the ImageProcessingCommandFinished event.
         /// </summary>
+        /// <param name="command">Executed command.</param>
+        /// <param name="e">The <see cref="ImageProcessedEventArgs"/> instance containing the event data.</param>
         void OnImageProcessingCommandFinished(ProcessingCommandBase command, ImageProcessedEventArgs e)
         {
             if (ImageProcessingCommandFinished != null)
@@ -1127,10 +1163,19 @@ namespace ImagingDemo
 
         #region Events
 
+        /// <summary>
+        /// Occurs when image processing command is started.
+        /// </summary>
         public event EventHandler<ImageProcessingEventArgs> ImageProcessingCommandStarted;
 
+        /// <summary>
+        /// Occurs when image processing command progress is changed.
+        /// </summary>
         public event EventHandler<ImageProcessingProgressEventArgs> ImageProcessingCommandProgress;
 
+        /// <summary>
+        /// Occurs when image processing command is finished.
+        /// </summary>
         public event EventHandler<ImageProcessedEventArgs> ImageProcessingCommandFinished;
 
         #endregion

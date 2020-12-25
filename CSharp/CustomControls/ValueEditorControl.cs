@@ -19,6 +19,7 @@ namespace DemosCommonCode.CustomControls
         public ValueEditorControl()
         {
             InitializeComponent();
+
             UpdateGroupBoxText();
         }
 
@@ -186,32 +187,43 @@ namespace DemosCommonCode.CustomControls
 
         #region Methods
 
+        #region UI
+
         /// <summary>
-        /// The track bar value is scrolled.
+        /// Handles the Scroll event of ValueTrackBar object.
         /// </summary>
         private void valueTrackBar_Scroll(object sender, EventArgs e)
         {
+            // calculate current value
             float value = MinValue + valueTrackBar.Value * Step;
+            // update current value
             valueNumericUpDown.Value = (decimal)Math.Min(value, MaxValue);
         }
 
         /// <summary>
-        /// The value in numericUpDown is changed. 
+        /// Handles the ValueChanged event of ValueNumericUpDown object.
         /// </summary>
         private void valueNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
+            // update current value
             Value = (float)valueNumericUpDown.Value;
+            // update track bar
             UpdateTrackBarParameters();
+            // raise value changed event
             OnValueChanged();
         }
 
         /// <summary>
-        /// "Reset" button is clicked.
+        /// Handles the Click event of ResetButton object.
         /// </summary>
         private void resetButton_Click(object sender, EventArgs e)
         {
+            // set default value
             valueNumericUpDown.Value = (decimal)_defaultValue;
         }
+
+        #endregion
+
 
         /// <summary>
         /// Raises the <see cref="ValueChanged"/> event.

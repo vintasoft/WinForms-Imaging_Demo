@@ -20,6 +20,9 @@ namespace ImagingDemo
         /// </summary>
         ImageProcessingPreviewManager _imageProcessingPreviewInViewer;
 
+        /// <summary>
+        /// A value indicating whether this dialog is currently displayed.
+        /// </summary>
         bool _isShown = false;
 
         #endregion
@@ -41,6 +44,7 @@ namespace ImagingDemo
         /// <summary>
         /// Initializes a new instance of the <see cref="ParamsConfigForm"/> class.
         /// </summary>
+        /// <param name="viewer">Image viewer to preview the processing result.</param>
         public ParamsConfigForm(ImageViewer viewer)
             : base()
         {
@@ -55,7 +59,7 @@ namespace ImagingDemo
 
         bool _isPreviewEnabled = true;
         /// <summary>
-        /// Gets or sets a value indicating whether the preview in ImageViewer is enabled.
+        /// Gets or sets a value indicating whether the preview in image viewer is enabled.
         /// </summary>
         [Browsable(false)]
         public virtual bool IsPreviewEnabled
@@ -126,6 +130,8 @@ namespace ImagingDemo
 
         #region Methods
 
+        #region PUBLIC
+
         /// <summary>
         /// Shows the processing dialog.
         /// </summary>
@@ -162,6 +168,20 @@ namespace ImagingDemo
         }
 
         /// <summary>
+        /// Returns the image processing command.
+        /// </summary>
+        /// <returns>The image processing command.</returns>
+        public virtual ProcessingCommandBase GetProcessingCommand()
+        {
+            return null;
+        }
+
+        #endregion
+
+
+        #region PROTECTED
+
+        /// <summary>
         /// Executes the processing command.
         /// </summary>
         protected virtual void ExecuteProcessing()
@@ -171,14 +191,7 @@ namespace ImagingDemo
                 _imageProcessingPreviewInViewer.SetCommand(command);
         }
 
-        /// <summary>
-        /// Returns the current image processing command.
-        /// </summary>
-        /// <returns>Current image processing command.</returns>
-        public virtual ProcessingCommandBase GetProcessingCommand()
-        {
-            return null;
-        }
+        #endregion
 
         #endregion
 

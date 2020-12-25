@@ -34,7 +34,7 @@ namespace ImagingDemo
             this.btCancel = new System.Windows.Forms.Button();
             this.nHorizontalResolution = new System.Windows.Forms.NumericUpDown();
             this.nVerticalResolution = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
+            this.interpolationLabel = new System.Windows.Forms.Label();
             this.interpolationModeComboBox = new System.Windows.Forms.ComboBox();
             ((System.ComponentModel.ISupportInitialize)(this.nHorizontalResolution)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nVerticalResolution)).BeginInit();
@@ -67,7 +67,7 @@ namespace ImagingDemo
             this.btOk.TabIndex = 4;
             this.btOk.Text = "OK";
             this.btOk.UseVisualStyleBackColor = true;
-            this.btOk.Click += new System.EventHandler(this.btOk_Click);
+            this.btOk.Click += new System.EventHandler(this.okButton_Click);
             // 
             // btCancel
             // 
@@ -79,7 +79,7 @@ namespace ImagingDemo
             this.btCancel.TabIndex = 5;
             this.btCancel.Text = "Cancel";
             this.btCancel.UseVisualStyleBackColor = true;
-            this.btCancel.Click += new System.EventHandler(this.btCancel_Click);
+            this.btCancel.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // nHorizontalResolution
             // 
@@ -125,14 +125,14 @@ namespace ImagingDemo
             0,
             0});
             // 
-            // label1
+            // interpolationLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(5, 78);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 13);
-            this.label1.TabIndex = 8;
-            this.label1.Text = "Interpolation";
+            this.interpolationLabel.AutoSize = true;
+            this.interpolationLabel.Location = new System.Drawing.Point(5, 78);
+            this.interpolationLabel.Name = "interpolationLabel";
+            this.interpolationLabel.Size = new System.Drawing.Size(65, 13);
+            this.interpolationLabel.TabIndex = 8;
+            this.interpolationLabel.Text = "Interpolation";
             // 
             // interpolationModeComboBox
             // 
@@ -150,7 +150,7 @@ namespace ImagingDemo
             this.CancelButton = this.btCancel;
             this.ClientSize = new System.Drawing.Size(243, 141);
             this.Controls.Add(this.interpolationModeComboBox);
-            this.Controls.Add(this.label1);
+            this.Controls.Add(this.interpolationLabel);
             this.Controls.Add(this.nVerticalResolution);
             this.Controls.Add(this.nHorizontalResolution);
             this.Controls.Add(this.btCancel);
@@ -160,6 +160,7 @@ namespace ImagingDemo
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "ResampleForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -179,7 +180,7 @@ namespace ImagingDemo
 		private System.Windows.Forms.Button btCancel;
 		private System.Windows.Forms.NumericUpDown nHorizontalResolution;
 		private System.Windows.Forms.NumericUpDown nVerticalResolution;
-        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Label interpolationLabel;
         private System.Windows.Forms.ComboBox interpolationModeComboBox;
 	}
 }

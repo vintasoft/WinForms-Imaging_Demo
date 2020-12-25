@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 
 using System.Drawing;
 using Vintasoft.Imaging.UI;
@@ -6,7 +6,7 @@ using Vintasoft.Imaging.UI;
 namespace ImagingDemo
 {
     /// <summary>
-    /// A form for image processing command with one parameter.
+    /// A form that allows to view and edit settings of image processing command with one parameter.
     /// </summary>
     public partial class OneParamConfigForm : ParamsConfigForm
     {
@@ -22,10 +22,10 @@ namespace ImagingDemo
 
 
 
-        #region Constructor
+        #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OneParamConfigDialog"/> class.
+        /// Initializes a new instance of the <see cref="OneParamConfigForm"/> class.
         /// </summary>
         public OneParamConfigForm()
             :base()
@@ -35,9 +35,9 @@ namespace ImagingDemo
 
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OneParamConfigDialog"/> class.
+        /// Initializes a new instance of the <see cref="OneParamConfigForm"/> class.
         /// </summary>
-        /// <param name="viewer">Image viewer.</param>
+        /// <param name="viewer">The image viewer for image preview.</param>
         /// <param name="dialogName">Dialog name.</param>
         /// <param name="parameter1">Image processing parameter.</param>
 		public OneParamConfigForm(ImageViewer viewer, string dialogName, ImageProcessingParameter parameter1)
@@ -63,7 +63,7 @@ namespace ImagingDemo
 		#region Properties
 
         /// <summary>
-        /// Gets or sets a flag that indicates when preview in ImageViewer is enabled.
+        /// Gets or sets a value indicating whether the preview in image viewer is enabled.
         /// </summary>
         public override bool IsPreviewEnabled
         {
@@ -82,7 +82,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Gets or sets a flag that indicates when preview in ImageViewer is possible.
+        /// Gets or sets a value indicating whether the preview in image viewer is possible.
         /// </summary>
         public bool CanPreview
         {
@@ -100,7 +100,7 @@ namespace ImagingDemo
 
 		private int _parameter1;
         /// <summary>
-        /// Value of the first parameter.
+        /// Gets the value of the first parameter.
         /// </summary>
 		public int Parameter1
 		{
@@ -108,13 +108,15 @@ namespace ImagingDemo
 			{
 				return _parameter1;
 			}
-		}         
+		}
 
-		#endregion
+        #endregion
 
 
 
         #region Methods
+
+        #region PROTECTED
 
         /// <summary>
         /// Execute processing command.
@@ -125,24 +127,31 @@ namespace ImagingDemo
             base.ExecuteProcessing();
         }
 
+        #endregion
+
+
+        #region PRIVATE
+
+        #region UI
+
         /// <summary>
-        /// "OK" button is clicked.
+        /// Handles the Click event of ButtonOk object.
         /// </summary>
         private void buttonOk_Click(object sender, EventArgs e)
-		{
-			DialogResult = System.Windows.Forms.DialogResult.OK;
-		}
+        {
+            DialogResult = System.Windows.Forms.DialogResult.OK;
+        }
 
-        /// <summary>
-        /// "Cancel" button is clicked.
-        /// </summary>
+/// <summary>
+/// Handles the Click event of ButtonCancel object.
+/// </summary>
 		private void buttonCancel_Click(object sender, EventArgs e)
-		{
-			DialogResult = System.Windows.Forms.DialogResult.Cancel;
-		}
+        {
+            DialogResult = System.Windows.Forms.DialogResult.Cancel;
+        }
 
         /// <summary>
-        /// Value in amount editor is changed.
+        /// Handles the ValueChanged event of ValueEditorControl object.
         /// </summary>
         private void valueEditorControl_ValueChanged(object sender, EventArgs e)
         {
@@ -150,7 +159,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Checked state in the preview check box is changed.
+        /// Handles the CheckedChanged event of PreviewCheckBox object.
         /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -161,6 +170,10 @@ namespace ImagingDemo
                 previewCheckBox.ForeColor = Color.Green;
         }
 
+        #endregion
+
+        #endregion
+        
         #endregion
 
     }

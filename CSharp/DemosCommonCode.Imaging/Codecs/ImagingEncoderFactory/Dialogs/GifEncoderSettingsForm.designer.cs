@@ -44,32 +44,32 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             this.createPageMethodComboBox = new System.Windows.Forms.ComboBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.animationDelayNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label2 = new System.Windows.Forms.Label();
             this.animationCyclesNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.infiniteIterationsCheckBox = new System.Windows.Forms.CheckBox();
+            this.infiniteAnimationCheckBox = new System.Windows.Forms.CheckBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.label1 = new System.Windows.Forms.Label();
             this.logicalScreenHeightNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.logicalScreenWidthNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.autoSizeCheckBox = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.animationDelayNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label4 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.animationDelayNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.animationCyclesNumericUpDown)).BeginInit();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logicalScreenHeightNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.logicalScreenWidthNumericUpDown)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.animationDelayNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
-            // appendCheckBox
+            // addImagesToExistingFileCheckBox
             // 
             this.addImagesToExistingFileCheckBox.AutoSize = true;
             this.addImagesToExistingFileCheckBox.Location = new System.Drawing.Point(8, 12);
-            this.addImagesToExistingFileCheckBox.Name = "appendCheckBox";
+            this.addImagesToExistingFileCheckBox.Name = "addImagesToExistingFileCheckBox";
             this.addImagesToExistingFileCheckBox.Size = new System.Drawing.Size(129, 17);
             this.addImagesToExistingFileCheckBox.TabIndex = 10;
             this.addImagesToExistingFileCheckBox.Text = "Append to existing file";
@@ -224,7 +224,7 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             this.groupBox3.Controls.Add(this.animationDelayNumericUpDown);
             this.groupBox3.Controls.Add(this.label2);
             this.groupBox3.Controls.Add(this.animationCyclesNumericUpDown);
-            this.groupBox3.Controls.Add(this.infiniteIterationsCheckBox);
+            this.groupBox3.Controls.Add(this.infiniteAnimationCheckBox);
             this.groupBox3.Location = new System.Drawing.Point(8, 126);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(230, 71);
@@ -232,23 +232,57 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Animation";
             // 
-            // iterationsNumericUpDown
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(145, 18);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(56, 13);
+            this.label4.TabIndex = 5;
+            this.label4.Text = "1/100 sec";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(6, 18);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(34, 13);
+            this.label3.TabIndex = 4;
+            this.label3.Text = "Delay";
+            // 
+            // animationDelayNumericUpDown
+            // 
+            this.animationDelayNumericUpDown.Location = new System.Drawing.Point(79, 16);
+            this.animationDelayNumericUpDown.Name = "animationDelayNumericUpDown";
+            this.animationDelayNumericUpDown.Size = new System.Drawing.Size(55, 20);
+            this.animationDelayNumericUpDown.TabIndex = 3;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 44);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(38, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Cycles";
+            // 
+            // animationCyclesNumericUpDown
             // 
             this.animationCyclesNumericUpDown.Location = new System.Drawing.Point(79, 42);
-            this.animationCyclesNumericUpDown.Name = "iterationsNumericUpDown";
+            this.animationCyclesNumericUpDown.Name = "animationCyclesNumericUpDown";
             this.animationCyclesNumericUpDown.Size = new System.Drawing.Size(55, 20);
             this.animationCyclesNumericUpDown.TabIndex = 1;
             // 
-            // infiniteIterationsCheckBox
+            // infiniteAnimationCheckBox
             // 
-            this.infiniteIterationsCheckBox.AutoSize = true;
-            this.infiniteIterationsCheckBox.Location = new System.Drawing.Point(148, 45);
-            this.infiniteIterationsCheckBox.Name = "infiniteIterationsCheckBox";
-            this.infiniteIterationsCheckBox.Size = new System.Drawing.Size(57, 17);
-            this.infiniteIterationsCheckBox.TabIndex = 0;
-            this.infiniteIterationsCheckBox.Text = "Infinite";
-            this.infiniteIterationsCheckBox.UseVisualStyleBackColor = true;
-            this.infiniteIterationsCheckBox.CheckedChanged += new System.EventHandler(this.infiniteIterationsCheckBox_CheckedChanged);
+            this.infiniteAnimationCheckBox.AutoSize = true;
+            this.infiniteAnimationCheckBox.Location = new System.Drawing.Point(148, 45);
+            this.infiniteAnimationCheckBox.Name = "infiniteAnimationCheckBox";
+            this.infiniteAnimationCheckBox.Size = new System.Drawing.Size(57, 17);
+            this.infiniteAnimationCheckBox.TabIndex = 0;
+            this.infiniteAnimationCheckBox.Text = "Infinite";
+            this.infiniteAnimationCheckBox.UseVisualStyleBackColor = true;
+            this.infiniteAnimationCheckBox.CheckedChanged += new System.EventHandler(this.infiniteAnimationCheckBox_CheckedChanged);
             // 
             // groupBox4
             // 
@@ -307,41 +341,7 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             this.autoSizeCheckBox.UseVisualStyleBackColor = true;
             this.autoSizeCheckBox.CheckedChanged += new System.EventHandler(this.autoSizeCheckBox_CheckedChanged);
             // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(6, 44);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Cycles";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(6, 18);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(34, 13);
-            this.label3.TabIndex = 4;
-            this.label3.Text = "Delay";
-            // 
-            // animationDelayNumericUpDown
-            // 
-            this.animationDelayNumericUpDown.Location = new System.Drawing.Point(79, 16);
-            this.animationDelayNumericUpDown.Name = "animationDelayNumericUpDown";
-            this.animationDelayNumericUpDown.Size = new System.Drawing.Size(55, 20);
-            this.animationDelayNumericUpDown.TabIndex = 3;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(145, 18);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(56, 13);
-            this.label4.TabIndex = 5;
-            this.label4.Text = "1/100 sec";
-            // 
-            // GifEncoderSettingsDialog
+            // GifEncoderSettingsForm
             // 
             this.AcceptButton = this.buttonOk;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -357,7 +357,8 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "GifEncoderSettingsDialog";
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.Name = "GifEncoderSettingsForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "GIF Encoder Settings";
@@ -366,12 +367,12 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             this.groupBox2.ResumeLayout(false);
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.animationDelayNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.animationCyclesNumericUpDown)).EndInit();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.logicalScreenHeightNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.logicalScreenWidthNumericUpDown)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.animationDelayNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -395,7 +396,7 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
         private System.Windows.Forms.ComboBox createPageMethodComboBox;
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.CheckBox infiniteIterationsCheckBox;
+        private System.Windows.Forms.CheckBox infiniteAnimationCheckBox;
         private System.Windows.Forms.NumericUpDown animationCyclesNumericUpDown;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.CheckBox autoSizeCheckBox;

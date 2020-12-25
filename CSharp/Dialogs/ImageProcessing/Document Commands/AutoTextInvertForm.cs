@@ -1,19 +1,22 @@
 #if !REMOVE_DOCCLEANUP_PLUGIN
 
-using Vintasoft.Imaging;
-using System.Drawing;
-using Vintasoft.Imaging.ImageProcessing.Color;
-using Vintasoft.Imaging.ImageProcessing.Effects;
 using Vintasoft.Imaging.ImageProcessing.Document;
 using Vintasoft.Imaging.UI;
 
 namespace ImagingDemo
 {
-	public partial class AutoTextInvertForm : SixParamsConfigForm
-	{
+    /// <summary>
+    /// A form that allows to view and edit settings of the AutoTextInvertCommand.
+    /// </summary>
+    public partial class AutoTextInvertForm : SixParamsConfigForm
+    {
 
-		#region Constructor
+        #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AutoTextInvertForm"/> class.
+        /// </summary>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public AutoTextInvertForm(ImageViewer viewer)
             : base(viewer,
             "Auto Text Invert",
@@ -25,16 +28,17 @@ namespace ImagingDemo
             new ImageProcessingParameter("Max White (%)", 0, 49, 40))
         {
         }
-		
+
         #endregion
+
 
 
         #region Methods
 
         /// <summary>
-        /// Gets the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override Vintasoft.Imaging.ImageProcessing.ProcessingCommandBase GetProcessingCommand()
         {
             return new AutoTextInvertCommand(this.Parameter1, this.Parameter2, this.Parameter3, this.Parameter4, this.Parameter5, this.Parameter6);
@@ -42,7 +46,7 @@ namespace ImagingDemo
 
         #endregion
 
-	}
+    }
 }
 
 #endif

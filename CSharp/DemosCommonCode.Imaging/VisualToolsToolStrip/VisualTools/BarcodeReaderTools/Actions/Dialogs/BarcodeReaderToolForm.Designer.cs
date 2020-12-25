@@ -57,7 +57,7 @@ namespace DemosCommonCode.Barcode
             // 
             this.groupBox1.Controls.Add(this.recognitionResultsTextBox);
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.groupBox1.Location = new System.Drawing.Point(0, 532);
+            this.groupBox1.Location = new System.Drawing.Point(0, 569);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(290, 182);
             this.groupBox1.TabIndex = 47;
@@ -79,13 +79,13 @@ namespace DemosCommonCode.Barcode
             // 
             this.barcodeReaderSettingsControl1.Location = new System.Drawing.Point(1, 37);
             this.barcodeReaderSettingsControl1.Name = "barcodeReaderSettingsControl1";
-            this.barcodeReaderSettingsControl1.Size = new System.Drawing.Size(286, 493);
+            this.barcodeReaderSettingsControl1.Size = new System.Drawing.Size(286, 530);
             this.barcodeReaderSettingsControl1.TabIndex = 48;
             // 
             // BarcodeReaderToolForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(290, 714);
+            this.ClientSize = new System.Drawing.Size(290, 751);
             this.Controls.Add(this.barcodeReaderSettingsControl1);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.recognitionProgressBar);
@@ -93,6 +93,7 @@ namespace DemosCommonCode.Barcode
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Location = new System.Drawing.Point(5, 70);
             this.MaximizeBox = false;
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "BarcodeReaderToolForm";
             this.ShowIcon = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;

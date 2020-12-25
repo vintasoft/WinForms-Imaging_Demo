@@ -1,7 +1,7 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
-using Vintasoft.Imaging;
+
 using Vintasoft.Imaging.UI;
 using Vintasoft.Imaging.UI.VisualTools;
 
@@ -15,7 +15,10 @@ namespace DemosCommonCode.Imaging
 
         #region Fields
 
-        ImageMapTool _imageMapTool;
+        /// <summary>
+        /// The image map visual tool.
+        /// </summary>
+        ImageMapTool _imageMapVisualTool;
 
         #endregion
 
@@ -69,7 +72,7 @@ namespace DemosCommonCode.Imaging
         public ImageMapToolSettingsForm(ImageMapTool imageMapTool)
             : this()
         {
-            _imageMapTool = imageMapTool;
+            _imageMapVisualTool = imageMapTool;
 
             ShowSettings();
         }
@@ -80,37 +83,112 @@ namespace DemosCommonCode.Imaging
 
         #region Methods
 
-        private void ShowSettings()
-        {
-            enabledCheckBox.Checked = _imageMapTool.Enabled;
-            alwaysVisibleCheckBox.Checked = _imageMapTool.IsAlwaysVisible;
-            locationComboBox.SelectedItem = _imageMapTool.Anchor;
-            sizeComboBox.Text = string.Format("{0}x{1}", _imageMapTool.Size.Width, _imageMapTool.Size.Height);
-            if (_imageMapTool.Zoom == 0)
-                zoomComboBox.Text = "Best fit";
-            else
-                zoomComboBox.Text = string.Format("1/{0}", Math.Round(1 / _imageMapTool.Zoom));
+        #region UI
 
-            canvasPenCheckBox.Checked = _imageMapTool.CanvasPen != null;
-            if (canvasPenCheckBox.Checked)
-                canvasPenColorPanelControl.Color = _imageMapTool.CanvasPen.Color;
-            imageBufferPenCheckBox.Checked = _imageMapTool.ImageBufferPen != null;
-            if (imageBufferPenCheckBox.Checked)
-                imageBufferPenColorPanelControl.Color = _imageMapTool.ImageBufferPen.Color;
-            visibleRectPenCheckBox.Checked = _imageMapTool.VisibleRectPen != null;
-            if (visibleRectPenCheckBox.Checked)
-                visibleRectPenColorPanelControl.Color = _imageMapTool.VisibleRectPen.Color;
+        /// <summary>
+        /// Handles the Click event of ButtonOk object.
+        /// </summary>
+        private void buttonOk_Click(object sender, EventArgs e)
+        {
+            // if settings is changed
+            if (SetSettings())
+                DialogResult = DialogResult.OK;
         }
 
+        /// <summary>
+        /// Handles the CheckedChanged event of EnabledCheckBox object.
+        /// </summary>
+        private void enabledCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            // update user interface
+
+            bool enabled = enabledCheckBox.Checked;
+            alwaysVisibleCheckBox.Enabled = enabled;
+            locationComboBox.Enabled = enabled;
+            sizeComboBox.Enabled = enabled;
+            zoomComboBox.Enabled = enabled;
+            canvasPenCheckBox.Enabled = enabled;
+            imageBufferPenCheckBox.Enabled = enabled;
+            visibleRectPenCheckBox.Enabled = enabled;
+        }
+
+        /// <summary>
+        /// Handles the CheckedChanged event of CanvasPenCheckBox object.
+        /// </summary>
+        private void canvasPenCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            // if canvas color can be changed
+            if (canvasPenCheckBox.Checked)
+                canvasPenColorPanelControl.Enabled = true;
+            else
+                canvasPenColorPanelControl.Enabled = false;
+        }
+
+        /// <summary>
+        /// Handles the CheckedChanged event of VisibleRectPenCheckBox object.
+        /// </summary>
+        private void visibleRectPenCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            // if visible rect color can be changed
+            if (visibleRectPenCheckBox.Checked)
+                visibleRectPenColorPanelControl.Enabled = true;
+            else
+                visibleRectPenColorPanelControl.Enabled = false;
+        }
+
+        /// <summary>
+        /// Handles the CheckedChanged event of ImageBufferPenCheckBox object.
+        /// </summary>
+        private void imageBufferPenCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            // if buffer color can be changed
+            if (imageBufferPenCheckBox.Checked)
+                imageBufferPenColorPanelControl.Enabled = true;
+            else
+                imageBufferPenColorPanelControl.Enabled = false;
+        }
+
+        #endregion
+
+
+        /// <summary>
+        /// Shows the settings in user interface.
+        /// </summary>
+        private void ShowSettings()
+        {
+            enabledCheckBox.Checked = _imageMapVisualTool.Enabled;
+            alwaysVisibleCheckBox.Checked = _imageMapVisualTool.IsAlwaysVisible;
+            locationComboBox.SelectedItem = _imageMapVisualTool.Anchor;
+            sizeComboBox.Text = string.Format("{0}x{1}", _imageMapVisualTool.Size.Width, _imageMapVisualTool.Size.Height);
+            if (_imageMapVisualTool.Zoom == 0)
+                zoomComboBox.Text = "Best fit";
+            else
+                zoomComboBox.Text = string.Format("1/{0}", Math.Round(1 / _imageMapVisualTool.Zoom));
+
+            canvasPenCheckBox.Checked = _imageMapVisualTool.CanvasPen != null;
+            if (canvasPenCheckBox.Checked)
+                canvasPenColorPanelControl.Color = _imageMapVisualTool.CanvasPen.Color;
+            imageBufferPenCheckBox.Checked = _imageMapVisualTool.ImageBufferPen != null;
+            if (imageBufferPenCheckBox.Checked)
+                imageBufferPenColorPanelControl.Color = _imageMapVisualTool.ImageBufferPen.Color;
+            visibleRectPenCheckBox.Checked = _imageMapVisualTool.VisibleRectPen != null;
+            if (visibleRectPenCheckBox.Checked)
+                visibleRectPenColorPanelControl.Color = _imageMapVisualTool.VisibleRectPen.Color;
+        }
+
+        /// <summary>
+        /// Updates image map visual tool settings.
+        /// </summary>
         private bool SetSettings()
         {
-            _imageMapTool.Enabled = enabledCheckBox.Checked;
-            _imageMapTool.IsAlwaysVisible = alwaysVisibleCheckBox.Checked;
-            _imageMapTool.Anchor = (AnchorType)locationComboBox.SelectedItem;
+            _imageMapVisualTool.Enabled = enabledCheckBox.Checked;
+            _imageMapVisualTool.IsAlwaysVisible = alwaysVisibleCheckBox.Checked;
+            _imageMapVisualTool.Anchor = (AnchorType)locationComboBox.SelectedItem;
 
             try
             {
-                // Size
+                // update image map visual tool size
+
                 string[] sizeStrings = sizeComboBox.Text.Split('x');
                 int width;
                 int height;
@@ -124,36 +202,40 @@ namespace DemosCommonCode.Imaging
                     width = Convert.ToInt32(sizeStrings[0]);
                     height = Convert.ToInt32(sizeStrings[1]);
                 }
-                _imageMapTool.Size = new Size(width, height);
+                _imageMapVisualTool.Size = new Size(width, height);
 
-                // Zoom
+
+                // update image map visual tool zoom
+
                 if (zoomComboBox.Text == "Best fit")
                 {
-                    _imageMapTool.Zoom = 0;
+                    _imageMapVisualTool.Zoom = 0;
                 }
                 else
                 {
                     string[] zoomStrings = zoomComboBox.Text.Split('/');
                     if (zoomStrings.Length != 2)
                         throw new Exception("Invalid zoom value.");
-                    _imageMapTool.Zoom = 1f / Convert.ToInt32(zoomStrings[1]);
+                    _imageMapVisualTool.Zoom = 1f / Convert.ToInt32(zoomStrings[1]);
                 }
 
-                // Pens
+
+                // update image map visual tool pens
+
                 if (canvasPenCheckBox.Checked)
-                    _imageMapTool.CanvasPen = new Pen(canvasPenColorPanelControl.Color);
+                    _imageMapVisualTool.CanvasPen = new Pen(canvasPenColorPanelControl.Color);
                 else
-                    _imageMapTool.CanvasPen = null;
+                    _imageMapVisualTool.CanvasPen = null;
 
                 if (visibleRectPenCheckBox.Checked)
-                    _imageMapTool.VisibleRectPen = new Pen(visibleRectPenColorPanelControl.Color);
+                    _imageMapVisualTool.VisibleRectPen = new Pen(visibleRectPenColorPanelControl.Color);
                 else
-                    _imageMapTool.VisibleRectPen = null;
+                    _imageMapVisualTool.VisibleRectPen = null;
 
                 if (imageBufferPenCheckBox.Checked)
-                    _imageMapTool.ImageBufferPen = new Pen(imageBufferPenColorPanelControl.Color);
+                    _imageMapVisualTool.ImageBufferPen = new Pen(imageBufferPenColorPanelControl.Color);
                 else
-                    _imageMapTool.ImageBufferPen = null;
+                    _imageMapVisualTool.ImageBufferPen = null;
             }
             catch (Exception e)
             {
@@ -161,44 +243,6 @@ namespace DemosCommonCode.Imaging
                 return false;
             }
             return true;
-        }
-
-        private void buttonOk_Click(object sender, EventArgs e)
-        {
-            if (SetSettings())
-                DialogResult = DialogResult.OK;
-        }
-
-        private void buttonCancel_Click(object sender, EventArgs e)
-        {
-            DialogResult = DialogResult.Cancel;
-        }
-
-        private void enabledCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            bool enabled = enabledCheckBox.Checked;
-            alwaysVisibleCheckBox.Enabled = enabled;
-            locationComboBox.Enabled = enabled;
-            sizeComboBox.Enabled = enabled;
-            zoomComboBox.Enabled = enabled;
-            canvasPenCheckBox.Enabled = enabled;
-            imageBufferPenCheckBox.Enabled = enabled;
-            visibleRectPenCheckBox.Enabled = enabled;
-        }
-
-        private void canvasPenCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            canvasPenColorPanelControl.Enabled = canvasPenCheckBox.Checked;
-        }
-
-        private void visibleRectPenCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            visibleRectPenColorPanelControl.Enabled = visibleRectPenCheckBox.Checked;
-        }
-
-        private void imageBufferPenCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            imageBufferPenColorPanelControl.Enabled = imageBufferPenCheckBox.Checked;
         }
 
         #endregion

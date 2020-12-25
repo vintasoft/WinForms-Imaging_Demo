@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows.Forms;
+
 using Vintasoft.Imaging.Media;
 
 namespace DemosCommonCode.Imaging
@@ -10,76 +11,11 @@ namespace DemosCommonCode.Imaging
     public partial class DirectShowImageQualityPropertiesControl : UserControl
     {
 
-        #region Structs
-
-        /// <summary>
-        /// Stores information about values of the image quality property.
-        /// </summary>
-        class ImageQualityPropertyInfo
-        {
-            internal bool Auto;
-            internal int CurrentValue;
-            internal int DefaultValue;
-            internal int MinValue;
-            internal int MaxValue;
-            internal int StepSize;
-
-
-            internal ImageQualityPropertyInfo(
-                DirectShowImageQualityPropertyValue currentValue,
-                int defaultValue,
-                int minValue,
-                int maxValue,
-                int stepSize)
-            {
-                this.StepSize = stepSize;
-
-                this.MinValue = minValue / stepSize;
-                this.MaxValue = maxValue / stepSize;
-
-                this.DefaultValue = GetValueInRange(defaultValue / stepSize);
-
-                this.CurrentValue = GetValueInRange(currentValue.Value / stepSize);
-                this.Auto = currentValue.Auto;
-            }
-
-
-
-            private int GetValueInRange(int value)
-            {
-                if (value < MinValue)
-                    return MinValue;
-                if (value > MaxValue)
-                    return MaxValue;
-                return value;
-            }
-        }
-
-        #endregion
-
-
-
-        #region Fields
-
-        ImageQualityPropertyInfo _backlightCompensationPropertyInfo;
-        ImageQualityPropertyInfo _brightnessPropertyInfo;
-        ImageQualityPropertyInfo _colorEnablePropertyInfo;
-        ImageQualityPropertyInfo _contrastPropertyInfo;
-        ImageQualityPropertyInfo _gainPropertyInfo;
-        ImageQualityPropertyInfo _gammaPropertyInfo;
-        ImageQualityPropertyInfo _huePropertyInfo;
-        ImageQualityPropertyInfo _saturationPropertyInfo;
-        ImageQualityPropertyInfo _sharpnessPropertyInfo;
-        ImageQualityPropertyInfo _whiteBalancePropertyInfo;
-
-        bool _isInitialized;
-
-        #endregion
-
-
-
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DirectShowImageQualityPropertiesControl"/> class.
+        /// </summary>
         public DirectShowImageQualityPropertiesControl()
         {
             InitializeComponent();
@@ -93,12 +29,18 @@ namespace DemosCommonCode.Imaging
 
         DirectShowCamera _camera;
         /// <summary>
-        /// Webcam to manage.
+        /// Gets or sets the webcam.
         /// </summary>
         public DirectShowCamera Camera
         {
-            get { return _camera; }
-            set { _camera = value; }
+            get
+            {
+                return _camera;
+            }
+            set
+            {
+                _camera = value;
+            }
         }
 
         #endregion
@@ -107,6 +49,11 @@ namespace DemosCommonCode.Imaging
 
         #region Methods
 
+        #region UI
+
+        /// <summary>
+        /// Handles the Load event of DirectShowImageQualityPropertiesControl object.
+        /// </summary>
         private void DirectShowImageQualityPropertiesControl_Load(object sender, EventArgs e)
         {
             if (_camera == null)
@@ -115,377 +62,201 @@ namespace DemosCommonCode.Imaging
                 return;
             }
 
-            DirectShowImageQualityPropertyValue currentValue;
-            int defaultValue, minValue, maxValue, stepSize;
+            // get camera control
+            DirectShowImageQualityProperties imageQuality = _camera.ImageQuality;
 
-            // backlight compensation
             try
             {
-                _camera.ImageQuality.GetSupportedBacklightCompensationValues(out minValue, out maxValue, out stepSize, out defaultValue);
-                currentValue = _camera.ImageQuality.BacklightCompensation;
+                // load backlight compensation property
+                InitializePropertyControl(
+                    backlightCompensationDirectShowPropertyControl,
+                    imageQuality.BacklightCompensation,
+                    imageQuality.GetSupportedBacklightCompensationValues);
 
-                _backlightCompensationPropertyInfo = new ImageQualityPropertyInfo(currentValue, defaultValue, minValue, maxValue, stepSize);
-                InitProperty(backlightCompensationTrackBar, backlightCompensationCheckBox, _backlightCompensationPropertyInfo);
+                backlightCompensationDirectShowPropertyControl.Enabled = true;
             }
             catch (DirectShowCameraException)
             {
-                DisableProperty(backlightCompensationLabel, backlightCompensationTrackBar, backlightCompensationCheckBox);
+                backlightCompensationDirectShowPropertyControl.Enabled = false;
             }
 
-            // brightness
             try
             {
-                _camera.ImageQuality.GetSupportedBrightnessValues(out minValue, out maxValue, out stepSize, out defaultValue);
-                currentValue = _camera.ImageQuality.Brightness;
+                // load brightness property
+                InitializePropertyControl(
+                    brightnessDirectShowPropertyControl,
+                    imageQuality.Brightness,
+                    imageQuality.GetSupportedBrightnessValues);
 
-                _brightnessPropertyInfo = new ImageQualityPropertyInfo(currentValue, defaultValue, minValue, maxValue, stepSize);
-                InitProperty(brightnessTrackBar, brightnessCheckBox, _brightnessPropertyInfo);
+                brightnessDirectShowPropertyControl.Enabled = true;
             }
             catch (DirectShowCameraException)
             {
-                DisableProperty(brightnessLabel, brightnessTrackBar, brightnessCheckBox);
+                brightnessDirectShowPropertyControl.Enabled = false;
             }
 
-            // color enable
             try
             {
-                _camera.ImageQuality.GetSupportedColorEnableValues(out minValue, out maxValue, out stepSize, out defaultValue);
-                currentValue = _camera.ImageQuality.ColorEnable;
+                // load color enable property
+                InitializePropertyControl(
+                    colorEnableDirectShowPropertyControl,
+                    imageQuality.ColorEnable,
+                    imageQuality.GetSupportedColorEnableValues);
 
-                _colorEnablePropertyInfo = new ImageQualityPropertyInfo(currentValue, defaultValue, minValue, maxValue, stepSize);
-                InitProperty(colorEnableTrackBar, colorEnableCheckBox, _colorEnablePropertyInfo);
+                colorEnableDirectShowPropertyControl.Enabled = true;
             }
             catch (DirectShowCameraException)
             {
-                DisableProperty(colorEnableLabel, colorEnableTrackBar, colorEnableCheckBox);
+                colorEnableDirectShowPropertyControl.Enabled = false;
             }
 
-            // contrast
             try
             {
-                _camera.ImageQuality.GetSupportedContrastValues(out minValue, out maxValue, out stepSize, out defaultValue);
-                currentValue = _camera.ImageQuality.Contrast;
+                // load contrast property
+                InitializePropertyControl(
+                    contrastDirectShowPropertyControl,
+                    imageQuality.Contrast,
+                    imageQuality.GetSupportedContrastValues);
 
-                _contrastPropertyInfo = new ImageQualityPropertyInfo(currentValue, defaultValue, minValue, maxValue, stepSize);
-                InitProperty(contrastTrackBar, contrastCheckBox, _contrastPropertyInfo);
+                contrastDirectShowPropertyControl.Enabled = true;
             }
             catch (DirectShowCameraException)
             {
-                DisableProperty(contrastLabel, contrastTrackBar, contrastCheckBox);
+                contrastDirectShowPropertyControl.Enabled = false;
             }
 
-            // gain
             try
             {
-                _camera.ImageQuality.GetSupportedGainValues(out minValue, out maxValue, out stepSize, out defaultValue);
-                currentValue = _camera.ImageQuality.Gain;
+                // load gain property
+                InitializePropertyControl(
+                    gainDirectShowPropertyControl,
+                    imageQuality.Gain,
+                    imageQuality.GetSupportedGainValues);
 
-                _gainPropertyInfo = new ImageQualityPropertyInfo(currentValue, defaultValue, minValue, maxValue, stepSize);
-                InitProperty(gainTrackBar, gainCheckBox, _gainPropertyInfo);
+                gainDirectShowPropertyControl.Enabled = true;
             }
             catch (DirectShowCameraException)
             {
-                DisableProperty(gainLabel, gainTrackBar, gainCheckBox);
+                gainDirectShowPropertyControl.Enabled = false;
             }
 
-            // gamma
             try
             {
-                _camera.ImageQuality.GetSupportedGammaValues(out minValue, out maxValue, out stepSize, out defaultValue);
-                currentValue = _camera.ImageQuality.Gamma;
+                // load gamma property
+                InitializePropertyControl(
+                    gammaDirectShowPropertyControl,
+                    imageQuality.Gamma,
+                    imageQuality.GetSupportedGammaValues);
 
-                _gammaPropertyInfo = new ImageQualityPropertyInfo(currentValue, defaultValue, minValue, maxValue, stepSize);
-                InitProperty(gammaTrackBar, gammaCheckBox, _gammaPropertyInfo);
+                gammaDirectShowPropertyControl.Enabled = true;
             }
             catch (DirectShowCameraException)
             {
-                DisableProperty(gammaLabel, gammaTrackBar, gammaCheckBox);
+                gammaDirectShowPropertyControl.Enabled = false;
             }
 
-            // hue
             try
             {
-                _camera.ImageQuality.GetSupportedHueValues(out minValue, out maxValue, out stepSize, out defaultValue);
-                currentValue = _camera.ImageQuality.Hue;
+                // load hue property
+                InitializePropertyControl(
+                    hueDirectShowPropertyControl,
+                    imageQuality.Hue,
+                    imageQuality.GetSupportedHueValues);
 
-                _huePropertyInfo = new ImageQualityPropertyInfo(currentValue, defaultValue, minValue, maxValue, stepSize);
-                InitProperty(hueTrackBar, hueCheckBox, _huePropertyInfo);
+                hueDirectShowPropertyControl.Enabled = true;
             }
             catch (DirectShowCameraException)
             {
-                DisableProperty(hueLabel, hueTrackBar, hueCheckBox);
+                hueDirectShowPropertyControl.Enabled = false;
             }
 
-            // saturation
             try
             {
-                _camera.ImageQuality.GetSupportedSaturationValues(out minValue, out maxValue, out stepSize, out defaultValue);
-                currentValue = _camera.ImageQuality.Saturation;
+                // load saturation property
+                InitializePropertyControl(
+                    saturationDirectShowPropertyControl,
+                    imageQuality.Saturation,
+                    imageQuality.GetSupportedSaturationValues);
 
-                _saturationPropertyInfo = new ImageQualityPropertyInfo(currentValue, defaultValue, minValue, maxValue, stepSize);
-                InitProperty(saturationTrackBar, saturationCheckBox, _saturationPropertyInfo);
+                saturationDirectShowPropertyControl.Enabled = true;
             }
             catch (DirectShowCameraException)
             {
-                DisableProperty(saturationLabel, saturationTrackBar, saturationCheckBox);
+                saturationDirectShowPropertyControl.Enabled = false;
             }
 
-            // sharpness
             try
             {
-                _camera.ImageQuality.GetSupportedSharpnessValues(out minValue, out maxValue, out stepSize, out defaultValue);
-                currentValue = _camera.ImageQuality.Sharpness;
+                // load sharpness property
+                InitializePropertyControl(
+                    sharpnessDirectShowPropertyControl,
+                    imageQuality.Sharpness,
+                    imageQuality.GetSupportedSharpnessValues);
 
-                _sharpnessPropertyInfo = new ImageQualityPropertyInfo(currentValue, defaultValue, minValue, maxValue, stepSize);
-                InitProperty(sharpnessTrackBar, sharpnessCheckBox, _sharpnessPropertyInfo);
+                sharpnessDirectShowPropertyControl.Enabled = true;
             }
             catch (DirectShowCameraException)
             {
-                DisableProperty(sharpnessLabel, sharpnessTrackBar, sharpnessCheckBox);
+                sharpnessDirectShowPropertyControl.Enabled = false;
             }
 
-            // white balance
             try
             {
-                _camera.ImageQuality.GetSupportedWhiteBalanceValues(out minValue, out maxValue, out stepSize, out defaultValue);
-                currentValue = _camera.ImageQuality.WhiteBalance;
+                // load white balance property
+                InitializePropertyControl(
+                    whiteBalanceDirectShowPropertyControl,
+                    imageQuality.WhiteBalance,
+                    imageQuality.GetSupportedWhiteBalanceValues);
 
-                _whiteBalancePropertyInfo = new ImageQualityPropertyInfo(currentValue, defaultValue, minValue, maxValue, stepSize);
-                InitProperty(whiteBalanceTrackBar, whiteBalanceCheckBox, _whiteBalancePropertyInfo);
+                whiteBalanceDirectShowPropertyControl.Enabled = true;
             }
             catch (DirectShowCameraException)
             {
-                DisableProperty(whiteBalanceLabel, whiteBalanceTrackBar, whiteBalanceCheckBox);
+                whiteBalanceDirectShowPropertyControl.Enabled = false;
             }
-
-            _isInitialized = true;
         }
-
-        private void InitProperty(
-            TrackBar trackBar,
-            CheckBox checkBox,
-            ImageQualityPropertyInfo propertyInfo)
-        {
-            trackBar.Minimum = propertyInfo.MinValue;
-            trackBar.Maximum = propertyInfo.MaxValue;
-            trackBar.Value = propertyInfo.CurrentValue;
-            trackBar.Enabled = !propertyInfo.Auto;
-
-            checkBox.Checked = propertyInfo.Auto;
-        }
-
-        private void DisableProperty(Label label, TrackBar trackBar, CheckBox checkBox)
-        {
-            label.Enabled = false;
-            trackBar.Enabled = false;
-            checkBox.Enabled = false;
-        }
-
-
-        #region Trackbars
-
-        private void backlightCompensationTrackBar_Scroll(object sender, System.EventArgs e)
-        {
-            SetBacklightCompensationValue(backlightCompensationTrackBar.Value, false);
-        }
-
-        private void brightnessTrackBar_Scroll(object sender, System.EventArgs e)
-        {
-            SetBrightnessValue(brightnessTrackBar.Value, false);
-        }
-
-        private void colorEnableTrackBar_Scroll(object sender, System.EventArgs e)
-        {
-            SetColorEnableValue(colorEnableTrackBar.Value, false);
-        }
-
-        private void contrastTrackBar_Scroll(object sender, System.EventArgs e)
-        {
-            SetContrastValue(contrastTrackBar.Value, false);
-        }
-
-        private void gainTrackBar_Scroll(object sender, System.EventArgs e)
-        {
-            SetGainValue(gainTrackBar.Value, false);
-        }
-
-        private void gammaTrackBar_Scroll(object sender, System.EventArgs e)
-        {
-            SetGammaValue(gammaTrackBar.Value, false);
-        }
-
-        private void hueTrackBar_Scroll(object sender, System.EventArgs e)
-        {
-            SetHueValue(hueTrackBar.Value, false);
-        }
-
-        private void saturationTrackBar_Scroll(object sender, System.EventArgs e)
-        {
-            SetSaturationValue(saturationTrackBar.Value, false);
-        }
-
-        private void sharpnessTrackBar_Scroll(object sender, System.EventArgs e)
-        {
-            SetSharpnessValue(sharpnessTrackBar.Value, false);
-        }
-
-        private void whiteBalanceTrackBar_Scroll(object sender, System.EventArgs e)
-        {
-            SetWhiteBalanceValue(whiteBalanceTrackBar.Value, false);
-        }
-
-        #endregion
-
-
-        #region Check boxes
-
-        private void backlightCompensationCheckBox_CheckedChanged(object sender, System.EventArgs e)
-        {
-            SetBacklightCompensationValue(backlightCompensationTrackBar.Value, backlightCompensationCheckBox.Checked);
-        }
-
-        private void brightnessCheckBox_CheckedChanged(object sender, System.EventArgs e)
-        {
-            SetBrightnessValue(brightnessTrackBar.Value, brightnessCheckBox.Checked);
-        }
-
-        private void colorEnableCheckBox_CheckedChanged(object sender, System.EventArgs e)
-        {
-            SetColorEnableValue(colorEnableTrackBar.Value, colorEnableCheckBox.Checked);
-        }
-
-        private void contrastCheckBox_CheckedChanged(object sender, System.EventArgs e)
-        {
-            SetContrastValue(contrastTrackBar.Value, contrastCheckBox.Checked);
-        }
-
-        private void gainCheckBox_CheckedChanged(object sender, System.EventArgs e)
-        {
-            SetGainValue(gainTrackBar.Value, gainCheckBox.Checked);
-        }
-
-        private void gammaCheckBox_CheckedChanged(object sender, System.EventArgs e)
-        {
-            SetGammaValue(gammaTrackBar.Value, gammaCheckBox.Checked);
-        }
-
-        private void hueCheckBox_CheckedChanged(object sender, System.EventArgs e)
-        {
-            SetHueValue(hueTrackBar.Value, hueCheckBox.Checked);
-        }
-
-        private void saturationCheckBox_CheckedChanged(object sender, System.EventArgs e)
-        {
-            SetSaturationValue(saturationTrackBar.Value, saturationCheckBox.Checked);
-        }
-
-        private void sharpnessCheckBox_CheckedChanged(object sender, System.EventArgs e)
-        {
-            SetSharpnessValue(sharpnessTrackBar.Value, sharpnessCheckBox.Checked);
-        }
-
-        private void whiteBalanceCheckBox_CheckedChanged(object sender, System.EventArgs e)
-        {
-            SetWhiteBalanceValue(whiteBalanceTrackBar.Value, whiteBalanceCheckBox.Checked);
-        }
-
-        #endregion
-
 
         /// <summary>
-        /// Resets the values of image quality properties.
+        /// Handles the Click event of ResetButton object.
         /// </summary>
         private void resetButton_Click(object sender, EventArgs e)
         {
-            if (backlightCompensationLabel.Enabled)
-                SetBacklightCompensationValue(_backlightCompensationPropertyInfo.DefaultValue, false);
-
-            if (brightnessLabel.Enabled)
-                SetBrightnessValue(_brightnessPropertyInfo.DefaultValue, false);
-
-            if (colorEnableLabel.Enabled)
-                SetColorEnableValue(_colorEnablePropertyInfo.DefaultValue, false);
-
-            if (contrastLabel.Enabled)
-                SetContrastValue(_contrastPropertyInfo.DefaultValue, false);
-
-            if (gainLabel.Enabled)
-                SetGainValue(_gainPropertyInfo.DefaultValue, false);
-
-            if (gammaLabel.Enabled)
-                SetGammaValue(_gammaPropertyInfo.DefaultValue, false);
-
-            if (hueLabel.Enabled)
-                SetHueValue(_huePropertyInfo.DefaultValue, false);
-
-            if (saturationLabel.Enabled)
-                SetSaturationValue(_saturationPropertyInfo.DefaultValue, false);
-
-            if (sharpnessLabel.Enabled)
-                SetSharpnessValue(_sharpnessPropertyInfo.DefaultValue, false);
-
-            if (whiteBalanceLabel.Enabled)
-                SetWhiteBalanceValue(_whiteBalancePropertyInfo.DefaultValue, false);
+            // for each control in this control
+            foreach (Control control in imageQualityPropertiesGroupBox.Controls)
+            {
+                DirectShowPropertyControl propertiesControl = control as DirectShowPropertyControl;
+                // if current control is property control
+                if (propertiesControl != null)
+                    propertiesControl.ResetValue();
+            }
         }
 
         /// <summary>
-        /// Restores the values of image quality properties.
+        /// Handles the Click event of RestoreButton object.
         /// </summary>
         private void restoreButton_Click(object sender, EventArgs e)
         {
-            if (backlightCompensationLabel.Enabled)
-                SetBacklightCompensationValue(_backlightCompensationPropertyInfo.CurrentValue, _backlightCompensationPropertyInfo.Auto);
-
-            if (brightnessLabel.Enabled)
-                SetBrightnessValue(_brightnessPropertyInfo.CurrentValue, _brightnessPropertyInfo.Auto);
-
-            if (colorEnableLabel.Enabled)
-                SetColorEnableValue(_colorEnablePropertyInfo.CurrentValue, _colorEnablePropertyInfo.Auto);
-
-            if (contrastLabel.Enabled)
-                SetContrastValue(_contrastPropertyInfo.CurrentValue, _contrastPropertyInfo.Auto);
-
-            if (gainLabel.Enabled)
-                SetGainValue(_gainPropertyInfo.CurrentValue, _gainPropertyInfo.Auto);
-
-            if (gammaLabel.Enabled)
-                SetGammaValue(_gammaPropertyInfo.CurrentValue, _gammaPropertyInfo.Auto);
-
-            if (hueLabel.Enabled)
-                SetHueValue(_huePropertyInfo.CurrentValue, _huePropertyInfo.Auto);
-
-            if (saturationLabel.Enabled)
-                SetSaturationValue(_saturationPropertyInfo.CurrentValue, _saturationPropertyInfo.Auto);
-
-            if (sharpnessLabel.Enabled)
-                SetSharpnessValue(_sharpnessPropertyInfo.CurrentValue, _sharpnessPropertyInfo.Auto);
-
-            if (whiteBalanceLabel.Enabled)
-                SetWhiteBalanceValue(_whiteBalancePropertyInfo.CurrentValue, _whiteBalancePropertyInfo.Auto);
+            // for each control in this control
+            foreach (Control control in imageQualityPropertiesGroupBox.Controls)
+            {
+                DirectShowPropertyControl propertiesControl = control as DirectShowPropertyControl;
+                // if current control is property control
+                if (propertiesControl != null)
+                    propertiesControl.RestoreValue();
+            }
         }
 
-
-        #region Set property value
-
         /// <summary>
-        /// Sets the backlight compensation value.
+        /// Handles the PropertyChanged event of BacklightCompensationDirectShowPropertyControl object.
         /// </summary>
-        private void SetBacklightCompensationValue(int value, bool autoMode)
+        private void backlightCompensationDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
-            if (!_isInitialized)
-                return;
-
             try
             {
-                _camera.ImageQuality.BacklightCompensation = new DirectShowImageQualityPropertyValue(value * _backlightCompensationPropertyInfo.StepSize, autoMode);
-
-                if (backlightCompensationTrackBar.Value != value)
-                    backlightCompensationTrackBar.Value = value;
-
-                if (backlightCompensationCheckBox.Checked != autoMode)
-                    backlightCompensationCheckBox.Checked = autoMode;
-
-                backlightCompensationTrackBar.Enabled = !autoMode;
+                // if control is enabled
+                if (((Control)sender).Enabled)
+                    // update webcam backlight compensation value
+                    _camera.ImageQuality.BacklightCompensation = new DirectShowImageQualityPropertyValue(e.Value, e.IsAuto);
             }
             catch (DirectShowCameraException ex)
             {
@@ -494,24 +265,16 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Sets the brightness value.
+        /// Handles the PropertyChanged event of BrightnessDirectShowPropertyControl object.
         /// </summary>
-        private void SetBrightnessValue(int value, bool autoMode)
+        private void brightnessDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
-            if (!_isInitialized)
-                return;
-
             try
             {
-                _camera.ImageQuality.Brightness = new DirectShowImageQualityPropertyValue(value * _brightnessPropertyInfo.StepSize, autoMode);
-
-                if (brightnessTrackBar.Value != value)
-                    brightnessTrackBar.Value = value;
-
-                if (brightnessCheckBox.Checked != autoMode)
-                    brightnessCheckBox.Checked = autoMode;
-
-                brightnessTrackBar.Enabled = !autoMode;
+                // if control is enabled
+                if (((Control)sender).Enabled)
+                    // update webcam brightness value
+                    _camera.ImageQuality.Brightness = new DirectShowImageQualityPropertyValue(e.Value, e.IsAuto);
             }
             catch (DirectShowCameraException ex)
             {
@@ -520,24 +283,16 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Sets the color enable value.
+        /// Handles the PropertyChanged event of ColorEnableDirectShowPropertyControl object.
         /// </summary>
-        private void SetColorEnableValue(int value, bool autoMode)
+        private void colorEnableDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
-            if (!_isInitialized)
-                return;
-
             try
             {
-                _camera.ImageQuality.ColorEnable = new DirectShowImageQualityPropertyValue(value * _colorEnablePropertyInfo.StepSize, autoMode);
-
-                if (colorEnableTrackBar.Value != value)
-                    colorEnableTrackBar.Value = value;
-
-                if (colorEnableCheckBox.Checked != autoMode)
-                    colorEnableCheckBox.Checked = autoMode;
-
-                colorEnableTrackBar.Enabled = !autoMode;
+                // if control is enabled
+                if (((Control)sender).Enabled)
+                    // update webcam color enable value
+                    _camera.ImageQuality.ColorEnable = new DirectShowImageQualityPropertyValue(e.Value, e.IsAuto);
             }
             catch (DirectShowCameraException ex)
             {
@@ -546,24 +301,16 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Sets the contrast value.
+        /// Handles the PropertyChanged event of ContrastDirectShowPropertyControl object.
         /// </summary>
-        private void SetContrastValue(int value, bool autoMode)
+        private void contrastDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
-            if (!_isInitialized)
-                return;
-
             try
             {
-                _camera.ImageQuality.Contrast = new DirectShowImageQualityPropertyValue(value * _contrastPropertyInfo.StepSize, autoMode);
-
-                if (contrastTrackBar.Value != value)
-                    contrastTrackBar.Value = value;
-
-                if (contrastCheckBox.Checked != autoMode)
-                    contrastCheckBox.Checked = autoMode;
-
-                contrastTrackBar.Enabled = !autoMode;
+                // if control is enabled
+                if (((Control)sender).Enabled)
+                    // update webcam contrast value
+                    _camera.ImageQuality.Contrast = new DirectShowImageQualityPropertyValue(e.Value, e.IsAuto);
             }
             catch (DirectShowCameraException ex)
             {
@@ -572,24 +319,16 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Sets the gain value.
+        /// Handles the PropertyChanged event of GainDirectShowPropertyControl object.
         /// </summary>
-        private void SetGainValue(int value, bool autoMode)
+        private void gainDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
-            if (!_isInitialized)
-                return;
-
             try
             {
-                _camera.ImageQuality.Gain = new DirectShowImageQualityPropertyValue(value * _gainPropertyInfo.StepSize, autoMode);
-
-                if (gainTrackBar.Value != value)
-                    gainTrackBar.Value = value;
-
-                if (gainCheckBox.Checked != autoMode)
-                    gainCheckBox.Checked = autoMode;
-
-                gainTrackBar.Enabled = !autoMode;
+                // if control is enabled
+                if (((Control)sender).Enabled)
+                    // update webcam gain value
+                    _camera.ImageQuality.Gain = new DirectShowImageQualityPropertyValue(e.Value, e.IsAuto);
             }
             catch (DirectShowCameraException ex)
             {
@@ -598,24 +337,16 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Sets the gamma value.
+        /// Handles the PropertyChanged event of GammaDirectShowPropertyControl object.
         /// </summary>
-        private void SetGammaValue(int value, bool autoMode)
+        private void gammaDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
-            if (!_isInitialized)
-                return;
-
             try
             {
-                _camera.ImageQuality.Gamma = new DirectShowImageQualityPropertyValue(value * _gammaPropertyInfo.StepSize, autoMode);
-
-                if (gammaTrackBar.Value != value)
-                    gammaTrackBar.Value = value;
-
-                if (gammaCheckBox.Checked != autoMode)
-                    gammaCheckBox.Checked = autoMode;
-
-                gammaTrackBar.Enabled = !autoMode;
+                // if control is enabled
+                if (((Control)sender).Enabled)
+                    // update webcam gamma value
+                    _camera.ImageQuality.Gamma = new DirectShowImageQualityPropertyValue(e.Value, e.IsAuto);
             }
             catch (DirectShowCameraException ex)
             {
@@ -624,24 +355,16 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Sets the hue value.
+        /// Handles the PropertyChanged event of HueDirectShowPropertyControl object.
         /// </summary>
-        private void SetHueValue(int value, bool autoMode)
+        private void hueDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
-            if (!_isInitialized)
-                return;
-
             try
             {
-                _camera.ImageQuality.Hue = new DirectShowImageQualityPropertyValue(value * _huePropertyInfo.StepSize, autoMode);
-
-                if (hueTrackBar.Value != value)
-                    hueTrackBar.Value = value;
-
-                if (hueCheckBox.Checked != autoMode)
-                    hueCheckBox.Checked = autoMode;
-
-                hueTrackBar.Enabled = !autoMode;
+                // if control is enabled
+                if (((Control)sender).Enabled)
+                    // update webcam hue value
+                    _camera.ImageQuality.Hue = new DirectShowImageQualityPropertyValue(e.Value, e.IsAuto);
             }
             catch (DirectShowCameraException ex)
             {
@@ -650,24 +373,16 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Sets the saturation value.
+        /// Handles the PropertyChanged event of SaturationDirectShowPropertyControl object.
         /// </summary>
-        private void SetSaturationValue(int value, bool autoMode)
+        private void saturationDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
-            if (!_isInitialized)
-                return;
-
             try
             {
-                _camera.ImageQuality.Saturation = new DirectShowImageQualityPropertyValue(value * _saturationPropertyInfo.StepSize, autoMode);
-
-                if (saturationTrackBar.Value != value)
-                    saturationTrackBar.Value = value;
-
-                if (saturationCheckBox.Checked != autoMode)
-                    saturationCheckBox.Checked = autoMode;
-
-                saturationTrackBar.Enabled = !autoMode;
+                // if control is enabled
+                if (((Control)sender).Enabled)
+                    // update webcam saturation value
+                    _camera.ImageQuality.Saturation = new DirectShowImageQualityPropertyValue(e.Value, e.IsAuto);
             }
             catch (DirectShowCameraException ex)
             {
@@ -676,24 +391,16 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Sets the sharpness value.
+        /// Handles the PropertyChanged event of SharpnessDirectShowPropertyControl object.
         /// </summary>
-        private void SetSharpnessValue(int value, bool autoMode)
+        private void sharpnessDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
-            if (!_isInitialized)
-                return;
-
             try
             {
-                _camera.ImageQuality.Sharpness = new DirectShowImageQualityPropertyValue(value * _sharpnessPropertyInfo.StepSize, autoMode);
-
-                if (sharpnessTrackBar.Value != value)
-                    sharpnessTrackBar.Value = value;
-
-                if (sharpnessCheckBox.Checked != autoMode)
-                    sharpnessCheckBox.Checked = autoMode;
-
-                sharpnessTrackBar.Enabled = !autoMode;
+                // if control is enabled
+                if (((Control)sender).Enabled)
+                    // update webcam sharpness value
+                    _camera.ImageQuality.Sharpness = new DirectShowImageQualityPropertyValue(e.Value, e.IsAuto);
             }
             catch (DirectShowCameraException ex)
             {
@@ -702,24 +409,16 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Sets the white balance value.
+        /// Handles the PropertyChanged event of WhiteBalanceDirectShowPropertyControl object.
         /// </summary>
-        private void SetWhiteBalanceValue(int value, bool autoMode)
+        private void whiteBalanceDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
-            if (!_isInitialized)
-                return;
-
             try
             {
-                _camera.ImageQuality.WhiteBalance = new DirectShowImageQualityPropertyValue(value * _whiteBalancePropertyInfo.StepSize, autoMode);
-
-                if (whiteBalanceTrackBar.Value != value)
-                    whiteBalanceTrackBar.Value = value;
-
-                if (whiteBalanceCheckBox.Checked != autoMode)
-                    whiteBalanceCheckBox.Checked = autoMode;
-
-                whiteBalanceTrackBar.Enabled = !autoMode;
+                // if control is enabled
+                if (((Control)sender).Enabled)
+                    // update webcam white balance value
+                    _camera.ImageQuality.WhiteBalance = new DirectShowImageQualityPropertyValue(e.Value, e.IsAuto);
             }
             catch (DirectShowCameraException ex)
             {
@@ -728,6 +427,41 @@ namespace DemosCommonCode.Imaging
         }
 
         #endregion
+
+
+        /// <summary>
+        /// Initializes the specified <see cref="DirectShowPropertyControl"/>.
+        /// </summary>
+        /// <param name="propertyControl">The property control.</param>
+        /// <param name="currentValue">The current property value.</param>
+        /// <param name="supportedValueDelegate">A delegate that allows to get camera supported values.</param>
+        private void InitializePropertyControl(
+            DirectShowPropertyControl propertyControl,
+            DirectShowImageQualityPropertyValue currentValue,
+            GetSupportedValuesDelegate supportedValueDelegate)
+        {
+            int defaultValue, minValue, maxValue, stepSize;
+            // get supported values
+            supportedValueDelegate(out minValue, out maxValue, out stepSize, out defaultValue);
+
+            // initialize control
+            propertyControl.Initialize(currentValue.Value, currentValue.Auto, defaultValue, minValue, maxValue, stepSize);
+        }
+
+        #endregion
+
+
+
+        #region Delegates
+
+        /// <summary>
+        /// A delegate that allows to get camera supported values.
+        /// </summary>
+        /// <param name="minValue">The minimum value.</param>
+        /// <param name="maxValue">The maximum value.</param>
+        /// <param name="stepSize">The step size.</param>
+        /// <param name="defaultValue">The default value.</param>
+        delegate void GetSupportedValuesDelegate(out int minValue, out int maxValue, out int stepSize, out int defaultValue);
 
         #endregion
 

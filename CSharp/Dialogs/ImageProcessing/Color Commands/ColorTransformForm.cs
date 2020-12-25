@@ -14,7 +14,7 @@ using DemosCommonCode;
 namespace ImagingDemo
 {
     /// <summary>
-    /// A form that allows to view and change settings for the color transform command.
+    /// A form that allows to view and edit settings of the ColorTransformCommand.
     /// </summary>
     public partial class ColorTransformForm : ParamsConfigForm
     {
@@ -35,12 +35,12 @@ namespace ImagingDemo
 
 
 
-        #region Constructor
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ColorTransformForm"/> class.
         /// </summary>
-        /// <param name="viewer"></param>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public ColorTransformForm(ImageViewer viewer)
             : base(viewer)
         {
@@ -91,10 +91,12 @@ namespace ImagingDemo
 
         #region Methods
 
+        #region PUBLIC
+
         /// <summary>
-        /// Gets the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override ProcessingCommandBase GetProcessingCommand()
         {
             ColorTransformCommand command = new ColorTransformCommand();
@@ -110,8 +112,15 @@ namespace ImagingDemo
             return command;
         }
 
+        #endregion
+
+
+        #region PRIVATE
+
+        #region UI
+
         /// <summary>
-        /// Sets an input ICC profile.
+        /// Handles the Click event of InputProfileButton object.
         /// </summary>
         private void inputProfileButton_Click(object sender, EventArgs e)
         {
@@ -153,7 +162,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Sets an output ICC profile.
+        /// Handles the Click event of OutputProfileButton object.
         /// </summary>
         private void outputProfileButton_Click(object sender, EventArgs e)
         {
@@ -195,7 +204,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Removes an input ICC profile.
+        /// Handles the Click event of RemoveInputProfileButton object.
         /// </summary>
         private void removeInputProfileButton_Click(object sender, EventArgs e)
         {
@@ -218,7 +227,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Removes an output ICC profile.
+        /// Handles the Click event of RemoveOutputProfileButton object.
         /// </summary>
         private void removeOutputProfileButton_Click(object sender, EventArgs e)
         {
@@ -240,23 +249,35 @@ namespace ImagingDemo
             ExecuteProcessing();
         }
 
+        /// <summary>
+        /// Handles the CheckedChanged event of PreviewCheckBox object.
+        /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             IsPreviewEnabled = previewCheckBox.Checked;
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of RenderingIntentComboBox object.
+        /// </summary>
         private void renderingIntentComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             _settings.RenderingIntent = (RenderingIntent)renderingIntentComboBox.SelectedItem;
             ExecuteProcessing();
         }
 
+        /// <summary>
+        /// Handles the CheckedChanged event of UseBlackPointCompensationCheckBox object.
+        /// </summary>
         private void useBlackPointCompensationCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             _settings.UseBlackPointCompensation = useBlackPointCompensationCheckBox.Checked;
             ExecuteProcessing();
         }
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of ColorTransformComboBox object.
+        /// </summary>
         private void colorTransformComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             groupBox1.Enabled = colorTransformComboBox.SelectedIndex == 0;
@@ -264,6 +285,9 @@ namespace ImagingDemo
 
         #endregion
 
+        #endregion
+
+        #endregion
 
     }
 }

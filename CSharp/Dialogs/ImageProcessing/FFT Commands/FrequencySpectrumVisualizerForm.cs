@@ -7,7 +7,7 @@ using Vintasoft.Imaging.UI;
 namespace ImagingDemo
 {
     /// <summary>
-    /// A form that allows to view and change settings for the frequency spectrum visualizer command.
+    /// A form that allows to view and edit settings for the FrequencySpectrumVisualizerCommand.
     /// </summary>
     public partial class FrequencySpectrumVisualizerForm : ParamsConfigForm
     {
@@ -20,22 +20,22 @@ namespace ImagingDemo
         FrequencySpectrumVisualizationType _visualizationType;
 
         /// <summary>
-        /// Specifies that grayscale spectrum should be visualized.
+        /// A value indicating whether the grayscale spectrum should be visualized.
         /// </summary>
         bool _grayscaleVisualiation;
 
         /// <summary>
-        /// Specifies that normalization should be used.
+        /// A value indicating whether the normalization should be used.
         /// </summary>
         bool _useNormalization;
 
         /// <summary>
-        /// Specifies that absolute values should be used.
+        /// A value indicating whether the absolute values should be used.
         /// </summary>
         bool _useAbsoluteValues;
 
         /// <summary>
-        /// Size of the image spectrum.
+        /// The size of the image spectrum.
         /// </summary>
         int _spectrumSize;
 
@@ -57,7 +57,7 @@ namespace ImagingDemo
         /// <summary>
         /// Initializes a new instance of the <see cref="FrequencySpectrumVisualizerForm"/> class.
         /// </summary>
-        /// <param name="viewer">An image viewer.</param>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public FrequencySpectrumVisualizerForm(ImageViewer viewer)
             : base(viewer)
         {
@@ -79,7 +79,7 @@ namespace ImagingDemo
         #region Properties
 
         /// <summary>
-        /// Gets or sets a value indicating whether the preview in ImageViewer is enabled.
+        /// Gets or sets a value indicating whether the preview in image viewer is enabled.
         /// </summary>
         public override bool IsPreviewEnabled
         {
@@ -106,9 +106,9 @@ namespace ImagingDemo
         #region PUBLIC
 
         /// <summary>
-        /// Returns the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override Vintasoft.Imaging.ImageProcessing.ProcessingCommandBase GetProcessingCommand()
         {
             FrequencySpectrumVisualizerCommand command = new FrequencySpectrumVisualizerCommand();
@@ -127,6 +127,110 @@ namespace ImagingDemo
 
 
         #region PRIVATE
+
+        #region UI
+
+        /// <summary>
+        /// Handles the CheckedChanged event of FixedSpectrumSizeCheckBox object.
+        /// </summary>
+        private void fixedSpectrumSizeCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            if (fixedSpectrumSizeCheckBox.Checked)
+            {
+                spectrumSizeNumericUpDown.Enabled = true;
+            }
+            else
+            {
+                spectrumSizeNumericUpDown.Enabled = false;
+            }
+            ExecuteProcessing();
+        }
+
+        /// <summary>
+        /// Handles the CheckedChanged event of GrayscaleVisualizationCheckBox object.
+        /// </summary>
+        private void grayscaleVisualizationCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            _grayscaleVisualiation = grayscaleVisualizationCheckBox.Checked;
+            ExecuteProcessing();
+        }
+
+        /// <summary>
+        /// Handles the CheckedChanged event of NormalizationCheckBox object.
+        /// </summary>
+        private void normalizationCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            _useNormalization = normalizationCheckBox.Checked;
+            ExecuteProcessing();
+        }
+
+        /// <summary>
+        /// Handles the CheckedChanged event of AbsoluteValuesCheckBox object.
+        /// </summary>
+        private void absoluteValuesCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            _useAbsoluteValues = absoluteValuesCheckBox.Checked;
+            ExecuteProcessing();
+        }
+
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of VisualizationTypeComboBox object.
+        /// </summary>
+        private void visualizationTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _visualizationType = (FrequencySpectrumVisualizationType)visualizationTypeComboBox.SelectedItem;
+            ExecuteProcessing();
+        }
+
+        /// <summary>
+        /// Handles the Click event of OkButton object.
+        /// </summary>
+        private void okButton_Click(object sender, EventArgs e)
+        {
+            DialogResult = System.Windows.Forms.DialogResult.OK;
+        }
+
+        /// <summary>
+        /// Handles the Click event of ButtonCancel object.
+        /// </summary>
+        private void buttonCancel_Click(object sender, EventArgs e)
+        {
+            DialogResult = System.Windows.Forms.DialogResult.Cancel;
+        }
+
+        /// <summary>
+        /// Handles the CheckedChanged event of PreviewCheckBox object.
+        /// </summary>
+        private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            IsPreviewEnabled = previewCheckBox.Checked;
+            if (IsPreviewEnabled)
+                previewCheckBox.ForeColor = Color.Black;
+            else
+                previewCheckBox.ForeColor = Color.Green;
+        }
+
+        /// <summary>
+        /// Handles the ValueChanged event of SpectrumSizeNumericUpDown object.
+        /// </summary>
+        private void spectrumSizeNumericUpDown_ValueChanged(object sender, EventArgs e)
+        {
+            FrequencySpectrumVisualizerCommand command = new FrequencySpectrumVisualizerCommand();
+            try
+            {
+                command.SpectrumImageSize = (int)spectrumSizeNumericUpDown.Value;
+            }
+            catch
+            {
+                spectrumSizeNumericUpDown.Value = _spectrumSize;
+                return;
+            }
+            _spectrumSize = (int)spectrumSizeNumericUpDown.Value;
+            ExecuteProcessing();
+        }
+
+        #endregion
+
 
         /// <summary>
         /// Initializes the default values.
@@ -151,105 +255,6 @@ namespace ImagingDemo
             grayscaleVisualizationCheckBox.Checked = _grayscaleVisualiation;
             normalizationCheckBox.Checked = _useNormalization;
             absoluteValuesCheckBox.Checked = _useAbsoluteValues;
-        }
-
-        /// <summary>
-        /// "Fixed Spectrum Size" checkbox checked state is changed.
-        /// </summary>
-        private void fixedSpectrumSizeCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            if (fixedSpectrumSizeCheckBox.Checked)
-            {
-                spectrumSizeNumericUpDown.Enabled = true;
-            }
-            else
-            {
-                spectrumSizeNumericUpDown.Enabled = false;
-            }
-            ExecuteProcessing();
-        }
-
-        /// <summary>
-        /// The checked state of "Grayscale Visualization" check box is changed.
-        /// </summary>
-        private void grayscaleVisualizationCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            _grayscaleVisualiation = grayscaleVisualizationCheckBox.Checked;
-            ExecuteProcessing();
-        }
-
-        /// <summary>
-        /// The checked state of "Use Normalization" check box is changed.
-        /// </summary>
-        private void normalizationCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            _useNormalization = normalizationCheckBox.Checked;
-            ExecuteProcessing();
-        }
-
-        /// <summary>
-        /// The checked state of "Use Absolute Values" check box is changed.
-        /// </summary>
-        private void absoluteValuesCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            _useAbsoluteValues = absoluteValuesCheckBox.Checked;
-            ExecuteProcessing();
-        }
-
-        /// <summary>
-        /// The selected index of "Visualization Type" combo box is changed.
-        /// </summary>
-        private void visualizationTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            _visualizationType = (FrequencySpectrumVisualizationType)visualizationTypeComboBox.SelectedItem;
-            ExecuteProcessing();
-        }
-
-        /// <summary>
-        /// "OK" button is clicked.
-        /// </summary>
-        private void okButton_Click(object sender, EventArgs e)
-        {
-            DialogResult = System.Windows.Forms.DialogResult.OK;
-        }
-
-        /// <summary>
-        /// "Cancel" button is clicked.
-        /// </summary>
-        private void buttonCancel_Click(object sender, EventArgs e)
-        {
-            DialogResult = System.Windows.Forms.DialogResult.Cancel;
-        }
-
-        /// <summary>
-        /// The checked state in the preview check box is changed.
-        /// </summary>
-        private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            IsPreviewEnabled = previewCheckBox.Checked;
-            if (IsPreviewEnabled)
-                previewCheckBox.ForeColor = Color.Black;
-            else
-                previewCheckBox.ForeColor = Color.Green;
-        }
-
-        /// <summary>
-        /// The value of "Spectrum Size" numeric up-down is changed.
-        /// </summary>
-        private void spectrumSizeNumericUpDown_ValueChanged(object sender, EventArgs e)
-        {
-            FrequencySpectrumVisualizerCommand command = new FrequencySpectrumVisualizerCommand();
-            try
-            {
-                command.SpectrumImageSize = (int)spectrumSizeNumericUpDown.Value;
-            }
-            catch
-            {
-                spectrumSizeNumericUpDown.Value = _spectrumSize;
-                return;
-            }
-            _spectrumSize = (int)spectrumSizeNumericUpDown.Value;
-            ExecuteProcessing();
         }
 
         #endregion

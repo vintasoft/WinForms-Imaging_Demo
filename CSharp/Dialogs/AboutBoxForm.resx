@@ -142,7 +142,7 @@
 
 - Process images interactively: select, magnify, crop, drag-n-drop, overlay, zoom, pan, scroll.
 
-- Supported image formats: BMP, CUR, DICOM, DOCX, EMF, GIF, ICO, JBIG2, JPEG, JPEG2000, JPEG-LS, PCX, PDF, PNG, TIFF, BigTIFF, WMF, RAW (NEF, NRW, CR2, CRW, DNG).
+- Supported image formats: BMP, CUR, DICOM, DOCX, XLSX, EMF, GIF, ICO, JBIG2, JPEG, JPEG2000, JPEG-LS, PCX, PDF, PNG, TIFF, BigTIFF, WMF, RAW (NEF, NRW, CR2, CRW, DNG).
 
 
 The project is available in C# and VB.NET for Visual Studio .NET.</value>

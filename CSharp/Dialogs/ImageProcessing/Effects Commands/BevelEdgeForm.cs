@@ -1,16 +1,20 @@
-using Vintasoft.Imaging;
-using System.Drawing;
-using Vintasoft.Imaging.ImageProcessing.Color;
 using Vintasoft.Imaging.ImageProcessing.Effects;
 using Vintasoft.Imaging.UI;
 
 namespace ImagingDemo
 {
-	public partial class BevelEdgeForm : SixParamsConfigForm
-	{
+    /// <summary>
+    /// A form that allows to view and edit settings of the BevelEdgeCommand.
+    /// </summary>
+    public partial class BevelEdgeForm : SixParamsConfigForm
+    {
 
-		#region Constructor
+        #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SmoothingForm"/> class.
+        /// </summary>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public BevelEdgeForm(ImageViewer viewer)
             : base(viewer,
             "Bevel Edge",
@@ -22,16 +26,17 @@ namespace ImagingDemo
             new ImageProcessingParameter("Bottom brightness", -100, 100, -20))
         {
         }
-		
+
         #endregion
+
 
 
         #region Methods
 
         /// <summary>
-        /// Gets the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override Vintasoft.Imaging.ImageProcessing.ProcessingCommandBase GetProcessingCommand()
         {
             return new BevelEdgeCommand(this.Parameter1, this.Parameter2, this.Parameter3, this.Parameter4, this.Parameter5, this.Parameter6);
@@ -39,5 +44,5 @@ namespace ImagingDemo
 
         #endregion
 
-	}
+    }
 }

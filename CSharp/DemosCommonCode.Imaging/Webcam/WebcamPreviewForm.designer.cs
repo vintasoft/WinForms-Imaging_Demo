@@ -28,19 +28,21 @@ namespace DemosCommonCode.Imaging
         /// </summary>
         private void InitializeComponent()
         {
+            Vintasoft.Imaging.Utils.WinFormsSystemClipboard winFormsSystemClipboard1 = new Vintasoft.Imaging.Utils.WinFormsSystemClipboard();
+            Vintasoft.Imaging.Codecs.Decoders.RenderingSettings renderingSettings1 = new Vintasoft.Imaging.Codecs.Decoders.RenderingSettings();
             this.videoPreviewImageViewer = new Vintasoft.Imaging.UI.ImageViewer();
             this.formatsComboBox = new System.Windows.Forms.ComboBox();
             this.captureImageButton = new System.Windows.Forms.Button();
             this.frameDelayNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
-            this.label2 = new System.Windows.Forms.Label();
+            this.videoFormatLabel = new System.Windows.Forms.Label();
+            this.frameDelayLabel = new System.Windows.Forms.Label();
             this.propertiesDefaultUiButton = new System.Windows.Forms.Button();
             this.processingGroupBox = new System.Windows.Forms.GroupBox();
             this.invertComboBox = new System.Windows.Forms.ComboBox();
-            this.label4 = new System.Windows.Forms.Label();
+            this.invertLabel = new System.Windows.Forms.Label();
             this.grayscaleCheckBox = new System.Windows.Forms.CheckBox();
             this.rotateComboBox = new System.Windows.Forms.ComboBox();
-            this.label3 = new System.Windows.Forms.Label();
+            this.rotateLabel = new System.Windows.Forms.Label();
             this.propertiesCustomUiButton = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             ((System.ComponentModel.ISupportInitialize)(this.frameDelayNumericUpDown)).BeginInit();
@@ -50,11 +52,12 @@ namespace DemosCommonCode.Imaging
             // 
             // videoPreviewImageViewer
             // 
-            this.videoPreviewImageViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
-            this.videoPreviewImageViewer.AutoScroll = true;
+            this.videoPreviewImageViewer.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.videoPreviewImageViewer.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.videoPreviewImageViewer.Clipboard = winFormsSystemClipboard1;
+            this.videoPreviewImageViewer.ImageRenderingSettings = renderingSettings1;
             this.videoPreviewImageViewer.Location = new System.Drawing.Point(7, 3);
             this.videoPreviewImageViewer.Name = "videoPreviewImageViewer";
             this.videoPreviewImageViewer.Size = new System.Drawing.Size(414, 286);
@@ -102,23 +105,23 @@ namespace DemosCommonCode.Imaging
             this.frameDelayNumericUpDown.TabIndex = 4;
             this.frameDelayNumericUpDown.ValueChanged += new System.EventHandler(this.frameDelayNumericUpDown_ValueChanged);
             // 
-            // label1
+            // videoFormatLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 22);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(66, 13);
-            this.label1.TabIndex = 5;
-            this.label1.Text = "Video format";
+            this.videoFormatLabel.AutoSize = true;
+            this.videoFormatLabel.Location = new System.Drawing.Point(8, 22);
+            this.videoFormatLabel.Name = "videoFormatLabel";
+            this.videoFormatLabel.Size = new System.Drawing.Size(66, 13);
+            this.videoFormatLabel.TabIndex = 5;
+            this.videoFormatLabel.Text = "Video format";
             // 
-            // label2
+            // frameDelayLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(8, 46);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(86, 13);
-            this.label2.TabIndex = 6;
-            this.label2.Text = "Frame delay (ms)";
+            this.frameDelayLabel.AutoSize = true;
+            this.frameDelayLabel.Location = new System.Drawing.Point(8, 46);
+            this.frameDelayLabel.Name = "frameDelayLabel";
+            this.frameDelayLabel.Size = new System.Drawing.Size(86, 13);
+            this.frameDelayLabel.TabIndex = 6;
+            this.frameDelayLabel.Text = "Frame delay (ms)";
             // 
             // propertiesDefaultUiButton
             // 
@@ -135,10 +138,10 @@ namespace DemosCommonCode.Imaging
             // 
             this.processingGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.processingGroupBox.Controls.Add(this.invertComboBox);
-            this.processingGroupBox.Controls.Add(this.label4);
+            this.processingGroupBox.Controls.Add(this.invertLabel);
             this.processingGroupBox.Controls.Add(this.grayscaleCheckBox);
             this.processingGroupBox.Controls.Add(this.rotateComboBox);
-            this.processingGroupBox.Controls.Add(this.label3);
+            this.processingGroupBox.Controls.Add(this.rotateLabel);
             this.processingGroupBox.Location = new System.Drawing.Point(7, 371);
             this.processingGroupBox.Name = "processingGroupBox";
             this.processingGroupBox.Size = new System.Drawing.Size(314, 67);
@@ -162,14 +165,14 @@ namespace DemosCommonCode.Imaging
             this.invertComboBox.TabIndex = 4;
             this.invertComboBox.SelectedIndexChanged += new System.EventHandler(this.ChangeProcessingCommandHandler);
             // 
-            // label4
+            // invertLabel
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 41);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(34, 13);
-            this.label4.TabIndex = 3;
-            this.label4.Text = "Invert";
+            this.invertLabel.AutoSize = true;
+            this.invertLabel.Location = new System.Drawing.Point(7, 41);
+            this.invertLabel.Name = "invertLabel";
+            this.invertLabel.Size = new System.Drawing.Size(34, 13);
+            this.invertLabel.TabIndex = 3;
+            this.invertLabel.Text = "Invert";
             // 
             // grayscaleCheckBox
             // 
@@ -198,14 +201,14 @@ namespace DemosCommonCode.Imaging
             this.rotateComboBox.SelectedIndexChanged += new System.EventHandler(this.ChangeProcessingCommandHandler);
             this.rotateComboBox.TextChanged += new System.EventHandler(this.ChangeProcessingCommandHandler);
             // 
-            // label3
+            // rotateLabel
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 18);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(39, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Rotate";
+            this.rotateLabel.AutoSize = true;
+            this.rotateLabel.Location = new System.Drawing.Point(7, 18);
+            this.rotateLabel.Name = "rotateLabel";
+            this.rotateLabel.Size = new System.Drawing.Size(39, 13);
+            this.rotateLabel.TabIndex = 0;
+            this.rotateLabel.Text = "Rotate";
             // 
             // propertiesCustomUiButton
             // 
@@ -220,14 +223,14 @@ namespace DemosCommonCode.Imaging
             // 
             // groupBox1
             // 
-            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.formatsComboBox);
             this.groupBox1.Controls.Add(this.propertiesCustomUiButton);
             this.groupBox1.Controls.Add(this.frameDelayNumericUpDown);
             this.groupBox1.Controls.Add(this.propertiesDefaultUiButton);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.videoFormatLabel);
+            this.groupBox1.Controls.Add(this.frameDelayLabel);
             this.groupBox1.Location = new System.Drawing.Point(7, 292);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(414, 74);
@@ -243,9 +246,10 @@ namespace DemosCommonCode.Imaging
             this.Controls.Add(this.processingGroupBox);
             this.Controls.Add(this.captureImageButton);
             this.Controls.Add(this.videoPreviewImageViewer);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "WebcamPreviewForm";
-            this.Shown += new System.EventHandler(this.WebcamVideoForm_Shown);
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WebcamVideoForm_FormClosed);
+            this.Shown += new System.EventHandler(this.WebcamVideoForm_Shown);
             ((System.ComponentModel.ISupportInitialize)(this.frameDelayNumericUpDown)).EndInit();
             this.processingGroupBox.ResumeLayout(false);
             this.processingGroupBox.PerformLayout();
@@ -261,15 +265,15 @@ namespace DemosCommonCode.Imaging
         private System.Windows.Forms.ComboBox formatsComboBox;
         private System.Windows.Forms.Button captureImageButton;
         private System.Windows.Forms.NumericUpDown frameDelayNumericUpDown;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label videoFormatLabel;
+        private System.Windows.Forms.Label frameDelayLabel;
         private System.Windows.Forms.Button propertiesDefaultUiButton;
         private System.Windows.Forms.GroupBox processingGroupBox;
         private System.Windows.Forms.CheckBox grayscaleCheckBox;
         private System.Windows.Forms.ComboBox rotateComboBox;
-        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label rotateLabel;
         private System.Windows.Forms.ComboBox invertComboBox;
-        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label invertLabel;
         private System.Windows.Forms.Button propertiesCustomUiButton;
         private System.Windows.Forms.GroupBox groupBox1;
     }

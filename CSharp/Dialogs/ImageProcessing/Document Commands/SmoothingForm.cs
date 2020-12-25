@@ -1,6 +1,5 @@
 #if !REMOVE_DOCCLEANUP_PLUGIN
 
-using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.ImageProcessing.Document;
 using Vintasoft.Imaging.UI;
@@ -8,11 +7,18 @@ using Vintasoft.Imaging.UI;
 
 namespace ImagingDemo
 {
+    /// <summary>
+    /// A form that allows to view and edit settings of the SmoothingCommand.
+    /// </summary>
     public partial class SmoothingForm : OneParamConfigForm
     {
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="SmoothingForm"/> class.
+        /// </summary>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public SmoothingForm(ImageViewer viewer)
             : base(viewer,
             "Smoothing",
@@ -27,9 +33,9 @@ namespace ImagingDemo
         #region Methods
 
         /// <summary>
-        /// Gets the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override ProcessingCommandBase GetProcessingCommand()
         {
             return new SmoothingCommand(this.Parameter1);

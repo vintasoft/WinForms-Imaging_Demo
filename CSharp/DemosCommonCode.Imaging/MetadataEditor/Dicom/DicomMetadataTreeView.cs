@@ -8,6 +8,8 @@ namespace DemosCommonCode.Imaging
     public partial class DicomMetadataTreeView : MetadataTreeView
     {
 
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="DicomMetadataTreeView"/> class.
         /// </summary>
@@ -15,7 +17,11 @@ namespace DemosCommonCode.Imaging
         {
         }
 
+        #endregion
 
+
+
+        #region Methods
 
         /// <summary>
         /// Returns the metadata node name.
@@ -43,9 +49,11 @@ namespace DemosCommonCode.Imaging
                     dataElementMetadata.Name);
 
                 return nodeName;
-            } 
+            }
 #endif
         }
+
+        #endregion
 
     }
 }

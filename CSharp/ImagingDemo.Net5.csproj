@@ -12,7 +12,7 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>    
     <EnableDefaultItems>false</EnableDefaultItems>
-    <Version>9.1.2.23</Version>
+    <Version>10.0.0.1</Version>
     <AssemblyName>ImagingDemo</AssemblyName>
     <RootNamespace>ImagingDemo</RootNamespace>
     <StartupObject>ImagingDemo.Program</StartupObject>
@@ -36,23 +36,23 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Vintasoft.Barcode" Version="12.4.1.1" />
-    <PackageReference Include="Vintasoft.Imaging" Version="9.1.2.23" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation" Version="9.1.2.23" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf" Version="3.1.2.23" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation.UI" Version="9.1.2.23" />
-    <PackageReference Include="Vintasoft.Imaging.Dicom" Version="2.1.2.23" />
-    <PackageReference Include="Vintasoft.Imaging.DocCleanup" Version="4.1.2.23" />
-    <PackageReference Include="Vintasoft.Imaging.Jbig2Codec" Version="6.1.2.23" />
-    <PackageReference Include="Vintasoft.Imaging.Jpeg2000Codec" Version="5.1.2.23" />
-    <PackageReference Include="Vintasoft.Imaging.Media" Version="3.1.2.23" />
-    <PackageReference Include="Vintasoft.Imaging.Office.OpenXml" Version="1.1.2.23" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf" Version="6.1.2.23" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf.Mrc" Version="2.1.2.23" />
-    <PackageReference Include="Vintasoft.Imaging.RawCodec" Version="3.1.2.23" />
-    <PackageReference Include="Vintasoft.Imaging.UI" Version="9.1.2.23" />
-    <PackageReference Include="Vintasoft.Shared" Version="2.0.1.1" />
-    <PackageReference Include="Vintasoft.Twain" Version="12.0.1.5" />
+    <PackageReference Include="Vintasoft.Barcode" Version="12.4.2.1" />
+    <PackageReference Include="Vintasoft.Imaging" Version="10.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation" Version="10.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf" Version="4.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation.UI" Version="10.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Dicom" Version="3.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.DocCleanup" Version="5.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Jbig2Codec" Version="7.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Jpeg2000Codec" Version="6.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Media" Version="4.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Office.OpenXml" Version="2.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf" Version="7.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf.Mrc" Version="7.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.RawCodec" Version="4.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.UI" Version="10.0.0.1" />
+    <PackageReference Include="Vintasoft.Shared" Version="2.0.2.1" />
+    <PackageReference Include="Vintasoft.Twain" Version="12.0.3.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -135,6 +135,12 @@
     <Compile Include="DemosCommonCode.Imaging\Codecs\ImagingEncoderFactory\Dialogs\PngEncoderSettingsForm.designer.cs">
       <DependentUpon>PngEncoderSettingsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DemosCommonCode.Imaging\Codecs\ImagingEncoderFactory\Dialogs\SvgEncoderSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\Codecs\ImagingEncoderFactory\Dialogs\SvgEncoderSettingsForm.designer.cs">
+      <DependentUpon>SvgEncoderSettingsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DemosCommonCode.Imaging\Codecs\ImagingEncoderFactory\Dialogs\TiffEncoderSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,11 +193,56 @@
     <Compile Include="DemosCommonCode.Imaging\ColorManagement\ColorTransformSetEditorForm.designer.cs">
       <DependentUpon>ColorTransformSetEditorForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="DemosCommonCode.Imaging\CompositeRenderingSettingsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\CompositeRenderingSettingsForm.designer.cs">
+      <DependentUpon>CompositeRenderingSettingsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="DemosCommonCode.Imaging\CreateNewImageForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="DemosCommonCode.Imaging\CreateNewImageForm.designer.cs">
       <DependentUpon>CreateNewImageForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\DocumentLayoutSettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\DocumentLayoutSettingsEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\DocumentLayoutSettingsEditorControl.designer.cs">
+      <DependentUpon>DocumentLayoutSettingsEditorControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\DocxLayoutSettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\DocxLayoutSettingsDialog.designer.cs">
+      <DependentUpon>DocxLayoutSettingsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\ImageCollectionDocxLayoutSettingsManager.cs">
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\ImageCollectionLayoutSettingsManager.cs">
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\ImageCollectionXlsxLayoutSettingsManager.cs">
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\PageLayoutSettingsControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\PageLayoutSettingsControl.designer.cs">
+      <DependentUpon>PageLayoutSettingsControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\XlsxLayoutSettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\XlsxLayoutSettingsDialog.designer.cs">
+      <DependentUpon>XlsxLayoutSettingsDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\XlsxPageLayoutSettingsTypeEditorControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\XlsxPageLayoutSettingsTypeEditorControl.designer.cs">
+      <DependentUpon>XlsxPageLayoutSettingsTypeEditorControl.cs</DependentUpon>
     </Compile>
     <Compile Include="DemosCommonCode.Imaging\DocumentPasswordForm.cs">
       <SubType>Form</SubType>
@@ -389,6 +440,14 @@
     <Compile Include="DemosCommonCode.Imaging\Webcam\WebcamPropertiesUI\DirectShowImageQualityPropertiesControl.designer.cs">
       <DependentUpon>DirectShowImageQualityPropertiesControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="DemosCommonCode.Imaging\Webcam\WebcamPropertiesUI\DirectShowPropertyChangedEventArgs.cs">
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\Webcam\WebcamPropertiesUI\DirectShowPropertyControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\Webcam\WebcamPropertiesUI\DirectShowPropertyControl.designer.cs">
+      <DependentUpon>DirectShowPropertyControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="DemosCommonCode.Imaging\Webcam\WebcamPropertiesUI\DirectShowWebcamPropertiesForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -447,12 +506,6 @@
     </Compile>
     <Compile Include="DemosCommonCode.Imaging\VisualToolsToolStrip\VisualTools\BarcodeWriterTools\Actions\Dialogs\BarcodeWriterSettingsControl.Designer.cs">
       <DependentUpon>BarcodeWriterSettingsControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="DemosCommonCode.Imaging\VisualToolsToolStrip\VisualTools\BarcodeWriterTools\Actions\Dialogs\GetSizeForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="DemosCommonCode.Imaging\VisualToolsToolStrip\VisualTools\BarcodeWriterTools\Actions\Dialogs\GetSizeForm.Designer.cs">
-      <DependentUpon>GetSizeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DemosCommonCode.Imaging\VisualToolsToolStrip\VisualTools\BarcodeWriterTools\Actions\Dialogs\GS1ValueEditorForm.cs">
       <SubType>Form</SubType>
@@ -519,6 +572,12 @@
     <Compile Include="Dialogs\ImageProcessing\Color Commands\ColorBlendForm.Designer.cs">
       <DependentUpon>ColorBlendForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Dialogs\ImageProcessing\Color Commands\ReplaceColorGradientForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ImageProcessing\Color Commands\ReplaceColorGradientForm.Designer.cs">
+      <DependentUpon>ReplaceColorGradientForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Dialogs\ImageProcessing\Color Commands\ColorTransformForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -539,6 +598,12 @@
     </Compile>
     <Compile Include="Dialogs\ImageProcessing\Color Commands\PosterizeForm.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ImageProcessing\Color Commands\ColorGradientBinarizationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogs\ImageProcessing\Color Commands\ColorGradientBinarizationForm.Designer.cs">
+      <DependentUpon>ColorGradientBinarizationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Dialogs\ImageProcessing\Color Commands\ReplaceColorForm.cs">
       <SubType>Form</SubType>
@@ -713,18 +778,6 @@
     <Compile Include="Dialogs\ImageProcessing\Transforms Commands\RotateForm.Designer.cs">
       <DependentUpon>RotateForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Dialogs\ThumbnailSizeForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\ThumbnailSizeForm.Designer.cs">
-      <DependentUpon>ThumbnailSizeForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Dialogs\PasteImageForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Dialogs\PasteImageForm.designer.cs">
-      <DependentUpon>PasteImageForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="Dialogs\ShowAnimationForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -752,8 +805,32 @@
     <EmbeddedResource Include="CustomControls\TreeViewSearchControl.resx">
       <DependentUpon>TreeViewSearchControl.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DemosCommonCode.Imaging\Codecs\ImagingEncoderFactory\Dialogs\SvgEncoderSettingsForm.resx">
+      <DependentUpon>SvgEncoderSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DemosCommonCode.Imaging\CompositeRenderingSettingsForm.resx">
+      <DependentUpon>CompositeRenderingSettingsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DemosCommonCode.Imaging\DocumentLayoutSettings\DocumentLayoutSettingsEditorControl.resx">
+      <DependentUpon>DocumentLayoutSettingsEditorControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DemosCommonCode.Imaging\DocumentLayoutSettings\DocxLayoutSettingsDialog.resx">
+      <DependentUpon>DocxLayoutSettingsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DemosCommonCode.Imaging\DocumentLayoutSettings\PageLayoutSettingsControl.resx">
+      <DependentUpon>PageLayoutSettingsControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DemosCommonCode.Imaging\DocumentLayoutSettings\XlsxLayoutSettingsDialog.resx">
+      <DependentUpon>XlsxLayoutSettingsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DemosCommonCode.Imaging\DocumentLayoutSettings\XlsxPageLayoutSettingsTypeEditorControl.resx">
+      <DependentUpon>XlsxPageLayoutSettingsTypeEditorControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DemosCommonCode.Imaging\DocumentPasswordForm.resx">
       <DependentUpon>DocumentPasswordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DemosCommonCode.Imaging\Webcam\WebcamPropertiesUI\DirectShowPropertyControl.resx">
+      <DependentUpon>DirectShowPropertyControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\AboutBoxForm.resx">
       <DependentUpon>AboutBoxForm.cs</DependentUpon>
@@ -781,6 +858,14 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\ImageProcessing\Color Commands\ColorBlendForm.resx">
       <DependentUpon>ColorBlendForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\ImageProcessing\Color Commands\ReplaceColorGradientForm.resx">
+      <DependentUpon>ReplaceColorGradientForm.cs</DependentUpon>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogs\ImageProcessing\Color Commands\ColorGradientBinarizationForm.resx">
+      <DependentUpon>ColorGradientBinarizationForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\ImageProcessing\Color Commands\ReplaceColorForm.resx">
@@ -825,14 +910,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\ShowAnimationForm.resx">
       <DependentUpon>ShowAnimationForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\ThumbnailSizeForm.resx">
-      <DependentUpon>ThumbnailSizeForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Dialogs\PasteImageForm.resx">
-      <DependentUpon>PasteImageForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
     <EmbeddedResource Include="Dialogs\DirectPixelAccessForm.resx">
@@ -1089,10 +1166,6 @@
       <DependentUpon>BarcodeWriterSettingsControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DemosCommonCode.Imaging\VisualToolsToolStrip\VisualTools\BarcodeReaderTools\Resources\BarcodeReaderTool.png" />
-    <EmbeddedResource Include="DemosCommonCode.Imaging\VisualToolsToolStrip\VisualTools\BarcodeWriterTools\Actions\Dialogs\GetSizeForm.resx">
-      <DependentUpon>GetSizeForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
     <EmbeddedResource Include="DemosCommonCode.Imaging\VisualToolsToolStrip\VisualTools\BarcodeWriterTools\Actions\Dialogs\GS1ValueEditorForm.resx">
       <DependentUpon>GS1ValueEditorForm.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1134,6 +1207,18 @@
       <DependentUpon>ImageScalingForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <None Include="Resources\DotNet5\VintasoftTwainService.dll">
+      <Link>VintasoftTwainService.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\DotNet5\VintasoftTwainService.exe">
+      <Link>VintasoftTwainService.exe</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Include="Resources\DotNet5\VintasoftTwainService.runtimeconfig.json">
+      <Link>VintasoftTwainService.runtimeconfig.json</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <EmbeddedResource Include="DemosCommonCode.Imaging\VisualTools\BarcodeReaderTool\Resources\BarcodeScanner.cur" />
     <EmbeddedResource Include="DemosCommonCode.Imaging\VisualTools\BarcodeWriterTool\Resources\DrawBarcodeImage.png" />
     <EmbeddedResource Include="Resources\Processing_Color.png" />

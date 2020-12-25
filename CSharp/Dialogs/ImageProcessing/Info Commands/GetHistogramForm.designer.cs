@@ -47,7 +47,7 @@ namespace ImagingDemo
             this.histogramImagePictureBox.Size = new System.Drawing.Size(602, 302);
             this.histogramImagePictureBox.TabIndex = 0;
             this.histogramImagePictureBox.TabStop = false;
-            this.histogramImagePictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.HistogramImage_MouseMove);
+            this.histogramImagePictureBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.histogramImagePictureBox_MouseMove);
             // 
             // closeButton
             // 
@@ -109,7 +109,7 @@ namespace ImagingDemo
             this.histogramTypeComboBox.Name = "histogramTypeComboBox";
             this.histogramTypeComboBox.Size = new System.Drawing.Size(121, 21);
             this.histogramTypeComboBox.TabIndex = 6;
-            this.histogramTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.HistogramTypeComboBox_SelectedIndexChanged);
+            this.histogramTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.histogramTypeComboBox_SelectedIndexChanged);
             // 
             // histogramTypeLabel
             // 
@@ -137,11 +137,12 @@ namespace ImagingDemo
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "HistogramForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Histogram";
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.HistogramDialog_MouseMove);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.getHistorgamForm_MouseMove);
             ((System.ComponentModel.ISupportInitialize)(this.histogramImagePictureBox)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

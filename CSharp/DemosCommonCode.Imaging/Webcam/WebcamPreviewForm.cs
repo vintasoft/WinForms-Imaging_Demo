@@ -19,7 +19,7 @@ namespace DemosCommonCode.Imaging
     /// </summary>
     public partial class WebcamPreviewForm : Form
     {
-        
+
         #region Fields
 
         /// <summary>
@@ -31,7 +31,7 @@ namespace DemosCommonCode.Imaging
         /// Image capture device.
         /// </summary>
         ImageCaptureDevice _imageCaptureDevice;
-        
+
         /// <summary>
         /// Image capture source.
         /// </summary>
@@ -53,11 +53,18 @@ namespace DemosCommonCode.Imaging
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcamPreviewForm"/> class.
+        /// </summary>
         public WebcamPreviewForm()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="WebcamPreviewForm"/> class.
+        /// </summary>
+        /// <param name="device">The device.</param>
         public WebcamPreviewForm(ImageCaptureDevice device)
             : this()
         {
@@ -88,7 +95,7 @@ namespace DemosCommonCode.Imaging
                     formatsComboBox.Items.Add(_imageCaptureDevice.SupportedFormats[i]);
                 }
             }
-            
+
             formatsComboBox.SelectedItem = _imageCaptureDevice.DesiredFormat;
 
             invertComboBox.SelectedIndex = 0;
@@ -123,58 +130,62 @@ namespace DemosCommonCode.Imaging
 
         #region Methods
 
-        #region Common
+        #region UI
 
         /// <summary>
-        /// Changes frame delay.
+        /// Handles the ValueChanged event of FrameDelayNumericUpDown object.
         /// </summary>
         private void frameDelayNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
+            // update image capture timeout
             _imageCaptureTimeout = (int)frameDelayNumericUpDown.Value;
         }
 
         /// <summary>
-        /// Shows camera properties dialog (default UI).
+        /// Handles the Click event of PropertiesDefaultUiButton object.
         /// </summary>
         private void propertiesDefaultUiButton_Click(object sender, EventArgs e)
         {
+            // show properties dialog
             _imageCaptureDevice.ShowPropertiesDialog();
         }
 
         /// <summary>
-        /// Shows camera properties dialog (custom UI).
+        /// Handles the Click event of PropertiesCustomUiButton object.
         /// </summary>
         private void propertiesCustomUiButton_Click(object sender, EventArgs e)
         {
+            // create custom UI dialog
             using (DirectShowWebcamPropertiesForm dlg = new DirectShowWebcamPropertiesForm((DirectShowCamera)_imageCaptureDevice))
             {
+                // show dialog
                 dlg.ShowDialog();
             }
         }
 
         /// <summary>
-        /// Captures image from webcam and adds image into image viewer (SnapshotViewer).
+        /// Handles the Click event of CaptureImageButton object.
         /// </summary>
         private void captureImageButton_Click(object sender, EventArgs e)
         {
             if (SnapshotViewer != null)
             {
+                // get current image
                 VintasoftImage image = videoPreviewImageViewer.Image;
+                // if current image is specified
                 if (image != null)
                 {
+                    // add image to snapshot viewer
                     SnapshotViewer.Images.Add((VintasoftImage)image.Clone());
+                    // change focused index to current image
                     SnapshotViewer.FocusedIndex = SnapshotViewer.Images.Count - 1;
                 }
             }
-        }      
+        }
 
-        #endregion
-
-
-        #region Camera
 
         /// <summary>
-        /// Starts capturing from camera.
+        /// Handles the Shown event of WebcamVideoForm object.
         /// </summary>
         private void WebcamVideoForm_Shown(object sender, EventArgs e)
         {
@@ -194,15 +205,80 @@ namespace DemosCommonCode.Imaging
             }
         }
 
-        
         /// <summary>
-        /// Image is captured.
+        /// Handles the SelectedIndexChanged event of FormatsComboBox object.
         /// </summary>
+        private void formatsComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // disable user interface
+            propertiesDefaultUiButton.Enabled = false;
+            captureImageButton.Enabled = false;
+            try
+            {
+                // if image capturing is started
+                if (_imageCaptureSource.State == ImageCaptureState.Started)
+                {
+                    try
+                    {
+                        // stop the capture source
+                        _imageCaptureSource.Stop();
+
+                        try
+                        {
+                            // change desired format
+                            _imageCaptureDevice.DesiredFormat = (ImageCaptureFormat)formatsComboBox.SelectedItem;
+                        }
+                        catch (Exception ex)
+                        {
+                            DemosTools.ShowErrorMessage(ex);
+                        }
+
+                        // start the capture source
+                        _imageCaptureSource.Start();
+
+                        // initialize new image capture request
+                        _imageCaptureSource.CaptureAsync();
+                    }
+                    catch (Exception ex)
+                    {
+                        DemosTools.ShowErrorMessage(ex);
+                    }
+                }
+            }
+            finally
+            {
+                // enable user interface
+                propertiesDefaultUiButton.Enabled = true;
+                captureImageButton.Enabled = true;
+            }
+        }
+
+        /// <summary>
+        /// Handles the FormClosed event of WebcamVideoForm object.
+        /// </summary>
+        private void WebcamVideoForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            // stop the device monitor
+            _imageCaptureDeviceMonitor.Stop();
+            // stop the capture source
+            _imageCaptureSource.Stop();
+        }
+
+        #endregion
+
+
+        #region Camera
+
+        /// <summary>
+        /// Updates the captured image in image viewer.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ImageCaptureCompletedEventArgs"/> instance containing the event data.</param>
         private void CaptureSource_CaptureCompleted(object sender, ImageCaptureCompletedEventArgs e)
         {
             // save reference to the previously captured image
             VintasoftImage oldImage = videoPreviewImageViewer.Image;
-            
+
             // get captured image
             VintasoftImage newImage = e.GetCapturedImage();
 
@@ -212,12 +288,12 @@ namespace DemosCommonCode.Imaging
 
             // show captured image in the preview viewer           
             videoPreviewImageViewer.Image = newImage;
-            
+
             // if previously captured image is exist
             if (oldImage != null)
                 // dispose previously captured image
                 oldImage.Dispose();
-            
+
             // if capture source is started
             if (_imageCaptureSource.State == ImageCaptureState.Started)
             {
@@ -232,50 +308,10 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Changes video format.
-        /// </summary>
-        private void formatsComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            propertiesDefaultUiButton.Enabled = false;
-            captureImageButton.Enabled = false;
-
-            if (_imageCaptureSource.State == ImageCaptureState.Started)
-            {
-                try
-                {
-                    // stop the capture source
-                    _imageCaptureSource.Stop();
-
-                    // change desired format
-                    try
-                    {
-                        _imageCaptureDevice.DesiredFormat = (ImageCaptureFormat)formatsComboBox.SelectedItem;
-                    }
-                    catch (Exception ex)
-                    {
-                        DemosTools.ShowErrorMessage(ex);
-                    }
-                    
-                    // start the capture source
-                    _imageCaptureSource.Start();
-
-                    // initialize new image capture request
-                    _imageCaptureSource.CaptureAsync();
-                }
-                catch (Exception ex)
-                {
-                    DemosTools.ShowErrorMessage(ex);
-                }
-            }
-
-            propertiesDefaultUiButton.Enabled = true;
-            captureImageButton.Enabled = true;
-        }
-
-
-        /// <summary>
         /// List of available capturing devices is changed.
         /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ImageCaptureDevicesChangedEventArgs"/> instance containing the event data.</param>
         private void DeviceMonitor_CaptureDevicesChanged(object sender, ImageCaptureDevicesChangedEventArgs e)
         {
             // if current capture device is removed
@@ -285,25 +321,18 @@ namespace DemosCommonCode.Imaging
                 Invoke(new ThreadStart(Close));
             }
         }
-        
-        private void WebcamVideoForm_FormClosed(object sender, FormClosedEventArgs e)
-        {
-            // stop the device monitor
-            _imageCaptureDeviceMonitor.Stop();
-            // stop the capture source
-            _imageCaptureSource.Stop();
-        }
 
         #endregion
 
-        
-        
+
         #region Captured Image Processing
 
         /// <summary>
-        /// Builds proccessing command to process current captured frame.
+        /// Builds the proccessing command to process current captured frame.
         /// </summary>
-        private void BuildProcessingCommand()
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void ChangeProcessingCommandHandler(object sender, EventArgs e)
         {
             List<ProcessingCommandBase> commands = new List<ProcessingCommandBase>();
 
@@ -346,11 +375,6 @@ namespace DemosCommonCode.Imaging
                 _processingCommand = commands[0];
             else
                 _processingCommand = new CompositeCommand(commands.ToArray());
-        }
-
-        private void ChangeProcessingCommandHandler(object sender, EventArgs e)
-        {
-            BuildProcessingCommand();
         }
 
         #endregion

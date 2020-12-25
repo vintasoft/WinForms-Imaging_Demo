@@ -130,10 +130,12 @@ namespace DemosCommonCode.Barcode
             this.backgroundColorPanel = new System.Windows.Forms.Panel();
             this.selectBackgroundColorButton = new System.Windows.Forms.Button();
             this.barcodeWidthPanel = new System.Windows.Forms.Panel();
+            this.label42 = new System.Windows.Forms.Label();
             this.subsetBarcodeValueButton = new System.Windows.Forms.Button();
             this.mainPanel = new System.Windows.Forms.Panel();
             this.barcodeGroupsTabControl = new System.Windows.Forms.TabControl();
             this.linearBarcodesTabPage = new System.Windows.Forms.TabPage();
+            this.label43 = new System.Windows.Forms.Label();
             this.code16KEncodeingModePanel = new System.Windows.Forms.Panel();
             this.label12 = new System.Windows.Forms.Label();
             this.code16KEncodingModeComboBox = new System.Windows.Forms.ComboBox();
@@ -158,8 +160,14 @@ namespace DemosCommonCode.Barcode
             this.dataMatrixSettingsPanel = new System.Windows.Forms.Panel();
             this.encodingInfoComboBox = new System.Windows.Forms.ComboBox();
             this.encodingInfoCheckBox = new System.Windows.Forms.CheckBox();
-            this.label42 = new System.Windows.Forms.Label();
-            this.label43 = new System.Windows.Forms.Label();
+            this.dotCodeSettingsPanel = new System.Windows.Forms.Panel();
+            this.dotCodeAspectRatioNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.dotCodeRectangularModulesCheckBox = new System.Windows.Forms.CheckBox();
+            this.label51 = new System.Windows.Forms.Label();
+            this.dotCodeHeightNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label53 = new System.Windows.Forms.Label();
+            this.label54 = new System.Windows.Forms.Label();
+            this.dotCodeWidthNumericUpDown = new System.Windows.Forms.NumericUpDown();
             ((System.ComponentModel.ISupportInitialize)(this.valueFontSizeNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.valueGapNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.minWidthNumericUpDown)).BeginInit();
@@ -200,6 +208,10 @@ namespace DemosCommonCode.Barcode
             this.aztecSettingsPanel.SuspendLayout();
             this.maxiCodeSettingsPanel.SuspendLayout();
             this.dataMatrixSettingsPanel.SuspendLayout();
+            this.dotCodeSettingsPanel.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dotCodeAspectRatioNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dotCodeHeightNumericUpDown)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dotCodeWidthNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // label1
@@ -214,8 +226,8 @@ namespace DemosCommonCode.Barcode
             // 
             // barcodeValueTextBox
             // 
-            this.barcodeValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.barcodeValueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.barcodeValueTextBox.Location = new System.Drawing.Point(52, 3);
             this.barcodeValueTextBox.Name = "barcodeValueTextBox";
             this.barcodeValueTextBox.Size = new System.Drawing.Size(211, 20);
@@ -237,8 +249,8 @@ namespace DemosCommonCode.Barcode
             // 
             // fontSelector
             // 
-            this.fontSelector.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.fontSelector.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.fontSelector.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.fontSelector.FormattingEnabled = true;
             this.fontSelector.Location = new System.Drawing.Point(111, 49);
@@ -327,8 +339,8 @@ namespace DemosCommonCode.Barcode
             // 
             // pixelFormatComboBox
             // 
-            this.pixelFormatComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pixelFormatComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pixelFormatComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.pixelFormatComboBox.FormattingEnabled = true;
             this.pixelFormatComboBox.Location = new System.Drawing.Point(111, 167);
@@ -339,8 +351,8 @@ namespace DemosCommonCode.Barcode
             // 
             // valueFontSizeNumericUpDown
             // 
-            this.valueFontSizeNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.valueFontSizeNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.valueFontSizeNumericUpDown.Location = new System.Drawing.Point(111, 72);
             this.valueFontSizeNumericUpDown.Maximum = new decimal(new int[] {
             512,
@@ -364,8 +376,8 @@ namespace DemosCommonCode.Barcode
             // 
             // valueGapNumericUpDown
             // 
-            this.valueGapNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.valueGapNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.valueGapNumericUpDown.Location = new System.Drawing.Point(111, 96);
             this.valueGapNumericUpDown.Minimum = new decimal(new int[] {
             100,
@@ -379,8 +391,8 @@ namespace DemosCommonCode.Barcode
             // 
             // minWidthNumericUpDown
             // 
-            this.minWidthNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.minWidthNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.minWidthNumericUpDown.Location = new System.Drawing.Point(104, 0);
             this.minWidthNumericUpDown.Maximum = new decimal(new int[] {
             1024,
@@ -422,8 +434,8 @@ namespace DemosCommonCode.Barcode
             // 
             // paddingNumericUpDown
             // 
-            this.paddingNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.paddingNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.paddingNumericUpDown.Location = new System.Drawing.Point(111, 237);
             this.paddingNumericUpDown.Maximum = new decimal(new int[] {
             128,
@@ -447,8 +459,8 @@ namespace DemosCommonCode.Barcode
             // 
             // widthAdjustNumericUpDown
             // 
-            this.widthAdjustNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.widthAdjustNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.widthAdjustNumericUpDown.Location = new System.Drawing.Point(111, 261);
             this.widthAdjustNumericUpDown.Maximum = new decimal(new int[] {
             3,
@@ -467,8 +479,8 @@ namespace DemosCommonCode.Barcode
             // 
             // aztecErrorCorrectionNumericUpDown
             // 
-            this.aztecErrorCorrectionNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.aztecErrorCorrectionNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.aztecErrorCorrectionNumericUpDown.Location = new System.Drawing.Point(127, 87);
             this.aztecErrorCorrectionNumericUpDown.Maximum = new decimal(new int[] {
             99,
@@ -501,8 +513,8 @@ namespace DemosCommonCode.Barcode
             // 
             // aztecEncodingModeComboBox
             // 
-            this.aztecEncodingModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.aztecEncodingModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.aztecEncodingModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.aztecEncodingModeComboBox.FormattingEnabled = true;
             this.aztecEncodingModeComboBox.Location = new System.Drawing.Point(127, 60);
@@ -513,8 +525,8 @@ namespace DemosCommonCode.Barcode
             // 
             // aztecLayersCountComboBox
             // 
-            this.aztecLayersCountComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.aztecLayersCountComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.aztecLayersCountComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.aztecLayersCountComboBox.FormattingEnabled = true;
             this.aztecLayersCountComboBox.Location = new System.Drawing.Point(127, 33);
@@ -525,8 +537,8 @@ namespace DemosCommonCode.Barcode
             // 
             // aztecSymbolComboBox
             // 
-            this.aztecSymbolComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.aztecSymbolComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.aztecSymbolComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.aztecSymbolComboBox.FormattingEnabled = true;
             this.aztecSymbolComboBox.Location = new System.Drawing.Point(127, 6);
@@ -575,8 +587,8 @@ namespace DemosCommonCode.Barcode
             // 
             // pdf417RowHeightNumericUpDown
             // 
-            this.pdf417RowHeightNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pdf417RowHeightNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pdf417RowHeightNumericUpDown.Location = new System.Drawing.Point(127, 112);
             this.pdf417RowHeightNumericUpDown.Maximum = new decimal(new int[] {
             64,
@@ -609,8 +621,8 @@ namespace DemosCommonCode.Barcode
             // 
             // pdf417ColsNumericUpDown
             // 
-            this.pdf417ColsNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pdf417ColsNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pdf417ColsNumericUpDown.Location = new System.Drawing.Point(127, 86);
             this.pdf417ColsNumericUpDown.Maximum = new decimal(new int[] {
             30,
@@ -643,8 +655,8 @@ namespace DemosCommonCode.Barcode
             // 
             // pdf417RowsNumericUpDown
             // 
-            this.pdf417RowsNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pdf417RowsNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pdf417RowsNumericUpDown.Location = new System.Drawing.Point(127, 60);
             this.pdf417RowsNumericUpDown.Maximum = new decimal(new int[] {
             90,
@@ -677,8 +689,8 @@ namespace DemosCommonCode.Barcode
             // 
             // pdf417ErrorCorrectionComboBox
             // 
-            this.pdf417ErrorCorrectionComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pdf417ErrorCorrectionComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pdf417ErrorCorrectionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.pdf417ErrorCorrectionComboBox.FormattingEnabled = true;
             this.pdf417ErrorCorrectionComboBox.Location = new System.Drawing.Point(127, 33);
@@ -689,8 +701,8 @@ namespace DemosCommonCode.Barcode
             // 
             // pdf417EncodingModeComboBox
             // 
-            this.pdf417EncodingModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pdf417EncodingModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pdf417EncodingModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.pdf417EncodingModeComboBox.FormattingEnabled = true;
             this.pdf417EncodingModeComboBox.Location = new System.Drawing.Point(127, 6);
@@ -728,8 +740,8 @@ namespace DemosCommonCode.Barcode
             // 
             // microPDF417SymbolSizeComboBox
             // 
-            this.microPDF417SymbolSizeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.microPDF417SymbolSizeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.microPDF417SymbolSizeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.microPDF417SymbolSizeComboBox.FormattingEnabled = true;
             this.microPDF417SymbolSizeComboBox.Location = new System.Drawing.Point(127, 33);
@@ -749,8 +761,8 @@ namespace DemosCommonCode.Barcode
             // 
             // microPED417RowHeightNumericUpDown
             // 
-            this.microPED417RowHeightNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.microPED417RowHeightNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.microPED417RowHeightNumericUpDown.Location = new System.Drawing.Point(127, 87);
             this.microPED417RowHeightNumericUpDown.Maximum = new decimal(new int[] {
             64,
@@ -783,8 +795,8 @@ namespace DemosCommonCode.Barcode
             // 
             // microPDF417ColumnsNumericUpDown
             // 
-            this.microPDF417ColumnsNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.microPDF417ColumnsNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.microPDF417ColumnsNumericUpDown.Location = new System.Drawing.Point(127, 61);
             this.microPDF417ColumnsNumericUpDown.Maximum = new decimal(new int[] {
             4,
@@ -798,8 +810,8 @@ namespace DemosCommonCode.Barcode
             // 
             // microPDF417EncodingModeComboBox
             // 
-            this.microPDF417EncodingModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.microPDF417EncodingModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.microPDF417EncodingModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.microPDF417EncodingModeComboBox.FormattingEnabled = true;
             this.microPDF417EncodingModeComboBox.Location = new System.Drawing.Point(127, 6);
@@ -819,8 +831,8 @@ namespace DemosCommonCode.Barcode
             // 
             // qrECCLevelComboBox
             // 
-            this.qrECCLevelComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.qrECCLevelComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.qrECCLevelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.qrECCLevelComboBox.FormattingEnabled = true;
             this.qrECCLevelComboBox.Location = new System.Drawing.Point(127, 60);
@@ -831,8 +843,8 @@ namespace DemosCommonCode.Barcode
             // 
             // qrSymbolSizeComboBox
             // 
-            this.qrSymbolSizeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.qrSymbolSizeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.qrSymbolSizeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.qrSymbolSizeComboBox.FormattingEnabled = true;
             this.qrSymbolSizeComboBox.Location = new System.Drawing.Point(127, 33);
@@ -843,8 +855,8 @@ namespace DemosCommonCode.Barcode
             // 
             // qrEncodingModeComboBox
             // 
-            this.qrEncodingModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.qrEncodingModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.qrEncodingModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.qrEncodingModeComboBox.FormattingEnabled = true;
             this.qrEncodingModeComboBox.Location = new System.Drawing.Point(127, 6);
@@ -882,8 +894,8 @@ namespace DemosCommonCode.Barcode
             // 
             // microQrECCLevelComboBox
             // 
-            this.microQrECCLevelComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.microQrECCLevelComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.microQrECCLevelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.microQrECCLevelComboBox.FormattingEnabled = true;
             this.microQrECCLevelComboBox.Location = new System.Drawing.Point(128, 60);
@@ -894,8 +906,8 @@ namespace DemosCommonCode.Barcode
             // 
             // microQrSymbolSizeComboBox
             // 
-            this.microQrSymbolSizeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.microQrSymbolSizeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.microQrSymbolSizeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.microQrSymbolSizeComboBox.FormattingEnabled = true;
             this.microQrSymbolSizeComboBox.Location = new System.Drawing.Point(128, 33);
@@ -906,8 +918,8 @@ namespace DemosCommonCode.Barcode
             // 
             // microQrEncodingModeComboBox
             // 
-            this.microQrEncodingModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.microQrEncodingModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.microQrEncodingModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.microQrEncodingModeComboBox.FormattingEnabled = true;
             this.microQrEncodingModeComboBox.Location = new System.Drawing.Point(128, 6);
@@ -945,8 +957,8 @@ namespace DemosCommonCode.Barcode
             // 
             // datamatrixSymbolSizeComboBox
             // 
-            this.datamatrixSymbolSizeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.datamatrixSymbolSizeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.datamatrixSymbolSizeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.datamatrixSymbolSizeComboBox.FormattingEnabled = true;
             this.datamatrixSymbolSizeComboBox.Location = new System.Drawing.Point(128, 33);
@@ -957,8 +969,8 @@ namespace DemosCommonCode.Barcode
             // 
             // datamatrixEncodingModeComboBox
             // 
-            this.datamatrixEncodingModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.datamatrixEncodingModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.datamatrixEncodingModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.datamatrixEncodingModeComboBox.FormattingEnabled = true;
             this.datamatrixEncodingModeComboBox.Location = new System.Drawing.Point(128, 6);
@@ -987,8 +999,8 @@ namespace DemosCommonCode.Barcode
             // 
             // maxiCodeResolutonNumericUpDown
             // 
-            this.maxiCodeResolutonNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.maxiCodeResolutonNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.maxiCodeResolutonNumericUpDown.Increment = new decimal(new int[] {
             50,
             0,
@@ -1026,8 +1038,8 @@ namespace DemosCommonCode.Barcode
             // 
             // maxiCodeEncodingModeComboBox
             // 
-            this.maxiCodeEncodingModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.maxiCodeEncodingModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.maxiCodeEncodingModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.maxiCodeEncodingModeComboBox.FormattingEnabled = true;
             this.maxiCodeEncodingModeComboBox.Location = new System.Drawing.Point(128, 33);
@@ -1047,8 +1059,8 @@ namespace DemosCommonCode.Barcode
             // 
             // msiChecksumPanel
             // 
-            this.msiChecksumPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.msiChecksumPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.msiChecksumPanel.Controls.Add(this.msiChecksumComboBox);
             this.msiChecksumPanel.Controls.Add(this.label16);
             this.msiChecksumPanel.Location = new System.Drawing.Point(0, 107);
@@ -1059,8 +1071,8 @@ namespace DemosCommonCode.Barcode
             // 
             // msiChecksumComboBox
             // 
-            this.msiChecksumComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.msiChecksumComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.msiChecksumComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.msiChecksumComboBox.FormattingEnabled = true;
             this.msiChecksumComboBox.Location = new System.Drawing.Point(115, 3);
@@ -1080,8 +1092,8 @@ namespace DemosCommonCode.Barcode
             // 
             // rssExpandedStackedSegmentPerRowPanel
             // 
-            this.rssExpandedStackedSegmentPerRowPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.rssExpandedStackedSegmentPerRowPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.rssExpandedStackedSegmentPerRowPanel.Controls.Add(this.barcodeWriterRSSExpandedStackedSegmentPerRowLabel);
             this.rssExpandedStackedSegmentPerRowPanel.Controls.Add(this.rssExpandedStackedSegmentPerRow);
             this.rssExpandedStackedSegmentPerRowPanel.Location = new System.Drawing.Point(0, 108);
@@ -1100,8 +1112,8 @@ namespace DemosCommonCode.Barcode
             // 
             // rssExpandedStackedSegmentPerRow
             // 
-            this.rssExpandedStackedSegmentPerRow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.rssExpandedStackedSegmentPerRow.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.rssExpandedStackedSegmentPerRow.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.rssExpandedStackedSegmentPerRow.FormattingEnabled = true;
             this.rssExpandedStackedSegmentPerRow.Location = new System.Drawing.Point(114, 3);
@@ -1112,8 +1124,8 @@ namespace DemosCommonCode.Barcode
             // 
             // rss14StackedOmniPanel
             // 
-            this.rss14StackedOmniPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.rss14StackedOmniPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.rss14StackedOmniPanel.Controls.Add(this.rss14StackedOmni);
             this.rss14StackedOmniPanel.Location = new System.Drawing.Point(0, 107);
             this.rss14StackedOmniPanel.Name = "rss14StackedOmniPanel";
@@ -1133,8 +1145,8 @@ namespace DemosCommonCode.Barcode
             // 
             // rssLinkageFlagPanel
             // 
-            this.rssLinkageFlagPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.rssLinkageFlagPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.rssLinkageFlagPanel.Controls.Add(this.rssLinkageFlag);
             this.rssLinkageFlagPanel.Location = new System.Drawing.Point(0, 79);
             this.rssLinkageFlagPanel.Name = "rssLinkageFlagPanel";
@@ -1154,8 +1166,8 @@ namespace DemosCommonCode.Barcode
             // 
             // enableTelepenNumericModePanel
             // 
-            this.enableTelepenNumericModePanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.enableTelepenNumericModePanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.enableTelepenNumericModePanel.Controls.Add(this.enableTelepenNumericMode);
             this.enableTelepenNumericModePanel.Location = new System.Drawing.Point(0, 107);
             this.enableTelepenNumericModePanel.Name = "enableTelepenNumericModePanel";
@@ -1175,8 +1187,8 @@ namespace DemosCommonCode.Barcode
             // 
             // useOptionalCheckSumPanel
             // 
-            this.useOptionalCheckSumPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.useOptionalCheckSumPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.useOptionalCheckSumPanel.Controls.Add(this.useOptionalCheckSum);
             this.useOptionalCheckSumPanel.Location = new System.Drawing.Point(0, 135);
             this.useOptionalCheckSumPanel.Name = "useOptionalCheckSumPanel";
@@ -1196,8 +1208,8 @@ namespace DemosCommonCode.Barcode
             // 
             // barsRatioPanel
             // 
-            this.barsRatioPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.barsRatioPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.barsRatioPanel.Controls.Add(this.barsRatioNumericUpDown);
             this.barsRatioPanel.Controls.Add(this.label14);
             this.barsRatioPanel.Location = new System.Drawing.Point(0, 79);
@@ -1208,8 +1220,8 @@ namespace DemosCommonCode.Barcode
             // 
             // barsRatioNumericUpDown
             // 
-            this.barsRatioNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.barsRatioNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.barsRatioNumericUpDown.Location = new System.Drawing.Point(114, 4);
             this.barsRatioNumericUpDown.Maximum = new decimal(new int[] {
             30,
@@ -1242,8 +1254,8 @@ namespace DemosCommonCode.Barcode
             // 
             // code128ModePanel
             // 
-            this.code128ModePanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.code128ModePanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.code128ModePanel.Controls.Add(this.code128ModeComboBox);
             this.code128ModePanel.Controls.Add(this.label17);
             this.code128ModePanel.Location = new System.Drawing.Point(0, 135);
@@ -1253,8 +1265,8 @@ namespace DemosCommonCode.Barcode
             // 
             // code128ModeComboBox
             // 
-            this.code128ModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.code128ModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.code128ModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.code128ModeComboBox.FormattingEnabled = true;
             this.code128ModeComboBox.Location = new System.Drawing.Point(115, 3);
@@ -1274,8 +1286,8 @@ namespace DemosCommonCode.Barcode
             // 
             // australianPostCustomInfoPanel
             // 
-            this.australianPostCustomInfoPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.australianPostCustomInfoPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.australianPostCustomInfoPanel.Controls.Add(this.australianPostCustomInfoComboBox);
             this.australianPostCustomInfoPanel.Controls.Add(this.label15);
             this.australianPostCustomInfoPanel.Location = new System.Drawing.Point(0, 79);
@@ -1286,8 +1298,8 @@ namespace DemosCommonCode.Barcode
             // 
             // australianPostCustomInfoComboBox
             // 
-            this.australianPostCustomInfoComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.australianPostCustomInfoComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.australianPostCustomInfoComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.australianPostCustomInfoComboBox.FormattingEnabled = true;
             this.australianPostCustomInfoComboBox.Location = new System.Drawing.Point(115, 3);
@@ -1307,8 +1319,8 @@ namespace DemosCommonCode.Barcode
             // 
             // postalADMiltiplierPanel
             // 
-            this.postalADMiltiplierPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.postalADMiltiplierPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.postalADMiltiplierPanel.Controls.Add(this.postalADMiltiplierNumericUpDown);
             this.postalADMiltiplierPanel.Controls.Add(this.label9);
             this.postalADMiltiplierPanel.Location = new System.Drawing.Point(0, 54);
@@ -1319,8 +1331,8 @@ namespace DemosCommonCode.Barcode
             // 
             // postalADMiltiplierNumericUpDown
             // 
-            this.postalADMiltiplierNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.postalADMiltiplierNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.postalADMiltiplierNumericUpDown.Location = new System.Drawing.Point(115, 1);
             this.postalADMiltiplierNumericUpDown.Maximum = new decimal(new int[] {
             17,
@@ -1353,8 +1365,8 @@ namespace DemosCommonCode.Barcode
             // 
             // linearBarcodeTypeComboBox
             // 
-            this.linearBarcodeTypeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.linearBarcodeTypeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.linearBarcodeTypeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.linearBarcodeTypeComboBox.FormattingEnabled = true;
             this.linearBarcodeTypeComboBox.Location = new System.Drawing.Point(6, 4);
@@ -1365,8 +1377,8 @@ namespace DemosCommonCode.Barcode
             // 
             // linearBarcodeHeight
             // 
-            this.linearBarcodeHeight.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.linearBarcodeHeight.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.linearBarcodeHeight.Location = new System.Drawing.Point(114, 31);
             this.linearBarcodeHeight.Maximum = new decimal(new int[] {
             4096,
@@ -1399,8 +1411,8 @@ namespace DemosCommonCode.Barcode
             // 
             // foregroundColorPanel
             // 
-            this.foregroundColorPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.foregroundColorPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.foregroundColorPanel.BackColor = System.Drawing.Color.Black;
             this.foregroundColorPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.foregroundColorPanel.Location = new System.Drawing.Point(111, 141);
@@ -1422,8 +1434,8 @@ namespace DemosCommonCode.Barcode
             // 
             // backgroundColorPanel
             // 
-            this.backgroundColorPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.backgroundColorPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.backgroundColorPanel.BackColor = System.Drawing.Color.White;
             this.backgroundColorPanel.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.backgroundColorPanel.Location = new System.Drawing.Point(196, 141);
@@ -1445,8 +1457,8 @@ namespace DemosCommonCode.Barcode
             // 
             // barcodeWidthPanel
             // 
-            this.barcodeWidthPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.barcodeWidthPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.barcodeWidthPanel.Controls.Add(this.label42);
             this.barcodeWidthPanel.Controls.Add(this.label7);
             this.barcodeWidthPanel.Controls.Add(this.minWidthNumericUpDown);
@@ -1455,10 +1467,19 @@ namespace DemosCommonCode.Barcode
             this.barcodeWidthPanel.Size = new System.Drawing.Size(255, 21);
             this.barcodeWidthPanel.TabIndex = 31;
             // 
+            // label42
+            // 
+            this.label42.AutoSize = true;
+            this.label42.Location = new System.Drawing.Point(223, 5);
+            this.label42.Name = "label42";
+            this.label42.Size = new System.Drawing.Size(18, 13);
+            this.label42.TabIndex = 37;
+            this.label42.Text = "px";
+            // 
             // subsetBarcodeValueButton
             // 
-            this.subsetBarcodeValueButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.subsetBarcodeValueButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.subsetBarcodeValueButton.Location = new System.Drawing.Point(52, 3);
             this.subsetBarcodeValueButton.Name = "subsetBarcodeValueButton";
             this.subsetBarcodeValueButton.Size = new System.Drawing.Size(211, 21);
@@ -1505,9 +1526,9 @@ namespace DemosCommonCode.Barcode
             // 
             // barcodeGroupsTabControl
             // 
-            this.barcodeGroupsTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.barcodeGroupsTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.barcodeGroupsTabControl.Controls.Add(this.linearBarcodesTabPage);
             this.barcodeGroupsTabControl.Controls.Add(this.barcodes2DTabPage);
             this.barcodeGroupsTabControl.Location = new System.Drawing.Point(3, 287);
@@ -1543,10 +1564,19 @@ namespace DemosCommonCode.Barcode
             this.linearBarcodesTabPage.Text = "1D";
             this.linearBarcodesTabPage.UseVisualStyleBackColor = true;
             // 
+            // label43
+            // 
+            this.label43.AutoSize = true;
+            this.label43.Location = new System.Drawing.Point(222, 37);
+            this.label43.Name = "label43";
+            this.label43.Size = new System.Drawing.Size(18, 13);
+            this.label43.TabIndex = 37;
+            this.label43.Text = "px";
+            // 
             // code16KEncodeingModePanel
             // 
-            this.code16KEncodeingModePanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.code16KEncodeingModePanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.code16KEncodeingModePanel.Controls.Add(this.label12);
             this.code16KEncodeingModePanel.Controls.Add(this.code16KEncodingModeComboBox);
             this.code16KEncodeingModePanel.Location = new System.Drawing.Point(0, 80);
@@ -1565,8 +1595,8 @@ namespace DemosCommonCode.Barcode
             // 
             // code16KEncodingModeComboBox
             // 
-            this.code16KEncodingModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.code16KEncodingModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.code16KEncodingModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.code16KEncodingModeComboBox.FormattingEnabled = true;
             this.code16KEncodingModeComboBox.Location = new System.Drawing.Point(114, 3);
@@ -1577,8 +1607,8 @@ namespace DemosCommonCode.Barcode
             // 
             // code16KRowsPanel
             // 
-            this.code16KRowsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.code16KRowsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.code16KRowsPanel.Controls.Add(this.label8);
             this.code16KRowsPanel.Controls.Add(this.code16KRowsComboBox);
             this.code16KRowsPanel.Location = new System.Drawing.Point(0, 53);
@@ -1597,8 +1627,8 @@ namespace DemosCommonCode.Barcode
             // 
             // code16KRowsComboBox
             // 
-            this.code16KRowsComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.code16KRowsComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.code16KRowsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.code16KRowsComboBox.FormattingEnabled = true;
             this.code16KRowsComboBox.Location = new System.Drawing.Point(114, 3);
@@ -1618,6 +1648,7 @@ namespace DemosCommonCode.Barcode
             this.barcodes2DTabPage.Controls.Add(this.aztecSettingsPanel);
             this.barcodes2DTabPage.Controls.Add(this.maxiCodeSettingsPanel);
             this.barcodes2DTabPage.Controls.Add(this.dataMatrixSettingsPanel);
+            this.barcodes2DTabPage.Controls.Add(this.dotCodeSettingsPanel);
             this.barcodes2DTabPage.Location = new System.Drawing.Point(4, 22);
             this.barcodes2DTabPage.Name = "barcodes2DTabPage";
             this.barcodes2DTabPage.Padding = new System.Windows.Forms.Padding(3);
@@ -1628,8 +1659,8 @@ namespace DemosCommonCode.Barcode
             // 
             // twoDimensionalBarcodeComboBox
             // 
-            this.twoDimensionalBarcodeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.twoDimensionalBarcodeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.twoDimensionalBarcodeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.twoDimensionalBarcodeComboBox.FormattingEnabled = true;
             this.twoDimensionalBarcodeComboBox.Location = new System.Drawing.Point(6, 4);
@@ -1640,9 +1671,9 @@ namespace DemosCommonCode.Barcode
             // 
             // hanXinCodeSettingsPanel
             // 
-            this.hanXinCodeSettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.hanXinCodeSettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.hanXinCodeSettingsPanel.Controls.Add(this.hanXinCodeECCLevelComboBox);
             this.hanXinCodeSettingsPanel.Controls.Add(this.hanXinCodeEncodingModeComboBox);
             this.hanXinCodeSettingsPanel.Controls.Add(this.hanXinCodeSymbolVersionComboBox);
@@ -1657,8 +1688,8 @@ namespace DemosCommonCode.Barcode
             // 
             // hanXinCodeECCLevelComboBox
             // 
-            this.hanXinCodeECCLevelComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.hanXinCodeECCLevelComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.hanXinCodeECCLevelComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.hanXinCodeECCLevelComboBox.FormattingEnabled = true;
             this.hanXinCodeECCLevelComboBox.Location = new System.Drawing.Point(128, 60);
@@ -1669,8 +1700,8 @@ namespace DemosCommonCode.Barcode
             // 
             // hanXinCodeEncodingModeComboBox
             // 
-            this.hanXinCodeEncodingModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.hanXinCodeEncodingModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.hanXinCodeEncodingModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.hanXinCodeEncodingModeComboBox.FormattingEnabled = true;
             this.hanXinCodeEncodingModeComboBox.Location = new System.Drawing.Point(128, 6);
@@ -1681,8 +1712,8 @@ namespace DemosCommonCode.Barcode
             // 
             // hanXinCodeSymbolVersionComboBox
             // 
-            this.hanXinCodeSymbolVersionComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.hanXinCodeSymbolVersionComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.hanXinCodeSymbolVersionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.hanXinCodeSymbolVersionComboBox.FormattingEnabled = true;
             this.hanXinCodeSymbolVersionComboBox.Location = new System.Drawing.Point(128, 33);
@@ -1720,9 +1751,9 @@ namespace DemosCommonCode.Barcode
             // 
             // microQrSettingsPanel
             // 
-            this.microQrSettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.microQrSettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.microQrSettingsPanel.Controls.Add(this.microQrECCLevelComboBox);
             this.microQrSettingsPanel.Controls.Add(this.microQrEncodingModeComboBox);
             this.microQrSettingsPanel.Controls.Add(this.microQrSymbolSizeComboBox);
@@ -1737,9 +1768,9 @@ namespace DemosCommonCode.Barcode
             // 
             // qrSettingsPanel
             // 
-            this.qrSettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.qrSettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.qrSettingsPanel.Controls.Add(this.label29);
             this.qrSettingsPanel.Controls.Add(this.qrECCLevelComboBox);
             this.qrSettingsPanel.Controls.Add(this.label28);
@@ -1754,9 +1785,9 @@ namespace DemosCommonCode.Barcode
             // 
             // microPDF417SettingsPanel
             // 
-            this.microPDF417SettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.microPDF417SettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.microPDF417SettingsPanel.Controls.Add(this.label38);
             this.microPDF417SettingsPanel.Controls.Add(this.microPDF417EncodingModeComboBox);
             this.microPDF417SettingsPanel.Controls.Add(this.microPDF417SymbolSizeComboBox);
@@ -1773,9 +1804,9 @@ namespace DemosCommonCode.Barcode
             // 
             // pdf417SettingsPanel
             // 
-            this.pdf417SettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.pdf417SettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.pdf417SettingsPanel.Controls.Add(this.pdf417CompactCheckBox);
             this.pdf417SettingsPanel.Controls.Add(this.pdf417EncodingModeComboBox);
             this.pdf417SettingsPanel.Controls.Add(this.pdf417RowHeightNumericUpDown);
@@ -1795,9 +1826,9 @@ namespace DemosCommonCode.Barcode
             // 
             // aztecSettingsPanel
             // 
-            this.aztecSettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.aztecSettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.aztecSettingsPanel.Controls.Add(this.label21);
             this.aztecSettingsPanel.Controls.Add(this.aztecErrorCorrectionNumericUpDown);
             this.aztecSettingsPanel.Controls.Add(this.label20);
@@ -1814,9 +1845,9 @@ namespace DemosCommonCode.Barcode
             // 
             // maxiCodeSettingsPanel
             // 
-            this.maxiCodeSettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.maxiCodeSettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.maxiCodeSettingsPanel.Controls.Add(this.maxiCodeResolutonNumericUpDown);
             this.maxiCodeSettingsPanel.Controls.Add(this.label26);
             this.maxiCodeSettingsPanel.Controls.Add(this.label25);
@@ -1829,9 +1860,9 @@ namespace DemosCommonCode.Barcode
             // 
             // dataMatrixSettingsPanel
             // 
-            this.dataMatrixSettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.dataMatrixSettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.dataMatrixSettingsPanel.Controls.Add(this.label24);
             this.dataMatrixSettingsPanel.Controls.Add(this.datamatrixSymbolSizeComboBox);
             this.dataMatrixSettingsPanel.Controls.Add(this.label23);
@@ -1844,8 +1875,8 @@ namespace DemosCommonCode.Barcode
             // 
             // encodingInfoComboBox
             // 
-            this.encodingInfoComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.encodingInfoComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.encodingInfoComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.encodingInfoComboBox.Enabled = false;
             this.encodingInfoComboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
@@ -1869,23 +1900,116 @@ namespace DemosCommonCode.Barcode
             this.encodingInfoCheckBox.UseVisualStyleBackColor = true;
             this.encodingInfoCheckBox.CheckedChanged += new System.EventHandler(this.encodingInfoCheckBox_CheckedChanged);
             // 
-            // label42
+            // dotCodeSettingsPanel
             // 
-            this.label42.AutoSize = true;
-            this.label42.Location = new System.Drawing.Point(223, 5);
-            this.label42.Name = "label42";
-            this.label42.Size = new System.Drawing.Size(18, 13);
-            this.label42.TabIndex = 37;
-            this.label42.Text = "px";
+            this.dotCodeSettingsPanel.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dotCodeSettingsPanel.Controls.Add(this.dotCodeAspectRatioNumericUpDown);
+            this.dotCodeSettingsPanel.Controls.Add(this.dotCodeRectangularModulesCheckBox);
+            this.dotCodeSettingsPanel.Controls.Add(this.label51);
+            this.dotCodeSettingsPanel.Controls.Add(this.dotCodeHeightNumericUpDown);
+            this.dotCodeSettingsPanel.Controls.Add(this.label53);
+            this.dotCodeSettingsPanel.Controls.Add(this.label54);
+            this.dotCodeSettingsPanel.Controls.Add(this.dotCodeWidthNumericUpDown);
+            this.dotCodeSettingsPanel.Location = new System.Drawing.Point(3, 31);
+            this.dotCodeSettingsPanel.Name = "dotCodeSettingsPanel";
+            this.dotCodeSettingsPanel.Size = new System.Drawing.Size(245, 183);
+            this.dotCodeSettingsPanel.TabIndex = 39;
+            this.dotCodeSettingsPanel.Visible = false;
             // 
-            // label43
+            // dotCodeAspectRatioNumericUpDown
             // 
-            this.label43.AutoSize = true;
-            this.label43.Location = new System.Drawing.Point(222, 37);
-            this.label43.Name = "label43";
-            this.label43.Size = new System.Drawing.Size(18, 13);
-            this.label43.TabIndex = 37;
-            this.label43.Text = "px";
+            this.dotCodeAspectRatioNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dotCodeAspectRatioNumericUpDown.Location = new System.Drawing.Point(127, 83);
+            this.dotCodeAspectRatioNumericUpDown.Maximum = new decimal(new int[] {
+            1000,
+            0,
+            0,
+            0});
+            this.dotCodeAspectRatioNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this.dotCodeAspectRatioNumericUpDown.Name = "dotCodeAspectRatioNumericUpDown";
+            this.dotCodeAspectRatioNumericUpDown.Size = new System.Drawing.Size(114, 20);
+            this.dotCodeAspectRatioNumericUpDown.TabIndex = 31;
+            this.dotCodeAspectRatioNumericUpDown.Value = new decimal(new int[] {
+            30,
+            0,
+            0,
+            0});
+            this.dotCodeAspectRatioNumericUpDown.ValueChanged += new System.EventHandler(this.dotCodeAspectRatioNumericUpDown_ValueChanged);
+            // 
+            // dotCodeRectangularModulesCheckBox
+            // 
+            this.dotCodeRectangularModulesCheckBox.AutoSize = true;
+            this.dotCodeRectangularModulesCheckBox.Location = new System.Drawing.Point(3, 117);
+            this.dotCodeRectangularModulesCheckBox.Name = "dotCodeRectangularModulesCheckBox";
+            this.dotCodeRectangularModulesCheckBox.Size = new System.Drawing.Size(126, 17);
+            this.dotCodeRectangularModulesCheckBox.TabIndex = 28;
+            this.dotCodeRectangularModulesCheckBox.Text = "Rectangular modules";
+            this.dotCodeRectangularModulesCheckBox.UseVisualStyleBackColor = true;
+            this.dotCodeRectangularModulesCheckBox.CheckedChanged += new System.EventHandler(this.dotCodeRectangularModulesCheckBox_CheckedChanged);
+            // 
+            // label51
+            // 
+            this.label51.AutoSize = true;
+            this.label51.Location = new System.Drawing.Point(2, 61);
+            this.label51.Name = "label51";
+            this.label51.Size = new System.Drawing.Size(193, 13);
+            this.label51.TabIndex = 26;
+            this.label51.Text = "Matrix aspect ratio (width / height x 0.1)";
+            // 
+            // dotCodeHeightNumericUpDown
+            // 
+            this.dotCodeHeightNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dotCodeHeightNumericUpDown.Location = new System.Drawing.Point(127, 31);
+            this.dotCodeHeightNumericUpDown.Maximum = new decimal(new int[] {
+            256,
+            0,
+            0,
+            0});
+            this.dotCodeHeightNumericUpDown.Name = "dotCodeHeightNumericUpDown";
+            this.dotCodeHeightNumericUpDown.Size = new System.Drawing.Size(114, 20);
+            this.dotCodeHeightNumericUpDown.TabIndex = 25;
+            this.dotCodeHeightNumericUpDown.ValueChanged += new System.EventHandler(this.dotCodeHeightNumericUpDown_ValueChanged);
+            // 
+            // label53
+            // 
+            this.label53.AutoSize = true;
+            this.label53.Location = new System.Drawing.Point(3, 33);
+            this.label53.Name = "label53";
+            this.label53.Size = new System.Drawing.Size(67, 13);
+            this.label53.TabIndex = 24;
+            this.label53.Text = "Matrix height";
+            // 
+            // label54
+            // 
+            this.label54.AutoSize = true;
+            this.label54.Location = new System.Drawing.Point(2, 9);
+            this.label54.Name = "label54";
+            this.label54.Size = new System.Drawing.Size(63, 13);
+            this.label54.TabIndex = 22;
+            this.label54.Text = "Matrix width";
+            // 
+            // dotCodeWidthNumericUpDown
+            // 
+            this.dotCodeWidthNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.dotCodeWidthNumericUpDown.Location = new System.Drawing.Point(127, 5);
+            this.dotCodeWidthNumericUpDown.Maximum = new decimal(new int[] {
+            256,
+            0,
+            0,
+            0});
+            this.dotCodeWidthNumericUpDown.Name = "dotCodeWidthNumericUpDown";
+            this.dotCodeWidthNumericUpDown.Size = new System.Drawing.Size(114, 20);
+            this.dotCodeWidthNumericUpDown.TabIndex = 23;
+            this.dotCodeWidthNumericUpDown.ValueChanged += new System.EventHandler(this.dotCodeWidthNumericUpDown_ValueChanged);
             // 
             // BarcodeWriterSettingsControl
             // 
@@ -1949,6 +2073,11 @@ namespace DemosCommonCode.Barcode
             this.maxiCodeSettingsPanel.PerformLayout();
             this.dataMatrixSettingsPanel.ResumeLayout(false);
             this.dataMatrixSettingsPanel.PerformLayout();
+            this.dotCodeSettingsPanel.ResumeLayout(false);
+            this.dotCodeSettingsPanel.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dotCodeAspectRatioNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dotCodeHeightNumericUpDown)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dotCodeWidthNumericUpDown)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -2087,5 +2216,13 @@ namespace DemosCommonCode.Barcode
         private System.Windows.Forms.Label label41;
         private System.Windows.Forms.Label label42;
         private System.Windows.Forms.Label label43;
+        private System.Windows.Forms.Panel dotCodeSettingsPanel;
+        private System.Windows.Forms.NumericUpDown dotCodeAspectRatioNumericUpDown;
+        private System.Windows.Forms.CheckBox dotCodeRectangularModulesCheckBox;
+        private System.Windows.Forms.Label label51;
+        private System.Windows.Forms.NumericUpDown dotCodeHeightNumericUpDown;
+        private System.Windows.Forms.Label label53;
+        private System.Windows.Forms.Label label54;
+        private System.Windows.Forms.NumericUpDown dotCodeWidthNumericUpDown;
     }
 }

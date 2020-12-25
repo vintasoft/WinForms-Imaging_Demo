@@ -1,9 +1,8 @@
-using System;
+﻿using System;
 using System.Windows.Forms;
 
-using Vintasoft.Imaging.Codecs;
-using Vintasoft.Imaging.Codecs.ImageFiles.Gif;
 using Vintasoft.Imaging.Codecs.Encoders;
+using Vintasoft.Imaging.Codecs.ImageFiles.Gif;
 
 namespace DemosCommonCode.Imaging.Codecs.Dialogs
 {
@@ -15,6 +14,9 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GifEncoderSettingsForm"/> class.
+        /// </summary>
         public GifEncoderSettingsForm()
         {
             InitializeComponent();
@@ -28,6 +30,8 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
 
 
         #region Properties
+
+        #region PUBLIC
 
         GifEncoderSettings _encoderSettings;
         /// <summary>
@@ -89,7 +93,14 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             }
         }
 
+        #endregion
 
+
+        #region PRIVATE
+
+        /// <summary>
+        /// Gets or sets the align modes for GIF pages.
+        /// </summary>
         private PageAlignMode ImagesAlign
         {
             get
@@ -151,10 +162,18 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
 
         #endregion
 
+        #endregion
+
 
 
         #region Methods
 
+        #region PROTECTED
+
+        /// <summary>
+        /// Creates the encoder settings.
+        /// </summary>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         protected override void OnLoad(EventArgs e)
         {
             base.OnLoad(e);
@@ -163,39 +182,19 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
                 EncoderSettings = new GifEncoderSettings();
         }
 
-        private void UpdateUI()
-        {
-            createPageMethodComboBox.SelectedItem = _encoderSettings.CreatePageMethod;
+        #endregion
 
-            infiniteIterationsCheckBox.Checked = _encoderSettings.InfiniteAnimation;
-            animationCyclesNumericUpDown.Value = _encoderSettings.NumberOfAnimationCycles;
 
-            animationDelayNumericUpDown.Value = _encoderSettings.AnimationDelay;
+        #region PRIVATE
 
-            autoSizeCheckBox.Checked = _encoderSettings.LogicalScreenWidth == 0 && _encoderSettings.LogicalScreenHeight == 0;
-            logicalScreenWidthNumericUpDown.Value = _encoderSettings.LogicalScreenWidth;
-            logicalScreenHeightNumericUpDown.Value = _encoderSettings.LogicalScreenHeight;
+        #region UI
 
-            ImagesAlign = _encoderSettings.PageAlign;
-        }
-
-        private void SetEncoderSettings()
-        {
-            _encoderSettings.CreatePageMethod = (CreatePageMethod)createPageMethodComboBox.SelectedItem;
-
-            _encoderSettings.NumberOfAnimationCycles = (int)animationCyclesNumericUpDown.Value;
-            _encoderSettings.InfiniteAnimation = infiniteIterationsCheckBox.Checked;
-
-            _encoderSettings.AnimationDelay = (int)animationDelayNumericUpDown.Value;
-
-            _encoderSettings.LogicalScreenWidth = (int)logicalScreenWidthNumericUpDown.Value;
-            _encoderSettings.LogicalScreenHeight = (int)logicalScreenHeightNumericUpDown.Value;
-
-            _encoderSettings.PageAlign = ImagesAlign;
-        }
-
+        /// <summary>
+        /// Handles the CheckedChanged event of AutoSizeCheckBox object.
+        /// </summary>
         private void autoSizeCheckBox_CheckedChanged(object sender, EventArgs e)
         {
+            // if logical screen must be disabled
             if (autoSizeCheckBox.Checked)
             {
                 logicalScreenWidthNumericUpDown.Enabled = false;
@@ -210,9 +209,13 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             }
         }
 
-        private void infiniteIterationsCheckBox_CheckedChanged(object sender, EventArgs e)
+        /// <summary>
+        /// Handles the CheckedChanged event of InfiniteAnimationCheckBox object.
+        /// </summary>
+        private void infiniteAnimationCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (infiniteIterationsCheckBox.Checked)
+            // if animation must be infinity
+            if (infiniteAnimationCheckBox.Checked)
             {
                 animationCyclesNumericUpDown.Enabled = false;
                 animationCyclesNumericUpDown.Value = 0;
@@ -223,18 +226,65 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             }
         }
 
-
+        /// <summary>
+        /// Handles the Click event of ButtonOk object.
+        /// </summary>
         private void buttonOk_Click(object sender, EventArgs e)
         {
+            // update encoder settings
             SetEncoderSettings();
-
             DialogResult = DialogResult.OK;
         }
 
+        /// <summary>
+        /// Handles the Click event of ButtonCancel object.
+        /// </summary>
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;
         }
+
+        #endregion
+
+
+        /// <summary>
+        /// Updates the user interface of this form.
+        /// </summary>
+        private void UpdateUI()
+        {
+            createPageMethodComboBox.SelectedItem = _encoderSettings.CreatePageMethod;
+
+            infiniteAnimationCheckBox.Checked = _encoderSettings.InfiniteAnimation;
+            animationCyclesNumericUpDown.Value = _encoderSettings.NumberOfAnimationCycles;
+
+            animationDelayNumericUpDown.Value = _encoderSettings.AnimationDelay;
+
+            autoSizeCheckBox.Checked = _encoderSettings.LogicalScreenWidth == 0 && _encoderSettings.LogicalScreenHeight == 0;
+            logicalScreenWidthNumericUpDown.Value = _encoderSettings.LogicalScreenWidth;
+            logicalScreenHeightNumericUpDown.Value = _encoderSettings.LogicalScreenHeight;
+
+            ImagesAlign = _encoderSettings.PageAlign;
+        }
+
+        /// <summary>
+        /// Updates the encoder settings.
+        /// </summary>
+        private void SetEncoderSettings()
+        {
+            _encoderSettings.CreatePageMethod = (CreatePageMethod)createPageMethodComboBox.SelectedItem;
+
+            _encoderSettings.NumberOfAnimationCycles = (int)animationCyclesNumericUpDown.Value;
+            _encoderSettings.InfiniteAnimation = infiniteAnimationCheckBox.Checked;
+
+            _encoderSettings.AnimationDelay = (int)animationDelayNumericUpDown.Value;
+
+            _encoderSettings.LogicalScreenWidth = (int)logicalScreenWidthNumericUpDown.Value;
+            _encoderSettings.LogicalScreenHeight = (int)logicalScreenHeightNumericUpDown.Value;
+
+            _encoderSettings.PageAlign = ImagesAlign;
+        }
+
+        #endregion
 
         #endregion
 

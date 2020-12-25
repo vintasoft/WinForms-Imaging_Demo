@@ -1,4 +1,5 @@
 ﻿using System.Windows.Forms;
+
 using Vintasoft.Imaging.Media;
 
 namespace DemosCommonCode.Imaging
@@ -11,11 +12,18 @@ namespace DemosCommonCode.Imaging
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DirectShowWebcamPropertiesForm"/> class.
+        /// </summary>
         public DirectShowWebcamPropertiesForm()
         {
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DirectShowWebcamPropertiesForm"/> class.
+        /// </summary>
+        /// <param name="camera">The webcam.</param>
         public DirectShowWebcamPropertiesForm(DirectShowCamera camera)
             : this()
         {

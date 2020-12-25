@@ -68,7 +68,7 @@ namespace ImagingDemo
             this.btOk.TabIndex = 4;
             this.btOk.Text = "OK";
             this.btOk.UseVisualStyleBackColor = true;
-            this.btOk.Click += new System.EventHandler(this.btOk_Click);
+            this.btOk.Click += new System.EventHandler(this.okButton_Click);
             // 
             // btCancel
             // 
@@ -79,7 +79,7 @@ namespace ImagingDemo
             this.btCancel.TabIndex = 5;
             this.btCancel.Text = "Cancel";
             this.btCancel.UseVisualStyleBackColor = true;
-            this.btCancel.Click += new System.EventHandler(this.btCancel_Click);
+            this.btCancel.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // trackBar1
             // 
@@ -313,6 +313,7 @@ namespace ImagingDemo
             this.Location = new System.Drawing.Point(40, 110);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "CannyEdgeDetectorForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;

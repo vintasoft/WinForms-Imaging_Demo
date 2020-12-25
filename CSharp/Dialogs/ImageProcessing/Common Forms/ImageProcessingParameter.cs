@@ -1,13 +1,20 @@
 namespace ImagingDemo
 {
     /// <summary>
-    /// Struct that contains information about parameter of image processing function.
+    /// The struct that contains information about parameter of the image processing function.
     /// </summary>
 	public struct ImageProcessingParameter
     {
 
         #region Constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ImageProcessingParameter"/> class.
+        /// </summary>
+        /// <param name="name">Parameter name.</param>
+        /// <param name="minValue">Minimum parameter value.</param>
+        /// <param name="maxValue">Maximum parameter value.</param>
+        /// <param name="defaultValue">Default parameter value.</param>
         public ImageProcessingParameter(string name, int minValue, int maxValue, int defaultValue)
 		{
 			_name = name;
@@ -24,7 +31,7 @@ namespace ImagingDemo
 
         string _name;
         /// <summary>
-        /// Name of the parameter.
+        /// Gets the parameter name.
         /// </summary>
         public string Name
         {
@@ -36,7 +43,7 @@ namespace ImagingDemo
 
         int _minValue;
         /// <summary>
-        /// Minimal value of parameter.
+        /// Gets the minimum value of the parameter.
         /// </summary>
         public int MinValue
         {
@@ -48,7 +55,7 @@ namespace ImagingDemo
 
         int _maxValue;
         /// <summary>
-        /// Maximal value of parameter.
+        /// Gets the maximum value of the parameter.
         /// </summary>
         public int MaxValue
         {
@@ -60,7 +67,7 @@ namespace ImagingDemo
 
         int _defaultValue;
         /// <summary>
-        /// Default value of parameter.
+        /// Gets the default value of the parameter.
         /// </summary>
         public int DefaultValue
         {

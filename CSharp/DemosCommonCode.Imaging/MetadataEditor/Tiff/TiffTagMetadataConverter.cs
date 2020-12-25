@@ -9,6 +9,9 @@ using Vintasoft.Imaging.Metadata;
 
 namespace DemosCommonCode.Imaging
 {
+    /// <summary>
+    /// A converter for TIFF tag metadata.
+    /// </summary>
     public class TiffTagMetadataConverter
     {
 
@@ -22,6 +25,10 @@ namespace DemosCommonCode.Imaging
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TiffTagMetadataConverter"/> class.
+        /// </summary>
+        /// <param name="node">TIFF tag metadata.</param>
         public TiffTagMetadataConverter(TiffTagMetadata node)
         {
             _node = node;
@@ -319,6 +326,11 @@ namespace DemosCommonCode.Imaging
 
         #region Methods
 
+        /// <summary>
+        /// Returns array as a string.
+        /// </summary>
+        /// <param name="value">Array value.</param>
+        /// <returns>Array as a string.</returns>
         private string GetArrayAsString(object value)
         {
             Array valueAsArray = (Array)value;

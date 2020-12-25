@@ -75,6 +75,9 @@ namespace DemosCommonCode.Barcode
 
         #region Methods
 
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of AiNumberComboBox object.
+        /// </summary>
         private void aiNumberComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (!_existsAISelected)
@@ -91,6 +94,9 @@ namespace DemosCommonCode.Barcode
             }
         }
 
+        /// <summary>
+        /// Handles the RowEnter event of AiListDataGridView object.
+        /// </summary>
         private void aiListDataGridView_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
             if (aiListDataGridView.Rows[e.RowIndex].Cells[0].Value != null)
@@ -102,6 +108,9 @@ namespace DemosCommonCode.Barcode
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of AddButton object.
+        /// </summary>
         private void addButton_Click(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -109,6 +118,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the Click event of DeleteButton object.
+        /// </summary>
         private void deleteButton_Click(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -122,6 +134,9 @@ namespace DemosCommonCode.Barcode
 #endif
         }
 
+        /// <summary>
+        /// Handles the Click event of OkButton object.
+        /// </summary>
         private void okButton_Click(object sender, EventArgs e)
         {
 #if !REMOVE_BARCODE_SDK
@@ -130,6 +145,9 @@ namespace DemosCommonCode.Barcode
             DialogResult = DialogResult.OK;
         }
 
+        /// <summary>
+        /// Handles the Click event of ButtonCancel object.
+        /// </summary>
         private void buttonCancel_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.Cancel;

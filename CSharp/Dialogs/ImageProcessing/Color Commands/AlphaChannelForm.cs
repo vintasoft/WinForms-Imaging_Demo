@@ -1,15 +1,20 @@
-using System.Drawing;
-using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageProcessing.Color;
 using Vintasoft.Imaging.UI;
 
 namespace ImagingDemo
 {
-	public partial class AlphaChannelForm : OneParamConfigForm
-	{
+    /// <summary>
+    /// A form that allows to view and edit settings of the SetAlphaChannelValueCommand.
+    /// </summary>
+    public partial class AlphaChannelForm : OneParamConfigForm
+    {
 
-		#region Constructor
+        #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AlphaChannelForm"/> class.
+        /// </summary>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public AlphaChannelForm(ImageViewer viewer)
             : base(viewer,
             "Alpha channel",
@@ -18,31 +23,33 @@ namespace ImagingDemo
             CanPreview = false;
         }
 
-		#endregion
+        #endregion
 
 
-		#region Properties
+
+        #region Properties
 
         /// <summary>
-        /// Gets the alpha value.
+        /// Gets the alpha channel value.
         /// </summary>
-		public byte Alpha
-		{
-			get
-			{
-				return (byte)Parameter1;
-			}
-		}
+        public byte Alpha
+        {
+            get
+            {
+                return (byte)Parameter1;
+            }
+        }
 
-		#endregion
+        #endregion
+
 
 
         #region Methods
 
         /// <summary>
-        /// Gets the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override Vintasoft.Imaging.ImageProcessing.ProcessingCommandBase GetProcessingCommand()
         {
             return new SetAlphaChannelValueCommand(Alpha);

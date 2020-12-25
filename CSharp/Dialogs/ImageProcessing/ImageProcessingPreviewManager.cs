@@ -1,26 +1,52 @@
 using System.Drawing;
 
-using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageProcessing;
-using Vintasoft.Imaging.UI.VisualTools;
 using Vintasoft.Imaging.UI;
+using Vintasoft.Imaging.UI.VisualTools;
 
 namespace ImagingDemo
 {
     /// <summary>
-    /// Manages image processing preview in image viewer.
+    /// Manages the image processing preview in image viewer.
     /// </summary>
     public class ImageProcessingPreviewManager
     {
 
-        #region Properties
+        #region Fields
 
+        /// <summary>
+        /// A value indicating whether image processing preview is started.
+        /// </summary>
         bool _isPreviewStarted = false;
+
+        /// <summary>
+        /// An image viewer, which contains processing image.
+        /// </summary>
         ImageViewer _viewer;
+
+        /// <summary>
+        /// The view of the selection in image viewer.
+        /// </summary>
         SelectionRegionView _selectionRegionView;
+
+        /// <summary>
+        /// The visual tool of image viewer.
+        /// </summary>
         VisualTool _viewerTool;
+
+        /// <summary>
+        /// Tool for processing the results preview.
+        /// </summary>
         ImageProcessingTool _rectangularPreview;
+
+        /// <summary>
+        /// Selected region.
+        /// </summary>
         Rectangle _rectangularSelectionToolRect;
+
+        /// <summary>
+        /// Selected region view.
+        /// </summary>
         SelectionRegionViewWithImageProcessingPreview _processedSelectionRegionView;
 
         #endregion
@@ -29,6 +55,10 @@ namespace ImagingDemo
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ImageProcessingPreviewManager"/> class.
+        /// </summary>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public ImageProcessingPreviewManager(ImageViewer viewer)
         {
             _viewer = viewer;
@@ -41,8 +71,8 @@ namespace ImagingDemo
         #region Properties
 
         bool _useCurrentViewerZoomWhenPreviewProcessing = false;
-        /// <summary> 
-        /// Gets or sets a value indicating whether the zoom value, of image viewer, is used for previewing the image processing.
+        /// <summary>
+        /// Gets or sets a value indicating whether the zoom value of image viewer is used for previewing the image processing.
         /// </summary>
         public bool UseCurrentViewerZoomWhenPreviewProcessing
         {
@@ -60,8 +90,7 @@ namespace ImagingDemo
         /// <summary>
         /// Gets or sets a value indicating whether the processing command need to
         /// convert the processing image to the nearest pixel format without color loss
-        /// if processing command does not support pixel format
-        /// of the processing image.
+        /// if processing command does not support pixel format of the processing image.
         /// </summary>
         public bool ExpandSupportedPixelFormats
         {
@@ -150,6 +179,7 @@ namespace ImagingDemo
         /// <summary>
         /// Sets the current image processing command.
         /// </summary>
+        /// <param name="command">The processing command.</param>
         public void SetCommand(ProcessingCommandBase command)
         {
             if (_isPreviewStarted)

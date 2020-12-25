@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -16,11 +16,29 @@ namespace ImagingDemo
 
         #region Constants
 
+        /// <summary>
+        /// Histogram width.
+        /// </summary>
         const int HISTOGRAM_IMAGE_WIDTH = 600;
+
+        /// <summary>
+        /// Histogram height.
+        /// </summary>
         const int HISTOGRAM_IMAGE_HEIGHT = 300;
+
+        /// <summary>
+        /// Historgam quiet zone size.
+        /// </summary>
         const int HISTOGRAM_IMAGE_QUIET_ZONE_SIZE = 10;
+
+        /// <summary>
+        /// Historgam border size.
+        /// </summary>
         const int HISTOGRAM_IMAGE_BORDER_SIZE = 1;
 
+        /// <summary>
+        /// Historgam data size.
+        /// </summary>
         const int HISTOGRAM_DATA_SIZE = 256;
 
         #endregion
@@ -37,16 +55,44 @@ namespace ImagingDemo
         /// </summary>
         bool _expandSupportedPixelFormats = false;
 
+        /// <summary>
+        /// The analyzed image.
+        /// </summary>
         VintasoftImage _image;
+
+        /// <summary>
+        /// Selected image region.
+        /// </summary>
         Rectangle _imageRegion;
 
+        /// <summary>
+        /// An image with histogram.
+        /// </summary>
         VintasoftImage _histogramImage;
+
+        /// <summary>
+        /// Selected histogram type.
+        /// </summary>
         HistogramType _histogramType = HistogramType.Luminosity;
+
+        /// <summary>
+        /// Histogram data.
+        /// </summary>
         int[] _histogramData;
 
+        /// <summary>
+        /// Image pixel count.
+        /// </summary>
         int _pixelCount;
 
+        /// <summary>
+        /// Histogram data color.
+        /// </summary>
         System.Drawing.Color _histogramColor = System.Drawing.Color.Red;
+
+        /// <summary>
+        /// Histogram background color.
+        /// </summary>
         System.Drawing.Color _histogramBackground = System.Drawing.Color.White;
 
         #endregion
@@ -55,6 +101,13 @@ namespace ImagingDemo
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="GetHistogramForm"/> class.
+        /// </summary>
+        /// <param name="image">The analyzed image.</param>
+        /// <param name="imageRegion">Selected image region.</param>
+        /// <param name="expandSupportedPixelFormats">A value indicating whether the processing command need to
+        /// convert the processing image to the nearest pixel format.</param>
         public GetHistogramForm(
             VintasoftImage image,
             Rectangle imageRegion,
@@ -65,6 +118,7 @@ namespace ImagingDemo
             _expandSupportedPixelFormats = expandSupportedPixelFormats;
             _image = image;
             _imageRegion = imageRegion;
+
             if (imageRegion.Size.IsEmpty)
                 _pixelCount = image.Width * image.Height;
             else
@@ -83,13 +137,95 @@ namespace ImagingDemo
 
         #region Methods
 
+        #region UI
+
         /// <summary>
-        /// "Close" button is clicked.
+        /// Handles the Click event of CloseButton object.
         /// </summary>
         private void closeButton_Click(object sender, EventArgs e)
         {
             Close();
         }
+
+        /// <summary>
+        /// Handles the MouseMove event of HistogramImagePictureBox object.
+        /// </summary>
+        private void histogramImagePictureBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            int x = e.X;
+            int histogramStart = HISTOGRAM_IMAGE_BORDER_SIZE + HISTOGRAM_IMAGE_QUIET_ZONE_SIZE;
+            float oneElementWidth = ((float)HISTOGRAM_IMAGE_WIDTH - 2 * HISTOGRAM_IMAGE_QUIET_ZONE_SIZE) / 256;
+            int histogramIndex = (int)((x - histogramStart) / oneElementWidth);
+
+            // update values
+            if (histogramIndex >= 0 && histogramIndex <= 255)
+            {
+                levelLabel.Text = string.Format("Level: {0}", histogramIndex);
+                countLabel.Text = string.Format("Count: {0}", _histogramData[histogramIndex]);
+                percentageLabel.Text = string.Format("Percentage: {0:F2}%", (float)_histogramData[histogramIndex] / _pixelCount * 100);
+            }
+            else
+            {
+                levelLabel.Text = "Level:";
+                countLabel.Text = "Count:";
+                percentageLabel.Text = "Percentage:";
+            }
+        }
+
+        /// <summary>
+        /// Handles the MouseMove event of GetHistorgamForm object.
+        /// </summary>
+        private void getHistorgamForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            levelLabel.Text = "Level:";
+            countLabel.Text = "Count:";
+            percentageLabel.Text = "Percentage:";
+        }
+
+        /// <summary>
+        /// Handles the SelectedIndexChanged event of HistogramTypeComboBox object.
+        /// </summary>
+        private void histogramTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            HistogramType histogramType = HistogramType.Luminosity;
+            switch (histogramTypeComboBox.SelectedIndex)
+            {
+                case 1:
+                    histogramType = HistogramType.Red;
+                    break;
+
+                case 2:
+                    histogramType = HistogramType.Green;
+                    break;
+
+                case 3:
+                    histogramType = HistogramType.Blue;
+                    break;
+            }
+
+            // if histogram type is changed
+            if (_histogramType != histogramType)
+            {
+                _histogramType = histogramType;
+
+                VintasoftImage oldHistogramImage = _histogramImage;
+
+                // update histogram image
+                _histogramImage = GetHistogramImage(_image, _imageRegion, _histogramType);
+                histogramImagePictureBox.Image = _histogramImage.GetAsBitmap();
+
+                if (oldHistogramImage != null)
+                {
+                    oldHistogramImage.Dispose();
+                    oldHistogramImage = null;
+                }
+
+                Invalidate();
+            }
+        }
+
+        #endregion
+
 
         /// <summary>
         /// Returns an image with histogram.
@@ -114,7 +250,6 @@ namespace ImagingDemo
             GetHistogramCommandResult getHistogramCommandResult = (GetHistogramCommandResult)command.Results[0];
             _histogramData = getHistogramCommandResult.HistogramData;
 
-
             // get the maximum value of histogram
             int histogramMaxValue = 0;
             for (int i = 0; i < HISTOGRAM_DATA_SIZE; i++)
@@ -122,7 +257,6 @@ namespace ImagingDemo
                 if (histogramMaxValue < _histogramData[i])
                     histogramMaxValue = _histogramData[i];
             }
-
 
             // create an image with histogram
 
@@ -154,70 +288,6 @@ namespace ImagingDemo
 
             // return the image with histogram
             return histogramImage;
-        }
-
-        private void HistogramImage_MouseMove(object sender, MouseEventArgs e)
-        {
-            int x = e.X;
-            int histogramStart = HISTOGRAM_IMAGE_BORDER_SIZE + HISTOGRAM_IMAGE_QUIET_ZONE_SIZE;
-            float oneElementWidth = ((float)HISTOGRAM_IMAGE_WIDTH - 2 * HISTOGRAM_IMAGE_QUIET_ZONE_SIZE) / 256;
-            int histogramIndex = (int)((x - histogramStart) / oneElementWidth);
-            if (histogramIndex >= 0 && histogramIndex <= 255)
-            {
-                levelLabel.Text = string.Format("Level: {0}", histogramIndex);
-                countLabel.Text = string.Format("Count: {0}", _histogramData[histogramIndex]);
-                percentageLabel.Text = string.Format("Percentage: {0:F2}%", (float)_histogramData[histogramIndex] / _pixelCount * 100);
-            }
-            else
-            {
-                levelLabel.Text = "Level:";
-                countLabel.Text = "Count:";
-                percentageLabel.Text = "Percentage:";
-            }
-        }
-
-        private void HistogramDialog_MouseMove(object sender, MouseEventArgs e)
-        {
-            levelLabel.Text = "Level:";
-            countLabel.Text = "Count:";
-            percentageLabel.Text = "Percentage:";
-        }
-
-        private void HistogramTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            HistogramType histogramType = HistogramType.Luminosity;
-            switch (histogramTypeComboBox.SelectedIndex)
-            {
-                case 1:
-                    histogramType = HistogramType.Red;
-                    break;
-
-                case 2:
-                    histogramType = HistogramType.Green;
-                    break;
-
-                case 3:
-                    histogramType = HistogramType.Blue;
-                    break;
-            }
-
-            if (_histogramType != histogramType)
-            {
-                _histogramType = histogramType;
-
-                VintasoftImage oldHistogramImage = _histogramImage;
-
-                _histogramImage = GetHistogramImage(_image, _imageRegion, _histogramType);
-                histogramImagePictureBox.Image = _histogramImage.GetAsBitmap();
-
-                if (oldHistogramImage != null)
-                {
-                    oldHistogramImage.Dispose();
-                    oldHistogramImage = null;
-                }
-
-                Invalidate();
-            }
         }
 
         #endregion

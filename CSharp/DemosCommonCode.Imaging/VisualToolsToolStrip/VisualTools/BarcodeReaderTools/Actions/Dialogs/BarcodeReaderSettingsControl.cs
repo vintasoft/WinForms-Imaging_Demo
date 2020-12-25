@@ -24,34 +24,12 @@ namespace DemosCommonCode.Barcode
 #if !REMOVE_BARCODE_SDK
             if (Vintasoft.Barcode.BarcodeGlobalSettings.IsDemoVersion)
             {
-                barcodeGs1_128CheckBox.Enabled = false;
                 barcodeGs1DataBarCheckBox.Enabled = false;
                 barcodeGs1DataBarExpandedCheckBox.Enabled = false;
                 barcodeGs1DataBarExpandedStackedCheckBox.Enabled = false;
                 barcodeGs1DataBarLimitedCheckBox.Enabled = false;
                 barcodeGs1DataBarStackedCheckBox.Enabled = false;
                 barcodeGs1QRCheckbox.Enabled = false;
-                barcodeGs1DataMatrixCheckBox.Enabled = false;
-                barcodeGs1AztecCheckBox.Enabled = false;
-                barcodeMailmarkCmdmType7CheckBox.Enabled = false;
-                barcodeMailmarkCmdmType9CheckBox.Enabled = false;
-                barcodeMailmarkCmdmType29CheckBox.Enabled = false;
-                barcodeDeutschePostIdentcodeCheckBox.Enabled = false;
-                barcodeDeutschePostLeitcodeCheckBox.Enabled = false;
-                barcodeSwissPostParcelCheckBox.Enabled = false;
-                barcodeFedExGround96CheckBox.Enabled = false;
-                barcodeDhlAwbCheckBox.Enabled = false;
-                barcodePpn.Enabled = false;
-                barcodeOpcCheckBox.Enabled = false;
-                barcodeItf14CheckBox.Enabled = false;
-                barcodeVin.Enabled = false;
-                barcodePzn.Enabled = false;
-                barcodeSscc18CheckBox.Enabled = false;
-                barcodeVicsBolCheckBox.Enabled = false;
-                barcodeVicsScacProCheckBox.Enabled = false;
-                barcodeXFAAztec.Enabled = false;
-                barcodeXFADataMatrix.Enabled = false;
-                barcodeXFAPDF417.Enabled = false;
                 barcodeXFAQR.Enabled = false;
                 barcodePatchCode.Enabled = false;
             } 
@@ -136,6 +114,8 @@ namespace DemosCommonCode.Barcode
                 scanBarcodeTypes |= BarcodeType.MicroPDF417;
             if (barcodeDataMatrix.Checked)
                 scanBarcodeTypes |= BarcodeType.DataMatrix;
+            if (barcodeDotCode.Checked)
+                scanBarcodeTypes |= BarcodeType.DotCode;
             if (barcodeQR.Checked)
                 scanBarcodeTypes |= BarcodeType.QR;
             if (barcodeMicroQR.Checked)
@@ -192,6 +172,8 @@ namespace DemosCommonCode.Barcode
                 scanBarcodeSubsets.Add(BarcodeSymbologySubsets.GS1QR);
             if (barcodeGs1DataMatrixCheckBox.Checked)
                 scanBarcodeSubsets.Add(BarcodeSymbologySubsets.GS1DataMatrix);
+            if (barcodeGs1DotCodeCheckBox.Checked)
+                scanBarcodeSubsets.Add(BarcodeSymbologySubsets.GS1DotCode);
             if (barcodeGs1AztecCheckBox.Checked)
                 scanBarcodeSubsets.Add(BarcodeSymbologySubsets.GS1Aztec);
             if (barcodeMailmarkCmdmType7CheckBox.Checked)
@@ -303,6 +285,7 @@ namespace DemosCommonCode.Barcode
             barcodePDF417.Checked = ((scanBarcodeTypes & BarcodeType.PDF417) != 0) || ((scanBarcodeTypes & BarcodeType.PDF417Compact) != 0);
             barcodeMicroPDF417.Checked = (scanBarcodeTypes & BarcodeType.MicroPDF417) != 0;
             barcodeDataMatrix.Checked = (scanBarcodeTypes & BarcodeType.DataMatrix) != 0;
+            barcodeDotCode.Checked = (scanBarcodeTypes & BarcodeType.DotCode) != 0;
             barcodeQR.Checked = (scanBarcodeTypes & BarcodeType.QR) != 0;
             barcodeMicroQR.Checked = (scanBarcodeTypes & BarcodeType.MicroQR) != 0;
             barcodeMaxiCode.Checked = (scanBarcodeTypes & BarcodeType.MaxiCode) != 0;
@@ -329,6 +312,7 @@ namespace DemosCommonCode.Barcode
             barcodeGs1DataBarStackedCheckBox.Checked = false;
             barcodeGs1QRCheckbox.Checked = false;
             barcodeGs1DataMatrixCheckBox.Checked = false;
+            barcodeGs1DotCodeCheckBox.Checked = false;
             barcodeGs1AztecCheckBox.Checked = false;
             barcodeMailmarkCmdmType7CheckBox.Checked = false;
             barcodeMailmarkCmdmType9CheckBox.Checked = false;
@@ -368,6 +352,8 @@ namespace DemosCommonCode.Barcode
                     barcodeGs1QRCheckbox.Checked = true;
                 if (subset is GS1DataMatrixBarcodeSymbology)
                     barcodeGs1DataMatrixCheckBox.Checked = true;
+                if (subset is GS1DotCodeBarcodeSymbology)
+                    barcodeGs1DotCodeCheckBox.Checked = true;
                 if (subset is GS1AztecBarcodeSymbology)
                     barcodeGs1AztecCheckBox.Checked = true;
                 if (subset is MailmarkCmdmType7BarcodeSymbology)
@@ -427,6 +413,9 @@ namespace DemosCommonCode.Barcode
 
         #region PRIVATE
 
+        /// <summary>
+        /// Handles the Click event of BarcodeTypesAllOrClear object.
+        /// </summary>
         private void barcodeTypesAllOrClear_Click(object sender, EventArgs e)
         {
             Control.ControlCollection controls = ((TabPage)((Button)sender).Parent).Controls;
@@ -442,16 +431,25 @@ namespace DemosCommonCode.Barcode
                     (c as CheckBox).Checked = value;
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of TrackBarExpectedBarcodes object.
+        /// </summary>
         private void trackBarExpectedBarcodes_ValueChanged(object sender, EventArgs e)
         {
             labelExpectedBarcodes.Text = trackBarExpectedBarcodes.Value.ToString();
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of TrackBarScanInterval object.
+        /// </summary>
         private void trackBarScanInterval_ValueChanged(object sender, EventArgs e)
         {
             labelScanInterval.Text = trackBarScanInterval.Value.ToString();
         }
 
+        /// <summary>
+        /// Handles the CheckedChanged event of DirectionAngle45 object.
+        /// </summary>
         private void directionAngle45_CheckedChanged(object sender, EventArgs e)
         {
             UpdateDirectionAngle45();

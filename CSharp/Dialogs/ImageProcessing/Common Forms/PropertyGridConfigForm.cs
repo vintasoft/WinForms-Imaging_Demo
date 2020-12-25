@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 
 using Vintasoft.Imaging.ImageProcessing;
@@ -23,10 +23,10 @@ namespace ImagingDemo
 
 
 
-        #region Constructor
+        #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OneParamConfigDialog"/> class.
+        /// Initializes a new instance of the <see cref="PropertyGridConfigForm"/> class.
         /// </summary>
         public PropertyGridConfigForm()
             : base()
@@ -35,8 +35,10 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="OneParamConfigDialog"/> class.
+        /// Initializes a new instance of the <see cref="PropertyGridConfigForm"/> class.
         /// </summary>
+        /// <param name="viewer">The image viewer for image preview.</param>
+        /// <param name="command">Image processing command.</param>
         public PropertyGridConfigForm(ImageViewer viewer, ProcessingCommandBase command)
             : base(viewer)
         {
@@ -59,7 +61,7 @@ namespace ImagingDemo
 
         bool _isPreviewAvailable = true;
         /// <summary>
-        /// Gets or sets a flag that indicates when preview in ImageViewer is available.
+        /// Gets or sets a value indicating whether the preview in image viewer is available.
         /// </summary>
         public bool IsPreviewAvailable
         {
@@ -76,7 +78,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Gets or sets a flag that indicates when preview in ImageViewer is enabled.
+        /// Gets or sets a value indicating whether the preview in image viewer is enabled.
         /// </summary>
         public override bool IsPreviewEnabled
         {
@@ -100,6 +102,25 @@ namespace ImagingDemo
 
         #region Methods
 
+        #region PUBLIC
+
+        /// <summary>
+        /// Returns the image processing command.
+        /// </summary>
+        /// <returns>The image processing command.</returns>
+        public override ProcessingCommandBase GetProcessingCommand()
+        {
+            return _command;
+        }
+
+        #endregion
+
+
+        #region PROTECTED
+
+        /// <summary>
+        /// Executes the processing command.
+        /// </summary>
         protected override void ExecuteProcessing()
         {
             base.ExecuteProcessing();
@@ -107,25 +128,32 @@ namespace ImagingDemo
             propertyGrid1.SelectedObject = _command;
         }
 
-        /// <summary>
-        /// Gets the current image processing command.
-        /// </summary>
-        /// <returns>Current image processing command.</returns>
-        public override ProcessingCommandBase GetProcessingCommand()
-        {
-            return _command;
-        }
+        #endregion
 
-        private void btOk_Click(object sender, EventArgs e)
+
+        #region PRIVATE
+
+        #region UI
+
+        /// <summary>
+        /// Handles the Click event of OkButton object.
+        /// </summary>
+        private void okButton_Click(object sender, EventArgs e)
         {
             DialogResult = System.Windows.Forms.DialogResult.OK;
         }
 
-        private void btCancel_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Handles the Click event of CancelButton object.
+        /// </summary>
+        private void cancelButton_Click(object sender, EventArgs e)
         {
             DialogResult = System.Windows.Forms.DialogResult.Cancel;
         }
 
+        /// <summary>
+        /// Handles the CheckedChanged event of PreviewCheckBox object.
+        /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             IsPreviewEnabled = previewCheckBox.Checked;
@@ -139,6 +167,10 @@ namespace ImagingDemo
         {
             ExecuteProcessing();
         }
+
+        #endregion
+
+        #endregion
 
         #endregion
 

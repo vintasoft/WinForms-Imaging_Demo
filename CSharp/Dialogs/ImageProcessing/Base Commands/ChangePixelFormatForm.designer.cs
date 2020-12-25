@@ -66,7 +66,7 @@ namespace ImagingDemo
             this.convertButton.TabIndex = 1;
             this.convertButton.Text = "Convert";
             this.convertButton.UseVisualStyleBackColor = true;
-            this.convertButton.Click += new System.EventHandler(this.btOk_Click);
+            this.convertButton.Click += new System.EventHandler(this.okButton_Click);
             // 
             // buttonCancel
             // 
@@ -77,7 +77,7 @@ namespace ImagingDemo
             this.buttonCancel.TabIndex = 2;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.btCancel_Click);
+            this.buttonCancel.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // label1
             // 
@@ -101,6 +101,7 @@ namespace ImagingDemo
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "ChangePixelFormatForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;

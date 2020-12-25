@@ -92,6 +92,14 @@ namespace DemosCommonCode.Barcode
             this.barcodeGs1DataBarLimitedCheckBox = new System.Windows.Forms.CheckBox();
             this.barcodeRSSExpandedStacked = new System.Windows.Forms.CheckBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.barcodeGs1DotCodeCheckBox = new System.Windows.Forms.CheckBox();
+            this.barcodeDotCode = new System.Windows.Forms.CheckBox();
+            this.barcodeXFAAztec = new System.Windows.Forms.CheckBox();
+            this.barcodeXFAQR = new System.Windows.Forms.CheckBox();
+            this.barcodeXFAPDF417 = new System.Windows.Forms.CheckBox();
+            this.barcodeXFADataMatrix = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.barcodeHanXinCodeCheckBox = new System.Windows.Forms.CheckBox();
             this.barcodePpn = new System.Windows.Forms.CheckBox();
             this.barcodeGs1QRCheckbox = new System.Windows.Forms.CheckBox();
             this.barcodeMailmarkCmdmType29CheckBox = new System.Windows.Forms.CheckBox();
@@ -128,12 +136,6 @@ namespace DemosCommonCode.Barcode
             this.groupBoxScanIntervalI = new System.Windows.Forms.GroupBox();
             this.labelScanInterval = new System.Windows.Forms.Label();
             this.trackBarScanInterval = new System.Windows.Forms.TrackBar();
-            this.barcodeHanXinCodeCheckBox = new System.Windows.Forms.CheckBox();
-            this.barcodeXFAAztec = new System.Windows.Forms.CheckBox();
-            this.barcodeXFAPDF417 = new System.Windows.Forms.CheckBox();
-            this.barcodeXFADataMatrix = new System.Windows.Forms.CheckBox();
-            this.barcodeXFAQR = new System.Windows.Forms.CheckBox();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.panel1.SuspendLayout();
             this.barcodeTypesGroupBox.SuspendLayout();
             this.tabControl1.SuspendLayout();
@@ -157,7 +159,7 @@ namespace DemosCommonCode.Barcode
             this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(286, 495);
+            this.panel1.Size = new System.Drawing.Size(286, 532);
             this.panel1.TabIndex = 0;
             // 
             // barcodeTypesGroupBox
@@ -165,7 +167,7 @@ namespace DemosCommonCode.Barcode
             this.barcodeTypesGroupBox.Controls.Add(this.tabControl1);
             this.barcodeTypesGroupBox.Location = new System.Drawing.Point(3, 188);
             this.barcodeTypesGroupBox.Name = "barcodeTypesGroupBox";
-            this.barcodeTypesGroupBox.Size = new System.Drawing.Size(280, 304);
+            this.barcodeTypesGroupBox.Size = new System.Drawing.Size(280, 341);
             this.barcodeTypesGroupBox.TabIndex = 42;
             this.barcodeTypesGroupBox.TabStop = false;
             this.barcodeTypesGroupBox.Text = "Barcode types";
@@ -180,7 +182,7 @@ namespace DemosCommonCode.Barcode
             this.tabControl1.Location = new System.Drawing.Point(3, 16);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(274, 285);
+            this.tabControl1.Size = new System.Drawing.Size(274, 322);
             this.tabControl1.TabIndex = 0;
             // 
             // tabPage1
@@ -218,7 +220,7 @@ namespace DemosCommonCode.Barcode
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(266, 259);
+            this.tabPage1.Size = new System.Drawing.Size(266, 296);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "1D";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -334,7 +336,7 @@ namespace DemosCommonCode.Barcode
             // button1
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(200, 233);
+            this.button1.Location = new System.Drawing.Point(200, 270);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(63, 23);
             this.button1.TabIndex = 64;
@@ -518,7 +520,7 @@ namespace DemosCommonCode.Barcode
             this.postalTabPage.Controls.Add(this.barcodeAustralian);
             this.postalTabPage.Location = new System.Drawing.Point(4, 22);
             this.postalTabPage.Name = "postalTabPage";
-            this.postalTabPage.Size = new System.Drawing.Size(266, 259);
+            this.postalTabPage.Size = new System.Drawing.Size(266, 296);
             this.postalTabPage.TabIndex = 3;
             this.postalTabPage.Text = "Postal";
             this.postalTabPage.UseVisualStyleBackColor = true;
@@ -526,7 +528,7 @@ namespace DemosCommonCode.Barcode
             // button3
             // 
             this.button3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button3.Location = new System.Drawing.Point(200, 233);
+            this.button3.Location = new System.Drawing.Point(200, 270);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(63, 23);
             this.button3.TabIndex = 94;
@@ -666,7 +668,7 @@ namespace DemosCommonCode.Barcode
             this.tabPage3.Controls.Add(this.barcodeRSSExpandedStacked);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(266, 259);
+            this.tabPage3.Size = new System.Drawing.Size(266, 296);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "RSS / GS1 DataBar (1D)";
             this.tabPage3.UseVisualStyleBackColor = true;
@@ -674,7 +676,7 @@ namespace DemosCommonCode.Barcode
             // button2
             // 
             this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(200, 233);
+            this.button2.Location = new System.Drawing.Point(200, 270);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(63, 23);
             this.button2.TabIndex = 66;
@@ -799,6 +801,8 @@ namespace DemosCommonCode.Barcode
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.barcodeGs1DotCodeCheckBox);
+            this.tabPage2.Controls.Add(this.barcodeDotCode);
             this.tabPage2.Controls.Add(this.barcodeXFAAztec);
             this.tabPage2.Controls.Add(this.barcodeXFAQR);
             this.tabPage2.Controls.Add(this.barcodeXFAPDF417);
@@ -823,15 +827,93 @@ namespace DemosCommonCode.Barcode
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(266, 259);
+            this.tabPage2.Size = new System.Drawing.Size(266, 296);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "2D";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
+            // barcodeGs1DotCodeCheckBox
+            // 
+            this.barcodeGs1DotCodeCheckBox.AutoSize = true;
+            this.barcodeGs1DotCodeCheckBox.Location = new System.Drawing.Point(6, 90);
+            this.barcodeGs1DotCodeCheckBox.Name = "barcodeGs1DotCodeCheckBox";
+            this.barcodeGs1DotCodeCheckBox.Size = new System.Drawing.Size(92, 17);
+            this.barcodeGs1DotCodeCheckBox.TabIndex = 62;
+            this.barcodeGs1DotCodeCheckBox.Text = "GS1 DotCode";
+            this.barcodeGs1DotCodeCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // barcodeDotCode
+            // 
+            this.barcodeDotCode.AutoSize = true;
+            this.barcodeDotCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this.barcodeDotCode.Location = new System.Drawing.Point(6, 73);
+            this.barcodeDotCode.Name = "barcodeDotCode";
+            this.barcodeDotCode.Size = new System.Drawing.Size(68, 17);
+            this.barcodeDotCode.TabIndex = 61;
+            this.barcodeDotCode.Text = "DotCode";
+            // 
+            // barcodeXFAAztec
+            // 
+            this.barcodeXFAAztec.AutoSize = true;
+            this.barcodeXFAAztec.Location = new System.Drawing.Point(167, 58);
+            this.barcodeXFAAztec.Name = "barcodeXFAAztec";
+            this.barcodeXFAAztec.Size = new System.Drawing.Size(53, 17);
+            this.barcodeXFAAztec.TabIndex = 55;
+            this.barcodeXFAAztec.Text = "Aztec";
+            this.barcodeXFAAztec.UseVisualStyleBackColor = true;
+            // 
+            // barcodeXFAQR
+            // 
+            this.barcodeXFAQR.AutoSize = true;
+            this.barcodeXFAQR.Location = new System.Drawing.Point(167, 76);
+            this.barcodeXFAQR.Name = "barcodeXFAQR";
+            this.barcodeXFAQR.Size = new System.Drawing.Size(42, 17);
+            this.barcodeXFAQR.TabIndex = 59;
+            this.barcodeXFAQR.Text = "QR";
+            this.barcodeXFAQR.UseVisualStyleBackColor = true;
+            // 
+            // barcodeXFAPDF417
+            // 
+            this.barcodeXFAPDF417.AutoSize = true;
+            this.barcodeXFAPDF417.Location = new System.Drawing.Point(167, 110);
+            this.barcodeXFAPDF417.Name = "barcodeXFAPDF417";
+            this.barcodeXFAPDF417.Size = new System.Drawing.Size(65, 17);
+            this.barcodeXFAPDF417.TabIndex = 57;
+            this.barcodeXFAPDF417.Text = "PDF417";
+            this.barcodeXFAPDF417.UseVisualStyleBackColor = true;
+            // 
+            // barcodeXFADataMatrix
+            // 
+            this.barcodeXFADataMatrix.AutoSize = true;
+            this.barcodeXFADataMatrix.Location = new System.Drawing.Point(167, 93);
+            this.barcodeXFADataMatrix.Name = "barcodeXFADataMatrix";
+            this.barcodeXFADataMatrix.Size = new System.Drawing.Size(80, 17);
+            this.barcodeXFADataMatrix.TabIndex = 58;
+            this.barcodeXFADataMatrix.Text = "Data Matrix";
+            this.barcodeXFADataMatrix.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Location = new System.Drawing.Point(158, 39);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(103, 100);
+            this.groupBox1.TabIndex = 60;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "XFA Compressed";
+            // 
+            // barcodeHanXinCodeCheckBox
+            // 
+            this.barcodeHanXinCodeCheckBox.AutoSize = true;
+            this.barcodeHanXinCodeCheckBox.Location = new System.Drawing.Point(6, 277);
+            this.barcodeHanXinCodeCheckBox.Name = "barcodeHanXinCodeCheckBox";
+            this.barcodeHanXinCodeCheckBox.Size = new System.Drawing.Size(92, 17);
+            this.barcodeHanXinCodeCheckBox.TabIndex = 54;
+            this.barcodeHanXinCodeCheckBox.Text = "Han Xin Code";
+            // 
             // barcodePpn
             // 
             this.barcodePpn.AutoSize = true;
-            this.barcodePpn.Location = new System.Drawing.Point(6, 73);
+            this.barcodePpn.Location = new System.Drawing.Point(6, 107);
             this.barcodePpn.Name = "barcodePpn";
             this.barcodePpn.Size = new System.Drawing.Size(126, 17);
             this.barcodePpn.TabIndex = 53;
@@ -841,7 +923,7 @@ namespace DemosCommonCode.Barcode
             // barcodeGs1QRCheckbox
             // 
             this.barcodeGs1QRCheckbox.AutoSize = true;
-            this.barcodeGs1QRCheckbox.Location = new System.Drawing.Point(6, 193);
+            this.barcodeGs1QRCheckbox.Location = new System.Drawing.Point(6, 227);
             this.barcodeGs1QRCheckbox.Name = "barcodeGs1QRCheckbox";
             this.barcodeGs1QRCheckbox.Size = new System.Drawing.Size(66, 17);
             this.barcodeGs1QRCheckbox.TabIndex = 52;
@@ -851,7 +933,7 @@ namespace DemosCommonCode.Barcode
             // barcodeMailmarkCmdmType29CheckBox
             // 
             this.barcodeMailmarkCmdmType29CheckBox.AutoSize = true;
-            this.barcodeMailmarkCmdmType29CheckBox.Location = new System.Drawing.Point(6, 125);
+            this.barcodeMailmarkCmdmType29CheckBox.Location = new System.Drawing.Point(6, 159);
             this.barcodeMailmarkCmdmType29CheckBox.Name = "barcodeMailmarkCmdmType29CheckBox";
             this.barcodeMailmarkCmdmType29CheckBox.Size = new System.Drawing.Size(143, 17);
             this.barcodeMailmarkCmdmType29CheckBox.TabIndex = 51;
@@ -861,7 +943,7 @@ namespace DemosCommonCode.Barcode
             // barcodeMailmarkCmdmType9CheckBox
             // 
             this.barcodeMailmarkCmdmType9CheckBox.AutoSize = true;
-            this.barcodeMailmarkCmdmType9CheckBox.Location = new System.Drawing.Point(6, 108);
+            this.barcodeMailmarkCmdmType9CheckBox.Location = new System.Drawing.Point(6, 142);
             this.barcodeMailmarkCmdmType9CheckBox.Name = "barcodeMailmarkCmdmType9CheckBox";
             this.barcodeMailmarkCmdmType9CheckBox.Size = new System.Drawing.Size(137, 17);
             this.barcodeMailmarkCmdmType9CheckBox.TabIndex = 50;
@@ -871,7 +953,7 @@ namespace DemosCommonCode.Barcode
             // barcodeMailmarkCmdmType7CheckBox
             // 
             this.barcodeMailmarkCmdmType7CheckBox.AutoSize = true;
-            this.barcodeMailmarkCmdmType7CheckBox.Location = new System.Drawing.Point(6, 91);
+            this.barcodeMailmarkCmdmType7CheckBox.Location = new System.Drawing.Point(6, 125);
             this.barcodeMailmarkCmdmType7CheckBox.Name = "barcodeMailmarkCmdmType7CheckBox";
             this.barcodeMailmarkCmdmType7CheckBox.Size = new System.Drawing.Size(137, 17);
             this.barcodeMailmarkCmdmType7CheckBox.TabIndex = 49;
@@ -901,7 +983,7 @@ namespace DemosCommonCode.Barcode
             // barcodeMicroPDF417
             // 
             this.barcodeMicroPDF417.AutoSize = true;
-            this.barcodeMicroPDF417.Location = new System.Drawing.Point(6, 159);
+            this.barcodeMicroPDF417.Location = new System.Drawing.Point(6, 193);
             this.barcodeMicroPDF417.Name = "barcodeMicroPDF417";
             this.barcodeMicroPDF417.Size = new System.Drawing.Size(94, 17);
             this.barcodeMicroPDF417.TabIndex = 46;
@@ -919,7 +1001,7 @@ namespace DemosCommonCode.Barcode
             // barcodePDF417
             // 
             this.barcodePDF417.AutoSize = true;
-            this.barcodePDF417.Location = new System.Drawing.Point(6, 142);
+            this.barcodePDF417.Location = new System.Drawing.Point(6, 176);
             this.barcodePDF417.Name = "barcodePDF417";
             this.barcodePDF417.Size = new System.Drawing.Size(155, 17);
             this.barcodePDF417.TabIndex = 18;
@@ -938,7 +1020,7 @@ namespace DemosCommonCode.Barcode
             // barcodeMicroQR
             // 
             this.barcodeMicroQR.AutoSize = true;
-            this.barcodeMicroQR.Location = new System.Drawing.Point(6, 210);
+            this.barcodeMicroQR.Location = new System.Drawing.Point(6, 244);
             this.barcodeMicroQR.Name = "barcodeMicroQR";
             this.barcodeMicroQR.Size = new System.Drawing.Size(71, 17);
             this.barcodeMicroQR.TabIndex = 43;
@@ -947,7 +1029,7 @@ namespace DemosCommonCode.Barcode
             // barcodeQR
             // 
             this.barcodeQR.AutoSize = true;
-            this.barcodeQR.Location = new System.Drawing.Point(6, 176);
+            this.barcodeQR.Location = new System.Drawing.Point(6, 210);
             this.barcodeQR.Name = "barcodeQR";
             this.barcodeQR.Size = new System.Drawing.Size(42, 17);
             this.barcodeQR.TabIndex = 31;
@@ -956,7 +1038,7 @@ namespace DemosCommonCode.Barcode
             // barcodeTypesAllOrClear
             // 
             this.barcodeTypesAllOrClear.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.barcodeTypesAllOrClear.Location = new System.Drawing.Point(200, 233);
+            this.barcodeTypesAllOrClear.Location = new System.Drawing.Point(200, 270);
             this.barcodeTypesAllOrClear.Name = "barcodeTypesAllOrClear";
             this.barcodeTypesAllOrClear.Size = new System.Drawing.Size(63, 23);
             this.barcodeTypesAllOrClear.TabIndex = 19;
@@ -967,7 +1049,7 @@ namespace DemosCommonCode.Barcode
             // barcodeMaxiCode
             // 
             this.barcodeMaxiCode.AutoSize = true;
-            this.barcodeMaxiCode.Location = new System.Drawing.Point(6, 227);
+            this.barcodeMaxiCode.Location = new System.Drawing.Point(6, 261);
             this.barcodeMaxiCode.Name = "barcodeMaxiCode";
             this.barcodeMaxiCode.Size = new System.Drawing.Size(73, 17);
             this.barcodeMaxiCode.TabIndex = 42;
@@ -1185,70 +1267,12 @@ namespace DemosCommonCode.Barcode
             this.trackBarScanInterval.Value = 5;
             this.trackBarScanInterval.ValueChanged += new System.EventHandler(this.trackBarScanInterval_ValueChanged);
             // 
-            // barcodeHanXinCodeCheckBox
-            // 
-            this.barcodeHanXinCodeCheckBox.AutoSize = true;
-            this.barcodeHanXinCodeCheckBox.Location = new System.Drawing.Point(6, 243);
-            this.barcodeHanXinCodeCheckBox.Name = "barcodeHanXinCodeCheckBox";
-            this.barcodeHanXinCodeCheckBox.Size = new System.Drawing.Size(92, 17);
-            this.barcodeHanXinCodeCheckBox.TabIndex = 54;
-            this.barcodeHanXinCodeCheckBox.Text = "Han Xin Code";
-            // 
-            // barcodeXFAAztec
-            // 
-            this.barcodeXFAAztec.AutoSize = true;
-            this.barcodeXFAAztec.Location = new System.Drawing.Point(167, 58);
-            this.barcodeXFAAztec.Name = "barcodeXFAAztec";
-            this.barcodeXFAAztec.Size = new System.Drawing.Size(53, 17);
-            this.barcodeXFAAztec.TabIndex = 55;
-            this.barcodeXFAAztec.Text = "Aztec";
-            this.barcodeXFAAztec.UseVisualStyleBackColor = true;
-            // 
-            // barcodeXFAPDF417
-            // 
-            this.barcodeXFAPDF417.AutoSize = true;
-            this.barcodeXFAPDF417.Location = new System.Drawing.Point(167, 110);
-            this.barcodeXFAPDF417.Name = "barcodeXFAPDF417";
-            this.barcodeXFAPDF417.Size = new System.Drawing.Size(65, 17);
-            this.barcodeXFAPDF417.TabIndex = 57;
-            this.barcodeXFAPDF417.Text = "PDF417";
-            this.barcodeXFAPDF417.UseVisualStyleBackColor = true;
-            // 
-            // barcodeXFADataMatrix
-            // 
-            this.barcodeXFADataMatrix.AutoSize = true;
-            this.barcodeXFADataMatrix.Location = new System.Drawing.Point(167, 93);
-            this.barcodeXFADataMatrix.Name = "barcodeXFADataMatrix";
-            this.barcodeXFADataMatrix.Size = new System.Drawing.Size(80, 17);
-            this.barcodeXFADataMatrix.TabIndex = 58;
-            this.barcodeXFADataMatrix.Text = "Data Matrix";
-            this.barcodeXFADataMatrix.UseVisualStyleBackColor = true;
-            // 
-            // barcodeXFAQR
-            // 
-            this.barcodeXFAQR.AutoSize = true;
-            this.barcodeXFAQR.Location = new System.Drawing.Point(167, 76);
-            this.barcodeXFAQR.Name = "barcodeXFAQR";
-            this.barcodeXFAQR.Size = new System.Drawing.Size(42, 17);
-            this.barcodeXFAQR.TabIndex = 59;
-            this.barcodeXFAQR.Text = "QR";
-            this.barcodeXFAQR.UseVisualStyleBackColor = true;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Location = new System.Drawing.Point(158, 39);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(103, 100);
-            this.groupBox1.TabIndex = 60;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "XFA Compressed";
-            // 
             // BarcodeReaderSettingsControl
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.panel1);
             this.Name = "BarcodeReaderSettingsControl";
-            this.Size = new System.Drawing.Size(286, 495);
+            this.Size = new System.Drawing.Size(286, 532);
             this.panel1.ResumeLayout(false);
             this.barcodeTypesGroupBox.ResumeLayout(false);
             this.tabControl1.ResumeLayout(false);
@@ -1377,5 +1401,7 @@ namespace DemosCommonCode.Barcode
         private System.Windows.Forms.CheckBox barcodeXFAQR;
         private System.Windows.Forms.CheckBox barcodeXFAPDF417;
         private System.Windows.Forms.CheckBox barcodeXFADataMatrix;
+        private System.Windows.Forms.CheckBox barcodeGs1DotCodeCheckBox;
+        internal System.Windows.Forms.CheckBox barcodeDotCode;
     }
 }

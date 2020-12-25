@@ -7,7 +7,7 @@ using Vintasoft.Imaging.UI;
 namespace ImagingDemo
 {
     /// <summary>
-    /// A form that allows to view and change settings for the levels command.
+    /// A form that allows to view and edit settings of the LevelsCommand.
     /// </summary>
     public partial class LevelsForm : ParamsConfigForm
     {
@@ -25,7 +25,7 @@ namespace ImagingDemo
         /// <summary>
         /// Initializes a new instance of the <see cref="LevelsForm"/> class.
         /// </summary>
-        /// <param name="viewer">Image viewer.</param>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public LevelsForm(ImageViewer viewer)
             : base(viewer)
         {
@@ -71,9 +71,9 @@ namespace ImagingDemo
         #region PUBLIC
 
         /// <summary>
-        /// Returns the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override Vintasoft.Imaging.ImageProcessing.ProcessingCommandBase GetProcessingCommand()
         {
             LevelsCommand command = new LevelsCommand();
@@ -102,6 +102,39 @@ namespace ImagingDemo
 
         #region PRIVATE
 
+        #region UI
+
+        /// <summary>
+        /// Handles the ValueChanged event of AmountEditorControl object.
+        /// </summary>
+        private void amountEditorControl_ValueChanged(object sender, EventArgs e)
+        {
+            ExecuteProcessing();
+        }
+
+        /// <summary>
+        /// Handles the CheckedChanged event of PreviewCheckBox object.
+        /// </summary>
+        private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            IsPreviewEnabled = previewCheckBox.Checked;
+            if (IsPreviewEnabled)
+                previewCheckBox.ForeColor = Color.Black;
+            else
+                previewCheckBox.ForeColor = Color.Green;
+        }
+
+        /// <summary>
+        /// Handles the Click event of OkButton object.
+        /// </summary>
+        private void okButton_Click(object sender, EventArgs e)
+        {
+            DialogResult = System.Windows.Forms.DialogResult.OK;
+        }
+
+        #endregion
+
+
         /// <summary>
         /// Sets the default settings of value editor controls.
         /// </summary>
@@ -121,34 +154,6 @@ namespace ImagingDemo
             destinationMinValueEditorControl.Value = settings.OutputMin;
             destinationMaxValueEditorControl.Value = settings.OutputMax;
             gammaValueEditorControl.Value = (float)settings.Gamma;
-        }
-
-        /// <summary>
-        /// The value in value editor is changed.
-        /// </summary>
-        private void amountEditorControl_ValueChanged(object sender, EventArgs e)
-        {
-            ExecuteProcessing();
-        }
-
-        /// <summary>
-        /// The checked state in the preview check box is changed.
-        /// </summary>
-        private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            IsPreviewEnabled = previewCheckBox.Checked;
-            if (IsPreviewEnabled)
-                previewCheckBox.ForeColor = Color.Black;
-            else
-                previewCheckBox.ForeColor = Color.Green;
-        }
-
-        /// <summary>
-        /// "OK" button is clicked.
-        /// </summary>
-        private void okButton_Click(object sender, EventArgs e)
-        {
-            DialogResult = System.Windows.Forms.DialogResult.OK;
         }
 
         #endregion

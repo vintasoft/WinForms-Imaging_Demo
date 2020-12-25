@@ -70,10 +70,11 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
         #region Methods
 
         /// <summary>
-        /// "Ok" button is clicked.
+        /// Handles the Click event of OkButton object.
         /// </summary>
         private void okButton_Click(object sender, EventArgs e)
         {
+            // update compression
             _encoderSettings.Compression = (BmpCompression)compressionComboBox.SelectedItem;
         }
 

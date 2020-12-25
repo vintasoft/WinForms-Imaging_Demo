@@ -1,18 +1,17 @@
 ﻿using System;
 using System.Drawing.Drawing2D;
-using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.ImageProcessing.Transforms;
 
 namespace ImagingDemo
 {
     /// <summary>
-    /// A form that allows to view and change settings for the image scaling command.
+    /// A form that allows to view and change settings for the ImageScalingCommand.
     /// </summary>
     public partial class ImageScalingForm : ParamsConfigForm
     {
 
-        #region Constructor
+        #region Constructors
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageScalingForm"/> class.
@@ -54,10 +53,10 @@ namespace ImagingDemo
             {
                 _command = value;
             }
-        }    
+        }
 
         /// <summary>
-        /// Gets scale of the image.
+        /// Gets the scale of the image.
         /// </summary>
         public float ImageScale
         {
@@ -73,10 +72,12 @@ namespace ImagingDemo
 
         #region Methods
 
+        #region PUBLIC
+
         /// <summary>
-        /// Returns the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override ProcessingCommandBase GetProcessingCommand()
         {
             Command.Scale = ImageScale;
@@ -84,8 +85,15 @@ namespace ImagingDemo
             return Command;
         }
 
+        #endregion
+
+
+        #region PRIVATE
+
+        #region UI
+
         /// <summary>
-        /// "OK" button is clicked.
+        /// Handles the Click event of ButtonOk object.
         /// </summary>
         private void buttonOk_Click(object sender, EventArgs e)
         {
@@ -93,7 +101,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// "Cancel" button is clicked.
+        /// Handles the Click event of ButtonCancel object.
         /// </summary>
         private void buttonCancel_Click(object sender, EventArgs e)
         {
@@ -101,12 +109,16 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Value is changed.
+        /// Handles the ValueChanged event of ValueEditorControl object.
         /// </summary>
         private void valueEditorControl_ValueChanged(object sender, EventArgs e)
         {
             ExecuteProcessing();
         }
+
+        #endregion
+
+        #endregion
 
         #endregion
 

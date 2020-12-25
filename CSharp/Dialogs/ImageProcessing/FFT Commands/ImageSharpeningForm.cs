@@ -9,7 +9,7 @@ using Vintasoft.Imaging.UI;
 namespace ImagingDemo
 {
     /// <summary>
-    /// A form that allows to view and change settings for the image sharpening command.
+    /// A form that allows to view and edit settings for the ImageSharpeningCommand.
     /// </summary>
     public partial class ImageSharpeningForm : ParamsConfigForm
     {
@@ -27,14 +27,14 @@ namespace ImagingDemo
         FrequencyFilterType _filter = FrequencyFilterType.Gaussian;
 
         /// <summary>
-        /// Indicates that grayscale filtration should be used.
+        /// A value indicating whether the grayscale filtration must be used.
         /// </summary>
-        bool _grayscaleFiltration = true;
+        bool _useGrayscaleFiltration = true;
 
         /// <summary>
-        /// Indicates that form is initializing.
+        /// A value indicating whether the form is initializing.
         /// </summary>
-        bool _formInitialize = true;
+        bool _isFormInitializing = true;
 
         #endregion
 
@@ -49,13 +49,13 @@ namespace ImagingDemo
             : base()
         {
             InitializeComponent();
-            _formInitialize = false;
+            _isFormInitializing = false;
         }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ImageSharpeningForm"/> class.
         /// </summary>
-        /// <param name="viewer">Image viewer.</param>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public ImageSharpeningForm(ImageViewer viewer)
             : base(viewer)
         {
@@ -97,7 +97,7 @@ namespace ImagingDemo
             filterTypeComboBox.Items.Add(FrequencyFilterType.Gaussian);
             filterTypeComboBox.SelectedItem = FrequencyFilterType.Gaussian;
 
-            _formInitialize = false;
+            _isFormInitializing = false;
         }
 
         #endregion
@@ -107,7 +107,7 @@ namespace ImagingDemo
         #region Properties
 
         /// <summary>
-        /// Gets or sets a value indicating whether the preview in ImageViewer is enabled.
+        /// Gets or sets a value indicating whether the preview in image viewer is enabled.
         /// </summary>
         public override bool IsPreviewEnabled
         {
@@ -134,9 +134,9 @@ namespace ImagingDemo
         #region PUBLIC
 
         /// <summary>
-        /// Returns the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override Vintasoft.Imaging.ImageProcessing.ProcessingCommandBase GetProcessingCommand()
         {
             ImageSharpeningCommand command = new ImageSharpeningCommand();
@@ -144,7 +144,7 @@ namespace ImagingDemo
             command.OverlayAlpha = overlayAlphaEditorControl.Value;
             command.BlendingMode = _blendingMode;
             command.Filter = _filter;
-            command.GrayscaleFiltration = _grayscaleFiltration;
+            command.GrayscaleFiltration = _useGrayscaleFiltration;
             return command;
         }
 
@@ -153,8 +153,10 @@ namespace ImagingDemo
 
         #region PRIVATE
 
+        #region UI
+
         /// <summary>
-        /// "OK" button is clicked.
+        /// Handles the Click event of ButtonOk object.
         /// </summary>
         private void buttonOk_Click(object sender, EventArgs e)
         {
@@ -162,7 +164,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// "Cancel" button is clicked.
+        /// Handles the Click event of ButtonCancel object.
         /// </summary>
         private void buttonCancel_Click(object sender, EventArgs e)
         {
@@ -170,21 +172,21 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// The value in a value editor is changed.
+        /// Handles the ValueChanged event of AmountEditorControl object.
         /// </summary>
         private void amountEditorControl_ValueChanged(object sender, EventArgs e)
         {
-            if (_formInitialize)
+            if (_isFormInitializing)
                 return;
             ExecuteProcessing();
         }
 
         /// <summary>
-        /// The checked state in the preview check box is changed.
+        /// Handles the CheckedChanged event of PreviewCheckBox object.
         /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (_formInitialize)
+            if (_isFormInitializing)
                 return;
             IsPreviewEnabled = previewCheckBox.Checked;
             if (IsPreviewEnabled)
@@ -194,37 +196,39 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// The selected index of "Blending Mode" combo box is changed.
+        /// Handles the SelectedIndexChanged event of BlendingModeComboBox object.
         /// </summary>
         private void blendingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_formInitialize)
+            if (_isFormInitializing)
                 return;
             _blendingMode = (BlendingMode)blendingModeComboBox.SelectedItem;
             ExecuteProcessing();
         }
 
         /// <summary>
-        /// The selected index of "Filter Type combo box is changed.
+        /// Handles the SelectedIndexChanged event of FilterTypeComboBox object.
         /// </summary>
         private void filterTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
-            if (_formInitialize)
+            if (_isFormInitializing)
                 return;
             _filter = (FrequencyFilterType)filterTypeComboBox.SelectedItem;
             ExecuteProcessing();
         }
 
         /// <summary>
-        /// The checked state of "Use Grayscale Filtration" check box is changed.
+        /// Handles the CheckedChanged event of GrayscaleFiltrationCheckBox object.
         /// </summary>
         private void grayscaleFiltrationCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            if (_formInitialize)
+            if (_isFormInitializing)
                 return;
-            _grayscaleFiltration = grayscaleFiltrationCheckBox.Checked;
+            _useGrayscaleFiltration = grayscaleFiltrationCheckBox.Checked;
             ExecuteProcessing();
         }
+
+        #endregion
 
         #endregion
 

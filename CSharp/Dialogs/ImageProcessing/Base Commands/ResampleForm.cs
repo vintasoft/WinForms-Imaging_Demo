@@ -1,14 +1,24 @@
-using System;
+﻿using System;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
 
 namespace ImagingDemo
 {
+    /// <summary>
+    /// A form that allows to view and edit settings of the ResampleCommand.
+    /// </summary>
     public partial class ResampleForm : Form
     {
 
         #region Constructor
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ResampleForm"/> class.
+        /// </summary>
+        /// <param name="horizontalResolution">The horizontal resolution of the image.</param>
+        /// <param name="verticalResolution">The vertical resolution of the image.</param>
+        /// <param name="interpolationMode">The image interpolation mode.</param>
+        /// <param name="dlgCaption">Title text.</param>
         public ResampleForm(float horizontalResolution, float verticalResolution, InterpolationMode interpolationMode, string dlgCaption, bool resample)
         {
             InitializeComponent();
@@ -38,6 +48,9 @@ namespace ImagingDemo
         #region Properties
 
         private float _horizontalResolution;
+        /// <summary>
+        /// Gets the image horizontal resolution.
+        /// </summary>
         public float HorizontalResolution
         {
             get
@@ -47,6 +60,9 @@ namespace ImagingDemo
         }
 
         private float _verticalResolution;
+        /// <summary>
+        /// Gets the image vertical resolution.
+        /// </summary>
         public float VerticalResolution
         {
             get
@@ -56,6 +72,9 @@ namespace ImagingDemo
         }
 
         private InterpolationMode _interpolationMode;
+        /// <summary>
+        /// Gets the image interpolation mode.
+        /// </summary>
         public InterpolationMode InterpolationMode
         {
             get
@@ -64,15 +83,18 @@ namespace ImagingDemo
             }
         }
 
+        /// <summary>
+        /// Gets or sets a value indicating whether form must show the interpolation option.
+        /// </summary>
         public bool ShowInterpolationComboBox
         {
             get
             {
-                return label1.Visible && interpolationModeComboBox.Visible;
+                return interpolationLabel.Visible && interpolationModeComboBox.Visible;
             }
             set
             {
-                label1.Visible = value;
+                interpolationLabel.Visible = value;
                 interpolationModeComboBox.Visible = value;
             }
         }
@@ -83,7 +105,12 @@ namespace ImagingDemo
 
         #region Methods
 
-        private void btOk_Click(object sender, EventArgs e)
+        #region UI
+
+        /// <summary>
+        /// Handles the Click event of OkButton object.
+        /// </summary>
+        private void okButton_Click(object sender, EventArgs e)
         {
             _horizontalResolution = (float)nHorizontalResolution.Value;
             _verticalResolution = (float)nVerticalResolution.Value;
@@ -91,10 +118,15 @@ namespace ImagingDemo
             DialogResult = System.Windows.Forms.DialogResult.OK;
         }
 
-        private void btCancel_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Handles the Click event of CancelButton object.
+        /// </summary>
+        private void cancelButton_Click(object sender, EventArgs e)
         {
             DialogResult = System.Windows.Forms.DialogResult.Cancel;
         }
+
+        #endregion
 
         #endregion
 

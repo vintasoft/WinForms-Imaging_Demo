@@ -4,11 +4,18 @@ using Vintasoft.Imaging.UI;
 
 namespace ImagingDemo
 {
+    /// <summary>
+    /// A form that allows to view and edit settings of the IsImageBlackWhiteCommand.
+    /// </summary>
     public partial class IsImageBlackWhiteForm : OneParamConfigForm
     {
 
         #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="IsImageBlackWhiteForm"/> class.
+        /// </summary>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public IsImageBlackWhiteForm(ImageViewer viewer)
             : base(viewer,
             "Is Image Black-White",
@@ -24,9 +31,9 @@ namespace ImagingDemo
         #region Methods
 
         /// <summary>
-        /// Gets the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override ProcessingCommandBase GetProcessingCommand()
         {
             IsImageBlackWhiteCommand command = new IsImageBlackWhiteCommand();

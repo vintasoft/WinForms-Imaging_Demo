@@ -1,7 +1,6 @@
-using System;
+﻿using System;
 using System.Drawing;
 
-using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.ImageProcessing.Filters;
 using Vintasoft.Imaging.UI;
@@ -9,7 +8,7 @@ using Vintasoft.Imaging.UI;
 namespace ImagingDemo
 {
     /// <summary>
-    /// Config form for image processing function with three parameters.
+    /// A form that allows to view and edit settings of the CannyEdgeDetectorCommand.
     /// </summary>
     public partial class CannyEdgeDetectorForm : ParamsConfigForm
     {
@@ -49,6 +48,7 @@ namespace ImagingDemo
         /// <summary>
         /// Initializes a new instance of the <see cref="CannyEdgeDetectorForm"/> class.
         /// </summary>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public CannyEdgeDetectorForm(ImageViewer viewer)
             : base(viewer)
         {
@@ -139,8 +139,27 @@ namespace ImagingDemo
 
         #region Methods
 
+        #region PUBLIC
+
         /// <summary>
-        /// Execute processing command.
+        /// Returns the image processing command.
+        /// </summary>
+        /// <returns>The image processing command.</returns>
+        public override ProcessingCommandBase GetProcessingCommand()
+        {
+            if (HighThreshold < LowThreshold)
+                return new CannyEdgeDetectorCommand(BlurRadius, HighThreshold, HighThreshold);
+            else
+                return new CannyEdgeDetectorCommand(BlurRadius, HighThreshold, LowThreshold);
+        }
+
+        #endregion
+
+
+        #region PROTECTED
+
+        /// <summary>
+        /// Executes processing command.
         /// </summary>
         protected override void ExecuteProcessing()
         {
@@ -150,24 +169,41 @@ namespace ImagingDemo
             base.ExecuteProcessing();
         }
 
+        #endregion
 
-        private void btOk_Click(object sender, EventArgs e)
+
+        #region PRIVATE
+
+        #region UI
+
+        /// <summary>
+        /// Handles the Click event of OkButton object.
+        /// </summary>
+        private void okButton_Click(object sender, EventArgs e)
         {
             DialogResult = System.Windows.Forms.DialogResult.OK;
         }
 
-        private void btCancel_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Handles the Click event of CancelButton object.
+        /// </summary>
+        private void cancelButton_Click(object sender, EventArgs e)
         {
             DialogResult = System.Windows.Forms.DialogResult.Cancel;
         }
 
-
+        /// <summary>
+        /// Handles the Scroll event of TrackBar1 object.
+        /// </summary>
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             if (numericUpDown1.Value != trackBar1.Value)
                 numericUpDown1.Value = trackBar1.Value;
         }
 
+        /// <summary>
+        /// Handles the Scroll event of TrackBar2 object.
+        /// </summary>
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
             if (numericUpDown2.Value != trackBar2.Value)
@@ -178,48 +214,69 @@ namespace ImagingDemo
             maxValueLabel3.Text = trackBar2.Value.ToString();
         }
 
+        /// <summary>
+        /// Handles the Scroll event of TrackBar3 object.
+        /// </summary>
         private void trackBar3_Scroll(object sender, EventArgs e)
         {
             if (numericUpDown3.Value != trackBar3.Value)
                 numericUpDown3.Value = trackBar3.Value;
         }
 
-
+        /// <summary>
+        /// Handles the ValueChanged event of NumericUpDown1 object.
+        /// </summary>
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             trackBar1.Value = (int)numericUpDown1.Value;
             ExecuteProcessing();
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of NumericUpDown2 object.
+        /// </summary>
         private void numericUpDown2_ValueChanged(object sender, EventArgs e)
         {
             trackBar2.Value = (int)numericUpDown2.Value;
             ExecuteProcessing();
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of NumericUpDown3 object.
+        /// </summary>
         private void numericUpDown3_ValueChanged(object sender, EventArgs e)
         {
             trackBar3.Value = (int)numericUpDown3.Value;
             ExecuteProcessing();
         }
 
-
+        /// <summary>
+        /// Handles the Click event of ButtonReset1 object.
+        /// </summary>
         private void buttonReset1_Click(object sender, EventArgs e)
         {
             numericUpDown1.Value = _initialParameter1.DefaultValue;
         }
 
+        /// <summary>
+        /// Handles the Click event of ButtonReset2 object.
+        /// </summary>
         private void buttonReset2_Click(object sender, EventArgs e)
         {
             numericUpDown2.Value = _initialParameter2.DefaultValue;
         }
 
+        /// <summary>
+        /// Handles the Click event of ButtonReset3 object.
+        /// </summary>
         private void buttonReset3_Click(object sender, EventArgs e)
         {
             numericUpDown3.Value = _initialParameter3.DefaultValue;
         }
 
-
+        /// <summary>
+        /// Handles the CheckedChanged event of PreviewCheckBox object.
+        /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             IsPreviewEnabled = previewCheckBox.Checked;
@@ -229,17 +286,9 @@ namespace ImagingDemo
                 previewCheckBox.ForeColor = Color.Green;
         }
 
-        /// <summary>
-        /// Gets the current image processing command.
-        /// </summary>
-        /// <returns>Current image processing command.</returns>
-        public override ProcessingCommandBase GetProcessingCommand()
-        {
-            if (HighThreshold < LowThreshold)
-                return new CannyEdgeDetectorCommand(BlurRadius, HighThreshold, HighThreshold);
-            else
-                return new CannyEdgeDetectorCommand(BlurRadius, HighThreshold, LowThreshold);
-        }
+        #endregion
+
+        #endregion
 
         #endregion
 

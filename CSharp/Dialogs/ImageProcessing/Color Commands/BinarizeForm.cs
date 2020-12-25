@@ -5,19 +5,31 @@ using Vintasoft.Imaging.UI;
 
 namespace ImagingDemo
 {
+    /// <summary>
+    /// A form that allows to view and edit settings of the 
+    /// ChangePixelFormatToBlackWhiteCommand and BinarizeCommand.
+    /// </summary>
     public partial class BinarizeForm : OneParamConfigForm
     {
 
         #region Fields
 
+        /// <summary>
+        /// A value indicating whether the pixel format must be changed.
+        /// </summary>
         bool _changePixelFormat;
 
         #endregion
 
 
 
-        #region Constructor
+        #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="BinarizeForm"/> class.
+        /// </summary>
+        /// <param name="viewer">The image viewer for image preview.</param>
+        /// <param name="changePixelFormat">A value indicating whether the pixel fromat must be changed.</param>
         public BinarizeForm(ImageViewer viewer, bool changePixelFormat)
             : base(viewer,
             "Black and White",
@@ -50,9 +62,9 @@ namespace ImagingDemo
         #region Methods
 
         /// <summary>
-        /// Gets the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override ProcessingCommandBase GetProcessingCommand()
         {
             if (_changePixelFormat)

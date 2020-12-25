@@ -1,16 +1,21 @@
-using System.Drawing;
-using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.ImageProcessing.Color;
 using Vintasoft.Imaging.UI;
 
 namespace ImagingDemo
 {
+    /// <summary>
+    /// A form that allows to view and edit settings of the PosterizeCommand.
+    /// </summary>
     public partial class PosterizeForm : OneParamConfigForm
     {
 
-        #region Constructor
+        #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="PosterizeForm"/> class.
+        /// </summary>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public PosterizeForm(ImageViewer viewer)
             : base(viewer,
             "Posterize",
@@ -19,6 +24,7 @@ namespace ImagingDemo
         }
 
         #endregion
+
 
 
         #region Properties
@@ -37,12 +43,13 @@ namespace ImagingDemo
         #endregion
 
 
+
         #region Methods
 
         /// <summary>
-        /// Gets the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override ProcessingCommandBase GetProcessingCommand()
         {
             return new PosterizeCommand(Levels);

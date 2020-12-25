@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
@@ -26,7 +26,6 @@ using Vintasoft.Imaging.UIActions;
 using Vintasoft.Imaging.UI.VisualTools;
 using Vintasoft.Imaging.UI.VisualTools.UserInteraction;
 using Vintasoft.Imaging.Undo;
-using Vintasoft.Imaging.ImageProcessing.Info;
 
 using DemosCommonCode;
 using DemosCommonCode.Imaging;
@@ -34,9 +33,8 @@ using DemosCommonCode.Imaging.Codecs;
 using DemosCommonCode.Imaging.ColorManagement;
 using DemosCommonCode.Twain;
 using DemosCommonCode.Barcode;
-using Vintasoft.Imaging.Drawing.Gdi;
 #if !REMOVE_BARCODE_SDK
-using Vintasoft.Barcode; 
+using Vintasoft.Barcode;
 #endif
 #if !REMOVE_PDF_PLUGIN
 using DemosCommonCode.Pdf;
@@ -90,22 +88,36 @@ namespace ImagingDemo
         /// </summary>
         bool _isFileDialogOpened = false;
 
+        /// <summary>
+        /// The location of the selection tool context menu.
+        /// </summary>
         PointF _selectionContextMenuStripLocation;
+
+        /// <summary>
+        /// Manages the layout settings of DOCX document image collections.
+        /// </summary>
+        ImageCollectionDocxLayoutSettingsManager _imageCollectionDocxLayoutSettingsManager;
+
+        /// <summary>
+        /// Manages the layout settings of XLSX document image collections.
+        /// </summary>
+        ImageCollectionXlsxLayoutSettingsManager _imageCollectionXlsxLayoutSettingsManager;
 
 
         #region Load
 
         /// <summary>
-        /// Time when loading of image is started.
+        /// The time when image loading is started.
         /// </summary>
         DateTime _imageLoadingStartTime;
+
         /// <summary>
-        /// Time of image loading.
+        /// The image loading time.
         /// </summary>
         TimeSpan _imageLoadingTime = TimeSpan.Zero;
 
         /// <summary>
-        /// Determines that images are changed.
+        /// A value indicating whether images have been changed.
         /// </summary>
         bool _areImagesChanged = false;
 
@@ -115,17 +127,17 @@ namespace ImagingDemo
         #region Save
 
         /// <summary>
-        /// Filename of the image file to save the image collection of the image viewer.
+        /// Image file name to save the image collection of the image viewer.
         /// </summary>
         string _saveFilename;
 
         /// <summary>
-        /// Name of the encoder to save the image collection of the image viewer.
+        /// Encoder name to save the image collection of the image viewer.
         /// </summary>
         string _encoderName;
 
         /// <summary>
-        /// Determines that saving of image must be canceled.
+        /// A value indicating whether image saving must be canceled.
         /// </summary>
         bool _cancelImageSaving = false;
 
@@ -171,12 +183,12 @@ namespace ImagingDemo
         #region Image processing undo manager
 
         /// <summary>
-        /// A form that shows image processing history.
+        /// A form that allows to view the image processing history.
         /// </summary>
         UndoManagerHistoryForm _historyForm;
 
         /// <summary>
-        /// Determines that undo information for all images must be kept.
+        /// A value indicating whether to keep undo information for all images or only for the focused image.
         /// </summary>
         /// <value>
         /// <b>true</b> - undo information for focused image is kept;
@@ -190,7 +202,7 @@ namespace ImagingDemo
         UndoManager _undoManager;
 
         /// <summary>
-        /// The undo monitor of image viewer.
+        /// The undo monitor of the image viewer.
         /// </summary>
         ImageViewerUndoMonitor _imageViewerUndoMonitor = null;
 
@@ -208,20 +220,23 @@ namespace ImagingDemo
 
 
         /// <summary>
-        /// Form for direct access to pixels of image.
+        /// A form that allows direct access to the mage pixels.
         /// </summary>
         DirectPixelAccessForm _directPixelAccessForm;
 
+        /// <summary>
+        /// A value indicating whether ESC key is pressed.
+        /// </summary>
+        bool _isEscKeyPressed = false;
 
         /// <summary>
-        /// Determines that ESC key is pressed.
-        /// </summary>
-        bool _isEscPressed = false;
-        /// <summary>
-        /// Determines that form of application is closing.
+        /// A value indicating whether the application form is closing.
         /// </summary> 
         bool _isFormClosing = false;
 
+        /// <summary>
+        /// A value indicating whether the visual tool is changing.
+        /// </summary> 
         bool _isVisualToolChanging = false;
 
         #endregion
@@ -251,10 +266,9 @@ namespace ImagingDemo
 
             viewerToolStrip.ImageViewer = imageViewer1;
 
-
             thumbnailViewer1.ThumbnailRenderingThreadCount = Math.Max(1, Environment.ProcessorCount / 2);
 
-            imageViewer1.Images.ImageCollectionChanged += new EventHandler<ImageCollectionChangeEventArgs>(Images_CollectionChanged);
+            imageViewer1.Images.ImageCollectionChanged += new EventHandler<ImageCollectionChangeEventArgs>(imageViewer1_Images_ImageCollectionChanged);
 
             // init "View => Image Display Mode" menu
             singlePageToolStripMenuItem.Tag = ImageViewerDisplayMode.SinglePage;
@@ -284,18 +298,21 @@ namespace ImagingDemo
 
             // create the image processing executor
             _imageProcessingCommandExecutor = new ImageProcessingCommandExecutor(imageViewer1);
-            _imageProcessingCommandExecutor.ImageProcessingCommandStarted += new EventHandler<ImageProcessingEventArgs>(_imageProcessingCommandExecutor_ImageProcessingCommandStarted);
-            _imageProcessingCommandExecutor.ImageProcessingCommandProgress += new EventHandler<ImageProcessingProgressEventArgs>(_imageProcessingCommandExecutor_ImageProcessingCommandProgress);
-            _imageProcessingCommandExecutor.ImageProcessingCommandFinished += new EventHandler<ImageProcessedEventArgs>(_imageProcessingCommandExecutor_ImageProcessingCommandFinished);
+            _imageProcessingCommandExecutor.ImageProcessingCommandStarted += new EventHandler<ImageProcessingEventArgs>(imageProcessingCommandExecutor_ImageProcessingCommandStarted);
+            _imageProcessingCommandExecutor.ImageProcessingCommandProgress += new EventHandler<ImageProcessingProgressEventArgs>(imageProcessingCommandExecutor_ImageProcessingCommandProgress);
+            _imageProcessingCommandExecutor.ImageProcessingCommandFinished += new EventHandler<ImageProcessedEventArgs>(imageProcessingCommandExecutor_ImageProcessingCommandFinished);
 
             // create the image undo managers
             enableUndoRedoToolStripMenuItem.Checked = false;
             CreateUndoManager(_keepUndoForCurrentImageOnly);
             UpdateUndoRedoMenu(_undoManager);
 
-            //
-            CodecsFileFilters.SetFilters(openFileDialog1);
-            DemosTools.SetDemoImagesFolder(openFileDialog1);
+            // set filters in open dialog
+            CodecsFileFilters.SetOpenFileDialogFilter(openImageFileDialog);
+
+            // set the initial directory in open file dialog
+            DemosTools.SetDemoImagesFolder(openImageFileDialog);
+
             DemosTools.CatchVisualToolExceptions(imageViewer1);
 
             editToolStripMenuItem.DropDownOpening += new EventHandler(editToolStripMenuItem_DropDownOpening);
@@ -309,11 +326,35 @@ namespace ImagingDemo
             BarcodeReaderToolActionFactory.CreateActions(visualToolsToolStrip1);
             BarcodeWriterToolActionFactory.CreateActions(visualToolsToolStrip1);
 
+            // set default rendering settings
+#if REMOVE_PDF_PLUGIN && REMOVE_OFFICE_PLUGIN
+            imageViewer1.ImageRenderingSettings = RenderingSettings.Empty;
+#elif REMOVE_OFFICE_PLUGIN
+            imageViewer1.ImageRenderingSettings = new PdfRenderingSettings();
+#elif REMOVE_PDF_PLUGIN
+            imageViewer1.ImageRenderingSettings = new CompositeRenderingSettings(
+                new DocxRenderingSettings(),
+                new XlsxRenderingSettings());
+#else
+            imageViewer1.ImageRenderingSettings = new CompositeRenderingSettings(
+                new PdfRenderingSettings(),
+                new DocxRenderingSettings(),
+                new XlsxRenderingSettings());
+#endif
+
             UpdateUI();
 
             imageViewer1.Focus();
 
             DocumentPasswordForm.EnableAuthentication(imageViewer1);
+
+#if !REMOVE_OFFICE_PLUGIN
+            // specify that image collection of image viewer must handle layout settings requests
+            _imageCollectionDocxLayoutSettingsManager = new ImageCollectionDocxLayoutSettingsManager(imageViewer1.Images);
+            _imageCollectionXlsxLayoutSettingsManager = new ImageCollectionXlsxLayoutSettingsManager(imageViewer1.Images);
+#else
+            documentLayoutSettingsToolStripMenuItem.Visible = false;
+#endif
 
 #if !REMOVE_PDF_PLUGIN
             // set CustomFontProgramsController for all opened PDF documents
@@ -328,6 +369,9 @@ namespace ImagingDemo
         #region Properties
 
         bool _isImageLoaded = false;
+        /// <summary>
+        /// Gets or sets a value indicating whether image is loaded.
+        /// </summary>
         bool IsImageLoaded
         {
             get { return _isImageLoaded; }
@@ -340,6 +384,9 @@ namespace ImagingDemo
         }
 
         bool _isImageProcessing = false;
+        /// <summary>
+        /// Gets or sets a value indicating whether image is processing.
+        /// </summary>
         internal bool IsImageProcessing
         {
             get { return _isImageProcessing; }
@@ -352,6 +399,9 @@ namespace ImagingDemo
         }
 
         bool _isImageOpening = false;
+        /// <summary>
+        /// Gets or sets a value indicating whether image is opening.
+        /// </summary>
         bool IsImageOpening
         {
             get { return _isImageOpening; }
@@ -362,6 +412,9 @@ namespace ImagingDemo
         }
 
         bool _isImageSaving = false;
+        /// <summary>
+        /// Gets or sets a value indicating whether image is saving.
+        /// </summary>
         bool IsImageSaving
         {
             get { return _isImageSaving; }
@@ -379,10 +432,46 @@ namespace ImagingDemo
 
         #region Methods
 
+        #region PROTECTED
+
+        /// <summary>
+        /// Processes a command key.
+        /// </summary>
+        /// <param name="msg">A <see cref="T:System.Windows.Forms.Message" />,
+        /// passed by reference, that represents the window message to process.</param>
+        /// <param name="keyData">One of the <see cref="T:System.Windows.Forms.Keys" /> values
+        /// that represents the key to process.</param>
+        /// <returns>
+        /// <b>true</b> if the character was processed by the control; otherwise, <b>false</b>.
+        /// </returns>
+        protected override bool ProcessCmdKey(ref Message msg, Keys keyData)
+        {
+            if (keyData == (Keys.Shift | Keys.Control | Keys.Add))
+            {
+                RotateViewClockwise();
+                return true;
+            }
+
+            if (keyData == (Keys.Shift | Keys.Control | Keys.Subtract))
+            {
+                RotateViewCounterClockwise();
+                return true;
+            }
+
+            return base.ProcessCmdKey(ref msg, keyData);
+        }
+
+        #endregion
+
+
+        #region PRIVATE
+
+        #region UI
+
         #region Main form
 
         /// <summary>
-        /// Main form is shown.
+        /// Handles the Shown event of MainForm object.
         /// </summary>
         private void MainForm_Shown(object sender, EventArgs e)
         {
@@ -421,15 +510,16 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Key is down.
+        /// Handles the KeyDown event of MainForm object.
         /// </summary>
         private void MainForm_KeyDown(object sender, KeyEventArgs e)
         {
-            _isEscPressed = e.KeyData == Keys.Escape;
+            // check if escape key is pressed
+            _isEscKeyPressed = e.KeyData == Keys.Escape;
         }
 
         /// <summary>
-        /// Main form is closing.
+        /// Handles the FormClosing event of MainForm object.
         /// </summary>
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
@@ -447,14 +537,12 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Main form is closed.
+        /// Handles the FormClosed event of MainForm object.
         /// </summary>
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            //
-            WaitWhileSavingAndProcessingIsFinished();
+            WaitUntilSavingAndProcessingIsFinished();
 
-            //
             CloseFile();
 
             ClearHistory();
@@ -468,6 +556,3019 @@ namespace ImagingDemo
         #endregion
 
 
+        #region 'File' menu
+
+        /// <summary>
+        /// Handles the DropDownOpening event of FileToolStripMenuItem object.
+        /// </summary>
+        private void fileToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            UpdateUI();
+            if (!Clipboard.ContainsImage())
+            {
+                addFromClipboardToolStripMenuItem.Enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of NewToolStripMenuItem object.
+        /// </summary>
+        private void newToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (CreateNewImageForm dlg = new CreateNewImageForm())
+            {
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    // create and add new image to the image collection of the image viewer
+                    VintasoftImage image = dlg.CreateImage();
+                    imageViewer1.Images.Add(image);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of OpenToolStripMenuItem object.
+        /// </summary>
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_isFileDialogOpened)
+                return;
+
+            _isFileDialogOpened = true;
+
+            // select image file
+            if (openImageFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                WaitUntilSavingAndProcessingIsFinished();
+
+                // if image collection of image viewer is not empty
+                if (imageViewer1.Images.Count > 0)
+                {
+                    // clear the image collection of the image viewer
+                    imageViewer1.Images.ClearAndDisposeItems();
+                }
+
+                CloseFile();
+
+                try
+                {
+                    OpenFile(openImageFileDialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    DemosTools.ShowErrorMessage(ex);
+                }
+            }
+
+            _isFileDialogOpened = false;
+        }
+
+        /// <summary>
+        /// Handles the Click event of AddToolStripMenuItem object.
+        /// </summary>
+        private void addToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_isFileDialogOpened)
+                return;
+
+            _isFileDialogOpened = true;
+            openImageFileDialog.Multiselect = true;
+
+            // select image file(s)
+            if (openImageFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                // add images from selected image sources (files) to temporary image collection
+                ImageCollection images = new ImageCollection();
+                foreach (string fileName in openImageFileDialog.FileNames)
+                {
+                    try
+                    {
+                        images.Add(fileName);
+                    }
+                    catch (Exception ex)
+                    {
+                        DemosTools.ShowErrorMessage(ex, fileName);
+                    }
+                }
+
+                // add images from temporary image collection to the image collection of image viewer
+                imageViewer1.Images.AddRange(images.ToArray());
+            }
+
+            openImageFileDialog.Multiselect = false;
+            _isFileDialogOpened = false;
+        }
+
+        /// <summary>
+        /// Handles the Click event of DocxLayoutSettingsToolStripMenuItem object.
+        /// </summary>
+        private void docxLayoutSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageCollectionDocxLayoutSettingsManager.EditLayoutSettingsUseDialog();
+        }
+
+        /// <summary>
+        /// Handles the Click event of XlsxLayoutSettingsToolStripMenuItem object.
+        /// </summary>
+        private void xlsxLayoutSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageCollectionXlsxLayoutSettingsManager.EditLayoutSettingsUseDialog();
+        }
+
+        /// <summary>
+        /// Handles the Click event of AddFromClipboardToolStripMenuItem object.
+        /// </summary>
+        private void addFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Clipboard.ContainsImage())
+            {
+                // add image from clipboard to the image collection of the image viewer
+                Image bitmap = Clipboard.GetImage();
+                VintasoftImage image = new VintasoftImage(bitmap, true);
+                imageViewer1.Images.Add(image);
+
+                // update the UI
+                Update();
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of AcquireFromScannerToolStripMenuItem object.
+        /// </summary>
+        private void acquireFromScannerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool scanMenuEnabled = acquireFromScannerToolStripMenuItem.Enabled;
+            acquireFromScannerToolStripMenuItem.Enabled = false;
+            bool viewerToolStripCanScan = viewerToolStrip.CanScan;
+            viewerToolStrip.IsScanEnabled = false;
+
+            try
+            {
+                if (_simpleTwainManager == null)
+                {
+                    _simpleTwainManager = new SimpleTwainManager(this, imageViewer1.Images);
+                }
+
+                // acquire image(s) from scanner
+                _simpleTwainManager.SelectDeviceAndAcquireImage();
+            }
+            catch (Exception ex)
+            {
+                DemosTools.ShowErrorMessage(ex);
+            }
+            finally
+            {
+                acquireFromScannerToolStripMenuItem.Enabled = scanMenuEnabled;
+                viewerToolStrip.IsScanEnabled = viewerToolStripCanScan;
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of CaptureFromCameraToolStripMenuItem object.
+        /// </summary>
+        private void captureFromCameraToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                ImageCaptureDevice device = WebcamSelectionForm.SelectWebcam();
+                if (device != null)
+                {
+                    // capture image(s) from camera (webcam)
+                    WebcamPreviewForm webcamForm = new WebcamPreviewForm(device);
+                    webcamForm.Owner = this;
+                    webcamForm.SnapshotViewer = imageViewer1;
+                    _webcamForms.Add(webcamForm);
+                    webcamForm.Show();
+                }
+            }
+            catch (Exception ex)
+            {
+                DemosTools.ShowErrorMessage(ex);
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of SaveChangesToolStripMenuItem object.
+        /// </summary>
+        private void saveChangesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EncoderBase encoder = null;
+            try
+            {
+                if (PluginsEncoderFactory.Default.GetEncoderByName(_sourceDecoderName, out encoder))
+                {
+                    // save changes in image collection to the source file
+                    SaveImageCollection(imageViewer1.Images, _sourceFilename, encoder, true);
+                }
+                else
+                {
+                    DemosTools.ShowErrorMessage("Image is not saved.");
+                }
+            }
+            catch (Exception ex)
+            {
+                DemosTools.ShowErrorMessage(ex);
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of SaveAsToolStripMenuItem object.
+        /// </summary>
+        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_isFileDialogOpened)
+                return;
+
+            _isFileDialogOpened = true;
+
+            bool saveSingleImage = imageViewer1.Images.Count == 1;
+
+            try
+            {
+                CodecsFileFilters.SetSaveFileDialogFilter(saveImageFileDialog, !saveSingleImage, false);
+                if (saveImageFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    string filename = saveImageFileDialog.FileName;
+
+                    PluginsEncoderFactory encoderFactory = new PluginsEncoderFactory();
+                    encoderFactory.CanAddImagesToExistingFile = false;
+
+                    EncoderBase encoder = null;
+                    if (encoderFactory.GetEncoder(filename, out encoder))
+                    {
+                        // save image collection to a new source and switch to it
+                        SaveImageCollection(imageViewer1.Images, filename, encoder, true);
+                    }
+                    else
+                    {
+                        DemosTools.ShowErrorMessage("Images are not saved.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                DemosTools.ShowErrorMessage(ex);
+            }
+
+            _isFileDialogOpened = false;
+        }
+
+        /// <summary>
+        /// Handles the Click event of SaveToToolStripMenuItem object.
+        /// </summary>
+        private void saveToToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_isFileDialogOpened)
+                return;
+
+            _isFileDialogOpened = true;
+
+            bool saveSingleImage = imageViewer1.Images.Count == 1;
+
+            CodecsFileFilters.SetSaveFileDialogFilter(saveImageFileDialog, !saveSingleImage, false);
+            if (saveImageFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string filename = Path.GetFullPath(saveImageFileDialog.FileName);
+                bool isFileExist = File.Exists(filename);
+
+                try
+                {
+                    PluginsEncoderFactory encoderFactory = new PluginsEncoderFactory();
+                    encoderFactory.CanAddImagesToExistingFile = isFileExist;
+
+                    EncoderBase encoder = null;
+                    if (encoderFactory.GetEncoder(filename, out encoder))
+                    {
+                        // save image collection to a new source without switching to it
+                        SaveImageCollection(imageViewer1.Images, filename, encoder, false);
+                    }
+                    else
+                    {
+                        DemosTools.ShowErrorMessage("Image is not saved.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    DemosTools.ShowErrorMessage(ex);
+                }
+            }
+
+            _isFileDialogOpened = false;
+        }
+
+        /// <summary>
+        /// Handles the Click event of SaveCurrentImageToolStripMenuItem object.
+        /// </summary>
+        private void saveCurrentImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (_isFileDialogOpened)
+                return;
+            _isFileDialogOpened = true;
+
+            try
+            {
+
+                CodecsFileFilters.SetSaveFileDialogFilter(saveImageFileDialog, false, false);
+                if (saveImageFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    string filename = Path.GetFullPath(saveImageFileDialog.FileName);
+                    bool isFileExist = File.Exists(filename);
+
+                    PluginsEncoderFactory encoderFactory = new PluginsEncoderFactory();
+                    encoderFactory.CanAddImagesToExistingFile = isFileExist;
+
+                    EncoderBase encoder = null;
+
+                    // if the encoder for the image is found
+                    if (encoderFactory.GetEncoder(filename, out encoder))
+                    {
+                        VintasoftImage image = imageViewer1.Images[imageViewer1.FocusedIndex];
+                        // save image
+                        SaveSingleImage(image, filename, encoder);
+                    }
+                    else
+                        DemosTools.ShowErrorMessage("Image is not saved.");
+                }
+            }
+            catch (Exception ex)
+            {
+                DemosTools.ShowErrorMessage(ex);
+            }
+
+            _isFileDialogOpened = false;
+        }
+
+        /// <summary>
+        /// Handles the Click event of PageSettingsToolStripMenuItem object.
+        /// </summary>
+        private void pageSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            pageSetupDialog1.ShowDialog();
+        }
+
+        /// <summary>
+        /// Handles the Click event of PrintToolStripMenuItem object.
+        /// </summary>
+        private void printToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _thumbnailViewerPrintManager.Print();
+        }
+
+        /// <summary>
+        /// Handles the Click event of CloseToolStripMenuItem object.
+        /// </summary>
+        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            WaitUntilSavingAndProcessingIsFinished();
+
+            imageViewer1.Images.ClearAndDisposeItems();
+
+            CloseFile();
+
+            CloseHistoryForm();
+
+            UpdateUI();
+        }
+
+        /// <summary>
+        /// Handles the Click event of ExitToolStripMenuItem object.
+        /// </summary>
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        #endregion
+
+
+        #region 'Edit' menu
+
+        /// <summary>
+        /// Handles the DropDownOpening event of EditToolStripMenuItem object.
+        /// </summary>
+        private void editToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
+        {
+            UpdateEditMenu();
+            UpdateEditUIActionMenuItems();
+            if (!Clipboard.ContainsImage())
+            {
+                pasteImageToolStripMenuItem.Enabled = false;
+                insertImageFromClipboardToolStripMenuItem.Enabled = false;
+            }
+        }
+
+
+        #region Copy, paste and delete image
+
+        /// <summary>
+        /// Handles the Click event of CopyImageToolStripMenuItem object.
+        /// </summary>
+        private void copyImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            CopyImageToClipboard();
+        }
+
+        /// <summary>
+        /// Handles the Click event of PasteImageToolStripMenuItem object.
+        /// </summary>
+        private void pasteImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PasteImageFromClipboard();
+        }
+
+        /// <summary>
+        /// Handles the Click event of SetImageFromFileToolStripMenuItem object.
+        /// </summary>
+        private void setImageFromFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openImageFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                try
+                {
+                    // set image from file
+                    VintasoftImage image = new VintasoftImage(openImageFileDialog.FileName);
+                    imageViewer1.Image.SetImage(image);
+                }
+                catch (Exception ex)
+                {
+                    DemosTools.ShowErrorMessage(ex);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of InsertImageFromClipboardToolStripMenuItem object.
+        /// </summary>
+        private void insertImageFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Clipboard.ContainsImage())
+            {
+                try
+                {
+                    // insert image from clipboard into image viewer
+                    VintasoftImage image = new VintasoftImage(Clipboard.GetImage(), true);
+                    imageViewer1.Images.Insert(imageViewer1.FocusedIndex, image);
+                }
+                catch (Exception ex)
+                {
+                    DemosTools.ShowErrorMessage(ex);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of InsertImageFromFileToolStripMenuItem object.
+        /// </summary>
+        private void insertImageFromFileToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openImageFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                try
+                {
+                    // insert image from file to image viewer
+                    imageViewer1.Images.Insert(imageViewer1.FocusedIndex, openImageFileDialog.FileName);
+                }
+                catch (Exception ex)
+                {
+                    DemosTools.ShowErrorMessage(ex);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of DeleteImageToolStripMenuItem object.
+        /// </summary>
+        private void deleteImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // get focused image and remove it from image viewer
+            VintasoftImage image = imageViewer1.Images[imageViewer1.FocusedIndex];
+            imageViewer1.Images.RemoveAt(imageViewer1.FocusedIndex);
+            image.Dispose();
+        }
+
+        #endregion
+
+
+        #region Copy, paste and delete measurement object
+
+        /// <summary>
+        /// Handles the Click event of CopyToolStripMenuItem object.
+        /// </summary>
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // copy the selected measurement into "internal" buffer,
+            // get the copy UI action for current visual tool
+            CopyItemUIAction copyUIAction = DemosTools.GetUIAction<CopyItemUIAction>(imageViewer1.VisualTool);
+
+            // if UI action exists
+            if (copyUIAction != null)
+            {
+                // execute the UI action
+                copyUIAction.Execute();
+            }
+
+            // update the UI
+            UpdateUI();
+        }
+
+        /// <summary>
+        /// Handles the Click event of CutToolStripMenuItem object.
+        /// </summary>
+        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // cut the selected measurement into "internal" buffer,
+            // get the cut UI action for current visual tool
+            CutItemUIAction cutUIAction = DemosTools.GetUIAction<CutItemUIAction>(imageViewer1.VisualTool);
+
+            // if UI action exists
+            if (cutUIAction != null)
+                // execute the UI action
+                cutUIAction.Execute();
+
+            // update the UI
+            UpdateUI();
+        }
+
+        /// <summary>
+        /// Handles the Click event of PasteToolStripMenuItem object.
+        /// </summary>
+        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // paste measurement from "internal" buffer and make it active,
+            // get the paste UI action for current visual tool
+            PasteItemWithOffsetUIAction pasteUIAction = DemosTools.GetUIAction<PasteItemWithOffsetUIAction>(imageViewer1.VisualTool);
+
+            // if UI action exists AND UI action is enabled
+            if (pasteUIAction != null && pasteUIAction.IsEnabled)
+            {
+                pasteUIAction.OffsetX = 20;
+                pasteUIAction.OffsetY = 20;
+                // execute the UI action
+                pasteUIAction.Execute();
+            }
+
+            // update the UI
+            UpdateUI();
+        }
+
+        /// <summary>
+        /// Handles the Click event of DeleteToolStripMenuItem object.
+        /// </summary>
+        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // get the delete UI action for current visual tool
+            UIAction deleteUIAction = DemosTools.GetUIAction<DeleteItemUIAction>(imageViewer1.VisualTool);
+
+            // if UI action exists AND UI action is enabled
+            if (deleteUIAction != null && deleteUIAction.IsEnabled)
+                // execute the UI action
+                deleteUIAction.Execute();
+
+            // update the UI
+            UpdateUI();
+        }
+
+        /// <summary>
+        /// Handles the Click event of DeleteAllToolStripMenuItem object.
+        /// </summary>
+        private void deleteAllToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // get the delete all UI action for current visual tool
+            UIAction deleteUIAction = DemosTools.GetUIAction<DeleteAllItemsUIAction>(imageViewer1.VisualTool);
+            // if UI action exists AND UI action is enabled
+            if (deleteUIAction != null && deleteUIAction.IsEnabled)
+                // execute the UI action
+                deleteUIAction.Execute();
+
+            // update the UI
+            UpdateUI();
+        }
+
+        #endregion
+
+
+        /// <summary>
+        /// Handles the Click event of DocumentMetadataToolStripMenuItem object.
+        /// </summary>
+        private void documentMetadataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DocumentMetadata metadata = imageViewer1.Image.SourceInfo.Decoder.GetDocumentMetadata();
+
+            if (metadata != null)
+            {
+                using (PropertyGridForm propertyForm = new PropertyGridForm(metadata, "Document Metadata"))
+                {
+                    // show document metadata window
+                    propertyForm.ShowDialog();
+                }
+            }
+            else
+            {
+                MessageBox.Show("File does not contain metadata.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of ImageMetadataEditorToolStripMenuItem object.
+        /// </summary>
+        private void imageMetadataEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            VintasoftImage image = imageViewer1.Image;
+
+            Form form = null;
+
+            try
+            {
+#if !REMOVE_DICOM_PLUGIN
+                if (image.Metadata.MetadataTree is DicomFrameMetadata)
+                {
+                    // show form for editing DICOM image metadata
+                    DicomMetadataEditorForm editorForm = new DicomMetadataEditorForm();
+                    editorForm.Image = imageViewer1.Image;
+                    form = editorForm;
+                }
+                else
+#endif
+                {
+                    // show a form for editing image metadata
+                    MetadataEditorForm editorForm = new MetadataEditorForm();
+                    editorForm.Image = imageViewer1.Image;
+                    form = editorForm;
+                }
+
+                form.ShowDialog();
+            }
+            finally
+            {
+                form.Dispose();
+            }
+
+            UpdateUI();
+        }
+
+        /// <summary>
+        /// Handles the Click event of PaletteEditorToolStripMenuItem object.
+        /// </summary>
+        private void paletteEditorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PaletteForm paletteDialog = new PaletteForm();
+            paletteDialog.StartPosition = FormStartPosition.Manual;
+            paletteDialog.Location = new Point(
+                Location.X + (Width - ClientSize.Width),
+                Location.Y + (Height - paletteDialog.Height) / 2);
+
+            Palette backupPalette = imageViewer1.Image.Palette.Clone();
+            paletteDialog.PaletteViewer.Palette = imageViewer1.Image.Palette;
+
+            // show a form for editing image palette
+            if (paletteDialog.ShowDialog() != DialogResult.OK)
+            {
+                if (paletteDialog.PaletteViewer.IsPaletteChanged)
+                {
+                    imageViewer1.Image.Palette.SetColors(backupPalette.GetAsArray());
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the CheckStateChanged event of EditImagePixelsToolStripMenuItem object.
+        /// </summary>
+        private void editImagePixelsToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
+        {
+            if (editImagePixelsToolStripMenuItem.Checked)
+            {
+                OpenDirectPixelAccessForm();
+            }
+            else
+            {
+                CloseDirectPixelAccessForm();
+            }
+        }
+
+
+        #region Undo/redo changes in images
+
+        /// <summary>
+        /// Handles the Click event of EnableUndoRedoToolStripMenuItem object.
+        /// </summary>
+        private void enableUndoRedoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            bool isEnabled = _undoManager.IsEnabled ^ true;
+
+            enableUndoRedoToolStripMenuItem.Checked = isEnabled;
+
+            if (!isEnabled)
+            {
+                // clear image processing history
+                _undoManager.Clear();
+            }
+
+            _undoManager.IsEnabled = isEnabled;
+
+            // close image processing history form
+            CloseHistoryForm();
+
+            // initialize "Undo/Redo" menu
+            UpdateUndoRedoMenu(_undoManager);
+            // update UI
+            UpdateUI();
+        }
+
+        /// <summary>
+        /// Handles the Click event of KeepUndoForCurrentImageOnlyToolStripMenuItem object.
+        /// </summary>
+        private void keepUndoForCurrentImageOnlyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // enable/disable the image processing history only for current image
+            keepUndoForCurrentImageOnlyToolStripMenuItem.Checked ^= true;
+
+            _keepUndoForCurrentImageOnly = keepUndoForCurrentImageOnlyToolStripMenuItem.Checked;
+
+            CreateUndoManager(_keepUndoForCurrentImageOnly);
+        }
+
+        /// <summary>
+        /// Handles the Click event of UndoToolStripMenuItem object.
+        /// </summary>
+        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _undoManager.Undo(1);
+
+            UpdateUndoRedoMenu(_undoManager);
+        }
+
+        /// <summary>
+        /// Handles the Click event of RedoToolStripMenuItem object.
+        /// </summary>
+        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _undoManager.Redo(1);
+
+            UpdateUndoRedoMenu(_undoManager);
+        }
+
+        /// <summary>
+        /// Handles the Click event of ShowHistoryForDisplayedImagesToolStripMenuItem object.
+        /// </summary>
+        private void showHistoryForDisplayedImagesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // enable/disable showing history only for displayed images
+            showHistoryForDisplayedImagesToolStripMenuItem.Checked ^= true;
+
+            _imageViewerUndoMonitor.ShowHistoryForDisplayedImages =
+                showHistoryForDisplayedImagesToolStripMenuItem.Checked;
+        }
+
+        /// <summary>
+        /// Handles the Click event of UndoRedoSettingsToolStripMenuItem object.
+        /// </summary>
+        private void undoRedoSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (UndoManagerSettingsForm dlg = new UndoManagerSettingsForm(_undoManager, _dataStorage))
+            {
+                dlg.StartPosition = FormStartPosition.CenterParent;
+                dlg.Owner = this;
+
+                // show a form that allows to edit undo manager settings
+                if (dlg.ShowDialog() == DialogResult.OK)
+                {
+                    _undoLevel = _undoManager.UndoLevel;
+
+                    if (dlg.DataStorage != _dataStorage)
+                    {
+                        IDataStorage prevDataStorage = _dataStorage;
+
+                        _dataStorage = dlg.DataStorage;
+
+                        _undoManager.Clear();
+                        _undoManager.DataStorage = _dataStorage;
+
+                        if (prevDataStorage != null)
+                            prevDataStorage.Dispose();
+
+                        if (_imageViewerUndoMonitor != null)
+                            _imageViewerUndoMonitor.DataStorage = _dataStorage;
+                    }
+
+                    UpdateUndoRedoMenu(_undoManager);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of HistoryDialogToolStripMenuItem object.
+        /// </summary>
+        private void historyDialogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // show/hide a form that allows to view the history of image processing
+            historyDialogToolStripMenuItem.Checked ^= true;
+
+            if (historyDialogToolStripMenuItem.Checked)
+            {
+                // show image processing history form
+                ShowHistoryForm();
+            }
+            else
+            {
+                // close image processing history form
+                CloseHistoryForm();
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+
+        #region 'View' menu
+
+        /// <summary>
+        /// Handles the Click event of ThumbnailViewerSettingsToolStripMenuItem object.
+        /// </summary>
+        private void thumbnailViewerSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (ThumbnailViewerSettingsForm dlg = new ThumbnailViewerSettingsForm(thumbnailViewer1))
+            {
+                dlg.ShowDialog();
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of ImageDisplayMode object.
+        /// </summary>
+        private void ImageDisplayMode_Click(object sender, EventArgs e)
+        {
+            ToolStripMenuItem imageDisplayModeMenuItem = (ToolStripMenuItem)sender;
+            imageViewer1.DisplayMode = (ImageViewerDisplayMode)imageDisplayModeMenuItem.Tag;
+            UpdateUI();
+        }
+
+        /// <summary>
+        /// Handles the Click event of ImageScale object.
+        /// </summary>
+        private void ImageScale_Click(object sender, EventArgs e)
+        {
+            _imageScaleSelectedMenuItem.Checked = false;
+            _imageScaleSelectedMenuItem = (ToolStripMenuItem)sender;
+
+            // if the menu item sets the ImageSizeMode
+            if (_imageScaleSelectedMenuItem.Tag is ImageSizeMode)
+            {
+                // set size mode
+                imageViewer1.SizeMode = (ImageSizeMode)_imageScaleSelectedMenuItem.Tag;
+                _imageScaleSelectedMenuItem.Checked = true;
+            }
+            // if the menu item sets the zoom
+            else
+            {
+                // get zoom value
+                int zoomValue = (int)_imageScaleSelectedMenuItem.Tag;
+                // set ImageSizeMode as Zoom
+                imageViewer1.SizeMode = ImageSizeMode.Zoom;
+                // set zoom value
+                imageViewer1.Zoom = zoomValue;
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of CenterImageToolStripMenuItem object.
+        /// </summary>
+        private void centerImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (centerImageToolStripMenuItem.Checked)
+            {
+                // enable image centering in image viewer
+                imageViewer1.FocusPointAnchor = AnchorType.None;
+                imageViewer1.IsFocusPointFixed = true;
+                imageViewer1.ScrollToCenter();
+            }
+            else
+            {
+                // disable image centering in image viewer
+                imageViewer1.FocusPointAnchor = AnchorType.Left | AnchorType.Top;
+                imageViewer1.IsFocusPointFixed = true;
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of RotateClockwiseToolStripMenuItem object.
+        /// </summary>
+        private void rotateClockwiseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RotateViewClockwise();
+        }
+
+        /// <summary>
+        /// Handles the Click event of RotateCounterclockwiseToolStripMenuItem object.
+        /// </summary>
+        private void rotateCounterclockwiseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            RotateViewCounterClockwise();
+        }
+
+        /// <summary>
+        /// Handles the Click event of ImageViewerSettingsToolStripMenuItem object.
+        /// </summary>
+        private void imageViewerSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (ImageViewerSettingsForm dlg = new ImageViewerSettingsForm(imageViewer1))
+            {
+                dlg.ShowDialog();
+            }
+            UpdateUI();
+        }
+
+        /// <summary>
+        /// Handles the Click event of ViewerRenderingSettingsToolStripMenuItem object.
+        /// </summary>
+        private void viewerRenderingSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (CompositeRenderingSettingsForm viewerRenderingSettingsForm = new CompositeRenderingSettingsForm(imageViewer1.ImageRenderingSettings))
+            {
+                viewerRenderingSettingsForm.ShowDialog();
+            }
+            UpdateUI();
+        }
+
+        /// <summary>
+        /// Handles the Click event of ImageMapSettingsToolStripMenuItem object.
+        /// </summary>
+        private void imageMapSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (ImageMapToolSettingsForm dlg = new ImageMapToolSettingsForm(_imageMapTool))
+            {
+                // show image map settings
+                dlg.ShowDialog();
+            }
+
+            _isVisualToolChanging = true;
+
+            if (_imageMapTool.Enabled)
+            {
+                if (imageViewer1.VisualTool == null)
+                {
+                    // set as image viewer tool
+                    imageViewer1.VisualTool = _imageMapTool;
+                }
+                else
+                {
+                    // add to existing image viewer tool
+                    if (imageViewer1.VisualTool is CompositeVisualTool)
+                    {
+                        CompositeVisualTool compositeVisualTool = (CompositeVisualTool)imageViewer1.VisualTool;
+                        foreach (VisualTool visualTool in compositeVisualTool)
+                        {
+                            if (visualTool == _imageMapTool)
+                            {
+                                _isVisualToolChanging = false;
+                                return;
+                            }
+                        }
+
+                        imageViewer1.VisualTool = new CompositeVisualTool(_imageMapTool, compositeVisualTool);
+                    }
+                    else if (imageViewer1.VisualTool != _imageMapTool)
+                    {
+                        imageViewer1.VisualTool = new CompositeVisualTool(_imageMapTool, imageViewer1.VisualTool);
+                    }
+                }
+            }
+            else
+            {
+                // disable image map tool in viewer
+                if (imageViewer1.VisualTool != null)
+                {
+                    if (imageViewer1.VisualTool is CompositeVisualTool)
+                    {
+                        // extract image map tool from image viewer composite tool
+                        CompositeVisualTool compositeVisualTool = (CompositeVisualTool)imageViewer1.VisualTool;
+                        List<VisualTool> visualTools = new List<VisualTool>();
+                        foreach (VisualTool visualTool in compositeVisualTool)
+                        {
+                            if (visualTool == _imageMapTool)
+                                continue;
+
+                            visualTools.Add(visualTool);
+                        }
+
+                        if (visualTools.Count == 0)
+                            imageViewer1.VisualTool = null;
+                        else if (visualTools.Count == 1)
+                            imageViewer1.VisualTool = visualTools[0];
+                        else
+                            imageViewer1.VisualTool = new CompositeVisualTool(visualTools.ToArray());
+                    }
+                    else if (imageViewer1.VisualTool == _imageMapTool)
+                    {
+                        imageViewer1.VisualTool = null;
+                    }
+                }
+            }
+
+            _isVisualToolChanging = false;
+        }
+
+        /// <summary>
+        /// Handles the Click event of MagnifierSettingsToolStripMenuItem object.
+        /// </summary>
+        private void magnifierSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MagnifierToolAction magnifierToolAction = visualToolsToolStrip1.FindAction<MagnifierToolAction>();
+
+            if (magnifierToolAction != null)
+            {
+                // show magnifier tool settings
+                magnifierToolAction.ShowVisualToolSettings();
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of CurrentImageDecodingSettingsToolStripMenuItem object.
+        /// </summary>
+        private void currentImageDecodingSettingsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DecodingSettings settings = imageViewer1.Image.DecodingSettings;
+            if (settings == null)
+            {
+                DemosTools.ShowInfoMessage("Current image does not have decoding settings.");
+            }
+            else
+            {
+                using (PropertyGridForm dlg = new PropertyGridForm(settings, settings.GetType().Name, false))
+                {
+                    dlg.ShowDialog();
+                    if (dlg.PropertyValueChanged)
+                    {
+                        imageViewer1.Image.Reload(true);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of ColorManagementToolStripMenuItem object.
+        /// </summary>
+        private void colorManagementToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ColorManagementSettingsForm.EditColorManagement(imageViewer1);
+        }
+
+        /// <summary>
+        /// Handles the Click event of MaxThreadsToolStripMenuItem object.
+        /// </summary>
+        private void maxThreadsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (MaxThreadsForm dlg = new MaxThreadsForm())
+            {
+                dlg.MaxThreads = ImagingEnvironment.MaxThreads;
+
+                // show a dialog that allows to change the count of maximum 
+                // thread, which can be used for image rendering
+                if (dlg.ShowDialog() == DialogResult.OK)
+                    ImagingEnvironment.MaxThreads = dlg.MaxThreads;
+            }
+        }
+
+        #endregion
+
+
+        #region 'Image processing' menu
+
+        #region Base
+
+        #region Change pixel format
+
+        /// <summary>
+        /// Handles the Click event of ChangePixelFormatToBlackWhiteThresholdModeToolStripMenuItem object.
+        /// </summary>
+        private void changePixelFormatToBlackWhiteThresholdModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageViewer1.Image.PixelFormat != PixelFormat.BlackWhite)
+            {
+                using (BinarizeForm dlg = new BinarizeForm(imageViewer1, true))
+                {
+                    if (dlg.ShowProcessingDialog())
+                    {
+                        // change pixel format of image to BlackWhite, threshold value is specified by user
+                        _imageProcessingCommandExecutor.ExecuteProcessingCommand(dlg.GetProcessingCommand());
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of ChangePixelFormatToBlackWhiteGlobalModeToolStripMenuItem object.
+        /// </summary>
+        private void changePixelFormatToBlackWhiteGlobalModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // change pixel format of image to BlackWhite, global threshold is detected automatically
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new ChangePixelFormatToBlackWhiteCommand(BinarizationMode.Global));
+        }
+
+        /// <summary>
+        /// Handles the Click event of ChangePixelFormatToBlackWhiteAdaptiveModeToolStripMenuItem object.
+        /// </summary>
+        private void changePixelFormatToBlackWhiteAdaptiveModeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageViewer1.Image.PixelFormat != PixelFormat.BlackWhite)
+            {
+                using (AdaptiveBinarizeForm dlg = new AdaptiveBinarizeForm(imageViewer1, true))
+                {
+                    if (dlg.ShowProcessingDialog())
+                    {
+                        // change pixel format of image to BlackWhite, adaptive threshold is detected automatically
+                        _imageProcessingCommandExecutor.ExecuteProcessingCommand(dlg.GetProcessingCommand());
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of ColorGradientBinariaztionToolStripMenuItem object.
+        /// </summary>
+        private void colorGradientBinariaztionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            if (imageViewer1.Image.PixelFormat != PixelFormat.BlackWhite)
+            {
+                // convert an image to black-white image, use color gradient binarization
+                ColorGradientBinarizationForm form = new ColorGradientBinarizationForm(imageViewer1);
+                form.ChangePixelFormatToBlackWhite = true;
+                ShowAndDisposeProcessingDialog(form, true);
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of HalftoneToolStripMenuItem1 object.
+        /// </summary>
+        private void halftoneToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            // change pixel format of image to BlackWhite using Halftone binarization
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new ChangePixelFormatToBlackWhiteCommand(BinarizationMode.Halftone));
+        }
+
+        /// <summary>
+        /// Handles the Click event of ChangePixelFormatToPalette1ToolStripMenuItem object.
+        /// </summary>
+        private void changePixelFormatToPalette1ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // change pixel format of image to Palette1
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new ChangePixelFormatCommand(Vintasoft.Imaging.PixelFormat.Indexed1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of ChangePixelFormatToGray8ToolStripMenuItem object.
+        /// </summary>
+        private void changePixelFormatToGray8ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // change pixel format of image to Gray8
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new ChangePixelFormatCommand(PixelFormat.Gray8));
+        }
+
+        /// <summary>
+        /// Handles the Click event of ChangePixelFormatToPalette8ToolStripMenuItem object.
+        /// </summary>
+        private void changePixelFormatToPalette8ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ChangePixelFormatToPaletteCommand command = new ChangePixelFormatToPaletteCommand(PixelFormat.Indexed8);
+            // consider transparency
+            command.Transparency = true;
+            using (PropertyGridForm propertyGridForm =
+                new PropertyGridForm(command, "Change Pixel Format to Indexed8 Command Properties ", true))
+            {
+                if (propertyGridForm.ShowDialog() == DialogResult.OK)
+                {
+                    // change pixel format of image to Indexed8
+                    _imageProcessingCommandExecutor.ExecuteProcessingCommand(command);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of ChangePixelFormatToBgr24ToolStripMenuItem object.
+        /// </summary>
+        private void changePixelFormatToBgr24ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // change pixel format of image to Bgr24
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new ChangePixelFormatCommand(Vintasoft.Imaging.PixelFormat.Bgr24));
+        }
+
+        /// <summary>
+        /// Handles the Click event of ConvertToBgra32ToolStripMenuItem object.
+        /// </summary>
+        private void convertToBgra32ToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // change pixel format of image to Bgra32
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new ChangePixelFormatCommand(Vintasoft.Imaging.PixelFormat.Bgra32));
+        }
+
+        /// <summary>
+        /// Handles the Click event of ChangePixelFormatToCustomFormatToolStripMenuItem object.
+        /// </summary>
+        private void changePixelFormatToCustomFormatToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (ChangePixelFormatForm dlg = new ChangePixelFormatForm())
+            {
+                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    // change pixel format of image to custom format
+                    _imageProcessingCommandExecutor.ExecuteProcessingCommand(new ChangePixelFormatCommand(dlg.PixelFormat));
+                }
+            }
+        }
+
+        #endregion
+
+
+        /// <summary>
+        /// Handles the Click event of CropToolStripMenuItem object.
+        /// </summary>
+        private void cropToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (HasCustomSelection() ||
+                HasRectangularSelection())
+            {
+                try
+                {
+                    // crop image
+                    _imageProcessingCommandExecutor.ExecuteProcessingCommand(new CropCommand());
+                }
+                catch (ImageProcessingException ex)
+                {
+                    MessageBox.Show(ex.Message, "Image processing exception", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of ResizeToolStripMenuItem object.
+        /// </summary>
+        private void resizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // get image
+            VintasoftImage image = imageViewer1.Image;
+            // get resize command
+            ResizeCommand command = ImageProcessingCommandFactory.CreateCommand<ResizeCommand>(image);
+
+            int width;
+            int height;
+            // get selection tool
+            RectangularSelectionTool selectionTool = imageViewer1.VisualTool as RectangularSelectionTool;
+            // if selection tool exists AND selection is not empty
+            if (selectionTool != null && selectionTool.Rectangle.Width != 0 && selectionTool.Rectangle.Height != 0)
+            {
+                // get selection size
+                width = selectionTool.Rectangle.Width;
+                height = selectionTool.Rectangle.Height;
+            }
+            else
+            {
+                // get image size
+                width = image.Width;
+                height = image.Height;
+            }
+
+            // show resize dialog
+            using (ResizeForm dlg = new ResizeForm(width, height, command.InterpolationMode))
+            {
+                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    // apply command settings
+                    command.Width = dlg.ImageWidth;
+                    command.Height = dlg.ImageHeight;
+                    command.InterpolationMode = dlg.InterpolationMode;
+                    // apply command
+                    _imageProcessingCommandExecutor.ExecuteProcessingCommand(command);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of ResizeCanvasToolStripMenuItem object.
+        /// </summary>
+        private void resizeCanvasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            VintasoftImage image = imageViewer1.Image;
+            using (ResizeCanvasForm dlg = new ResizeCanvasForm(image.Width, image.Height))
+            {
+                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    ResizeCanvasCommand command = ImageProcessingCommandFactory.CreateCommand<ResizeCanvasCommand>(image);
+                    // apply command settings
+                    command.Width = dlg.CanvasWidth;
+                    command.Height = dlg.CanvasHeight;
+                    command.ImagePosition = dlg.ImagePosition;
+                    command.CanvasColor = dlg.CanvasColor;
+                    // apply command
+                    _imageProcessingCommandExecutor.ExecuteProcessingCommand(command);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of ResampleToolStripMenuItem object.
+        /// </summary>
+        private void resampleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            VintasoftImage image = imageViewer1.Image;
+            ResampleCommand command = new ResampleCommand();
+            using (ResampleForm dlg = new ResampleForm((float)image.Resolution.Horizontal, (float)image.Resolution.Vertical, command.InterpolationMode, "Resample", true))
+            {
+                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    // apply command settings
+                    command.HorizontalResolution = dlg.HorizontalResolution;
+                    command.VerticalResolution = dlg.VerticalResolution;
+                    command.InterpolationMode = dlg.InterpolationMode;
+                    // apply command
+                    _imageProcessingCommandExecutor.ExecuteProcessingCommand(command);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of ChangeResolutionToolStripMenuItem object.
+        /// </summary>
+        private void changeResolutionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            VintasoftImage image = imageViewer1.Image;
+            using (ResampleForm dlg = new ResampleForm((float)image.Resolution.Horizontal,
+                (float)image.Resolution.Vertical,
+                InterpolationMode.HighQualityBicubic,
+                "Change resolution", false))
+            {
+                dlg.ShowInterpolationComboBox = false;
+                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                {
+                    try
+                    {
+                        if (!image.IsChanged && image.SourceInfo.Decoder.IsVectorDecoder)
+                            DemosTools.ShowErrorMessage("Resolution of vector image", "Cannot change resolution for vector image. Change rendering resolution using RenderingSettings.Resolution property: View -> Image Viewer Settings... -> Image Rendering Settings.");
+                        else
+                            image.Resolution = new Vintasoft.Imaging.Resolution(dlg.HorizontalResolution, dlg.VerticalResolution);
+                    }
+                    catch (Exception ex)
+                    {
+                        DemosTools.ShowErrorMessage(ex);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of FillImageToolStripMenuItem object.
+        /// </summary>
+        private void fillImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowAndDisposeProcessingDialog(new FillImageForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of FillRectangleToolStripMenuItem object.
+        /// </summary>
+        private void fillRectangleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // fill rectangle on image
+            _imageProcessingCommandExecutor.ExecuteFillRectangleCommand();
+        }
+
+        /// <summary>
+        /// Handles the Click event of OverlayImageToolStripMenuItem object.
+        /// </summary>
+        private void overlayImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteOverlayCommand();
+        }
+
+        /// <summary>
+        /// Handles the Click event of OverlayBinaryImageToolStripMenuItem object.
+        /// </summary>
+        private void overlayBinaryImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteOverlayBinaryCommand();
+        }
+
+        /// <summary>
+        /// Handles the Click event of DrawImageToolStripMenuItem object.
+        /// </summary>
+        private void drawImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteDrawImageCommand();
+        }
+
+        /// <summary>
+        /// Handles the Click event of OverlayWithBlendingToolStripMenuItem object.
+        /// </summary>
+        private void overlayWithBlendingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteOverlayWithBlendingCommand();
+        }
+
+        /// <summary>
+        /// Handles the Click event of OverlayWithMaskToolStripMenuItem object.
+        /// </summary>
+        private void overlayWithMaskToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteOverlayMaskedCommand();
+        }
+
+        /// <summary>
+        /// Handles the Click event of ImageCompareToolStripMenuItem object.
+        /// </summary>
+        private void imageCompareToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteComparisonCommand();
+        }
+
+        #endregion
+
+
+        #region Info
+
+        /// <summary>
+        /// Handles the Click event of HistogramToolStripMenuItem object.
+        /// </summary>
+        private void histogramToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                Rectangle selectionRectangle = Rectangle.Empty;
+
+                // if current tool contains RectangularSelectionToolWithCopyPaste with selection
+                if (HasRectangularSelection())
+                {
+                    RectangularSelectionToolWithCopyPaste selection = CompositeVisualTool.FindVisualTool<RectangularSelectionToolWithCopyPaste>(imageViewer1.VisualTool);
+
+                    selectionRectangle = selection.Rectangle;
+                }
+
+                using (GetHistogramForm dlg = new GetHistogramForm(
+                    imageViewer1.Image,
+                    selectionRectangle,
+                    _imageProcessingCommandExecutor.ExpandSupportedPixelFormats))
+                {
+                    dlg.ShowDialog();
+                }
+            }
+            catch (Exception ex)
+            {
+                DemosTools.ShowErrorMessage(ex);
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of IsImageBlackWhiteToolStripMenuItem object.
+        /// </summary>
+        private void isImageBlackWhiteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteIsImageBlackWhiteCommand();
+        }
+
+        /// <summary>
+        /// Handles the Click event of IsImageGrayscaleToolStripMenuItem object.
+        /// </summary>
+        private void isImageGrayscaleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteIsImageGrayscaleCommand();
+        }
+
+        /// <summary>
+        /// Handles the Click event of GetColorCountToolStripMenuItem object.
+        /// </summary>
+        private void getColorCountToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteColorCountCommand();
+        }
+
+        /// <summary>
+        /// Handles the Click event of GetImageColorDepthToolStripMenuItem object.
+        /// </summary>
+        private void getImageColorDepthToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // get real color depth of image
+            _imageProcessingCommandExecutor.ExecuteGetImageColorDepthCommand();
+        }
+
+        /// <summary>
+        /// Handles the Click event of GetBorderColorToolStripMenuItem object.
+        /// </summary>
+        private void getBorderColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteGetBorderColorCommand();
+        }
+
+        /// <summary>
+        /// Handles the Click event of GetBackgroundColorToolStripMenuItem object.
+        /// </summary>
+        private void getBackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteGetBackgroundColorCommand();
+        }
+
+        /// <summary>
+        /// Handles the Click event of DetectThresholdToolStripMenuItem object.
+        /// </summary>
+        private void detectThresholdToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // get an optimal binarization threshold of image
+            _imageProcessingCommandExecutor.ExecuteGetThresholdCommand();
+        }
+
+        /// <summary>
+        /// Handles the Click event of IsImageBlankToolStripMenuItem object.
+        /// </summary>
+        private void isImageBlankToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteIsBlankCommand();
+        }
+
+        /// <summary>
+        /// Handles the Click event of HasCertainColorToolStripMenuItem object.
+        /// </summary>
+        private void hasCertainColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteHasCertainColorCommand();
+        }
+
+        #endregion
+
+
+        #region Transforms
+
+        /// <summary>
+        /// Handles the Click event of FlipToolStripMenuItem object.
+        /// </summary>
+        private void flipToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ImageRotateFlipType flipType = ImageRotateFlipType.RotateNoneFlipX;
+            if (sender == xToolStripMenuItem || sender == xToolStripMenuItem1)
+            {
+                flipType = ImageRotateFlipType.RotateNoneFlipX;
+            }
+            else if (sender == yToolStripMenuItem || sender == yToolStripMenuItem1)
+            {
+                flipType = ImageRotateFlipType.RotateNoneFlipY;
+            }
+            else if (sender == xYToolStripMenuItem || sender == xYToolStripMenuItem1)
+            {
+                flipType = ImageRotateFlipType.RotateNoneFlipXY;
+            }
+
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new FlipCommand(flipType));
+        }
+
+        /// <summary>
+        /// Handles the Click event of Rotate object.
+        /// </summary>
+        private void Rotate_Click(object sender, EventArgs e)
+        {
+            RotateCommand rotateCommand = ImageProcessingCommandFactory.CreateRotateCommand(imageViewer1.Image);
+
+            if (sender == customToolStripMenuItem || sender == customToolStripMenuItem1)
+            {
+                using (RotateForm dlg = new RotateForm(imageViewer1.Image.PixelFormat))
+                {
+                    if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+                    {
+                        // if pixel formats are not equal
+                        if (dlg.SourceImagePixelFormat != imageViewer1.Image.PixelFormat)
+                        {
+                            // change pixel format
+                            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new ChangePixelFormatCommand(dlg.SourceImagePixelFormat), false);
+                        }
+
+                        rotateCommand.Angle = (double)dlg.Angle;
+                        rotateCommand.BorderColorType = dlg.BorderColorType;
+                        rotateCommand.IsAntialiasingEnabled = dlg.IsAntialiasingEnabled;
+
+                        _imageProcessingCommandExecutor.ExecuteProcessingCommand(rotateCommand);
+                    }
+                }
+            }
+            else
+            {
+                float angle = 0f;
+                if (sender == rotate90 || sender == rotate90ToolStripMenuItem)
+                {
+                    angle = 90f;
+                }
+                else if (sender == rotate180 || sender == rotate180ToolStripMenuItem)
+                {
+                    angle = 180f;
+                }
+                else if (sender == rotate270 || sender == rotate270ToolStripMenuItem)
+                {
+                    angle = 270f;
+                }
+
+                rotateCommand.Angle = angle;
+                rotateCommand.BorderColor = Color.Black;
+                _imageProcessingCommandExecutor.ExecuteProcessingCommand(rotateCommand);
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of ScaleToolStripMenuItem1 object.
+        /// </summary>
+        private void scaleToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            ImageScalingForm form = new ImageScalingForm();
+            form.Command = ImageProcessingCommandFactory.CreateCommand<ImageScalingCommand>(imageViewer1.Image);
+            ShowAndDisposeProcessingDialog(form, false, false);
+        }
+
+        /// <summary>
+        /// Handles the Click event of SkewToolStripMenuItem object.
+        /// </summary>
+        private void skewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowAndDisposeProcessingDialog(
+                new PropertyGridConfigForm(imageViewer1, new SkewCommand()), false, false);
+        }
+
+        /// <summary>
+        /// Handles the Click event of QuadrilateralWarpToolStripMenuItem object.
+        /// </summary>
+        private void quadrilateralWarpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply quadrilateral warp transformation to image
+            ShowAndDisposeProcessingDialog(
+                new PropertyGridConfigForm(imageViewer1, new QuadrilateralWarpCommand()), false, false);
+        }
+
+        /// <summary>
+        /// Handles the Click event of MatrixTransformToolStripMenuItem object.
+        /// </summary>
+        private void matrixTransformToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply matrix transformation to image
+            ShowAndDisposeProcessingDialog(
+                new PropertyGridConfigForm(imageViewer1, new MatrixTransformCommand()), false, false);
+        }
+
+        #endregion
+
+
+        #region Channels
+
+        /// <summary>
+        /// Handles the Click event of ExtractAlphaChannelToolStripMenuItem object.
+        /// </summary>
+        private void extractAlphaChannelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new GetAlphaChannelMaskCommand());
+        }
+
+        /// <summary>
+        /// Handles the Click event of InvertRedChannelToolStripMenuItem object.
+        /// </summary>
+        private void invertRedChannelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InvertColorChannel(Color.FromArgb(255, 0, 0));
+        }
+
+        /// <summary>
+        /// Handles the Click event of InvertGreenChannelToolStripMenuItem object.
+        /// </summary>
+        private void invertGreenChannelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InvertColorChannel(Color.FromArgb(0, 255, 0));
+        }
+
+        /// <summary>
+        /// Handles the Click event of InvertBlueChannelToolStripMenuItem object.
+        /// </summary>
+        private void invertBlueChannelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            InvertColorChannel(Color.FromArgb(0, 0, 255));
+        }
+
+        /// <summary>
+        /// Handles the Click event of SetAlphaChannelValueToolStripMenuItem object.
+        /// </summary>
+        private void setAlphaChannelValueToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // set a value of alpha channel for all pixels of image to the specified value
+            _imageProcessingCommandExecutor.ExecuteSetAlphaChannelValueCommand();
+        }
+
+        /// <summary>
+        /// Handles the Click event of SetAlphaChannelFromMaskToolStripMenuItem object.
+        /// </summary>
+        private void setAlphaChannelFromMaskToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteSetAlphaChannelCommand();
+        }
+
+
+        /// <summary>
+        /// Handles the Click event of RemoveRedChannelToolStripMenuItem object.
+        /// </summary>
+        private void removeRedChannelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // remove red channel of image
+            ExtractColorChannels(0, 255, 255);
+        }
+
+        /// <summary>
+        /// Handles the Click event of RemoveGreenChannelToolStripMenuItem object.
+        /// </summary>
+        private void removeGreenChannelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // remove green channel of image
+            ExtractColorChannels(255, 0, 255);
+        }
+
+        /// <summary>
+        /// Handles the Click event of RemoveBlueChannelToolStripMenuItem object.
+        /// </summary>
+        private void removeBlueChannelToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // remove blue channel of image
+            ExtractColorChannels(255, 255, 0);
+        }
+
+        #endregion
+
+
+        #region Color
+
+        /// <summary>
+        /// Handles the Click event of ConvertToBlackWhiteThresholdByUserToolStripMenuItem object.
+        /// </summary>
+        private void convertToBlackWhiteThresholdByUserToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageViewer1.Image.PixelFormat != PixelFormat.BlackWhite)
+            {
+                // convert an image to black-white image, threshold value is specified by user
+                ShowAndDisposeProcessingDialog(new BinarizeForm(imageViewer1, false));
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of ConvertToBlackWhiteGlobalThresholdToolStripMenuItem object.
+        /// </summary>
+        private void convertToBlackWhiteGlobalThresholdToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // convert an image to black-white image, global threshold is detected automatically
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new BinarizeCommand(BinarizationMode.Global));
+        }
+
+        /// <summary>
+        /// Handles the Click event of ConvertToBlackWhiteAdaptiveThresholdToolStripMenuItem object.
+        /// </summary>
+        private void convertToBlackWhiteAdaptiveThresholdToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageViewer1.Image.PixelFormat != PixelFormat.BlackWhite)
+            {
+                // convert an image to black-white image, adaptive threshold is detected automatically
+                ShowAndDisposeProcessingDialog(new AdaptiveBinarizeForm(imageViewer1, false));
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of ColorGradientToolStripMenuItem object.
+        /// </summary>
+        private void colorGradientToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            if (imageViewer1.Image.PixelFormat != PixelFormat.BlackWhite)
+            {
+                // convert an image to black-white image, use color gradient binarization
+                ShowAndDisposeProcessingDialog(new ColorGradientBinarizationForm(imageViewer1), true);
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of DesaturateToolStripMenuItem object.
+        /// </summary>
+        private void desaturateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DesaturateCommand command = ImageProcessingCommandFactory.CreateDesaturateCommand(imageViewer1.Image);
+            command.DesaturateMethod = DesaturateMethod.Luminosity;
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(command);
+        }
+
+        /// <summary>
+        /// Handles the Click event of ConvertToHalftoneToolStripMenuItem object.
+        /// </summary>
+        private void convertToHalftoneToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new HalftoneCommand());
+        }
+
+        /// <summary>
+        /// Handles the Click event of PosterizeToolStripMenuItem object.
+        /// </summary>
+        private void posterizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageViewer1.Image.PixelFormat != PixelFormat.BlackWhite)
+                ShowAndDisposeProcessingDialog(new PosterizeForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of BrightnessContrastToolStripMenuItem object.
+        /// </summary>
+        private void brightnessContrastToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowAndDisposeProcessingDialog(new BrightnessContrastForm(imageViewer1, imageViewer1.Image), true);
+        }
+
+        /// <summary>
+        /// Handles the Click event of HueSaturationLuminanceToolStripMenuItem object.
+        /// </summary>
+        private void hueSaturationLuminanceToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowAndDisposeProcessingDialog(new HueSaturationLuminanceForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of GammaToolStripMenuItem object.
+        /// </summary>
+        private void gammaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowAndDisposeProcessingDialog(new GammaForm(imageViewer1), true);
+        }
+
+        /// <summary>
+        /// Handles the Click event of LevelsToolStripMenuItem object.
+        /// </summary>
+        private void levelsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowAndDisposeProcessingDialog(new LevelsForm(imageViewer1), true);
+        }
+
+        /// <summary>
+        /// Handles the Click event of InvertColorsToolStripMenuItem object.
+        /// </summary>
+        private void invertColorsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(ImageProcessingCommandFactory.CreateInvertCommand(imageViewer1.Image));
+        }
+
+        /// <summary>
+        /// Handles the Click event of ReplaceColorToolStripMenuItem object.
+        /// </summary>
+        private void replaceColorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowAndDisposeProcessingDialog(new ReplaceColorForm(imageViewer1), true);
+        }
+
+        /// <summary>
+        /// Handles the Click event of ReplaceColorGradientToolStripMenuItem object.
+        /// </summary>
+        private void replaceColorGradientToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            ShowAndDisposeProcessingDialog(new ReplaceColorGradientForm(imageViewer1), true);
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of ColorBlendToolStripMenuItem object.
+        /// </summary>
+        private void colorBlendToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteColorBlendCommand();
+        }
+
+        /// <summary>
+        /// Handles the Click event of ColorTransformToolStripMenuItem object.
+        /// </summary>
+        private void colorTransformToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowAndDisposeProcessingDialog(new ColorTransformForm(imageViewer1));
+        }
+
+        #endregion
+
+
+        #region Filters
+
+        #region Arithmetic filters
+
+        /// <summary>
+        /// Handles the Click event of MinimumFilterToolStripMenuItem object.
+        /// </summary>
+        private void minimumFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply arithmetic minimum filter to image
+            ShowAndDisposeProcessingDialog(new MinimumForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of MaximumFilterToolStripMenuItem object.
+        /// </summary>
+        private void maximumFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply arithmetic maximum filter to image
+            ShowAndDisposeProcessingDialog(new MaximumForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of MidPointFilterToolStripMenuItem object.
+        /// </summary>
+        private void midPointFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply arithmetic midpoint filter to image
+            ShowAndDisposeProcessingDialog(new MidpointForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of MeanFilterToolStripMenuItem object.
+        /// </summary>
+        private void meanFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply arithmetic mean filter to image
+            ShowAndDisposeProcessingDialog(new MeanForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of MedianFilterToolStripMenuItem object.
+        /// </summary>
+        private void medianFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply arithmetic median filter to image
+            ShowAndDisposeProcessingDialog(new MedianForm(imageViewer1));
+        }
+
+        #endregion
+
+
+        #region Morphological filters
+
+        /// <summary>
+        /// Handles the Click event of DilateFilterToolStripMenuItem object.
+        /// </summary>
+        private void dilateFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply morphological dilate filter to image
+            ShowAndDisposeProcessingDialog(new DilateForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of ErodeFilterToolStripMenuItem object.
+        /// </summary>
+        private void erodeFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply morphological erode filter to image
+            ShowAndDisposeProcessingDialog(new ErodeForm(imageViewer1));
+        }
+
+        #endregion
+
+
+        /// <summary>
+        /// Handles the Click event of BlurFilterToolStripMenuItem object.
+        /// </summary>
+        private void blurFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply the Blur filter to an image
+            ShowAndDisposeProcessingDialog(new BlurForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of GaussianBlurFilterToolStripMenuItem object.
+        /// </summary>
+        private void gaussianBlurFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply the Gaussian blur filter to an image
+            ShowAndDisposeProcessingDialog(new GaussianBlurForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of SharpenFilterToolStripMenuItem object.
+        /// </summary>
+        private void sharpenFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply the Sharpen filter to an image
+            ShowAndDisposeProcessingDialog(new SharpenForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of EdgeDetectionFilterToolStripMenuItem object.
+        /// </summary>
+        private void edgeDetectionFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply the Edge Detection filter to an image
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new EdgeDetectionCommand());
+        }
+
+        /// <summary>
+        /// Handles the Click event of EmbossFilterToolStripMenuItem object.
+        /// </summary>
+        private void embossFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply the Emboss filter to an image
+            ShowAndDisposeProcessingDialog(new EmbossForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of AddNoiseToolStripMenuItem object.
+        /// </summary>
+        private void addNoiseToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply the Add noise filter to an image
+            ShowAndDisposeProcessingDialog(
+                new PropertyGridConfigForm(imageViewer1, new AddNoiseCommand()), false, false);
+        }
+
+        /// <summary>
+        /// Handles the Click event of CannyEdgeDetectorToolStripMenuItem object.
+        /// </summary>
+        private void cannyEdgeDetectorToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply the Canny edge detector filter to an image
+            ShowAndDisposeProcessingDialog(new CannyEdgeDetectorForm(imageViewer1));
+        }
+
+        #endregion
+
+
+        #region Document Cleanup
+
+        /// <summary>
+        /// Handles the Click event of IsDocumentImageToolStripMenuItem object.
+        /// </summary>
+        private void isDocumentImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // determine that image is document image
+            _imageProcessingCommandExecutor.ExecuteIsDocumentImageCommand();
+        }
+
+        /// <summary>
+        /// Handles the Click event of GetDocumentImageRotationAngleToolStripMenuItem object.
+        /// </summary>
+        private void getDocumentImageRotationAngleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            _imageProcessingCommandExecutor.ExecuteGetDocumentImageRotationAngleCommand();
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of RotationAngleToolStripMenuItem object.
+        /// </summary>
+        private void rotationAngleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteGetRotationAngleCommand();
+        }
+
+        /// <summary>
+        /// Handles the Click event of GetTextOrientationToolStripMenuItem object.
+        /// </summary>
+        private void getTextOrientationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            _imageProcessingCommandExecutor.ExecuteGetTextOrientationCommand();
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of DespeckleToolStripMenuItem object.
+        /// </summary>
+        private void despeckleToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            // remove noise in document image
+            ShowAndDisposeProcessingDialog(new PropertyGridConfigForm(imageViewer1, new DespeckleCommand()));
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of DeskewDocumentImageToolStripMenuItem object.
+        /// </summary>
+        private void deskewDocumentImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            // correct document image orientation automatically
+            ShowAndDisposeProcessingDialog(
+                new PropertyGridConfigForm(imageViewer1, new DeskewDocumentImageCommand()), true, false);
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of DeskewToolStripMenuItem object.
+        /// </summary>
+        private void deskewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            // detect correct position of document image automatically
+            ShowAndDisposeProcessingDialog(
+                new PropertyGridConfigForm(imageViewer1, new DeskewCommand()), true, false);
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of AutoOrientationToolStripMenuItem object.
+        /// </summary>
+        private void autoOrientationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            ShowAndDisposeProcessingDialog(
+                new PropertyGridConfigForm(imageViewer1, new AutoTextOrientationCommand()), true, false);
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of TextBlockInvertToolStripMenuItem object.
+        /// </summary>
+        private void textBlockInvertToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            ShowAndDisposeProcessingDialog(new AutoTextInvertForm(imageViewer1), false, false);
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of AutomaticInvertToolStripMenuItem object.
+        /// </summary>
+        private void automaticInvertToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new AutoInvertCommand());
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of BorderClearToolStripMenuItem object.
+        /// </summary>
+        private void borderClearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new BorderClearCommand());
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of DetectBorderToolStripMenuItem object.
+        /// </summary>
+        private void detectBorderToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // crop document image border
+            ShowAndDisposeProcessingDialog(new BorderRemovalForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of HalftoneRemovalToolStripMenuItem object.
+        /// </summary>
+        private void halftoneRemovalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            ShowAndDisposeProcessingDialog(new HalftoneRemovalForm(imageViewer1));
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of SmoothingToolStripMenuItem object.
+        /// </summary>
+        private void smoothingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            ShowAndDisposeProcessingDialog(new SmoothingForm(imageViewer1));
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of HolePuchFillingToolStripMenuItem object.
+        /// </summary>
+        private void holePuchFillingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            HolePunchFillingCommand holePunchFillingCommand = new HolePunchFillingCommand();
+            holePunchFillingCommand.HolePunchLocation =
+                HolePunchLocation.Left |
+                HolePunchLocation.Right |
+                HolePunchLocation.Top |
+                HolePunchLocation.Bottom;
+            ShowAndDisposeProcessingDialog(new PropertyGridConfigForm(imageViewer1, holePunchFillingCommand));
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of HolePunchRemovalToolStripMenuItem object.
+        /// </summary>
+        private void holePunchRemovalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            HolePunchRemovalCommand holePunchRemovalCommand = new HolePunchRemovalCommand();
+            holePunchRemovalCommand.HolePunchLocation =
+                HolePunchLocation.Left |
+                HolePunchLocation.Right |
+                HolePunchLocation.Top |
+                HolePunchLocation.Bottom;
+            ShowAndDisposeProcessingDialog(new PropertyGridConfigForm(imageViewer1, holePunchRemovalCommand));
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of LineRemovalToolStripMenuItem object.
+        /// </summary>
+        private void lineRemovalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            ShowAndDisposeProcessingDialog(
+                new PropertyGridConfigForm(imageViewer1, new LineRemovalCommand()), false, false);
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of ShapeRemovalToolStripMenuItem object.
+        /// </summary>
+        private void shapeRemovalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            ShowAndDisposeProcessingDialog(
+                new PropertyGridConfigForm(imageViewer1, new ShapeRemovalCommand()), false, false);
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of ColorNoiseClearToolStripMenuItem object.
+        /// </summary>
+        private void colorNoiseClearToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            ShowAndDisposeProcessingDialog(new ColorNoiseClearForm(imageViewer1));
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of AdvancedReplaceColorCommandToolStripMenuItem object.
+        /// </summary>
+        private void advancedReplaceColorCommandToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteAdvancedReplaceColorCommand();
+        }
+
+        #endregion
+
+
+        #region Photo Effects
+
+        /// <summary>
+        /// Handles the Click event of AutoLevelsToolStripMenuItem object.
+        /// </summary>
+        private void autoLevelsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply Auto Levels effect to image
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new AutoLevelsCommand());
+        }
+
+        /// <summary>
+        /// Handles the Click event of AutoColorsToolStripMenuItem object.
+        /// </summary>
+        private void autoColorsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply Auto Colors effect to image
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new AutoColorsCommand());
+        }
+
+        /// <summary>
+        /// Handles the Click event of AutoContrastToolStripMenuItem object.
+        /// </summary>
+        private void autoContrastToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply the Auto Contrast effect to image
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new AutoContrastCommand());
+        }
+
+        /// <summary>
+        /// Handles the Click event of BevelEdgeToolStripMenuItem object.
+        /// </summary>
+        private void bevelEdgeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply the Bevel Edge effect to an image
+            ShowAndDisposeProcessingDialog(new BevelEdgeForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of DropShadowToolStripMenuItem object.
+        /// </summary>
+        private void dropShadowToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply the Drop Shadow effect to an image
+            ShowAndDisposeProcessingDialog(
+                new PropertyGridConfigForm(imageViewer1, new DropShadowCommand()), false, false);
+        }
+
+        /// <summary>
+        /// Handles the Click event of MotionBlurToolStripMenuItem object.
+        /// </summary>
+        private void motionBlurToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply the Motion Blur effect to an image
+            ShowAndDisposeProcessingDialog(new MotionBlurForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of MozaicToolStripMenuItem object.
+        /// </summary>
+        private void mozaicToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply the Mozaic effect to an image
+            ShowAndDisposeProcessingDialog(new MosaicForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of OilPaintingToolStripMenuItem object.
+        /// </summary>
+        private void oilPaintingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply the Oil Painting effect to an image
+            ShowAndDisposeProcessingDialog(new OilPaintingForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of PixelateToolStripMenuItem object.
+        /// </summary>
+        private void pixelateToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply the Pixelate effect to an image
+            ShowAndDisposeProcessingDialog(new PixelateForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of RedEyeRemovalToolStripMenuItem object.
+        /// </summary>
+        private void redEyeRemovalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply the Red Eye Removal effect to an image
+            ShowAndDisposeProcessingDialog(new RedEyeRemovalForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of SepiaToolStripMenuItem object.
+        /// </summary>
+        private void sepiaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply the Sepia effect to an image
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new SepiaCommand());
+        }
+
+        /// <summary>
+        /// Handles the Click event of SolarizeToolStripMenuItem object.
+        /// </summary>
+        private void solarizeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply the Solarize effect to an image
+            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new SolarizeCommand());
+        }
+
+        /// <summary>
+        /// Handles the Click event of TileReflectionToolStripMenuItem object.
+        /// </summary>
+        private void tileReflectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply the Tile Reflection effect to an image
+            ShowAndDisposeProcessingDialog(new TileReflectionForm(imageViewer1), false, false);
+        }
+
+        #endregion
+
+
+        #region FFT
+
+        #region Filtering
+
+        /// <summary>
+        /// Handles the Click event of IdealLowpassToolStripMenuItem object.
+        /// </summary>
+        private void idealLowpassToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PropertyGridConfigForm dlg = new PropertyGridConfigForm(imageViewer1, new IdealLowpassCommand());
+            dlg.IsPreviewAvailable = true;
+            // apply Ideal lowpass filter to image
+            ShowAndDisposeProcessingDialog(dlg, true, false);
+        }
+
+        /// <summary>
+        /// Handles the Click event of ButterworthLowpassToolStripMenuItem object.
+        /// </summary>
+        private void butterworthLowpassToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PropertyGridConfigForm dlg = new PropertyGridConfigForm(imageViewer1, new ButterworthLowpassCommand());
+            dlg.IsPreviewAvailable = true;
+            // apply Butterworth lowpass filter to image
+            ShowAndDisposeProcessingDialog(dlg, true, false);
+        }
+
+        /// <summary>
+        /// Handles the Click event of GaussianLowpassToolStripMenuItem object.
+        /// </summary>
+        private void gaussianLowpassToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PropertyGridConfigForm dlg = new PropertyGridConfigForm(imageViewer1, new GaussianLowpassCommand());
+            dlg.IsPreviewAvailable = true;
+            // apply Gaussian lowpass filter to image
+            ShowAndDisposeProcessingDialog(dlg, true, false);
+        }
+
+        /// <summary>
+        /// Handles the Click event of IdealHighPassToolStripMenuItem object.
+        /// </summary>
+        private void idealHighPassToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PropertyGridConfigForm dlg = new PropertyGridConfigForm(imageViewer1, new IdealHighpassCommand());
+            dlg.IsPreviewAvailable = true;
+            // apply Ideal highpass filter to image
+            ShowAndDisposeProcessingDialog(dlg, true, false);
+        }
+
+        /// <summary>
+        /// Handles the Click event of ButterworthHighPassToolStripMenuItem object.
+        /// </summary>
+        private void butterworthHighPassToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PropertyGridConfigForm dlg = new PropertyGridConfigForm(imageViewer1, new ButterworthHighpassCommand());
+            dlg.IsPreviewAvailable = true;
+            // apply Butterworth highpass filter to image
+            ShowAndDisposeProcessingDialog(dlg, true, false);
+        }
+
+        /// <summary>
+        /// Handles the Click event of GaussianHighpassToolStripMenuItem object.
+        /// </summary>
+        private void gaussianHighpassToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            PropertyGridConfigForm dlg = new PropertyGridConfigForm(imageViewer1, new GaussianHighpassCommand());
+            dlg.IsPreviewAvailable = true;
+            // apply Gaussian highpass filter to image
+            ShowAndDisposeProcessingDialog(dlg, true, false);
+        }
+
+        #endregion
+
+
+        /// <summary>
+        /// Handles the Click event of ImageSmoothingToolStripMenuItem object.
+        /// </summary>
+        private void imageSmoothingToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply image smoothing filter to image
+            ShowAndDisposeProcessingDialog(new ImageSmoothingForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of ImageSharpeningToolStripMenuItem object.
+        /// </summary>
+        private void imageSharpeningToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // apply image sharpening filter to image
+            ShowAndDisposeProcessingDialog(new ImageSharpeningForm(imageViewer1));
+        }
+
+        /// <summary>
+        /// Handles the Click event of FrequencySpectumVisualizerToolStripMenuItem object.
+        /// </summary>
+        private void frequencySpectumVisualizerToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            ShowAndDisposeProcessingDialog(
+                new FrequencySpectrumVisualizerForm(imageViewer1), false, false);
+        }
+
+        #endregion
+
+
+        /// <summary>
+        /// Handles the CheckedChanged event of UseMultithreadingToolStripMenuItem object.
+        /// </summary>
+        private void useMultithreadingToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            // enable / disable image processing in multiple threads
+            if (_imageProcessingCommandExecutor != null)
+                _imageProcessingCommandExecutor.ExecuteMultithread = useMultithreadingToolStripMenuItem.Checked;
+        }
+
+        /// <summary>
+        /// Handles the CheckedChanged event of ExpandPixelFormatToolStripMenuItem object.
+        /// </summary>
+        private void expandPixelFormatToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
+        {
+            // enable/disable expanding of image pixel format during image processing
+            if (_imageProcessingCommandExecutor != null)
+                _imageProcessingCommandExecutor.ExpandSupportedPixelFormats = expandPixelFormatToolStripMenuItem.Checked;
+        }
+
+        /// <summary>
+        /// Handles the Click event of LoadPathsFromMetadataToolStripMenuItem object.
+        /// </summary>
+        private void loadPathsFromMetadataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (this.imageViewer1.Image != null)
+            {
+                // get image metadata tree
+                MetadataNode metadata = this.imageViewer1.Image.Metadata.MetadataTree;
+
+                PhotoshopResourcesMetadata photoshopMetadata = metadata.FindChildNode<PhotoshopResourcesMetadata>();
+
+                bool pathsAreLoaded = false;
+                if (photoshopMetadata != null)
+                {
+                    int width = this.imageViewer1.Image.Width;
+                    int height = this.imageViewer1.Image.Height;
+
+                    GraphicsPath paths = new GraphicsPath();
+
+                    // find image path resources
+                    foreach (PhotoshopResource resource in photoshopMetadata.Resources)
+                    {
+                        if (resource is PhotoshopImagePathResource)
+                        {
+                            GraphicsPath path = ((PhotoshopImagePathResource)resource).GetPath(width, height);
+                            if (path.PointCount > 0)
+                                paths.AddPath(path, false);
+                        }
+                    }
+
+                    if (paths.PointCount > 0)
+                    {
+                        // create selection tool with loaded paths
+                        PathSelectionRegion selection = new PathSelectionRegion(paths);
+                        selection.InteractionController = selection.TransformInteractionController;
+                        CustomSelectionTool tool = new CustomSelectionTool();
+                        tool.Selection = selection;
+
+                        this.imageViewer1.VisualTool = tool;
+                        pathsAreLoaded = true;
+                    }
+                }
+
+                if (!pathsAreLoaded)
+                    DemosTools.ShowInfoMessage("No clipping paths found in metadata.");
+            }
+        }
+
+        #endregion
+
+
+        #region 'Tools' menu
+
+        /// <summary>
+        /// Handles the Click event of AnimationToolStripMenuItem object.
+        /// </summary>
+        private void animationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (ShowAnimationForm dlg = new ShowAnimationForm(imageViewer1.Images))
+            {
+                // show a form with images animation
+                dlg.ShowDialog();
+            }
+        }
+
+        #endregion
+
+
+        #region 'Help' menu
+
+        /// <summary>
+        /// Handles the Click event of AboutToolStripMenuItem object.
+        /// </summary>
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (AboutBoxForm dlg = new AboutBoxForm())
+            {
+                dlg.ShowDialog();
+            }
+        }
+
+        #endregion
+
+
+        #region SelectionTool's context menu
+
+        /// <summary>
+        /// Handles the Opening event of SelectionContextMenuStrip object.
+        /// </summary>
+        private void selectionContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            // clear context menu
+            customSelectionToolContextMenuStrip.Items.Clear();
+
+            CustomSelectionTool customSelectionTool = CompositeVisualTool.FindVisualTool<CustomSelectionTool>(imageViewer1.VisualTool);
+            RectangularSelectionTool rectangularSelectionTool = CompositeVisualTool.FindVisualTool<RectangularSelectionToolWithCopyPaste>(imageViewer1.VisualTool);
+
+            // if current tool has CustomSelectionTool or RectangularSelectionTool then
+            if (customSelectionTool != null || rectangularSelectionTool != null)
+            {
+                // build the selection context menu
+                ToolStripMenuItem copyPasteItem = new ToolStripMenuItem("Copy");
+                copyPasteItem.Click += new EventHandler(copyImageToolStripMenuItem_Click);
+                customSelectionToolContextMenuStrip.Items.Add(copyPasteItem);
+
+                copyPasteItem = new ToolStripMenuItem("Paste");
+                copyPasteItem.Click += new EventHandler(pasteImageToolStripMenuItem_Click);
+                customSelectionToolContextMenuStrip.Items.Add(copyPasteItem);
+
+                // if current tool has CustomSelectionTool then
+                if (customSelectionTool != null)
+                {
+                    ToolStripMenuItem transformersItem = new ToolStripMenuItem("Transformers");
+                    customSelectionToolContextMenuStrip.Items.Add(transformersItem);
+
+                    // if selection tool has selection then
+                    if (customSelectionTool.Selection != null)
+                    {
+                        // add "None" item to context menu - use selection without transformation
+                        AddItemToSelectionContextMenu("None", transformersItem.DropDownItems, null);
+
+                        if (customSelectionTool.Selection.BuildingInteractionController != null)
+                        {
+                            // add separator
+                            transformersItem.DropDownItems.Add(new ToolStripSeparator());
+                            // add building interaction controller of current selection to context menu
+                            AddItemToSelectionContextMenu("Building", transformersItem.DropDownItems, customSelectionTool.Selection.BuildingInteractionController);
+                        }
+
+                        // add separator
+                        transformersItem.DropDownItems.Add(new ToolStripSeparator());
+                        // for each available transform interactions of current selection
+                        foreach (string name in customSelectionTool.Selection.AvailableTransformInteractionControllers.Keys)
+                        {
+                            // add transform interaction controller to context menu
+                            AddItemToSelectionContextMenu(name, transformersItem.DropDownItems, customSelectionTool.Selection.AvailableTransformInteractionControllers[name]);
+                        }
+
+                        // if current interaction controller is PointBasedObjectPointTransformer then
+                        if (customSelectionTool.Selection.InteractionController is PointBasedObjectPointTransformer)
+                        {
+                            // add separator
+                            customSelectionToolContextMenuStrip.Items.Add(new ToolStripSeparator());
+                            ToolStripMenuItem item;
+
+                            // selected points indexes
+                            int[] selectedIndexes = (customSelectionTool.Selection.InteractionController as PointBasedObjectPointTransformer).SelectedPointIndexes;
+                            if (selectedIndexes.Length > 0)
+                            {
+                                // add "Remove selected points" context menu item
+                                item = new ToolStripMenuItem("Remove selected points");
+                                item.Click += new EventHandler(removeSelectedPoints_Click);
+                                transformersItem.DropDownItems.Add(item);
+                            }
+
+                            // add "Add point" context menu item
+                            item = new ToolStripMenuItem("Add point");
+                            item.Click += new EventHandler(addPoint_Click);
+                            transformersItem.DropDownItems.Add(item);
+                        }
+                    }
+                }
+                e.Cancel = false;
+                return;
+            }
+            e.Cancel = true;
+        }
+
+        /// <summary>
+        /// Handles the Click event of RemoveSelectedPoints object.
+        /// </summary>
+        private void removeSelectedPoints_Click(object sender, EventArgs e)
+        {
+            if (HasCustomSelection())
+            {
+                CustomSelectionTool selectionTool = CompositeVisualTool.FindVisualTool<CustomSelectionTool>(imageViewer1.VisualTool);
+
+                // gets the PointBasedObjectPointTransformer of current selection
+                PointBasedObjectPointTransformer controller = (PointBasedObjectPointTransformer)selectionTool.Selection.InteractionController;
+
+                try
+                {
+                    // remove selected points
+                    controller.RemovePoints(controller.SelectedPointIndexes);
+                }
+                catch (Exception ex)
+                {
+                    DemosTools.ShowErrorMessage(ex);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of AddPoint object.
+        /// </summary>
+        private void addPoint_Click(object sender, EventArgs e)
+        {
+            if (HasCustomSelection())
+            {
+                CustomSelectionTool selectionTool = CompositeVisualTool.FindVisualTool<CustomSelectionTool>(imageViewer1.VisualTool);
+                // gets the PointBasedObjectPointTransformer of current selection
+                PointBasedObjectPointTransformer controller = (PointBasedObjectPointTransformer)selectionTool.Selection.InteractionController;
+
+                try
+                {
+                    // add point to current selection
+                    controller.InsertPoint(_selectionContextMenuStripLocation);
+                }
+                catch (Exception ex)
+                {
+                    DemosTools.ShowErrorMessage(ex);
+                }
+            }
+        }
+
+        #endregion
+
+
+        #region Image viewer
+
+        /// <summary>
+        /// Handles the ImageLoading event of ImageViewer1 object.
+        /// </summary>
+        private void imageViewer1_ImageLoading(object sender, ImageLoadingEventArgs e)
+        {
+            _imageLoadingStartTime = DateTime.Now;
+            _imageLoadingTime = TimeSpan.Zero;
+
+            imageLoadingStatusLabel.Visible = true;
+            imageLoadingProgressBar.Visible = true;
+        }
+
+        /// <summary>
+        /// Handles the ImageLoadingProgress event of ImageViewer1 object.
+        /// </summary>
+        private void imageViewer1_ImageLoadingProgress(object sender, ProgressEventArgs e)
+        {
+            if (_isFormClosing)
+            {
+                e.Cancel = true;
+                return;
+            }
+
+            imageLoadingProgressBar.Value = e.Progress;
+        }
+
+        /// <summary>
+        /// Handles the ImageLoaded event of ImageViewer1 object.
+        /// </summary>
+        private void imageViewer1_ImageLoaded(object sender, ImageLoadedEventArgs e)
+        {
+            if (_isFormClosing)
+                _isFileDialogOpened = false;
+            else
+                _imageLoadingTime = DateTime.Now.Subtract(_imageLoadingStartTime);
+
+            imageLoadingStatusLabel.Visible = false;
+            imageLoadingProgressBar.Visible = false;
+
+            this.IsImageLoaded = true;
+
+            if (editImagePixelsToolStripMenuItem.Checked && !imageViewer1.IsEntireImageLoaded)
+                editImagePixelsToolStripMenuItem.Checked = false;
+        }
+
+        /// <summary>
+        /// Handles the ImageLoadingException event of ImageViewer1 object.
+        /// </summary>
+        private void imageViewer1_ImageLoadingException(object sender, ExceptionEventArgs e)
+        {
+            imageLoadingStatusLabel.Visible = false;
+            imageLoadingProgressBar.Visible = false;
+        }
+
+        /// <summary>
+        /// Handles the ImageChanged event of ImageViewer1 object.
+        /// </summary>
+        private void imageViewer1_ImageChanged(object sender, ImageChangedEventArgs e)
+        {
+            this.IsImageLoaded = true;
+        }
+
+        /// <summary>
+        /// Handles the ImageReloaded event of ImageViewer1 object.
+        /// </summary>
+        private void imageViewer1_ImageReloaded(object sender, ImageReloadEventArgs e)
+        {
+            this.IsImageLoaded = true;
+        }
+
+        /// <summary>
+        /// Handles the FocusedIndexChanging event of ImageViewer1 object.
+        /// </summary>
+        private void imageViewer1_FocusedIndexChanging(object sender, FocusedIndexChangedEventArgs e)
+        {
+            if (_isFormClosing)
+                return;
+        }
+
+        /// <summary>
+        /// Handles the FocusedIndexChanged event of ImageViewer1 object.
+        /// </summary>
+        private void imageViewer1_FocusedIndexChanged(object sender, FocusedIndexChangedEventArgs e)
+        {
+            if (_isFormClosing)
+                return;
+
+            viewerToolStrip.SelectedPageIndex = e.FocusedIndex;
+
+            if (_directPixelAccessForm != null)
+                _directPixelAccessForm.SelectPixel(-1, -1);
+        }
+
+        /// <summary>
+        /// Handles the InsertKeyPressed event of ImageViewer1 object.
+        /// </summary>
+        private void imageViewer1_InsertKeyPressed(object sender, KeyEventArgs e)
+        {
+            InsertKeyPressed();
+        }
+
+        /// <summary>
+        /// Handles the MouseUp event of ImageViewer1 object.
+        /// </summary>
+        private void imageViewer1_MouseUp(object sender, MouseEventArgs e)
+        {
+            // if clicked right button then
+            if (e.Button == MouseButtons.Right && imageViewer1.Image != null)
+            {
+                // if current tool has CustomSelectionTool
+                // and selection tool has selection
+                if (HasCustomSelection())
+                {
+                    CustomSelectionTool customSelectionTool = CompositeVisualTool.FindVisualTool<CustomSelectionTool>(imageViewer1.VisualTool);
+                    // if clicks on selection then
+                    RectangleF rect = imageViewer1.RectangleToImage(new RectangleF(e.X, e.Y, 10, 10));
+                    if (customSelectionTool.Selection.IsPointOnObject(rect.X, rect.Y, rect.Width))
+                    {
+                        // show selection context menu
+                        _selectionContextMenuStripLocation = rect.Location;
+                        customSelectionToolContextMenuStrip.Show(imageViewer1, e.Location);
+                        return;
+                    }
+                }
+                else
+                {
+                    // if current tool has RectangularSelectionTool
+                    // and selection tool has selection
+                    if (HasRectangularSelection())
+                    {
+                        RectangularSelectionTool rectangularSelectionTool = CompositeVisualTool.FindVisualTool<RectangularSelectionToolWithCopyPaste>(imageViewer1.VisualTool);
+                        // if clicks on selection then
+                        RectangleF rect = imageViewer1.RectangleToImage(new RectangleF(e.X, e.Y, 10, 10));
+                        if (rectangularSelectionTool.Rectangle.IntersectsWith(new Rectangle((int)rect.X, (int)rect.Y, (int)rect.Width, (int)rect.Height)))
+                        {
+                            // show selection context menu
+                            _selectionContextMenuStripLocation = rect.Location;
+                            customSelectionToolContextMenuStrip.Show(imageViewer1, e.Location);
+                            return;
+                        }
+                    }
+                }
+
+                // show image viewer context menu
+                if (imageViewer1.VisualTool == null || !imageViewer1.VisualTool.DisableContextMenu)
+                    imageViewerMenuStrip.Show(imageViewer1, e.Location);
+            }
+        }
+
+        /// <summary>
+        /// Handles the VisualToolChanged event of ImageViewer1 object.
+        /// </summary>
+        private void imageViewer1_VisualToolChanged(object sender, VisualToolChangedEventArgs e)
+        {
+            if (_isVisualToolChanging)
+                return;
+
+            if (_imageMapTool.Enabled)
+            {
+                _isVisualToolChanging = true;
+                if (e.VisualTool != null)
+                {
+                    if (!ContainsTool(e.VisualTool as CompositeVisualTool, _imageMapTool) &&
+                        e.VisualTool != _imageMapTool)
+                    {
+                        imageViewer1.VisualTool = new CompositeVisualTool(_imageMapTool, e.VisualTool);
+                    }
+                }
+                else
+                    imageViewer1.VisualTool = _imageMapTool;
+                _isVisualToolChanging = false;
+            }
+        }
+
+        /// <summary>
+        /// Handles the ZoomChanged event of ImageViewer1 object.
+        /// </summary>
+        private void imageViewer1_ZoomChanged(object sender, ZoomChangedEventArgs e)
+        {
+            _imageScaleSelectedMenuItem.Checked = false;
+            switch (imageViewer1.SizeMode)
+            {
+                case ImageSizeMode.BestFit:
+                    _imageScaleSelectedMenuItem = bestFitToolStripMenuItem;
+                    break;
+                case ImageSizeMode.FitToHeight:
+                    _imageScaleSelectedMenuItem = fitToHeightToolStripMenuItem;
+                    break;
+                case ImageSizeMode.FitToWidth:
+                    _imageScaleSelectedMenuItem = fitToWidthToolStripMenuItem;
+                    break;
+                case ImageSizeMode.Normal:
+                    _imageScaleSelectedMenuItem = normalImageToolStripMenuItem;
+                    break;
+                case ImageSizeMode.PixelToPixel:
+                    _imageScaleSelectedMenuItem = pixelToPixelToolStripMenuItem;
+                    break;
+                case ImageSizeMode.Zoom:
+                    _imageScaleSelectedMenuItem = scaleToolStripMenuItem;
+                    break;
+            }
+            _imageScaleSelectedMenuItem.Checked = true;
+        }
+
+        /// <summary>
+        /// Handles the ImageCollectionChanged event of Images property of ImageViewer1 object.
+        /// </summary>
+        private void imageViewer1_Images_ImageCollectionChanged(object sender, ImageCollectionChangeEventArgs e)
+        {
+            if (imageViewer1.Images.Count == 0)
+                _isImageLoaded = false;
+
+            if (!IsImageOpening)
+                _areImagesChanged = true;
+
+            // update the UI
+            UpdateUI();
+        }
+
+        #endregion
+
+
+        #region Thumbnail viewer
+
+        /// <summary>
+        /// Handles the ThumbnailsLoadingProgress event of ThumbnailViewer1 object.
+        /// </summary>
+        private void thumbnailViewer1_ThumbnailsLoadingProgress(object sender, ThumbnailsLoadingProgressEventArgs e)
+        {
+            bool isProgressVisible = e.Progress != 100;
+            loadingThumbnailsProgressBar.Value = e.Progress;
+            addingThumbnailsStatusLabel.Visible = isProgressVisible;
+            loadingThumbnailsProgressBar.Visible = isProgressVisible;
+        }
+
+        /// <summary>
+        /// Handles the InsertKeyPressed event of ThumbnailViewer1 object.
+        /// </summary>
+        private void thumbnailViewer1_InsertKeyPressed(object sender, KeyEventArgs e)
+        {
+            InsertKeyPressed();
+        }
+
+        /// <summary>
+        /// Handles the HoveredThumbnailChanged event of ThumbnailViewer1 object.
+        /// </summary>
+        private void thumbnailViewer1_HoveredThumbnailChanged(object sender, ThumbnailEventArgs e)
+        {
+            if (e.Thumbnail != null)
+            {
+                try
+                {
+                    // get information about hovered image in thumbnail viewer
+                    ImageSourceInfo imageSourceInfo = e.Thumbnail.Source.SourceInfo;
+                    string filename = null;
+
+                    // if image loaded from file
+                    if (imageSourceInfo.SourceType == ImageSourceType.File)
+                    {
+                        // get image file name
+                        filename = Path.GetFileName(imageSourceInfo.Filename);
+                    }
+                    // if image loaded from stream
+                    else if (imageSourceInfo.SourceType == ImageSourceType.Stream)
+                    {
+                        // if stream is file stream
+                        if (imageSourceInfo.Stream is FileStream)
+                        {
+                            // get image file name
+                            filename = Path.GetFileName(((FileStream)imageSourceInfo.Stream).Name);
+                        }
+                    }
+                    // if image is new image
+                    else
+                    {
+                        filename = "Bitmap";
+                    }
+
+                    // if image is multipage image
+                    if (imageSourceInfo.PageCount > 1)
+                        e.Thumbnail.ToolTip = string.Format("{0}, page {1}", filename, imageSourceInfo.PageIndex + 1);
+                    else
+                        e.Thumbnail.ToolTip = filename;
+                }
+                catch
+                {
+                    e.Thumbnail.ToolTip = "";
+                }
+            }
+        }
+
+        #endregion
+
+        #endregion
+
+
         #region UI state
 
         /// <summary>
@@ -477,11 +3578,13 @@ namespace ImagingDemo
         {
             // if application is closing
             if (_isFormClosing)
+            {
                 // exit
                 return;
+            }
 
 
-            // get the current status of application
+            // get current status of application
 
             int imageCount = imageViewer1.Images.Count;
             VintasoftImage currentImage = imageViewer1.Image;
@@ -492,12 +3595,14 @@ namespace ImagingDemo
             bool canSaveToTheSameSource = _sourceFilename != null && !_sourceStreamIsReadOnly;
             if (canSaveToTheSameSource)
             {
-                // if format of source does not support multiple images (BMP, PNG, ...)
+                // if the format of the source does not support multiple images (BMP, PNG, ...)
                 if (_sourceDecoderName != null &&
                     AvailableEncoders.CreateMultipageEncoderByName(_sourceDecoderName) == null)
+                {
                     // saving of image to the source (save changes) is possible only
                     // if one image is loaded in the viewer
                     canSaveToTheSameSource = imageCount == 1;
+                }
             }
 
 
@@ -520,18 +3625,17 @@ namespace ImagingDemo
             // "File" menu
             //
             addFromClipboardToolStripMenuItem.Enabled = true;
-            //
+
             saveChangesToolStripMenuItem.Enabled = isImageLoaded && canSaveToTheSameSource && !isImageProcessing && !isImageSaving && (currentImage.IsChanged || currentImage.Metadata.IsChanged || _areImagesChanged);
             saveAsToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
             saveToToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
             saveCurrentImageToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
-            //
+
             printToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
-            //
+
             closeToolStripMenuItem.Enabled = _sourceFilename != null && !isImageProcessing && !isImageSaving;
 
             // "Edit" menu
-            //
             UpdateEditMenu();
             documentMetadataToolStripMenuItem.Enabled = imageCount > 0;
             editImageMetadataToolStripMenuItem.Enabled = isImageLoaded;
@@ -609,7 +3713,7 @@ namespace ImagingDemo
 
             UpdateUndoRedoMenu(_undoManager);
 
-            // update information about the focused image
+            // update the focused image information
             UpdateImageInfo();
         }
 
@@ -634,2862 +3738,18 @@ namespace ImagingDemo
             bool isEntireImageLoaded = imageViewer1.IsEntireImageLoaded;
             bool isImageProcessing = this.IsImageProcessing;
             bool isImageSaving = this.IsImageSaving;
-            //
+
             copyImageToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
-            //
+
             pasteImageToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
             setImageFromFileToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
-            //
+
             insertImageFromClipboardToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
             insertImageFromFileToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
-            //
+
             deleteImageToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
-            //
+
             editImagePixelsToolStripMenuItem.Enabled = isEntireImageLoaded && !isImageProcessing && !isImageSaving;
-        }
-
-        /// <summary>
-        /// Updates the "Edit" menu when it is opening.
-        /// </summary>
-        private void editToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
-        {
-            UpdateEditMenu();
-            UpdateEditUIActionMenuItems();
-            if (!Clipboard.ContainsImage())
-            {
-                pasteImageToolStripMenuItem.Enabled = false;
-                insertImageFromClipboardToolStripMenuItem.Enabled = false;
-            }
-        }
-
-        #endregion
-
-
-        #region 'File' menu
-
-        /// <summary>
-        /// Updates the "File" menu when it is opening.
-        /// </summary>
-        private void fileToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
-        {
-            UpdateUI();
-            if (!Clipboard.ContainsImage())
-                addFromClipboardToolStripMenuItem.Enabled = false;
-        }
-
-        /// <summary>
-        /// Creates new image and adds image to the image collection of the image viewer.
-        /// </summary>
-        private void newToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (CreateNewImageForm dlg = new CreateNewImageForm())
-            {
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    VintasoftImage image = dlg.CreateImage();
-                    imageViewer1.Images.Add(image);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Clears image collection of the image viewer and adds image(s) to the image collection
-        /// of the image viewer.
-        /// </summary>
-        private void openToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (_isFileDialogOpened)
-                return;
-
-            _isFileDialogOpened = true;
-
-            // select image file
-            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                //
-                WaitWhileSavingAndProcessingIsFinished();
-
-                // if image collection of image viewer is not empty
-                if (imageViewer1.Images.Count > 0)
-                    // clear the image collection of the image viewer
-                    imageViewer1.Images.ClearAndDisposeItems();
-
-                //
-                CloseFile();
-
-                try
-                {
-                    OpenFile(openFileDialog1.FileName);
-                }
-                catch (Exception ex)
-                {
-                    DemosTools.ShowErrorMessage(ex);
-                }
-            }
-
-            _isFileDialogOpened = false;
-        }
-
-        /// <summary>
-        /// Adds image(s) to the image collection of the image viewer.
-        /// </summary>
-        private void addToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (_isFileDialogOpened)
-                return;
-
-            _isFileDialogOpened = true;
-            openFileDialog1.Multiselect = true;
-
-            // select image file(s)
-            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                // add images from selected image sources (files) to temporary image collection
-                ImageCollection images = new ImageCollection();
-                foreach (string fileName in openFileDialog1.FileNames)
-                {
-                    try
-                    {
-                        images.Add(fileName);
-                    }
-                    catch (Exception ex)
-                    {
-                        DemosTools.ShowErrorMessage(ex, fileName);
-                    }
-                }
-
-                // add images from temporary image collection to the image collection of image viewer
-                imageViewer1.Images.AddRange(images.ToArray());
-            }
-
-            openFileDialog1.Multiselect = false;
-            _isFileDialogOpened = false;
-        }
-
-        /// <summary>
-        /// Adds image from clipboard to the image collection of the image viewer.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void addFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Clipboard.ContainsImage())
-            {
-                Image bitmap = Clipboard.GetImage();
-                VintasoftImage image = new VintasoftImage(bitmap, true);
-                imageViewer1.Images.Add(image);
-
-                // update the UI
-                Update();
-            }
-        }
-
-
-        /// <summary>
-        /// Acquires image(s) from scanner.
-        /// </summary>
-        private void acquireFromScannerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            bool scanMenuEnabled = acquireFromScannerToolStripMenuItem.Enabled;
-            acquireFromScannerToolStripMenuItem.Enabled = false;
-            bool viewerToolStripCanScan = viewerToolStrip.CanScan;
-            viewerToolStrip.IsScanEnabled = false;
-
-            try
-            {
-                if (_simpleTwainManager == null)
-                    _simpleTwainManager = new SimpleTwainManager(this, imageViewer1.Images);
-
-                _simpleTwainManager.SelectDeviceAndAcquireImage();
-            }
-            catch (Exception ex)
-            {
-                DemosTools.ShowErrorMessage(ex);
-            }
-            finally
-            {
-                acquireFromScannerToolStripMenuItem.Enabled = scanMenuEnabled;
-                viewerToolStrip.IsScanEnabled = viewerToolStripCanScan;
-            }
-        }
-
-
-        /// <summary>
-        /// Captures image(s) from camera (webcam).
-        /// </summary>
-        private void captureFromCameraToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                ImageCaptureDevice device = WebcamSelectionForm.SelectWebcam();
-                if (device != null)
-                {
-                    WebcamPreviewForm webcamForm = new WebcamPreviewForm(device);
-                    webcamForm.Owner = this;
-                    webcamForm.SnapshotViewer = imageViewer1;
-                    _webcamForms.Add(webcamForm);
-                    webcamForm.Show();
-                }
-            }
-            catch (Exception ex)
-            {
-                DemosTools.ShowErrorMessage(ex);
-            }
-        }
-
-
-        /// <summary>
-        /// Saves changes in image collection to the source file.
-        /// </summary>
-        private void saveChangesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            EncoderBase encoder = null;
-            try
-            {
-                if (PluginsEncoderFactory.Default.GetEncoderByName(_sourceDecoderName, out encoder))
-                    SaveImageCollection(imageViewer1.Images, _sourceFilename, encoder, true);
-                else
-                    DemosTools.ShowErrorMessage("Image is not saved.");
-            }
-            catch (Exception ex)
-            {
-                DemosTools.ShowErrorMessage(ex);
-            }
-        }
-
-        /// <summary>
-        /// Saves image collection to new source and switches to the new source.
-        /// </summary>
-        private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (_isFileDialogOpened)
-                return;
-            _isFileDialogOpened = true;
-
-            bool saveSingleImage = imageViewer1.Images.Count == 1;
-
-            try
-            {
-                CodecsFileFilters.SetFilters(saveFileDialog1, !saveSingleImage);
-                if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    string filename = saveFileDialog1.FileName;
-
-                    PluginsEncoderFactory encoderFactory = new PluginsEncoderFactory();
-                    encoderFactory.CanAddImagesToExistingFile = false;
-
-                    EncoderBase encoder = null;
-                    if (encoderFactory.GetEncoder(filename, out encoder))
-                        SaveImageCollection(imageViewer1.Images, filename, encoder, true);
-                    else
-                        DemosTools.ShowErrorMessage("Images are not saved.");
-                }
-            }
-            catch (Exception ex)
-            {
-                DemosTools.ShowErrorMessage(ex);
-            }
-
-            _isFileDialogOpened = false;
-        }
-
-        /// <summary>
-        /// Saves image collection to new source and do NOT switch to the new source.
-        /// </summary>
-        private void saveToToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (_isFileDialogOpened)
-                return;
-            _isFileDialogOpened = true;
-
-            bool saveSingleImage = imageViewer1.Images.Count == 1;
-
-            //
-            CodecsFileFilters.SetFilters(saveFileDialog1, !saveSingleImage);
-            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                string filename = Path.GetFullPath(saveFileDialog1.FileName);
-                bool isFileExist = File.Exists(filename);
-
-                try
-                {
-                    PluginsEncoderFactory encoderFactory = new PluginsEncoderFactory();
-                    encoderFactory.CanAddImagesToExistingFile = isFileExist;
-
-                    EncoderBase encoder = null;
-                    if (encoderFactory.GetEncoder(filename, out encoder))
-                        SaveImageCollection(imageViewer1.Images, filename, encoder, false);
-                    else
-                        DemosTools.ShowErrorMessage("Image is not saved.");
-                }
-                catch (Exception ex)
-                {
-                    DemosTools.ShowErrorMessage(ex);
-                }
-            }
-
-            _isFileDialogOpened = false;
-        }
-
-        /// <summary>
-        /// Saves current image to a file.
-        /// </summary>
-        private void saveCurrentImageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (_isFileDialogOpened)
-                return;
-            _isFileDialogOpened = true;
-
-            //
-            CodecsFileFilters.SetFilters(saveFileDialog1, false);
-            if (saveFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                string filename = Path.GetFullPath(saveFileDialog1.FileName);
-                bool isFileExist = File.Exists(filename);
-
-                PluginsEncoderFactory encoderFactory = new PluginsEncoderFactory();
-                encoderFactory.CanAddImagesToExistingFile = isFileExist;
-
-                EncoderBase encoder = null;
-                if (encoderFactory.GetEncoder(filename, out encoder))
-                {
-                    VintasoftImage image = imageViewer1.Images[imageViewer1.FocusedIndex];
-                    // save the image
-                    SaveSingleImage(image, filename, encoder);
-                }
-                else
-                    DemosTools.ShowErrorMessage("Image is not saved.");
-            }
-
-            _isFileDialogOpened = false;
-        }
-
-
-        /// <summary>
-        /// Closes the current image file.
-        /// </summary>
-        private void closeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            //
-            WaitWhileSavingAndProcessingIsFinished();
-
-            imageViewer1.Images.ClearAndDisposeItems();
-
-            //
-            CloseFile();
-
-            CloseHistoryForm();
-
-            UpdateUI();
-        }
-
-
-        /// <summary>
-        /// Exits the application.
-        /// </summary>
-        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Application.Exit();
-        }
-
-        #endregion
-
-
-        #region 'Edit' menu
-
-        #region Copy, paste and delete image
-
-        /// <summary>
-        /// Copies an image to the clipboard.
-        /// </summary>
-        private void copyImageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            CopyImageToClipboard();
-        }
-
-
-        /// <summary>
-        /// Pastes an image from clipboard.
-        /// </summary>
-        private void pasteImageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            PasteImageFromClipboard();
-        }
-
-        /// <summary>
-        /// Sets an image from a file.
-        /// </summary>
-        private void setImageFromFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                try
-                {
-                    VintasoftImage image = new VintasoftImage(openFileDialog1.FileName);
-                    imageViewer1.Image.SetImage(image);
-                }
-                catch (Exception ex)
-                {
-                    DemosTools.ShowErrorMessage(ex);
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// Inserts an image from clipboard to the image viewer.
-        /// </summary>
-        private void insertImageFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (Clipboard.ContainsImage())
-            {
-                try
-                {
-                    VintasoftImage image = new VintasoftImage(Clipboard.GetImage(), true);
-                    imageViewer1.Images.Insert(imageViewer1.FocusedIndex, image);
-                }
-                catch (Exception ex)
-                {
-                    DemosTools.ShowErrorMessage(ex);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Inserts an image from file to the image viewer.
-        /// </summary>
-        private void insertImageFromFileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog1.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                try
-                {
-                    imageViewer1.Images.Insert(imageViewer1.FocusedIndex, openFileDialog1.FileName);
-                }
-                catch (Exception ex)
-                {
-                    DemosTools.ShowErrorMessage(ex);
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// Deletes an image from image viewer.
-        /// </summary>
-        private void deleteImageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            VintasoftImage image = imageViewer1.Images[imageViewer1.FocusedIndex];
-            imageViewer1.Images.RemoveAt(imageViewer1.FocusedIndex);
-            image.Dispose();
-        }
-
-        #endregion
-
-
-        #region Copy, paste and delete measurement object
-
-        /// <summary>
-        /// Copies the selected measurement into "internal" buffer.
-        /// </summary>
-        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // get the copy UI action for current visual tool
-            CopyItemUIAction copyUIAction = DemosTools.GetUIAction<CopyItemUIAction>(imageViewer1.VisualTool);
-            // if UI action exists
-            if (copyUIAction != null)
-                // execute the UI action
-                copyUIAction.Execute();
-
-            // update the UI
-            UpdateUI();
-        }
-
-        /// <summary>
-        /// Cuts the selected measurement into "internal" buffer.
-        /// </summary>
-        private void cutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // get the cut UI action for current visual tool
-            CutItemUIAction cutUIAction = DemosTools.GetUIAction<CutItemUIAction>(imageViewer1.VisualTool);
-            // if UI action exists
-            if (cutUIAction != null)
-                // execute the UI action
-                cutUIAction.Execute();
-
-            // update the UI
-            UpdateUI();
-        }
-
-        /// <summary>
-        /// Pastes measurement from "internal" buffer and makes it active.
-        /// </summary>
-        private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // get the paste UI action for current visual tool
-            PasteItemWithOffsetUIAction pasteUIAction = DemosTools.GetUIAction<PasteItemWithOffsetUIAction>(imageViewer1.VisualTool);
-            // if UI action exists AND UI action is enabled
-            if (pasteUIAction != null && pasteUIAction.IsEnabled)
-            {
-                pasteUIAction.OffsetX = 20;
-                pasteUIAction.OffsetY = 20;
-                // execute the UI action
-                pasteUIAction.Execute();
-            }
-
-            // update the UI
-            UpdateUI();
-        }
-
-        /// <summary>
-        /// Removes the selected measurement.
-        /// </summary>
-        private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // get the delete UI action for current visual tool
-            UIAction deleteUIAction = DemosTools.GetUIAction<DeleteItemUIAction>(imageViewer1.VisualTool);
-
-            // if UI action exists AND UI action is enabled
-            if (deleteUIAction != null && deleteUIAction.IsEnabled)
-                // execute the UI action
-                deleteUIAction.Execute();
-
-            // update the UI
-            UpdateUI();
-        }
-
-        /// <summary>
-        /// Removes all measurements.
-        /// </summary>
-        private void deleteAllToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // get the delete all UI action for current visual tool
-            UIAction deleteUIAction = DemosTools.GetUIAction<DeleteAllItemsUIAction>(imageViewer1.VisualTool);
-            // if UI action exists AND UI action is enabled
-            if (deleteUIAction != null && deleteUIAction.IsEnabled)
-                // execute the UI action
-                deleteUIAction.Execute();
-
-            // update the UI
-            UpdateUI();
-        }
-
-        #endregion
-
-
-        /// <summary>
-        /// Shows document metadata window.
-        /// </summary>
-        private void documentMetadataToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DocumentMetadata metadata = imageViewer1.Image.SourceInfo.Decoder.GetDocumentMetadata();
-
-            if (metadata != null)
-            {
-                using (PropertyGridForm propertyForm = new PropertyGridForm(metadata, "Document Metadata"))
-                {
-                    propertyForm.ShowDialog();
-                }
-            }
-            else
-            {
-                MessageBox.Show("File does not contain metadata.", "Message", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-            }
-        }
-
-        /// <summary>
-        /// Shows a form for editing image metadata.
-        /// </summary>
-        private void imageMetadataEditorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            VintasoftImage image = imageViewer1.Image;
-
-            Form form = null;
-
-            try
-            {
-#if !REMOVE_DICOM_PLUGIN
-                if (image.Metadata.MetadataTree is DicomFrameMetadata)
-                {
-                    DicomMetadataEditorForm editorForm = new DicomMetadataEditorForm();
-                    editorForm.Image = imageViewer1.Image;
-                    form = editorForm;
-                }
-                else
-#endif
-                {
-                    MetadataEditorForm editorForm = new MetadataEditorForm();
-                    editorForm.Image = imageViewer1.Image;
-                    form = editorForm;
-                }
-
-                form.ShowDialog();
-            }
-            finally
-            {
-                form.Dispose();
-            }
-
-            UpdateUI();
-        }
-
-        /// <summary>
-        /// Shows a form for editing image palette.
-        /// </summary>
-        private void paletteEditorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            PaletteForm paletteDialog = new PaletteForm();
-            paletteDialog.StartPosition = FormStartPosition.Manual;
-            paletteDialog.Location = new Point(
-                Location.X + (Width - ClientSize.Width),
-                Location.Y + (Height - paletteDialog.Height) / 2);
-
-            Palette backupPalette = imageViewer1.Image.Palette.Clone();
-            paletteDialog.PaletteViewer.Palette = imageViewer1.Image.Palette;
-
-            if (paletteDialog.ShowDialog() != DialogResult.OK)
-            {
-                if (paletteDialog.PaletteViewer.IsPaletteChanged)
-                    imageViewer1.Image.Palette.SetColors(backupPalette.GetAsArray());
-            }
-        }
-
-        /// <summary>
-        /// Shows a form for editing image pixels.
-        /// </summary>
-        private void editImagePixelsToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
-        {
-            if (editImagePixelsToolStripMenuItem.Checked)
-                OpenDirectPixelAccessForm();
-            else
-                CloseDirectPixelAccessForm();
-        }
-
-
-        #region Undo/redo changes in images
-
-        /// <summary>
-        /// Enables/disables the image processing history.
-        /// </summary>
-        private void enableUndoRedoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            bool isEnabled = _undoManager.IsEnabled ^ true;
-
-            enableUndoRedoToolStripMenuItem.Checked = isEnabled;
-
-            if (!isEnabled)
-                // clear the image processing history
-                _undoManager.Clear();
-
-            _undoManager.IsEnabled = isEnabled;
-
-            // close the image processing history form
-            CloseHistoryForm();
-
-            // initialize the "Undo/Redo" menu
-            UpdateUndoRedoMenu(_undoManager);
-            // update the UI
-            UpdateUI();
-        }
-
-        /// <summary>
-        /// Enables/disables the image processing history for current image only.
-        /// </summary>
-        private void keepUndoForCurrentImageOnlyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            keepUndoForCurrentImageOnlyToolStripMenuItem.Checked ^= true;
-
-            _keepUndoForCurrentImageOnly = keepUndoForCurrentImageOnlyToolStripMenuItem.Checked;
-
-            CreateUndoManager(_keepUndoForCurrentImageOnly);
-        }
-
-        /// <summary>
-        /// Undoes changes in image.
-        /// </summary>
-        private void undoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _undoManager.Undo(1);
-
-            UpdateUndoRedoMenu(_undoManager);
-        }
-
-        /// <summary>
-        /// Redoes changes in image.
-        /// </summary>
-        private void redoToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _undoManager.Redo(1);
-
-            UpdateUndoRedoMenu(_undoManager);
-        }
-
-        /// <summary>
-        /// Enables/disables showing history only for displayed images.
-        /// </summary>
-        private void showHistoryForDisplayedImagesToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            showHistoryForDisplayedImagesToolStripMenuItem.Checked ^= true;
-
-            _imageViewerUndoMonitor.ShowHistoryForDisplayedImages =
-                showHistoryForDisplayedImagesToolStripMenuItem.Checked;
-        }
-
-        /// <summary>
-        /// Edits the undo manager settings.
-        /// </summary>
-        private void undoRedoSettingsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (UndoManagerSettingsForm dlg = new UndoManagerSettingsForm(_undoManager, _dataStorage))
-            {
-                dlg.StartPosition = FormStartPosition.CenterParent;
-                dlg.Owner = this;
-
-                if (dlg.ShowDialog() == DialogResult.OK)
-                {
-                    _undoLevel = _undoManager.UndoLevel;
-
-                    if (dlg.DataStorage != _dataStorage)
-                    {
-                        IDataStorage prevDataStorage = _dataStorage;
-
-                        _dataStorage = dlg.DataStorage;
-
-                        _undoManager.Clear();
-                        _undoManager.DataStorage = _dataStorage;
-
-                        if (prevDataStorage != null)
-                            prevDataStorage.Dispose();
-
-                        if (_imageViewerUndoMonitor != null)
-                            _imageViewerUndoMonitor.DataStorage = _dataStorage;
-                    }
-
-                    UpdateUndoRedoMenu(_undoManager);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Shows/hides the form that shows the image processing history.
-        /// </summary>
-        private void historyDialogToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            historyDialogToolStripMenuItem.Checked ^= true;
-
-            if (historyDialogToolStripMenuItem.Checked)
-                // show the image processing history form
-                ShowHistoryForm();
-            else
-                // close the image processing history form
-                CloseHistoryForm();
-        }
-
-        #endregion
-
-        #endregion
-
-
-        #region 'View' menu
-
-        /// <summary>
-        /// Shows the thumbnail viewer settings. 
-        /// </summary>
-        private void thumbnailViewerSettingsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (ThumbnailViewerSettingsForm dlg = new ThumbnailViewerSettingsForm(thumbnailViewer1))
-            {
-                dlg.ShowDialog();
-            }
-        }
-
-
-        /// <summary>
-        /// Changes the image display mode of image viewer.
-        /// </summary>
-        private void ImageDisplayMode_Click(object sender, EventArgs e)
-        {
-            ToolStripMenuItem imageDisplayModeMenuItem = (ToolStripMenuItem)sender;
-            imageViewer1.DisplayMode = (ImageViewerDisplayMode)imageDisplayModeMenuItem.Tag;
-            UpdateUI();
-        }
-
-        /// <summary>
-        /// Changes the image scale mode of image viewer.
-        /// </summary>
-        private void ImageScale_Click(object sender, EventArgs e)
-        {
-            _imageScaleSelectedMenuItem.Checked = false;
-            _imageScaleSelectedMenuItem = (ToolStripMenuItem)sender;
-
-            // if menu item sets ImageSizeMode
-            if (_imageScaleSelectedMenuItem.Tag is ImageSizeMode)
-            {
-                // set size mode
-                imageViewer1.SizeMode = (ImageSizeMode)_imageScaleSelectedMenuItem.Tag;
-                _imageScaleSelectedMenuItem.Checked = true;
-            }
-            // if menu item sets zoom
-            else
-            {
-                // get zoom value
-                int zoomValue = (int)_imageScaleSelectedMenuItem.Tag;
-                // set ImageSizeMode as Zoom
-                imageViewer1.SizeMode = ImageSizeMode.Zoom;
-                // set zoom value
-                imageViewer1.Zoom = zoomValue;
-            }
-        }
-
-        /// <summary>
-        /// Enables/disables centering of image in image viewer.
-        /// </summary>
-        private void centerImageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (centerImageToolStripMenuItem.Checked)
-            {
-                imageViewer1.FocusPointAnchor = AnchorType.None;
-                imageViewer1.IsFocusPointFixed = true;
-                imageViewer1.ScrollToCenter();
-            }
-            else
-            {
-                imageViewer1.FocusPointAnchor = AnchorType.Left | AnchorType.Top;
-                imageViewer1.IsFocusPointFixed = true;
-            }
-        }
-
-        /// <summary>
-        /// Shows the image viewer settings.
-        /// </summary>
-        private void imageViewerSettingsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (ImageViewerSettingsForm dlg = new ImageViewerSettingsForm(imageViewer1))
-            {
-                dlg.ShowDialog();
-            }
-            UpdateUI();
-        }
-
-        /// <summary>
-        /// Shows the image map settings.
-        /// </summary>
-        private void imageMapSettingsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (ImageMapToolSettingsForm mapSettingsDialog = new ImageMapToolSettingsForm(_imageMapTool))
-            {
-                mapSettingsDialog.ShowDialog();
-            }
-
-            _isVisualToolChanging = true;
-
-            if (_imageMapTool.Enabled)
-            {
-                if (imageViewer1.VisualTool == null)
-                    imageViewer1.VisualTool = _imageMapTool;
-                else
-                {
-                    if (imageViewer1.VisualTool is CompositeVisualTool)
-                    {
-                        CompositeVisualTool compositeVisualTool = (CompositeVisualTool)imageViewer1.VisualTool;
-                        foreach (VisualTool visualTool in compositeVisualTool)
-                        {
-                            if (visualTool == _imageMapTool)
-                            {
-                                _isVisualToolChanging = false;
-                                return;
-                            }
-                        }
-
-                        imageViewer1.VisualTool = new CompositeVisualTool(_imageMapTool, compositeVisualTool);
-                    }
-                    else if (imageViewer1.VisualTool != _imageMapTool)
-                    {
-                        imageViewer1.VisualTool = new CompositeVisualTool(_imageMapTool, imageViewer1.VisualTool);
-                    }
-                }
-            }
-            else
-            {
-                if (imageViewer1.VisualTool != null)
-                {
-                    if (imageViewer1.VisualTool is CompositeVisualTool)
-                    {
-                        CompositeVisualTool compositeVisualTool = (CompositeVisualTool)imageViewer1.VisualTool;
-                        List<VisualTool> visualTools = new List<VisualTool>();
-                        foreach (VisualTool visualTool in compositeVisualTool)
-                        {
-                            if (visualTool == _imageMapTool)
-                                continue;
-
-                            visualTools.Add(visualTool);
-                        }
-
-                        if (visualTools.Count == 0)
-                            imageViewer1.VisualTool = null;
-                        else if (visualTools.Count == 1)
-                            imageViewer1.VisualTool = visualTools[0];
-                        else
-                            imageViewer1.VisualTool = new CompositeVisualTool(visualTools.ToArray());
-                    }
-                    else if (imageViewer1.VisualTool == _imageMapTool)
-                        imageViewer1.VisualTool = null;
-                }
-            }
-
-            _isVisualToolChanging = false;
-        }
-
-        /// <summary>
-        /// Shows the image magnifier settings.
-        /// </summary>
-        private void magnifierSettingsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            MagnifierToolAction magnifierToolAction = visualToolsToolStrip1.FindAction<MagnifierToolAction>();
-
-            if (magnifierToolAction != null)
-                magnifierToolAction.ShowVisualToolSettings();
-        }
-
-        /// <summary>
-        /// Shows the decoding settings of current image.
-        /// </summary>
-        private void currentImageDecodingSettingsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DecodingSettings settings = imageViewer1.Image.DecodingSettings;
-            if (settings == null)
-            {
-                DemosTools.ShowInfoMessage("Current image does not have decoding settings.");
-            }
-            else
-            {
-                using (PropertyGridForm dlg = new PropertyGridForm(settings, settings.GetType().Name, false))
-                {
-                    dlg.ShowDialog();
-                    if (dlg.PropertyValueChanged)
-                        imageViewer1.ReloadImage();
-                }
-            }
-        }
-
-
-        /// <summary>
-        /// Edits the color management settings.
-        /// </summary>
-        private void colorManagementToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ColorManagementSettingsForm.EditColorManagement(imageViewer1);
-        }
-
-        /// <summary>
-        /// Shows a dialog that allows to change the count of maximum thread, which can be used for image rendering.
-        /// </summary>
-        private void maxThreadsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (MaxThreadsForm dlg = new MaxThreadsForm())
-            {
-                dlg.MaxThreads = ImagingEnvironment.MaxThreads;
-                if (dlg.ShowDialog() == DialogResult.OK)
-                    ImagingEnvironment.MaxThreads = dlg.MaxThreads;
-            }
-        }
-
-
-        #endregion
-
-
-        #region 'Image processing' menu
-
-        #region Base
-
-        #region Change pixel format
-
-        /// <summary>
-        /// Changes pixel format of image to BlackWhite, threshold value is specified by user.
-        /// </summary>
-        private void changePixelFormatToBlackWhiteThresholdModeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (imageViewer1.Image.PixelFormat != PixelFormat.BlackWhite)
-            {
-                using (BinarizeForm dlg = new BinarizeForm(imageViewer1, true))
-                {
-                    if (dlg.ShowProcessingDialog())
-                        _imageProcessingCommandExecutor.ExecuteProcessingCommand(dlg.GetProcessingCommand());
-                }
-            }
-        }
-
-        /// <summary>
-        /// Change pixel format of image to BlackWhite, global threshold is detected automatically.
-        /// </summary>
-        private void changePixelFormatToBlackWhiteGlobalModeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new ChangePixelFormatToBlackWhiteCommand(BinarizationMode.Global));
-        }
-
-        /// <summary>
-        /// Changes pixel format of image to BlackWhite, adaptive threshold is detected automatically.
-        /// </summary>
-        private void changePixelFormatToBlackWhiteAdaptiveModeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (imageViewer1.Image.PixelFormat != PixelFormat.BlackWhite)
-            {
-                using (AdaptiveBinarizeForm dlg = new AdaptiveBinarizeForm(imageViewer1, true))
-                    if (dlg.ShowProcessingDialog())
-                        _imageProcessingCommandExecutor.ExecuteProcessingCommand(dlg.GetProcessingCommand());
-            }
-        }
-
-        /// <summary>
-        /// Changes pixel format of image to BlackWhite using Halftone binarization.
-        /// </summary>
-        private void halftoneToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new ChangePixelFormatToBlackWhiteCommand(BinarizationMode.Halftone));
-        }
-
-        /// <summary>
-        /// Changes pixel format of image to Palette1.
-        /// </summary>
-        private void changePixelFormatToPalette1ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new ChangePixelFormatCommand(Vintasoft.Imaging.PixelFormat.Indexed1));
-        }
-
-        /// <summary>
-        /// Changes pixel format of image to Gray8.
-        /// </summary>
-        private void changePixelFormatToGray8ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new ChangePixelFormatCommand(PixelFormat.Gray8));
-        }
-
-        /// <summary>
-        /// Changes pixel format of image to Indexed8.
-        /// </summary>
-        private void changePixelFormatToPalette8ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ChangePixelFormatToPaletteCommand command = new ChangePixelFormatToPaletteCommand(PixelFormat.Indexed8);
-            // consider transparency
-            command.Transparency = true;
-            using (PropertyGridForm propertyGridForm =
-                new PropertyGridForm(command, "Change Pixel Format to Indexed8 Command Properties ", true))
-            {
-                if (propertyGridForm.ShowDialog() == DialogResult.OK)
-                    _imageProcessingCommandExecutor.ExecuteProcessingCommand(command);
-            }
-        }
-
-        /// <summary>
-        /// Changes pixel format of image to Bgr24.
-        /// </summary>
-        private void changePixelFormatToBgr24ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new ChangePixelFormatCommand(Vintasoft.Imaging.PixelFormat.Bgr24));
-        }
-
-        /// <summary>
-        /// Changes pixel format of image to Bgra32.
-        /// </summary>
-        private void convertToBgra32ToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new ChangePixelFormatCommand(Vintasoft.Imaging.PixelFormat.Bgra32));
-        }
-
-        /// <summary>
-        /// Changes pixel format of image to the custom format.
-        /// </summary>
-        private void changePixelFormatToCustomFormatToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (ChangePixelFormatForm dlg = new ChangePixelFormatForm())
-            {
-                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    _imageProcessingCommandExecutor.ExecuteProcessingCommand(new ChangePixelFormatCommand(dlg.PixelFormat));
-            }
-        }
-
-        #endregion
-
-
-        /// <summary>
-        /// Crops an image.
-        /// </summary>
-        private void cropToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (imageViewer1.VisualTool is RectangularSelectionToolWithCopyPaste ||
-                imageViewer1.VisualTool is CustomSelectionTool)
-            {
-                try
-                {
-                    _imageProcessingCommandExecutor.ExecuteProcessingCommand(new CropCommand());
-                }
-                catch (ImageProcessingException ex)
-                {
-                    MessageBox.Show(ex.Message, "Image processing exception", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Resizes an image.
-        /// </summary>
-        private void resizeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            // get image
-            VintasoftImage image = imageViewer1.Image;
-            // get resize command
-            ResizeCommand command = ImageProcessingCommandFactory.CreateCommand<ResizeCommand>(image);
-
-            int width;
-            int height;
-            // get selection tool
-            RectangularSelectionTool selectionTool = imageViewer1.VisualTool as RectangularSelectionTool;
-            // if selection tool exists AND selection is not empty
-            if (selectionTool != null && selectionTool.Rectangle.Width != 0 && selectionTool.Rectangle.Height != 0)
-            {
-                // get selection size
-                width = selectionTool.Rectangle.Width;
-                height = selectionTool.Rectangle.Height;
-            }
-            else
-            {
-                // get image size
-                width = image.Width;
-                height = image.Height;
-            }
-
-            // show resize dialog
-            using (ResizeForm dlg = new ResizeForm(width, height, command.InterpolationMode))
-            {
-                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    // apply command settings
-                    command.Width = dlg.ImageWidth;
-                    command.Height = dlg.ImageHeight;
-                    command.InterpolationMode = dlg.InterpolationMode;
-                    // apply command
-                    _imageProcessingCommandExecutor.ExecuteProcessingCommand(command);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Adds canvas and resizes an image.
-        /// </summary>
-        private void resizeCanvasToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            VintasoftImage image = imageViewer1.Image;
-            using (ResizeCanvasForm dlg = new ResizeCanvasForm(image.Width, image.Height))
-            {
-                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    ResizeCanvasCommand command = ImageProcessingCommandFactory.CreateCommand<ResizeCanvasCommand>(image);
-                    command.Width = dlg.CanvasWidth;
-                    command.Height = dlg.CanvasHeight;
-                    command.ImagePosition = dlg.ImagePosition;
-                    command.CanvasColor = dlg.CanvasColor;
-                    _imageProcessingCommandExecutor.ExecuteProcessingCommand(command);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Resamples an image.
-        /// </summary>
-        private void resampleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            VintasoftImage image = imageViewer1.Image;
-            ResampleCommand command = new ResampleCommand();
-            using (ResampleForm dlg = new ResampleForm((float)image.Resolution.Horizontal, (float)image.Resolution.Vertical, command.InterpolationMode, "Resample", true))
-            {
-                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    command.HorizontalResolution = dlg.HorizontalResolution;
-                    command.VerticalResolution = dlg.VerticalResolution;
-                    command.InterpolationMode = dlg.InterpolationMode;
-                    _imageProcessingCommandExecutor.ExecuteProcessingCommand(command);
-                }
-            }
-        }
-
-        /// <summary>
-        /// Changes resolution of image.
-        /// </summary>
-        private void changeResolutionToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            VintasoftImage image = imageViewer1.Image;
-            using (ResampleForm dlg = new ResampleForm((float)image.Resolution.Horizontal,
-                (float)image.Resolution.Vertical,
-                InterpolationMode.HighQualityBicubic,
-                "Change resolution", false))
-            {
-                dlg.ShowInterpolationComboBox = false;
-                if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                {
-                    try
-                    {
-                        if (!image.IsChanged && image.SourceInfo.Decoder.IsVectorDecoder)
-                            DemosTools.ShowErrorMessage("Resolution of vector image", "Cannot change resolution for vector image. Change rendering resolution using RenderingSettings.Resolution property: View -> Image Viewer Settings... -> Image Rendering Settings.");
-                        else
-                            image.Resolution = new Vintasoft.Imaging.Resolution(dlg.HorizontalResolution, dlg.VerticalResolution);
-                    }
-                    catch (Exception ex)
-                    {
-                        DemosTools.ShowErrorMessage(ex);
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Fills an image.
-        /// </summary>
-        private void fillImageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new FillImageForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Fills rectangle on an image.
-        /// </summary>
-        private void fillRectangleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteFillRectangleCommand();
-        }
-
-        /// <summary>
-        /// Overlays an image.
-        /// </summary>
-        private void overlayImageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteOverlayCommand();
-        }
-
-        /// <summary>
-        /// Overlays binary image.
-        /// </summary>
-        private void overlayBinaryImageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteOverlayBinaryCommand();
-        }
-
-        /// <summary>
-        /// Draws an image.
-        /// </summary>
-        private void drawImageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteDrawImageCommand();
-        }
-
-        /// <summary>
-        /// Overlays with color blending.
-        /// </summary>
-        private void overlayWithBlendingToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteOverlayWithBlendingCommand();
-        }
-
-        /// <summary>
-        /// Overlays with alpha mask.
-        /// </summary>
-        private void overlayWithMaskToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteOverlayMaskedCommand();
-        }
-
-        /// <summary>
-        /// Compares two images.
-        /// </summary>
-        private void imageCompareToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteComparisonCommand();
-        }
-
-        #endregion
-
-
-        #region Info
-
-        /// <summary>
-        /// Shows histogram of image.
-        /// </summary>
-        private void histogramToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                Rectangle selectionRectangle = Rectangle.Empty;
-
-                if (imageViewer1.VisualTool is RectangularSelectionToolWithCopyPaste)
-                {
-                    RectangularSelectionToolWithCopyPaste selection = imageViewer1.VisualTool as RectangularSelectionToolWithCopyPaste;
-                    if (selection != null)
-                        selectionRectangle = selection.Rectangle;
-                }
-
-                using (GetHistogramForm dlg = new GetHistogramForm(
-                    imageViewer1.Image,
-                    selectionRectangle,
-                    _imageProcessingCommandExecutor.ExpandSupportedPixelFormats))
-                {
-                    dlg.ShowDialog();
-                }
-            }
-            catch (Exception ex)
-            {
-                DemosTools.ShowErrorMessage(ex);
-            }
-        }
-
-        /// <summary>
-        /// Determines that image is black-white.
-        /// </summary>
-        private void isImageBlackWhiteToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteIsImageBlackWhiteCommand();
-        }
-
-        /// <summary>
-        /// Determines that image is grayscale.
-        /// </summary>
-        private void isImageGrayscaleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteIsImageGrayscaleCommand();
-        }
-
-        /// <summary>
-        /// Gets the number of colors in image.
-        /// </summary>
-        private void getColorCountToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteColorCountCommand();
-        }
-
-        /// <summary>
-        /// Gets the real color depth of image.
-        /// </summary>
-        private void getImageColorDepthToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteGetImageColorDepthCommand();
-        }
-
-        /// <summary>
-        /// Gets a border color of image.
-        /// </summary>
-        private void getBorderColorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteGetBorderColorCommand();
-        }
-
-        /// <summary>
-        /// Gets a backgorund color of image.
-        /// </summary>
-        private void getBackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteGetBackgroundColorCommand();
-        }
-
-
-        /// <summary>
-        /// Gets the optimal binarization threshold of image.
-        /// </summary>
-        private void detectThresholdToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteGetThresholdCommand();
-        }
-
-        /// <summary>
-        /// Determines that image is blank.
-        /// </summary>
-        private void isImageBlankToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteIsBlankCommand();
-        }
-
-        /// <summary>
-        /// Determines that image contains certain color.
-        /// </summary>
-        private void hasCertainColorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteHasCertainColorCommand();
-        }
-
-        #endregion
-
-
-        #region Channels
-
-        /// <summary>
-        /// Extracts the alpha channel of image.
-        /// </summary>
-        private void extractAlphaChannelToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new GetAlphaChannelMaskCommand());
-        }
-
-
-        /// <summary>
-        /// Inverts the red channel of image.
-        /// </summary>
-        private void invertRedChannelToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            InvertColorChannel(Color.FromArgb(255, 0, 0));
-        }
-
-        /// <summary>
-        /// Inverts the green channel of image.
-        /// </summary>
-        private void invertGreenChannelToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            InvertColorChannel(Color.FromArgb(0, 255, 0));
-        }
-
-        /// <summary>
-        /// Inverts the blue channel of image.
-        /// </summary>
-        private void invertBlueChannelToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            InvertColorChannel(Color.FromArgb(0, 0, 255));
-        }
-
-
-        /// <summary>
-        /// Sets a value of alpha channel for all pixels of image to the specified value.
-        /// </summary>
-        private void setAlphaChannelValueToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteSetAlphaChannelValueCommand();
-        }
-
-        /// <summary>
-        /// Changes the alpha channel of image from the specified image-mask.
-        /// </summary>
-        private void setAlphaChannelFromMaskToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteSetAlphaChannelCommand();
-        }
-
-
-        /// <summary>
-        /// Remove the red channel of image.
-        /// </summary>
-        private void removeRedChannelToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ExtractColorChannels(0, 255, 255);
-        }
-
-        /// <summary>
-        /// Remove the green channel of image.
-        /// </summary>
-        private void removeGreenChannelToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ExtractColorChannels(255, 0, 255);
-        }
-
-        /// <summary>
-        /// Remove the blue channel of image.
-        /// </summary>
-        private void removeBlueChannelToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ExtractColorChannels(255, 255, 0);
-        }
-
-        #endregion
-
-
-        #region Color
-
-        /// <summary>
-        /// Converts an image to black-white image, threshold value is specified by user.
-        /// </summary>
-        private void convertToBlackWhiteThresholdByUserToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (imageViewer1.Image.PixelFormat != PixelFormat.BlackWhite)
-                ShowAndDisposeProcessingDialog(new BinarizeForm(imageViewer1, false));
-        }
-
-        /// <summary>
-        /// Converts an image to black-white image, global threshold is detected automatically.
-        /// </summary>
-        private void convertToBlackWhiteGlobalThresholdToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new BinarizeCommand(BinarizationMode.Global));
-        }
-
-        /// <summary>
-        /// Converts an image to black-white image, adaptive threshold is detected automatically.
-        /// </summary>
-        private void convertToBlackWhiteAdaptiveThresholdToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (imageViewer1.Image.PixelFormat != PixelFormat.BlackWhite)
-                ShowAndDisposeProcessingDialog(new AdaptiveBinarizeForm(imageViewer1, false));
-        }
-
-        /// <summary>
-        /// Desaturates an image.
-        /// </summary>
-        private void desaturateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            DesaturateCommand command = ImageProcessingCommandFactory.CreateDesaturateCommand(imageViewer1.Image);
-            command.DesaturateMethod = DesaturateMethod.Luminosity;
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(command);
-        }
-
-        /// <summary>
-        /// Converts an image to a halftone image.
-        /// </summary>
-        private void convertToHalftoneToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new HalftoneCommand());
-        }
-
-        /// <summary>
-        /// Posterizes an image.
-        /// </summary>
-        private void posterizeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (imageViewer1.Image.PixelFormat != PixelFormat.BlackWhite)
-                ShowAndDisposeProcessingDialog(new PosterizeForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Changes the brightness and/or contrast of image.
-        /// </summary>
-        private void brightnessContrastToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new BrightnessContrastForm(imageViewer1, imageViewer1.Image), true);
-        }
-
-        /// <summary>
-        /// Changes HSL of image.
-        /// </summary>
-        private void hueSaturationLuminanceToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new HueSaturationLuminanceForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Changes gamma of image.
-        /// </summary>
-        private void gammaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new GammaForm(imageViewer1), true);
-        }
-
-        /// <summary>
-        /// Changes levels of image.
-        /// </summary>
-        private void levelsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new LevelsForm(imageViewer1), true);
-        }
-
-        /// <summary>
-        /// Inverts an image.
-        /// </summary>
-        private void invertColorsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(ImageProcessingCommandFactory.CreateInvertCommand(imageViewer1.Image));
-        }
-
-
-        /// <summary>
-        /// Replaces a color in image.
-        /// </summary>
-        private void replaceColorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new ReplaceColorForm(imageViewer1), true);
-        }
-
-        /// <summary>
-        /// Blends colors of image.
-        /// </summary>
-        private void colorBlendToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteColorBlendCommand();
-        }
-
-        /// <summary>
-        /// Applies a color transform to an image.
-        /// </summary>
-        private void colorTransformToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new ColorTransformForm(imageViewer1));
-        }
-
-        #endregion
-
-
-        #region Transforms
-
-        /// <summary>
-        /// Flips an image.
-        /// </summary>
-        private void flipToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ImageRotateFlipType flipType = ImageRotateFlipType.RotateNoneFlipX;
-            if (sender == xToolStripMenuItem || sender == xToolStripMenuItem1)
-            {
-                flipType = ImageRotateFlipType.RotateNoneFlipX;
-            }
-            else if (sender == yToolStripMenuItem || sender == yToolStripMenuItem1)
-            {
-                flipType = ImageRotateFlipType.RotateNoneFlipY;
-            }
-            else if (sender == xYToolStripMenuItem || sender == xYToolStripMenuItem1)
-            {
-                flipType = ImageRotateFlipType.RotateNoneFlipXY;
-            }
-
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new FlipCommand(flipType));
-        }
-
-        /// <summary>
-        /// Rotates an image.
-        /// </summary>
-        private void Rotate_Click(object sender, EventArgs e)
-        {
-            RotateCommand rotateCommand = ImageProcessingCommandFactory.CreateRotateCommand(imageViewer1.Image);
-
-            if (sender == customToolStripMenuItem || sender == customToolStripMenuItem1)
-            {
-                using (RotateForm dlg = new RotateForm(imageViewer1.Image.PixelFormat))
-                {
-                    if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-                    {
-                        // if pixel formats are not equal
-                        if (dlg.SourceImagePixelFormat != imageViewer1.Image.PixelFormat)
-                        {
-                            // change pixel format
-                            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new ChangePixelFormatCommand(dlg.SourceImagePixelFormat), false);
-                        }
-
-                        rotateCommand.Angle = (double)dlg.Angle;
-                        rotateCommand.BorderColorType = dlg.BorderColorType;
-                        rotateCommand.IsAntialiasingEnabled = dlg.IsAntialiasingEnabled;
-
-                        _imageProcessingCommandExecutor.ExecuteProcessingCommand(rotateCommand);
-                    }
-                }
-            }
-            else
-            {
-                float angle = 0f;
-                if (sender == rotate90 || sender == rotate90ToolStripMenuItem)
-                {
-                    angle = 90f;
-                }
-                else if (sender == rotate180 || sender == rotate180ToolStripMenuItem)
-                {
-                    angle = 180f;
-                }
-                else if (sender == rotate270 || sender == rotate270ToolStripMenuItem)
-                {
-                    angle = 270f;
-                }
-
-                rotateCommand.Angle = angle;
-                rotateCommand.BorderColor = Color.Black;
-                _imageProcessingCommandExecutor.ExecuteProcessingCommand(rotateCommand);
-            }
-        }
-
-        /// <summary>
-        /// Scales an image.
-        /// </summary>
-        private void scaleToolStripMenuItem1_Click(object sender, EventArgs e)
-        {
-            ImageScalingForm form = new ImageScalingForm();
-            form.Command = ImageProcessingCommandFactory.CreateCommand<ImageScalingCommand>(imageViewer1.Image);
-            ShowAndDisposeProcessingDialog(form, false, false);
-        }
-
-        /// <summary>
-        /// Skews an image.
-        /// </summary>
-        private void skewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(
-                new PropertyGridConfigForm(imageViewer1, new SkewCommand()), false, false);
-        }
-
-        /// <summary>
-        /// Applies quadrilateral warp transformation to an image.
-        /// </summary>
-        private void quadrilateralWarpToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(
-                new PropertyGridConfigForm(imageViewer1, new QuadrilateralWarpCommand()), false, false);
-        }
-
-        /// <summary>
-        /// Applies matrix transformation to an image.
-        /// </summary>
-        private void matrixTransformToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(
-                new PropertyGridConfigForm(imageViewer1, new MatrixTransformCommand()), false, false);
-        }
-
-        #endregion
-
-
-        #region Filters
-
-        #region Arithmetic filters
-
-        /// <summary>
-        /// Applies an arithmetic minimum filter to an image.
-        /// </summary>
-        private void minimumFilterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new MinimumForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Applies an arithmetic maximum filter to an image.
-        /// </summary>
-        private void maximumFilterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new MaximumForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Applies an arithmetic midpoint filter to an image.
-        /// </summary>
-        private void midPointFilterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new MidpointForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Applies an arithmetic mean filter to an image.
-        /// </summary>
-        private void meanFilterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new MeanForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Applies an arithmetic median filter to an image.
-        /// </summary>
-        private void medianFilterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new MedianForm(imageViewer1));
-        }
-
-        #endregion
-
-
-        #region Morphological filters
-
-        /// <summary>
-        /// Applies the morphological dilate filter to an image.
-        /// </summary>
-        private void dilateFilterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new DilateForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Applies the morphological erode filter to an image.
-        /// </summary>
-        private void erodeFilterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new ErodeForm(imageViewer1));
-        }
-
-        #endregion
-
-
-        /// <summary>
-        /// Applies the Blur filter to an image.
-        /// </summary>
-        private void blurFilterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new BlurForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Applies the Gaussian blur filter to an image.
-        /// </summary>
-        private void gaussianBlurFilterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new GaussianBlurForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Applies the Sharpen filter to an image.
-        /// </summary>
-        private void sharpenFilterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new SharpenForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Applies the Edge Detection filter to an image.
-        /// </summary>
-        private void edgeDetectionFilterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new EdgeDetectionCommand());
-        }
-
-        /// <summary>
-        /// Applies the Emboss filter to an image.
-        /// </summary>
-        private void embossFilterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new EmbossForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Applies the Add noise filter to an image.
-        /// </summary>
-        private void addNoiseToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(
-                new PropertyGridConfigForm(imageViewer1, new AddNoiseCommand()), false, false);
-        }
-
-        /// <summary>
-        /// Applies the Canny edge detector filter to an image.
-        /// </summary>
-        private void cannyEdgeDetectorToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new CannyEdgeDetectorForm(imageViewer1));
-        }
-
-        #endregion
-
-
-        #region Document Cleanup
-
-        /// <summary>
-        /// Determines that image is document image.
-        /// </summary>
-        private void isDocumentImageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteIsDocumentImageCommand();
-        }
-
-        /// <summary>
-        /// Gets the rotation angle of document image.
-        /// </summary>
-        private void getDocumentImageRotationAngleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if !REMOVE_DOCCLEANUP_PLUGIN
-            _imageProcessingCommandExecutor.ExecuteGetDocumentImageRotationAngleCommand();
-#endif
-        }
-
-        /// <summary>
-        /// Gets the rotation angle of image.
-        /// </summary>
-        private void rotationAngleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteGetRotationAngleCommand();
-        }
-
-        /// <summary>
-        /// Determines orientation of the text.
-        /// </summary>
-        private void getTextOrientationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if !REMOVE_DOCCLEANUP_PLUGIN
-            _imageProcessingCommandExecutor.ExecuteGetTextOrientationCommand();
-#endif
-        }
-
-        /// <summary>
-        /// Removes noise in a document image.
-        /// </summary>
-        private void despeckleToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if !REMOVE_DOCCLEANUP_PLUGIN
-            ShowAndDisposeProcessingDialog(new PropertyGridConfigForm(imageViewer1, new DespeckleCommand()));
-#endif
-        }
-
-        /// <summary>
-        /// Automatically corrects the orientation of document image.
-        /// </summary>
-        private void deskewDocumentImageToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if !REMOVE_DOCCLEANUP_PLUGIN
-            ShowAndDisposeProcessingDialog(
-                new PropertyGridConfigForm(imageViewer1, new DeskewDocumentImageCommand()), true, false);
-#endif
-        }
-
-        /// <summary>
-        /// Automatically detects correct position of document image.
-        /// </summary>
-        private void deskewToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if !REMOVE_DOCCLEANUP_PLUGIN
-            ShowAndDisposeProcessingDialog(
-                new PropertyGridConfigForm(imageViewer1, new DeskewCommand()), true, false);
-#endif
-        }
-
-        /// <summary>
-        /// Automatically detects and corrects orientation of document image.
-        /// </summary>
-        private void autoOrientationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if !REMOVE_DOCCLEANUP_PLUGIN
-            ShowAndDisposeProcessingDialog(
-                new PropertyGridConfigForm(imageViewer1, new AutoTextOrientationCommand()), true, false);
-#endif
-        }
-
-        /// <summary>
-        /// Inverts text blocks in a document image.
-        /// </summary>
-        private void textBlockInvertToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if !REMOVE_DOCCLEANUP_PLUGIN
-            ShowAndDisposeProcessingDialog(new AutoTextInvertForm(imageViewer1), false, false);
-#endif
-        }
-
-        /// <summary>
-        /// Automatically inverts a document image.
-        /// </summary>
-        private void automaticInvertToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if !REMOVE_DOCCLEANUP_PLUGIN
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new AutoInvertCommand());
-#endif
-        }
-
-        /// <summary>
-        /// Clears the border of document image.
-        /// </summary>
-        private void borderClearToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if !REMOVE_DOCCLEANUP_PLUGIN
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new BorderClearCommand());
-#endif
-        }
-
-        /// <summary>
-        /// Removes (crops) border of a document image.
-        /// </summary>
-        private void detectBorderToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new BorderRemovalForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Removes halftone in a document image.
-        /// </summary>
-        private void halftoneRemovalToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if !REMOVE_DOCCLEANUP_PLUGIN
-            ShowAndDisposeProcessingDialog(new HalftoneRemovalForm(imageViewer1));
-#endif
-        }
-
-        /// <summary>
-        /// Smoothes a document image.
-        /// </summary>
-        private void smoothingToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if !REMOVE_DOCCLEANUP_PLUGIN
-            ShowAndDisposeProcessingDialog(new SmoothingForm(imageViewer1));
-#endif
-        }
-
-
-        /// <summary>
-        /// Removes hole punches in a document image.
-        /// </summary>
-        private void holePunchRemovalToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if !REMOVE_DOCCLEANUP_PLUGIN
-            HolePunchRemovalCommand holePunchRemovalCommand = new HolePunchRemovalCommand();
-            holePunchRemovalCommand.HolePunchLocation =
-                HolePunchLocation.Left |
-                HolePunchLocation.Right |
-                HolePunchLocation.Top |
-                HolePunchLocation.Bottom;
-            ShowAndDisposeProcessingDialog(new PropertyGridConfigForm(imageViewer1, holePunchRemovalCommand));
-#endif
-        }
-
-        /// <summary>
-        /// Removes lines in a document image.
-        /// </summary>
-        private void lineRemovalToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if !REMOVE_DOCCLEANUP_PLUGIN
-            ShowAndDisposeProcessingDialog(
-                new PropertyGridConfigForm(imageViewer1, new LineRemovalCommand()), false, false);
-#endif
-        }
-
-        /// <summary>
-        /// Removes a color noise in a document image.
-        /// </summary>
-        private void colorNoiseClearToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if !REMOVE_DOCCLEANUP_PLUGIN
-            ShowAndDisposeProcessingDialog(new ColorNoiseClearForm(imageViewer1));
-#endif
-        }
-
-        /// <summary>
-        /// Replaces colors in a document image.
-        /// </summary>
-        private void advancedReplaceColorCommandToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteAdvancedReplaceColorCommand();
-        }
-
-        #endregion
-
-
-        #region Photo Effects
-
-        /// <summary>
-        /// Applies the Auto Levels effect to an image.
-        /// </summary>
-        private void autoLevelsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new AutoLevelsCommand());
-        }
-
-        /// <summary>
-        /// Applies the Auto Colors effect to an image.
-        /// </summary>
-        private void autoColorsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new AutoColorsCommand());
-        }
-
-        /// <summary>
-        /// Applies the Auto Contrast effect to an image.
-        /// </summary>
-        private void autoContrastToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new AutoContrastCommand());
-        }
-
-
-        /// <summary>
-        /// Applies the Bevel Edge effect to an image.
-        /// </summary>
-        private void bevelEdgeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new BevelEdgeForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Applies the Drop Shadow effect to an image.
-        /// </summary>
-        private void dropShadowToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(
-                new PropertyGridConfigForm(imageViewer1, new DropShadowCommand()), false, false);
-        }
-
-        /// <summary>
-        /// Applies the Motion Blur effect to an image.
-        /// </summary>
-        private void motionBlurToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new MotionBlurForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Applies the Mozaic effect to an image.
-        /// </summary>
-        private void mozaicToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new MosaicForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Applies the Oil Painting effect to an image.
-        /// </summary>
-        private void oilPaintingToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new OilPaintingForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Applies the Pixelate effect to an image.
-        /// </summary>
-        private void pixelateToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new PixelateForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Applies the Red Eye Removal effect to an image.
-        /// </summary>
-        private void redEyeRemovalToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new RedEyeRemovalForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Applies the Sepia effect to an image.
-        /// </summary>
-        private void sepiaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new SepiaCommand());
-        }
-
-        /// <summary>
-        /// Applies the Solarize effect to an image.
-        /// </summary>
-        private void solarizeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _imageProcessingCommandExecutor.ExecuteProcessingCommand(new SolarizeCommand());
-        }
-
-        /// <summary>
-        /// Applies the Tile Reflection effect to an image.
-        /// </summary>
-        private void tileReflectionToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new TileReflectionForm(imageViewer1), false, false);
-        }
-
-        #endregion
-
-
-        #region FFT
-
-        #region Filtering
-
-        /// <summary>
-        /// Applies Ideal lowpass filter to an image.
-        /// </summary>
-        private void idealLowpassToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            PropertyGridConfigForm dlg = new PropertyGridConfigForm(imageViewer1, new IdealLowpassCommand());
-            dlg.IsPreviewAvailable = true;
-            ShowAndDisposeProcessingDialog(dlg, true, false);
-        }
-
-        /// <summary>
-        /// Applies Butterworth lowpass filter to an image.
-        /// </summary>
-        private void butterworthLowpassToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            PropertyGridConfigForm dlg = new PropertyGridConfigForm(imageViewer1, new ButterworthLowpassCommand());
-            dlg.IsPreviewAvailable = true;
-            ShowAndDisposeProcessingDialog(dlg, true, false);
-        }
-
-        /// <summary>
-        /// Applies Gaussian lowpass filter to an image.
-        /// </summary>
-        private void gaussianLowpassToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            PropertyGridConfigForm dlg = new PropertyGridConfigForm(imageViewer1, new GaussianLowpassCommand());
-            dlg.IsPreviewAvailable = true;
-            ShowAndDisposeProcessingDialog(dlg, true, false);
-        }
-
-        /// <summary>
-        /// Applies Ideal highpass filter to an image.
-        /// </summary>
-        private void idealHighPassToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            PropertyGridConfigForm dlg = new PropertyGridConfigForm(imageViewer1, new IdealHighpassCommand());
-            dlg.IsPreviewAvailable = true;
-            ShowAndDisposeProcessingDialog(dlg, true, false);
-        }
-
-        /// <summary>
-        /// Applies Butterworth highpass filter to an image.
-        /// </summary>
-        private void butterworthHighPassToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            PropertyGridConfigForm dlg = new PropertyGridConfigForm(imageViewer1, new ButterworthHighpassCommand());
-            dlg.IsPreviewAvailable = true;
-            ShowAndDisposeProcessingDialog(dlg, true, false);
-        }
-
-        /// <summary>
-        /// Applies Gaussian highpass filter to an image.
-        /// </summary>
-        private void gaussianHighpassToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            PropertyGridConfigForm dlg = new PropertyGridConfigForm(imageViewer1, new GaussianHighpassCommand());
-            dlg.IsPreviewAvailable = true;
-            ShowAndDisposeProcessingDialog(dlg, true, false);
-        }
-
-        #endregion
-
-
-        /// <summary>
-        /// Applies image smoothing filter to an image.
-        /// </summary>
-        private void imageSmoothingToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new ImageSmoothingForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Applies image sharpening filter to an image.
-        /// </summary>
-        private void imageSharpeningToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(new ImageSharpeningForm(imageViewer1));
-        }
-
-        /// <summary>
-        /// Visualizes image frequency spectrum.
-        /// </summary>
-        private void frequencySpectumVisualizerToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            ShowAndDisposeProcessingDialog(
-                new FrequencySpectrumVisualizerForm(imageViewer1), false, false);
-        }
-
-        #endregion
-
-
-        /// <summary>
-        /// Enables/disables the image processing in multiple threads.
-        /// </summary>
-        private void useMultithreadingToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
-        {
-            if (_imageProcessingCommandExecutor != null)
-                _imageProcessingCommandExecutor.ExecuteMultithread = useMultithreadingToolStripMenuItem.Checked;
-        }
-
-        /// <summary>
-        /// Enables/disables the expanding of image pixel format during image processing.
-        /// </summary>
-        private void expandPixelFormatToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
-        {
-            if (_imageProcessingCommandExecutor != null)
-                _imageProcessingCommandExecutor.ExpandSupportedPixelFormats = expandPixelFormatToolStripMenuItem.Checked;
-        }
-
-        /// <summary>
-        /// Loads clipping paths from metadata of current image.
-        /// </summary>
-        private void loadPathsFromMetadataToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.imageViewer1.Image != null)
-            {
-                MetadataNode metadata = this.imageViewer1.Image.Metadata.MetadataTree;
-
-                PhotoshopResourcesMetadata photoshopMetadata = metadata.FindChildNode<PhotoshopResourcesMetadata>();
-
-                bool pathsAreLoaded = false;
-                if (photoshopMetadata != null)
-                {
-                    int width = this.imageViewer1.Image.Width;
-                    int height = this.imageViewer1.Image.Height;
-
-                    GraphicsPath paths = new GraphicsPath();
-                    foreach (PhotoshopResource resource in photoshopMetadata.Resources)
-                    {
-                        if (resource is PhotoshopImagePathResource)
-                        {
-                            GraphicsPath path = ((PhotoshopImagePathResource)resource).GetPath(width, height);
-                            if (path.PointCount > 0)
-                                paths.AddPath(path, false);
-                        }
-                    }
-
-                    if (paths.PointCount > 0)
-                    {
-                        PathSelectionRegion selection = new PathSelectionRegion(paths);
-                        selection.InteractionController = selection.TransformInteractionController;
-                        CustomSelectionTool tool = new CustomSelectionTool();
-                        tool.Selection = selection;
-
-                        this.imageViewer1.VisualTool = tool;
-                        pathsAreLoaded = true;
-                    }
-                }
-
-                if (!pathsAreLoaded)
-                    DemosTools.ShowInfoMessage("No clipping paths found in metadata.");
-            }
-        }
-
-        #endregion
-
-
-        #region 'Tools' menu
-
-        /// <summary>
-        /// Shows a form with images animation.
-        /// </summary>
-        private void animationToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (ShowAnimationForm dlg = new ShowAnimationForm(imageViewer1.Images))
-            {
-                dlg.ShowDialog();
-            }
-        }
-
-        #endregion
-
-
-        #region 'Help' menu
-
-        /// <summary>
-        /// Shows the "About" dialog.
-        /// </summary>
-        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (AboutBoxForm dlg = new AboutBoxForm())
-            {
-                dlg.ShowDialog();
-            }
-        }
-
-        #endregion
-
-
-        #region SelectionTool's context menu
-
-        /// <summary>
-        /// Mouse up in image viewer.
-        /// </summary>
-        private void imageViewer1_MouseUp(object sender, MouseEventArgs e)
-        {
-            // if clicked right button then
-            if (e.Button == MouseButtons.Right && imageViewer1.Image != null)
-            {
-                CustomSelectionTool customSelectionTool = GetCustomSelectionTool(imageViewer1.VisualTool);
-                // if current tool has CustomSelectionTool
-                // and selection tool has selection
-                if (customSelectionTool != null && customSelectionTool.Selection != null)
-                {
-                    // if selection tool has selection then
-                    if (customSelectionTool.Selection != null)
-                    {
-                        // if clicks on selection then
-                        RectangleF rect = imageViewer1.RectangleToImage(new RectangleF(e.X, e.Y, 10, 10));
-                        if (customSelectionTool.Selection.IsPointOnObject(rect.X, rect.Y, rect.Width))
-                        {
-                            // show selection context menu
-                            _selectionContextMenuStripLocation = rect.Location;
-                            customSelectionToolContextMenuStrip.Show(imageViewer1, e.Location);
-                            return;
-                        }
-                    }
-                }
-                else
-                {
-                    RectangularSelectionTool rectangularSelectionTool = GetRectangularSelectionTool(imageViewer1.VisualTool);
-                    // if current tool has RectangularSelectionTool
-                    // and selection tool has selection
-                    if (rectangularSelectionTool != null && rectangularSelectionTool.Rectangle != RectangleF.Empty)
-                    {
-                        // if clicks on selection then
-                        RectangleF rect = imageViewer1.RectangleToImage(new RectangleF(e.X, e.Y, 10, 10));
-                        if (rectangularSelectionTool.Rectangle.IntersectsWith(new Rectangle((int)rect.X, (int)rect.Y, (int)rect.Width, (int)rect.Height)))
-                        {
-                            // show selection context menu
-                            _selectionContextMenuStripLocation = rect.Location;
-                            customSelectionToolContextMenuStrip.Show(imageViewer1, e.Location);
-                            return;
-                        }
-                    }
-                }
-
-                // show image viewer context menu
-                if (imageViewer1.VisualTool == null || !imageViewer1.VisualTool.DisableContextMenu)
-                    imageViewerMenuStrip.Show(imageViewer1, e.Location);
-            }
-        }
-
-        /// <summary>
-        /// Context menu of CustomSelectionTool is opening.
-        /// </summary>
-        private void selectionContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
-        {
-            // clear context menu
-            customSelectionToolContextMenuStrip.Items.Clear();
-
-            CustomSelectionTool customSelectionTool = GetCustomSelectionTool(imageViewer1.VisualTool);
-            RectangularSelectionTool rectangularSelectionTool = GetRectangularSelectionTool(imageViewer1.VisualTool);
-
-            // if current tool has CustomSelectionTool or RectangularSelectionTool then
-            if (customSelectionTool != null || rectangularSelectionTool != null)
-            {
-                // builds the selection context menu
-                ToolStripMenuItem copyPasteItem = new ToolStripMenuItem("Copy");
-                copyPasteItem.Click += new EventHandler(copyImageToolStripMenuItem_Click);
-                customSelectionToolContextMenuStrip.Items.Add(copyPasteItem);
-
-                copyPasteItem = new ToolStripMenuItem("Paste");
-                copyPasteItem.Click += new EventHandler(pasteImageToolStripMenuItem_Click);
-                customSelectionToolContextMenuStrip.Items.Add(copyPasteItem);
-
-                // if current tool has CustomSelectionTool then
-                if (customSelectionTool != null)
-                {
-                    ToolStripMenuItem transformersItem = new ToolStripMenuItem("Transformers");
-                    customSelectionToolContextMenuStrip.Items.Add(transformersItem);
-
-                    // if selection tool has selection then
-                    if (customSelectionTool.Selection != null)
-                    {
-                        // add "None" item to context menu - use selection without transformation
-                        AddItemToSelectionContextMenu("None", transformersItem.DropDownItems, null);
-
-                        if (customSelectionTool.Selection.BuildingInteractionController != null)
-                        {
-                            // add separator
-                            transformersItem.DropDownItems.Add(new ToolStripSeparator());
-                            // add building interaction controller of current selection to context menu
-                            AddItemToSelectionContextMenu("Building", transformersItem.DropDownItems, customSelectionTool.Selection.BuildingInteractionController);
-                        }
-
-                        // add separator
-                        transformersItem.DropDownItems.Add(new ToolStripSeparator());
-                        // foreach available transform interactions of current selection
-                        foreach (string name in customSelectionTool.Selection.AvailableTransformInteractionControllers.Keys)
-                            // add transform interaction controller to context menu
-                            AddItemToSelectionContextMenu(name, transformersItem.DropDownItems, customSelectionTool.Selection.AvailableTransformInteractionControllers[name]);
-
-                        // if current interaction controller is PointBasedObjectPointTransformer then
-                        if (customSelectionTool.Selection.InteractionController is PointBasedObjectPointTransformer)
-                        {
-                            // add separator
-                            customSelectionToolContextMenuStrip.Items.Add(new ToolStripSeparator());
-                            ToolStripMenuItem item;
-
-                            // selected points indexes
-                            int[] selectedIndexes = (customSelectionTool.Selection.InteractionController as PointBasedObjectPointTransformer).SelectedPointIndexes;
-                            if (selectedIndexes.Length > 0)
-                            {
-                                // add "Remove selected points" context menu item
-                                item = new ToolStripMenuItem("Remove selected points");
-                                item.Click += new EventHandler(removeSelectedPoints_Click);
-                                transformersItem.DropDownItems.Add(item);
-                            }
-
-                            // add "Add point" context menu item
-                            item = new ToolStripMenuItem("Add point");
-                            item.Click += new EventHandler(addPoint_Click);
-                            transformersItem.DropDownItems.Add(item);
-                        }
-                    }
-                }
-                e.Cancel = false;
-                return;
-            }
-            e.Cancel = true;
-        }
-
-
-        /// <summary>
-        /// Returns a <see cref="CustomSelectionTool"/> from composite visual tool.
-        /// </summary>
-        /// <param name="visualTool">A visual tool.</param>
-        /// <returns>
-        /// The <see cref="CustomSelectionTool"/>.
-        /// </returns>
-        private CustomSelectionTool GetCustomSelectionTool(VisualTool visualTool)
-        {
-            // if image viewer visual tool is custom selection tool
-            if (visualTool is CustomSelectionTool)
-                return (CustomSelectionTool)visualTool;
-
-            // if image viewer visual tool is composite tool
-            if (visualTool is CompositeVisualTool)
-            {
-                // get composite tool
-                CompositeVisualTool compositeTool = (CompositeVisualTool)visualTool;
-                // for each visual tool
-                foreach (VisualTool tool in compositeTool)
-                {
-                    VisualTool selectionTool = GetCustomSelectionTool(tool);
-                    if (selectionTool != null)
-                        return (CustomSelectionTool)selectionTool;
-                }
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Returns a <see cref="RectangularSelectionToolWithCopyPaste"/> from composite visual tool.
-        /// </summary>
-        /// <param name="visualTool">A visual tool.</param>
-        /// <returns>
-        /// The <see cref="RectangularSelectionToolWithCopyPaste"/>.
-        /// </returns>
-        private RectangularSelectionToolWithCopyPaste GetRectangularSelectionTool(VisualTool visualTool)
-        {
-            // if image viewer visual tool is custom selection tool
-            if (visualTool is RectangularSelectionToolWithCopyPaste)
-                return (RectangularSelectionToolWithCopyPaste)visualTool;
-
-            // if image viewer visual tool is composite tool
-            if (visualTool is CompositeVisualTool)
-            {
-                // get composite tool
-                CompositeVisualTool compositeTool = (CompositeVisualTool)visualTool;
-                // for each visual tool
-                foreach (VisualTool tool in compositeTool)
-                {
-                    VisualTool selectionTool = GetRectangularSelectionTool(tool);
-                    if (selectionTool != null)
-                        return (RectangularSelectionToolWithCopyPaste)selectionTool;
-                }
-            }
-
-            return null;
-        }
-
-        /// <summary>
-        /// Adds new item to the context menu of CustomSelectionTool.
-        /// </summary>
-        /// <param name="name">Item name.</param>
-        /// <param name="items">Item collection.</param>
-        /// <param name="interactionController">Interaction controller.</param>
-        private void AddItemToSelectionContextMenu(string name, ToolStripItemCollection items, IInteractionController interactionController)
-        {
-            ToolStripMenuItem item = new ToolStripMenuItem(name);
-            item.Tag = interactionController;
-            item.Click += new EventHandler(selectionContextMenuStrip_changeInteractionController);
-            items.Add(item);
-        }
-
-        /// <summary>
-        /// Changes a current interaction controller of selection area.
-        /// </summary>
-        private void selectionContextMenuStrip_changeInteractionController(object sender, EventArgs e)
-        {
-            // if current tool is CustomSelectionTool then
-            if (imageViewer1.VisualTool is CustomSelectionTool)
-            {
-                CustomSelectionTool selectionTool = (CustomSelectionTool)imageViewer1.VisualTool;
-                // if selection tool has selection then
-                if (selectionTool.Selection != null)
-                {
-                    // gets an interaction controller of this context menu item
-                    IInteractionController interactionController = ((IInteractionController)((ToolStripMenuItem)sender).Tag);
-                    // if interaction controller is BuildingInteractionController then
-                    if (interactionController == selectionTool.Selection.BuildingInteractionController)
-                    {
-                        // start or continue building of current selection
-                        selectionTool.BeginBuilding();
-                    }
-                    else
-                    {
-                        // change transform interaction controller of current selection
-                        selectionTool.Selection.TransformInteractionController = interactionController;
-                        if (selectionTool.Selection.InteractionController != selectionTool.Selection.TransformInteractionController)
-                            selectionTool.Selection.InteractionController = selectionTool.Selection.TransformInteractionController;
-                    }
-                }
-            }
-        }
-
-        /// <summary>
-        /// Event handler for "Remove selected points" item from the context menu of CustomSelectionTool.
-        /// </summary>
-        private void removeSelectedPoints_Click(object sender, EventArgs e)
-        {
-            CustomSelectionTool selectionTool = (CustomSelectionTool)imageViewer1.VisualTool;
-            // gets the PointBasedObjectPointTransformer of current selection
-            PointBasedObjectPointTransformer controller = (PointBasedObjectPointTransformer)selectionTool.Selection.InteractionController;
-
-            try
-            {
-                // remove selected points
-                controller.RemovePoints(controller.SelectedPointIndexes);
-            }
-            catch (Exception ex)
-            {
-                DemosTools.ShowErrorMessage(ex);
-            }
-        }
-
-        /// <summary>
-        /// Event handler for "Add point" item from the context menu of CustomSelectionTool.
-        /// </summary>
-        private void addPoint_Click(object sender, EventArgs e)
-        {
-            CustomSelectionTool selectionTool = (CustomSelectionTool)imageViewer1.VisualTool;
-            // gets the PointBasedObjectPointTransformer of current selection
-            PointBasedObjectPointTransformer controller = (PointBasedObjectPointTransformer)selectionTool.Selection.InteractionController;
-
-            try
-            {
-                // add point to current selection
-                controller.InsertPoint(_selectionContextMenuStripLocation);
-            }
-            catch (Exception ex)
-            {
-                DemosTools.ShowErrorMessage(ex);
-            }
-        }
-
-        #endregion
-
-
-        #region Image viewer
-
-        /// <summary>
-        /// Image is loading in image viewer.
-        /// </summary>
-        private void imageViewer1_ImageLoading(object sender, ImageLoadingEventArgs e)
-        {
-            _imageLoadingStartTime = DateTime.Now;
-            _imageLoadingTime = TimeSpan.Zero;
-
-            imageLoadingStatusLabel.Visible = true;
-            imageLoadingProgressBar.Visible = true;
-        }
-
-        /// <summary>
-        /// Loading of image in image viewer is in progress.
-        /// </summary>
-        private void imageViewer1_ImageLoadingProgress(object sender, ProgressEventArgs e)
-        {
-            if (_isFormClosing)
-            {
-                e.Cancel = true;
-                return;
-            }
-
-            imageLoadingProgressBar.Value = e.Progress;
-        }
-
-        /// <summary>
-        /// Image is loaded in image viewer.
-        /// </summary>
-        private void imageViewer1_ImageLoaded(object sender, ImageLoadedEventArgs e)
-        {
-            if (_isFormClosing)
-                _isFileDialogOpened = false;
-            else
-                _imageLoadingTime = DateTime.Now.Subtract(_imageLoadingStartTime);
-
-            imageLoadingStatusLabel.Visible = false;
-            imageLoadingProgressBar.Visible = false;
-
-            this.IsImageLoaded = true;
-
-            if (editImagePixelsToolStripMenuItem.Checked && !imageViewer1.IsEntireImageLoaded)
-                editImagePixelsToolStripMenuItem.Checked = false;
-        }
-
-        /// <summary>
-        /// Image is not loaded because of error.
-        /// </summary>
-        private void imageViewer1_ImageLoadingException(object sender, ExceptionEventArgs e)
-        {
-            imageLoadingStatusLabel.Visible = false;
-            imageLoadingProgressBar.Visible = false;
-        }
-
-
-        /// <summary>
-        /// Image is changed in image viewer.
-        /// </summary>
-        private void imageViewer1_ImageChanged(object sender, ImageChangedEventArgs e)
-        {
-            this.IsImageLoaded = true;
-        }
-
-        /// <summary>
-        /// Image is reloaded in image viewer.
-        /// </summary>
-        private void imageViewer1_ImageReloaded(object sender, ImageReloadEventArgs e)
-        {
-            this.IsImageLoaded = true;
-        }
-
-
-        /// <summary>
-        /// Index of focused image in viewer is changing.
-        /// </summary>
-        private void imageViewer1_FocusedIndexChanging(object sender, FocusedIndexChangedEventArgs e)
-        {
-            if (_isFormClosing)
-                return;
-        }
-
-        /// <summary>
-        /// Index of focused image in viewer is changed.
-        /// </summary>
-        private void imageViewer1_FocusedIndexChanged(object sender, FocusedIndexChangedEventArgs e)
-        {
-            if (_isFormClosing)
-                return;
-
-            viewerToolStrip.SelectedPageIndex = e.FocusedIndex;
-
-            if (_directPixelAccessForm != null)
-                _directPixelAccessForm.SelectPixel(-1, -1);
-        }
-
-
-        /// <summary>
-        /// Insert key is pressed in image viewer.
-        /// </summary>
-        private void imageViewer1_InsertKeyPressed(object sender, KeyEventArgs e)
-        {
-            InsertKeyPressed();
-        }
-
-        /// <summary>
-        /// Visual tool of image viewer is changed.
-        /// </summary>
-        private void imageViewer1_VisualToolChanged(object sender, VisualToolChangedEventArgs e)
-        {
-            if (_isVisualToolChanging)
-                return;
-
-            if (_imageMapTool.Enabled)
-            {
-                _isVisualToolChanging = true;
-                if (e.VisualTool != null)
-                {
-                    if (!ContainsTool(e.VisualTool as CompositeVisualTool, _imageMapTool) &&
-                        e.VisualTool != _imageMapTool)
-                    {
-                        imageViewer1.VisualTool = new CompositeVisualTool(_imageMapTool, e.VisualTool);
-                    }
-                }
-                else
-                    imageViewer1.VisualTool = _imageMapTool;
-                _isVisualToolChanging = false;
-            }
-        }
-
-        /// <summary>
-        /// Determines that visual tool is a child tool of the <see cref="CompositeVisualTool"/>.
-        /// </summary>
-        /// <param name="compositeVisualTool">The composite visual tool.</param>
-        /// <param name="visualTool">The visual tool to check.</param>
-        /// <returns>
-        /// <b>true</b> if specified visual tool is a child tool of the composite visual tool;
-        /// <b>false</b> if specified visual tool is not a child tool of the composite visual tool.
-        /// </returns>
-        private bool ContainsTool(CompositeVisualTool compositeVisualTool, VisualTool visualTool)
-        {
-            if (compositeVisualTool != null)
-            {
-                foreach (VisualTool tool in compositeVisualTool)
-                {
-                    if (tool == visualTool ||
-                        ContainsTool(tool as CompositeVisualTool, visualTool))
-                        return true;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// Zoom is changed in image viewer.
-        /// </summary>
-        private void imageViewer1_ZoomChanged(object sender, ZoomChangedEventArgs e)
-        {
-            _imageScaleSelectedMenuItem.Checked = false;
-            switch (imageViewer1.SizeMode)
-            {
-                case ImageSizeMode.BestFit:
-                    _imageScaleSelectedMenuItem = bestFitToolStripMenuItem;
-                    break;
-                case ImageSizeMode.FitToHeight:
-                    _imageScaleSelectedMenuItem = fitToHeightToolStripMenuItem;
-                    break;
-                case ImageSizeMode.FitToWidth:
-                    _imageScaleSelectedMenuItem = fitToWidthToolStripMenuItem;
-                    break;
-                case ImageSizeMode.Normal:
-                    _imageScaleSelectedMenuItem = normalImageToolStripMenuItem;
-                    break;
-                case ImageSizeMode.PixelToPixel:
-                    _imageScaleSelectedMenuItem = pixelToPixelToolStripMenuItem;
-                    break;
-                case ImageSizeMode.Zoom:
-                    _imageScaleSelectedMenuItem = scaleToolStripMenuItem;
-                    break;
-            }
-            _imageScaleSelectedMenuItem.Checked = true;
-        }
-
-        #endregion
-
-
-        #region Thumbnail viewer
-
-        /// <summary>
-        /// Loading of thumbnails is in progress.
-        /// </summary>
-        private void thumbnailViewer1_ThumbnailsLoadingProgress(object sender, ThumbnailsLoadingProgressEventArgs e)
-        {
-            bool isProgressVisible = e.Progress != 100;
-            loadingThumbnailsProgressBar.Value = e.Progress;
-            addingThumbnailsStatusLabel.Visible = isProgressVisible;
-            loadingThumbnailsProgressBar.Visible = isProgressVisible;
-        }
-
-
-        /// <summary>
-        /// Insert key is pressed in thumbnail viewer.
-        /// </summary>
-        private void thumbnailViewer1_InsertKeyPressed(object sender, KeyEventArgs e)
-        {
-            InsertKeyPressed();
-        }
-
-        /// <summary>
-        /// Sets the ToolTip of hovered thumbnail.
-        /// </summary>
-        private void thumbnailViewer1_HoveredThumbnailChanged(object sender, ThumbnailEventArgs e)
-        {
-            if (e.Thumbnail != null)
-            {
-                try
-                {
-                    // get information about hovered image in thumbnail viewer
-                    ImageSourceInfo imageSourceInfo = e.Thumbnail.Source.SourceInfo;
-                    string filename = null;
-
-                    // if image loaded from file
-                    if (imageSourceInfo.SourceType == ImageSourceType.File)
-                    {
-                        // get image file name
-                        filename = Path.GetFileName(imageSourceInfo.Filename);
-                    }
-                    // if image loaded from stream
-                    else if (imageSourceInfo.SourceType == ImageSourceType.Stream)
-                    {
-                        // if stream is file stream
-                        if (imageSourceInfo.Stream is FileStream)
-                            // get image file name
-                            filename = Path.GetFileName(((FileStream)imageSourceInfo.Stream).Name);
-                    }
-                    // if image is new image
-                    else
-                    {
-                        filename = "Bitmap";
-                    }
-
-                    // if image is multipage image
-                    if (imageSourceInfo.PageCount > 1)
-                        e.Thumbnail.ToolTip = string.Format("{0}, page {1}", filename, imageSourceInfo.PageIndex + 1);
-                    else
-                        e.Thumbnail.ToolTip = filename;
-                }
-                catch
-                {
-                    e.Thumbnail.ToolTip = "";
-                }
-            }
         }
 
         #endregion
@@ -3502,9 +3762,9 @@ namespace ImagingDemo
         /// adds stream of image file to the image collection of image viewer - this allows
         /// to save modified multipage image files back to the source.
         /// </summary>
+        /// <param name="filename">Opening file name.</param>
         private void OpenFile(string filename)
         {
-            //
             _sourceFilename = Path.GetFullPath(filename);
 
             Stream sourceStream = null;
@@ -3533,7 +3793,7 @@ namespace ImagingDemo
             }
 
             IsImageOpening = true;
-            //
+
             imageViewer1.Images.Add(_sourceFilename, _sourceStreamIsReadOnly);
             _sourceDecoderName = imageViewer1.Images[0].SourceInfo.DecoderName;
             _areImagesChanged = false;
@@ -3553,16 +3813,16 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Waits while image saving and/or processing will be finished.
+        /// Waits until image saving and/or processing is completed.
         /// </summary>
-        private void WaitWhileSavingAndProcessingIsFinished()
+        private void WaitUntilSavingAndProcessingIsFinished()
         {
             // if image collection is saving at the moment
             if (this.IsImageSaving)
             {
                 // send signal that saving must be canceled
                 _cancelImageSaving = true;
-                // wait while saving is canceled/finished
+                // wait until saving is canceled/finished
                 while (this.IsImageSaving)
                 {
                     Thread.Sleep(5);
@@ -3581,30 +3841,10 @@ namespace ImagingDemo
         #endregion
 
 
-        #region Image collection
-
-        /// <summary>
-        /// Image collection of image viewer is changed.
-        /// </summary>
-        private void Images_CollectionChanged(object sender, ImageCollectionChangeEventArgs e)
-        {
-            if (imageViewer1.Images.Count == 0)
-                _isImageLoaded = false;
-
-            if (!IsImageOpening)
-                _areImagesChanged = true;
-
-            // update the UI
-            UpdateUI();
-        }
-
-        #endregion
-
-
         #region Image info
 
         /// <summary>
-        /// Updates information about focused image.
+        /// Updates information about the focused image.
         /// </summary>
         private void UpdateImageInfo()
         {
@@ -3645,7 +3885,7 @@ namespace ImagingDemo
                 else
                     sizeInfo = (mpx / 1000f).ToString("F2", CultureInfo.InvariantCulture) + "GPx";
 
-                // show information about the current image
+                // show information about current image
                 imageInfoLabel.Text = string.Format("{0}{1}{2} Codec={8}; Size={3}x{4} ({5}); PixelFormat={6}; Resolution={7}",
                     sChanged, sImageLoadingTime, sImageLoadingError, image.Width, image.Height,
                     sizeInfo,
@@ -3708,32 +3948,15 @@ namespace ImagingDemo
         #endregion
 
 
-        #region Print image(s)
-
-        /// <summary>
-        /// Shows a page settings dialog.
-        /// </summary>
-        private void pageSettingsToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            pageSetupDialog1.ShowDialog();
-        }
-
-        /// <summary>
-        /// Prints the image(s).
-        /// </summary>
-        private void printToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            _thumbnailViewerPrintManager.Print();
-        }
-
-        #endregion
-
-
         #region Save image(s)
 
         /// <summary>
         /// Saves a single image.
         /// </summary>
+        /// <param name="image">Image to save.</param>
+        /// <param name="filename">The name of the file in which the image will be saved.</param>
+        /// <param name="encoder">Encoder that is used to save the image.</param>
+        /// <returns>Saving result.</returns>
         private bool SaveSingleImage(
             VintasoftImage image,
             string filename,
@@ -3741,7 +3964,6 @@ namespace ImagingDemo
         {
             bool result = true;
 
-            //
             this.IsImageSaving = true;
 
             // save image to file and do not switch source
@@ -3750,7 +3972,7 @@ namespace ImagingDemo
             try
             {
                 // save image synchronously
-                image.Save(filename, encoder, Images_ImageSavingProgress);
+                image.Save(filename, encoder, images_ImageSavingProgress);
             }
             catch (Exception ex)
             {
@@ -3767,6 +3989,11 @@ namespace ImagingDemo
         /// <summary>
         /// Saves an image collection.
         /// </summary>
+        /// <param name="images">Image collection to save.</param>
+        /// <param name="filename">The name of the file in which the images will be saved.</param>
+        /// <param name="encoder">Encoder that is used to save images.</param>
+        /// <param name="saveAndSwitchSource">A value indicating whether to switch to the source after saving.</param>
+        /// <returns>Saving result.</returns>
         private bool SaveImageCollection(
             ImageCollection images,
             string filename,
@@ -3777,19 +4004,16 @@ namespace ImagingDemo
 
             bool result = true;
 
-            //
             this.IsImageSaving = true;
 
-            //
             RenderingSettingsForm.SetRenderingSettingsIfNeed(images, encoder, imageViewer1.ImageRenderingSettings);
 
             // subscribe to the events
-            images.ImageCollectionSavingProgress += new EventHandler<ProgressEventArgs>(Images_ImageCollectionSavingProgress);
-            images.ImageSavingProgress += new EventHandler<ProgressEventArgs>(Images_ImageSavingProgress);
-            images.ImageSavingException += new EventHandler<ExceptionEventArgs>(Images_ImageSavingException);
+            images.ImageCollectionSavingProgress += new EventHandler<ProgressEventArgs>(images_ImageCollectionSavingProgress);
+            images.ImageSavingProgress += new EventHandler<ProgressEventArgs>(images_ImageSavingProgress);
+            images.ImageSavingException += new EventHandler<ExceptionEventArgs>(images_ImageSavingException);
             images.ImageCollectionSavingFinished += new EventHandler(images_ImageCollectionSavingFinished);
 
-            //
             if (saveAndSwitchSource)
             {
                 _saveFilename = filename;
@@ -3824,9 +4048,11 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Image from image collection is saved.
+        /// Handler of the ImageCollection.ImageCollectionSavingProgress event.
         /// </summary>
-        private void Images_ImageCollectionSavingProgress(object sender, ProgressEventArgs e)
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ProgressEventArgs"/> instance containing the event data.</param>
+        private void images_ImageCollectionSavingProgress(object sender, ProgressEventArgs e)
         {
             // if saving of image must be canceled (application is closing OR new image is opening)
             if (_cancelImageSaving)
@@ -3840,17 +4066,22 @@ namespace ImagingDemo
                 }
             }
 
-            //
             if (InvokeRequired)
+            {
                 Invoke(new UpdateImageCollectionSavingProgressMethod(UpdateImageCollectionSavingProgress), e);
+            }
             else
+            {
                 UpdateImageCollectionSavingProgress(e);
+            }
         }
 
         /// <summary>
-        /// Image saving is in progress.
+        /// Handler of the ImageCollection.ImageSavingProgress and VintasoftImage.ImageSavingProgress events.
         /// </summary>
-        private void Images_ImageSavingProgress(object sender, ProgressEventArgs e)
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ProgressEventArgs"/> instance containing the event data.</param>
+        private void images_ImageSavingProgress(object sender, ProgressEventArgs e)
         {
             // if saving of image must be canceled (application is closing OR new image is opening)
             if (_cancelImageSaving)
@@ -3861,9 +4092,10 @@ namespace ImagingDemo
                     e.Cancel = _cancelImageSaving;
             }
 
-            //
             if (InvokeRequired)
+            {
                 Invoke(new UpdateImageSavingProgressMethod(UpdateImageSavingProgress), e);
+            }
             else
             {
                 UpdateImageSavingProgress(e);
@@ -3872,9 +4104,11 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Image collection is NOT saved because of error.
+        /// Handler of the ImageCollection.ImageSavingException event.
         /// </summary>
-        private void Images_ImageSavingException(object sender, ExceptionEventArgs e)
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ExceptionEventArgs"/> instance containing the event data.</param>
+        private void images_ImageSavingException(object sender, ExceptionEventArgs e)
         {
             // do not show error message if application is closing
             if (!_isFormClosing)
@@ -3882,21 +4116,22 @@ namespace ImagingDemo
 
             _saveFilename = null;
 
-            //
             this.IsImageSaving = false;
         }
 
         /// <summary>
-        /// Image saving is in-progress.
+        /// Handler of the ImageCollection.ImageCollectionSavingFinished event.
         /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void images_ImageCollectionSavingFinished(object sender, EventArgs e)
         {
             ImageCollection images = (ImageCollection)sender;
 
             // unsubscribe from the events
-            images.ImageCollectionSavingProgress -= new EventHandler<ProgressEventArgs>(Images_ImageCollectionSavingProgress);
-            images.ImageSavingProgress -= new EventHandler<ProgressEventArgs>(Images_ImageSavingProgress);
-            images.ImageSavingException -= new EventHandler<ExceptionEventArgs>(Images_ImageSavingException);
+            images.ImageCollectionSavingProgress -= new EventHandler<ProgressEventArgs>(images_ImageCollectionSavingProgress);
+            images.ImageSavingProgress -= new EventHandler<ProgressEventArgs>(images_ImageSavingProgress);
+            images.ImageSavingException -= new EventHandler<ExceptionEventArgs>(images_ImageSavingException);
             images.ImageCollectionSavingFinished -= new EventHandler(images_ImageCollectionSavingFinished);
 
             // if image collection saved to the source OR
@@ -3911,13 +4146,14 @@ namespace ImagingDemo
                 _encoderName = null;
             }
 
-            // saving of images is finished successfully
+            // saving images completed successfully
             this.IsImageSaving = false;
         }
 
         /// <summary>
-        /// Updates status about image collection saving. Thread safe.
+        /// Updates the status about image collection saving. Thread safe.
         /// </summary>
+        /// <param name="e">The <see cref="ProgressEventArgs"/> instance containing the event data.</param>
         private void UpdateImageCollectionSavingProgress(ProgressEventArgs e)
         {
             imageCollectionSavingProgressBar.Value = e.Progress;
@@ -3930,6 +4166,7 @@ namespace ImagingDemo
         /// <summary>
         /// Updates status of image saving. Thread safe.
         /// </summary>
+        /// <param name="e">The <see cref="ProgressEventArgs"/> instance containing the event data.</param>
         private void UpdateImageSavingProgress(ProgressEventArgs e)
         {
             imageSavingProgressBar.Value = e.Progress;
@@ -4006,6 +4243,7 @@ namespace ImagingDemo
         /// <summary>
         /// Inverts the color channel of the image.
         /// </summary>
+        /// <param name="color">The channel color.</param>
         private void InvertColorChannel(Color color)
         {
             ColorBlendCommand command = new ColorBlendCommand(BlendingMode.Difference, color);
@@ -4015,6 +4253,9 @@ namespace ImagingDemo
         /// <summary>
         /// Extracts color channels of the image.
         /// </summary>
+        /// <param name="rMask">Red channel mask.</param>
+        /// <param name="gMask">Green channel mask.</param>
+        /// <param name="bMask">Blue channel mask.</param>
         private void ExtractColorChannels(int rMask, int gMask, int bMask)
         {
             Color blendingColor = Color.FromArgb(rMask, gMask, bMask);
@@ -4022,23 +4263,16 @@ namespace ImagingDemo
             _imageProcessingCommandExecutor.ExecuteProcessingCommand(command);
         }
 
-
-        private void colorNoiseClearCommandToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-#if !REMOVE_DOCCLEANUP_PLUGIN
-            ShowAndDisposeProcessingDialog(new ColorNoiseClearForm(imageViewer1));
-#endif
-        }
-
-
         /// <summary>
-        /// Image processing is started.
+        /// Handler of the ImageProcessingCommandExecutor.ImageProcessingCommandStarted event.
         /// </summary>
-        private void _imageProcessingCommandExecutor_ImageProcessingCommandStarted(object sender, ImageProcessingEventArgs e)
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ImageProcessingEventArgs"/> instance containing the event data.</param>
+        private void imageProcessingCommandExecutor_ImageProcessingCommandStarted(object sender, ImageProcessingEventArgs e)
         {
             if (this.InvokeRequired)
             {
-                this.Invoke(new ImageProcessingEventHandlerDelegate(_imageProcessingCommandExecutor_ImageProcessingCommandStarted), sender, e);
+                this.Invoke(new ImageProcessingEventHandlerDelegate(imageProcessingCommandExecutor_ImageProcessingCommandStarted), sender, e);
             }
             else
             {
@@ -4048,20 +4282,22 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Image processing is in progress.
+        /// Handler of the ImageProcessingCommandExecutor.ImageProcessingCommandProgress event.
         /// </summary>
-        private void _imageProcessingCommandExecutor_ImageProcessingCommandProgress(object sender, ImageProcessingProgressEventArgs e)
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ImageProcessingProgressEventArgs"/> instance containing the event data.</param>
+        private void imageProcessingCommandExecutor_ImageProcessingCommandProgress(object sender, ImageProcessingProgressEventArgs e)
         {
             if (e.Progress == 100)
             {
-                _isEscPressed = false;
+                _isEscKeyPressed = false;
             }
             else if (e.CanCancel)
             {
-                if (_isEscPressed || _isFormClosing)
+                if (_isEscKeyPressed || _isFormClosing)
                 {
                     e.Cancel = true;
-                    _isEscPressed = false;
+                    _isEscKeyPressed = false;
                 }
             }
 
@@ -4072,13 +4308,15 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Image processing is finished.
+        /// Handler of the ImageProcessingCommandExecutor.ImageProcessingCommandFinished event.
         /// </summary>
-        private void _imageProcessingCommandExecutor_ImageProcessingCommandFinished(object sender, ImageProcessedEventArgs e)
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ImageProcessedEventArgs"/> instance containing the event data.</param>
+        private void imageProcessingCommandExecutor_ImageProcessingCommandFinished(object sender, ImageProcessedEventArgs e)
         {
             if (this.InvokeRequired)
             {
-                this.Invoke(new ImageProcessedEventHandlerDelegate(_imageProcessingCommandExecutor_ImageProcessingCommandFinished), sender, e);
+                this.Invoke(new ImageProcessedEventHandlerDelegate(imageProcessingCommandExecutor_ImageProcessingCommandFinished), sender, e);
             }
             else
             {
@@ -4087,10 +4325,11 @@ namespace ImagingDemo
             }
         }
 
-
         /// <summary>
         /// Updates the "Image processing" progress info. Thread safe.
         /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ImageProcessingProgressEventArgs"/> instance containing the event data.</param>
         private void UpdateImageProcessingProgress(object sender, ImageProcessingProgressEventArgs e)
         {
             if (e.Progress == 100)
@@ -4130,7 +4369,7 @@ namespace ImagingDemo
         /// </returns>
         private bool HasCustomSelection()
         {
-            CustomSelectionTool customSelectionTool = GetCustomSelectionTool(imageViewer1.VisualTool);
+            CustomSelectionTool customSelectionTool = CompositeVisualTool.FindVisualTool<CustomSelectionTool>(imageViewer1.VisualTool);
             if (customSelectionTool != null)
             {
                 if (customSelectionTool.Selection != null)
@@ -4147,7 +4386,7 @@ namespace ImagingDemo
         /// </returns>
         private bool HasRectangularSelection()
         {
-            RectangularSelectionTool rectangularSelectionTool = GetRectangularSelectionTool(imageViewer1.VisualTool);
+            RectangularSelectionTool rectangularSelectionTool = CompositeVisualTool.FindVisualTool<RectangularSelectionToolWithCopyPaste>(imageViewer1.VisualTool);
             if (rectangularSelectionTool != null)
             {
                 if (rectangularSelectionTool.Rectangle != Rectangle.Empty)
@@ -4206,18 +4445,16 @@ namespace ImagingDemo
         /// </summary>
         private void CopyImageFromCustomSelection()
         {
-            // get custom selection tool
-            CustomSelectionTool customSelectionTool = GetCustomSelectionTool(imageViewer1.VisualTool);
-            // if custom selection tool exists
-            if (customSelectionTool != null)
+            // if current tool contains custom selection tool with selection
+            if (HasCustomSelection())
             {
                 try
                 {
-                    // get custom selection
-                    SelectionRegionBase selection = customSelectionTool.Selection;
-                    if (selection == null)
-                        return;
+                    // get custom selection tool
+                    CustomSelectionTool customSelectionTool = CompositeVisualTool.FindVisualTool<CustomSelectionTool>(imageViewer1.VisualTool);
 
+                    // get selection
+                    SelectionRegionBase selection = customSelectionTool.Selection;
                     // get selection as graphics path
                     GraphicsPath path = selection.GetAsGraphicsPath();
                     // get bounding box
@@ -4270,8 +4507,7 @@ namespace ImagingDemo
         private void CopyImageFromRectangularSelection()
         {
             // get rectangular selection tool
-            RectangularSelectionToolWithCopyPaste rectSelectionTool =
-                ((RectangularSelectionToolWithCopyPaste)GetRectangularSelectionTool(imageViewer1.VisualTool));
+            RectangularSelectionToolWithCopyPaste rectSelectionTool = CompositeVisualTool.FindVisualTool<RectangularSelectionToolWithCopyPaste>(imageViewer1.VisualTool);
             // if rectangular selection tool exists
             if (rectSelectionTool != null)
             {
@@ -4362,10 +4598,8 @@ namespace ImagingDemo
             if (!Clipboard.ContainsImage())
                 return;
 
-            // get custom selection tool
-            CustomSelectionTool customSelectionTool = GetCustomSelectionTool(imageViewer1.VisualTool);
-            // if custom selection tool is not empty
-            if (customSelectionTool != null)
+            // if current tool contains custom selection tool with selection
+            if (HasCustomSelection())
             {
                 try
                 {
@@ -4374,11 +4608,11 @@ namespace ImagingDemo
                     if (source == null)
                         return;
 
+                    // get custom selection tool
+                    CustomSelectionTool customSelectionTool = CompositeVisualTool.FindVisualTool<CustomSelectionTool>(imageViewer1.VisualTool);
+
                     // get selection
                     SelectionRegionBase selection = customSelectionTool.Selection;
-                    if (selection == null)
-                        return;
-
                     // get region to paste
                     RectangleF rect = selection.GetBoundingBox();
                     int left = (int)Math.Floor(rect.Left);
@@ -4446,8 +4680,7 @@ namespace ImagingDemo
                 return;
 
             // get rectangular selection tool
-            RectangularSelectionToolWithCopyPaste rectSelectionTool =
-                ((RectangularSelectionToolWithCopyPaste)GetRectangularSelectionTool(imageViewer1.VisualTool));
+            RectangularSelectionToolWithCopyPaste rectSelectionTool = CompositeVisualTool.FindVisualTool<RectangularSelectionToolWithCopyPaste>(imageViewer1.VisualTool);
             // if rectangular selection tool exists
             if (rectSelectionTool != null)
             {
@@ -4551,7 +4784,7 @@ namespace ImagingDemo
         /// <summary>
         /// Updates the UI action item in "Edit" menu.
         /// </summary>
-        /// <param name="menuItem">The "Edit" menu item.</param>
+        /// <param name="editMenuItem">The "Edit" menu item.</param>
         /// <param name="uiAction">The UI action, which is associated with the "Edit" menu item.</param>
         /// <param name="defaultText">The default text for the "Edit" menu item.</param>
         private void UpdateEditUIActionMenuItem(ToolStripMenuItem editMenuItem, UIAction uiAction, string defaultText)
@@ -4602,8 +4835,8 @@ namespace ImagingDemo
             _undoManager.DataStorage = _dataStorage;
             _undoManager.IsEnabled = enableUndoRedoToolStripMenuItem.Checked;
 
-            _undoManager.Changed += new EventHandler<UndoManagerChangedEventArgs>(HistoryManager_Changed);
-            _undoManager.Navigated += new EventHandler<UndoManagerNavigatedEventArgs>(HistoryManager_Navigated);
+            _undoManager.Changed += new EventHandler<UndoManagerChangedEventArgs>(undoManager_Changed);
+            _undoManager.Navigated += new EventHandler<UndoManagerNavigatedEventArgs>(undoManager_Navigated);
 
             _imageProcessingCommandExecutor.UndoManager = _undoManager;
 
@@ -4628,16 +4861,18 @@ namespace ImagingDemo
             if (_imageViewerUndoMonitor != null)
                 _imageViewerUndoMonitor.Dispose();
 
-            _undoManager.Changed -= HistoryManager_Changed;
-            _undoManager.Navigated -= HistoryManager_Navigated;
+            _undoManager.Changed -= undoManager_Changed;
+            _undoManager.Navigated -= undoManager_Navigated;
             _undoManager.Dispose();
             _undoManager = null;
         }
 
         /// <summary>
-        /// Current history manager is changed.
+        /// Handler of the UndoManager.Changed event.
         /// </summary>
-        private void HistoryManager_Changed(object sender, UndoManagerChangedEventArgs e)
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="UndoManagerChangedEventArgs"/> instance containing the event data.</param>
+        private void undoManager_Changed(object sender, UndoManagerChangedEventArgs e)
         {
             if (InvokeRequired)
                 Invoke(new UpdateUndoRedoMenuDelegate(UpdateUndoRedoMenu), sender);
@@ -4646,9 +4881,11 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Current action in history of current history manager is changed.
+        /// Handler of the UndoManager.Navigated event.
         /// </summary>
-        private void HistoryManager_Navigated(object sender, UndoManagerNavigatedEventArgs e)
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="UndoManagerNavigatedEventArgs"/> instance containing the event data.</param>
+        private void undoManager_Navigated(object sender, UndoManagerNavigatedEventArgs e)
         {
             if (InvokeRequired)
                 Invoke(new UpdateUndoRedoMenuDelegate(UpdateUndoRedoMenu), sender);
@@ -4659,6 +4896,7 @@ namespace ImagingDemo
         /// <summary>
         /// Updates the "Undo/Redo" menu.
         /// </summary>
+        /// <param name="undoManager">The undo manager.</param>
         private void UpdateUndoRedoMenu(UndoManager undoManager)
         {
             if (!undoManager.IsEnabled)
@@ -4690,7 +4928,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Shows the form of image processing history.
+        /// Shows the form with image processing history.
         /// </summary>
         private void ShowHistoryForm()
         {
@@ -4698,12 +4936,12 @@ namespace ImagingDemo
                 return;
 
             _historyForm = new UndoManagerHistoryForm(this, _undoManager);
-            _historyForm.FormClosed += new FormClosedEventHandler(HistoryForm_FormClosed);
+            _historyForm.FormClosed += new FormClosedEventHandler(historyForm_FormClosed);
             _historyForm.Show();
         }
 
         /// <summary>
-        /// Closes the form of image processing history.
+        /// Closes the form with image processing history.
         /// </summary>
         private void CloseHistoryForm()
         {
@@ -4715,9 +4953,11 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Image processing history form is closed.
+        /// Handler of the UndoManagerHistoryForm.FormClosed event.
         /// </summary>
-        private void HistoryForm_FormClosed(object sender, FormClosedEventArgs e)
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="FormClosedEventArgs"/> instance containing the event data.</param>
+        private void historyForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             historyDialogToolStripMenuItem.Checked = false;
             _historyForm = null;
@@ -4729,7 +4969,7 @@ namespace ImagingDemo
         #region Access to image pixels
 
         /// <summary>
-        /// Opens a form for direct access to the image pixels.
+        /// Opens the form for direct access to image pixels.
         /// </summary>
         private void OpenDirectPixelAccessForm()
         {
@@ -4737,32 +4977,151 @@ namespace ImagingDemo
             {
                 _directPixelAccessForm = new DirectPixelAccessForm(imageViewer1);
                 _directPixelAccessForm.Owner = this;
-                _directPixelAccessForm.FormClosed += new FormClosedEventHandler(_directPixeAccessForm_FormClosed);
+                _directPixelAccessForm.FormClosed += new FormClosedEventHandler(directPixeAccessForm_FormClosed);
             }
 
             _directPixelAccessForm.Show();
         }
 
         /// <summary>
-        /// Closes a form for direct access to the image pixels.
+        /// Closes the form for direct access to image pixels.
         /// </summary>
         private void CloseDirectPixelAccessForm()
         {
             if (_directPixelAccessForm != null)
             {
-                _directPixelAccessForm.FormClosed -= new FormClosedEventHandler(_directPixeAccessForm_FormClosed);
+                _directPixelAccessForm.FormClosed -= new FormClosedEventHandler(directPixeAccessForm_FormClosed);
                 _directPixelAccessForm.Close();
                 _directPixelAccessForm = null;
             }
         }
 
         /// <summary>
-        /// A direct pixel access form is closed.
+        /// Handler of the DirectPixelAccessForm.FormClosed event.
         /// </summary>
-        private void _directPixeAccessForm_FormClosed(object sender, FormClosedEventArgs e)
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="FormClosedEventArgs"/> instance containing the event data.</param>
+        private void directPixeAccessForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             editImagePixelsToolStripMenuItem.Checked = false;
         }
+
+        #endregion
+
+
+        #region SelectionTool's context menu
+
+        /// <summary>
+        /// Adds new item to the context menu of CustomSelectionTool.
+        /// </summary>
+        /// <param name="name">Item name.</param>
+        /// <param name="items">Item collection.</param>
+        /// <param name="interactionController">Interaction controller.</param>
+        private void AddItemToSelectionContextMenu(string name, ToolStripItemCollection items, IInteractionController interactionController)
+        {
+            ToolStripMenuItem item = new ToolStripMenuItem(name);
+            item.Tag = interactionController;
+            item.Click += new EventHandler(selectionContextMenuStrip_ChangeInteractionController);
+            items.Add(item);
+        }
+
+        /// <summary>
+        /// Changes current interaction controller of selection area.
+        /// </summary>
+        private void selectionContextMenuStrip_ChangeInteractionController(object sender, EventArgs e)
+        {
+            // if current tool contains Custom Selection Tool with selection
+            if (HasCustomSelection())
+            {
+                CustomSelectionTool selectionTool = CompositeVisualTool.FindVisualTool<CustomSelectionTool>(imageViewer1.VisualTool);
+
+                // gets an interaction controller of this context menu item
+                IInteractionController interactionController = ((IInteractionController)((ToolStripMenuItem)sender).Tag);
+                // if the interaction controller is BuildingInteractionController
+                if (interactionController == selectionTool.Selection.BuildingInteractionController)
+                {
+                    // start or continue building of current selection
+                    selectionTool.BeginBuilding();
+                }
+                else
+                {
+                    // change transform interaction controller of current selection
+                    selectionTool.Selection.TransformInteractionController = interactionController;
+                    if (selectionTool.Selection.InteractionController != selectionTool.Selection.TransformInteractionController)
+                        selectionTool.Selection.InteractionController = selectionTool.Selection.TransformInteractionController;
+                }
+            }
+        }
+
+        #endregion
+
+
+        #region Visual Tools
+
+        /// <summary>
+        /// Determines whether the visual tool is a child tool of the <see cref="CompositeVisualTool"/>.
+        /// </summary>
+        /// <param name="compositeVisualTool">The composite visual tool.</param>
+        /// <param name="visualTool">The visual tool to check.</param>
+        /// <returns>
+        /// <b>true</b> if specified visual tool is a child tool of the composite visual tool;
+        /// <b>false</b> if specified visual tool is not a child tool of the composite visual tool.
+        /// </returns>
+        private bool ContainsTool(CompositeVisualTool compositeVisualTool, VisualTool visualTool)
+        {
+            if (compositeVisualTool != null)
+            {
+                foreach (VisualTool tool in compositeVisualTool)
+                {
+                    if (tool == visualTool ||
+                        ContainsTool(tool as CompositeVisualTool, visualTool))
+                        return true;
+                }
+            }
+
+            return false;
+        }
+
+        #endregion
+
+
+        #region View Rotation
+
+        /// <summary>
+        /// Rotates images in both annotation viewer and thumbnail viewer by 90 degrees clockwise.
+        /// </summary>
+        private void RotateViewClockwise()
+        {
+            if (imageViewer1.ImageRotationAngle != 270)
+            {
+                imageViewer1.ImageRotationAngle += 90;
+                thumbnailViewer1.ImageRotationAngle += 90;
+            }
+            else
+            {
+                imageViewer1.ImageRotationAngle = 0;
+                thumbnailViewer1.ImageRotationAngle = 0;
+            }
+        }
+
+        /// <summary>
+        /// Rotates images in both annotation viewer and thumbnail viewer by 90 degrees counterclockwise.
+        /// </summary>
+        private void RotateViewCounterClockwise()
+        {
+            if (imageViewer1.ImageRotationAngle != 0)
+            {
+                imageViewer1.ImageRotationAngle -= 90;
+                thumbnailViewer1.ImageRotationAngle -= 90;
+            }
+            else
+            {
+                imageViewer1.ImageRotationAngle = 270;
+                thumbnailViewer1.ImageRotationAngle = 270;
+            }
+        }
+
+        #endregion
 
         #endregion
 
@@ -4784,7 +5143,9 @@ namespace ImagingDemo
 
         private delegate void UpdateUndoRedoMenuDelegate(UndoManager undoManager);
 
+
         #endregion
 
+     
     }
 }

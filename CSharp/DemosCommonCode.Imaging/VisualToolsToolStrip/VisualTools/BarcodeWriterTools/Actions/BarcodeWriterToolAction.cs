@@ -53,7 +53,6 @@ namespace DemosCommonCode.Barcode
             visualTool.WriterSettings.Padding = 4;
             visualTool.Rectangle = new Rectangle(0, 0, 120, 40);
             visualTool.WriterSettings.Changed += new EventHandler(WriterSettings_Changed);
-            visualTool.RefreshBarcodeImage(true); 
 #endif
         }
 

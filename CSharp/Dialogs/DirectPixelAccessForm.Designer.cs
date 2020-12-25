@@ -255,6 +255,7 @@ namespace ImagingDemo
             this.Controls.Add(this.pixelsGroupBox);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "DirectPixelAccessForm";
             this.Text = "Direct Pixel Access";
             this.pixelsGroupBox.ResumeLayout(false);

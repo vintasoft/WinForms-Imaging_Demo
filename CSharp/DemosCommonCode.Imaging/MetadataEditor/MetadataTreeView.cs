@@ -232,8 +232,8 @@ namespace DemosCommonCode.Imaging
         /// Updates the node style.
         /// </summary>
         /// <param name="treeNode">The tree node.</param>
-        /// <param name="updateParent">Indicates whether parent must be updated.</param>
-        /// <param name="updateChildren">Indicates whether children must be updated.</param>
+        /// <param name="updateParent">A value indicating whether parent must be updated.</param>
+        /// <param name="updateChildren">A value indicating whether children must be updated.</param>
         private void UpdateNodeStyle(TreeNode treeNode, bool updateParent, bool updateChildren)
         {
             if (treeNode == null)

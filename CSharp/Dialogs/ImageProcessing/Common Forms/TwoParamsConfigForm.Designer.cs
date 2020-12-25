@@ -44,7 +44,7 @@ namespace ImagingDemo
             this.okButton.TabIndex = 4;
             this.okButton.Text = "OK";
             this.okButton.UseVisualStyleBackColor = true;
-            this.okButton.Click += new System.EventHandler(this.buttonOk_Click);
+            this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
             // buttonCancel
             // 
@@ -56,7 +56,7 @@ namespace ImagingDemo
             this.buttonCancel.TabIndex = 5;
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
-            this.buttonCancel.Click += new System.EventHandler(this.buttonCancel_Click);
+            this.buttonCancel.Click += new System.EventHandler(this.cancelButton_Click);
             // 
             // previewCheckBox
             // 
@@ -103,6 +103,7 @@ namespace ImagingDemo
             this.Location = new System.Drawing.Point(40, 110);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "TwoParamsConfigForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;

@@ -1,13 +1,14 @@
-using System;
+﻿using System;
 using System.Windows.Forms;
-using System.ComponentModel;
 
-using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.UI;
 
 namespace ImagingDemo
 {
+    /// <summary>
+	/// A form that allows to view and edit settings of the ClearImageCommand.
+	/// </summary>
     public partial class FillImageForm : ParamsConfigForm
     {
 
@@ -20,7 +21,8 @@ namespace ImagingDemo
 
         #endregion
 
-        
+
+
         #region Constructors
 
         /// <summary>
@@ -34,6 +36,7 @@ namespace ImagingDemo
         /// <summary>
         /// Initializes a new instance of the <see cref="FillImageForm"/> class.
         /// </summary>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public FillImageForm(ImageViewer viewer)
             : base(viewer)
         {
@@ -50,10 +53,12 @@ namespace ImagingDemo
 
         #region Methods
 
+        #region PUBLIC
+
         /// <summary>
-        /// Gets the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override ProcessingCommandBase GetProcessingCommand()
         {
             ClearImageCommand command = ImageProcessingCommandFactory.CreateClearImageCommand(_imageViewer.Image);
@@ -61,20 +66,40 @@ namespace ImagingDemo
             return command;
         }
 
+        #endregion
+
+
+        #region PRIVATE
+
+        #region UI
+
+        /// <summary>
+        /// Handles the ColorChanged event of FillColorPanelControl object.
+        /// </summary>
         private void fillColorPanelControl_ColorChanged(object sender, EventArgs e)
         {
             ExecuteProcessing();
         }
 
+        /// <summary>
+        /// Handles the CheckedChanged event of PreviewCheckBox object.
+        /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             this.IsPreviewEnabled = this.previewCheckBox.Checked;
         }
 
-        private void buttonOk_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Handles the Click event of OkButton object.
+        /// </summary>
+        private void okButton_Click(object sender, EventArgs e)
         {
             DialogResult = DialogResult.OK;
         }
+
+        #endregion
+
+        #endregion
 
         #endregion
 

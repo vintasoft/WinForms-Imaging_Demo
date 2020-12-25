@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Drawing;
 
 using Vintasoft.Imaging.UI;
@@ -6,7 +6,7 @@ using Vintasoft.Imaging.UI;
 namespace ImagingDemo
 {
     /// <summary>
-    /// A form for image processing command with two parameters.
+    /// A form that allows to view and edit settings of image processing command with two parameters.
     /// </summary>
     public partial class TwoParamsConfigForm : ParamsConfigForm
     {
@@ -22,7 +22,7 @@ namespace ImagingDemo
         /// Initial value of the second parameter.
         /// </summary>
 		private ImageProcessingParameter _initialParameter2;
-       
+
         #endregion
 
 
@@ -30,7 +30,7 @@ namespace ImagingDemo
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TwoParamsConfigDialog"/> class.
+        /// Initializes a new instance of the <see cref="TwoParamsConfigForm"/> class.
         /// </summary>
         private TwoParamsConfigForm()
             :base()
@@ -39,13 +39,17 @@ namespace ImagingDemo
 		}
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="TwoParamsConfigDialog"/> class.
+        /// Initializes a new instance of the <see cref="TwoParamsConfigForm"/> class.
         /// </summary>
-        /// <param name="viewer">Image viewer.</param>
+        /// <param name="viewer">The image viewer for image preview.</param>
         /// <param name="dialogName">Dialog name.</param>
         /// <param name="parameter1">First image processing parameter.</param>
         /// <param name="parameter2">Second image processing parameter.</param>
-        public TwoParamsConfigForm(ImageViewer viewer, string dialogName, ImageProcessingParameter parameter1, ImageProcessingParameter parameter2)
+        public TwoParamsConfigForm(
+            ImageViewer viewer,
+            string dialogName,
+            ImageProcessingParameter parameter1,
+            ImageProcessingParameter parameter2)
 			: base(viewer)
 		{
             InitializeComponent();
@@ -69,6 +73,7 @@ namespace ImagingDemo
 
             previewCheckBox.Checked = IsPreviewEnabled;
 		}
+
 		#endregion
 
 
@@ -76,7 +81,7 @@ namespace ImagingDemo
 		#region Properties
 
         /// <summary>
-        /// Gets or sets a flag that indicates when preview in ImageViewer is enabled.
+        /// Gets or sets a value indicating whether the preview in image viewer is enabled.
         /// </summary>
         public override bool IsPreviewEnabled
         {
@@ -94,9 +99,9 @@ namespace ImagingDemo
             }
         }
 
-		private int _parameter1;
+		int _parameter1;
         /// <summary>
-        /// Value of the first parameter.
+        /// Gets the value of the first parameter.
         /// </summary>
 		public int Parameter1
 		{
@@ -106,9 +111,9 @@ namespace ImagingDemo
 			}
 		}
 
-		private int _parameter2;
+		int _parameter2;
         /// <summary>
-        /// Value of the second parameter.
+        /// Gets the value of the second parameter.
         /// </summary>
 		public int Parameter2
 		{
@@ -118,14 +123,16 @@ namespace ImagingDemo
 			}
 		}
 
-		#endregion
+        #endregion
 
 
 
         #region Methods
-        
+
+        #region PROTECTED
+
         /// <summary>
-        /// Execute processing command.
+        /// Executes processing command.
         /// </summary>
         protected override void ExecuteProcessing()
         {
@@ -134,26 +141,33 @@ namespace ImagingDemo
             base.ExecuteProcessing();
         }
 
+        #endregion
+
+
+        #region PRIVATE
+
+        #region UI
+
         /// <summary>
-        /// "OK" button is clicked.
+        /// Handles the Click event of OkButton object.
         /// </summary>
-        private void buttonOk_Click(object sender, EventArgs e)
+        private void okButton_Click(object sender, EventArgs e)
         {
             _parameter1 = (int)valueEditorControl1.Value;
             _parameter2 = (int)valueEditorControl2.Value;
-			DialogResult = System.Windows.Forms.DialogResult.OK;
-		}
+            DialogResult = System.Windows.Forms.DialogResult.OK;
+        }
 
         /// <summary>
-        /// "Cancel" button is clicked.
+        /// Handles the Click event of CancelButton object.
         /// </summary>
-		private void buttonCancel_Click(object sender, EventArgs e)
-		{
-			DialogResult = System.Windows.Forms.DialogResult.Cancel;
-		}
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+            DialogResult = System.Windows.Forms.DialogResult.Cancel;
+        }
 
         /// <summary>
-        /// Value in a value editor control is changed.
+        /// Handles the ValueChanged event of ValueEditorControl object.
         /// </summary>
         private void valueEditorControl_ValueChanged(object sender, EventArgs e)
         {
@@ -161,7 +175,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Checked state in the preview check box is changed.
+        /// Handles the CheckedChanged event of PreviewCheckBox object.
         /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -171,6 +185,10 @@ namespace ImagingDemo
             else
                 previewCheckBox.ForeColor = Color.Green;
         }
+
+        #endregion
+
+        #endregion
 
         #endregion
 

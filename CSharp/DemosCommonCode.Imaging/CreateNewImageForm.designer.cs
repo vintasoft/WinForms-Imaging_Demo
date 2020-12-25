@@ -30,18 +30,18 @@ namespace DemosCommonCode.Imaging
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.heightImageNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label2 = new System.Windows.Forms.Label();
+            this.heightLabel = new System.Windows.Forms.Label();
             this.widthImageNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.label1 = new System.Windows.Forms.Label();
+            this.widthLabel = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
+            this.verticalResolutionTextBox = new System.Windows.Forms.TextBox();
+            this.horizontalResolutionTextBox = new System.Windows.Forms.TextBox();
+            this.verticalLabel = new System.Windows.Forms.Label();
+            this.horizontalLabel = new System.Windows.Forms.Label();
             this.pixelFormatComboBox = new System.Windows.Forms.ComboBox();
             this.okButton = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
-            this.label5 = new System.Windows.Forms.Label();
-            this.horizontalResolutionTextBox = new System.Windows.Forms.TextBox();
-            this.verticalResolutionTextBox = new System.Windows.Forms.TextBox();
+            this.pixelFormatLabel = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.heightImageNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.widthImageNumericUpDown)).BeginInit();
@@ -51,9 +51,9 @@ namespace DemosCommonCode.Imaging
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.heightImageNumericUpDown);
-            this.groupBox1.Controls.Add(this.label2);
+            this.groupBox1.Controls.Add(this.heightLabel);
             this.groupBox1.Controls.Add(this.widthImageNumericUpDown);
-            this.groupBox1.Controls.Add(this.label1);
+            this.groupBox1.Controls.Add(this.widthLabel);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(309, 48);
@@ -83,14 +83,14 @@ namespace DemosCommonCode.Imaging
             0,
             0});
             // 
-            // label2
+            // heightLabel
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(164, 22);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "Height";
+            this.heightLabel.AutoSize = true;
+            this.heightLabel.Location = new System.Drawing.Point(164, 22);
+            this.heightLabel.Name = "heightLabel";
+            this.heightLabel.Size = new System.Drawing.Size(38, 13);
+            this.heightLabel.TabIndex = 2;
+            this.heightLabel.Text = "Height";
             // 
             // widthImageNumericUpDown
             // 
@@ -114,21 +114,21 @@ namespace DemosCommonCode.Imaging
             0,
             0});
             // 
-            // label1
+            // widthLabel
             // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(8, 22);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(35, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "Width";
+            this.widthLabel.AutoSize = true;
+            this.widthLabel.Location = new System.Drawing.Point(8, 22);
+            this.widthLabel.Name = "widthLabel";
+            this.widthLabel.Size = new System.Drawing.Size(35, 13);
+            this.widthLabel.TabIndex = 0;
+            this.widthLabel.Text = "Width";
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.verticalResolutionTextBox);
             this.groupBox2.Controls.Add(this.horizontalResolutionTextBox);
-            this.groupBox2.Controls.Add(this.label4);
-            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.verticalLabel);
+            this.groupBox2.Controls.Add(this.horizontalLabel);
             this.groupBox2.Location = new System.Drawing.Point(12, 66);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(309, 48);
@@ -136,23 +136,37 @@ namespace DemosCommonCode.Imaging
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Resolution";
             // 
-            // label4
+            // verticalResolutionTextBox
             // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(164, 21);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(42, 13);
-            this.label4.TabIndex = 1;
-            this.label4.Text = "Vertical";
+            this.verticalResolutionTextBox.Location = new System.Drawing.Point(212, 18);
+            this.verticalResolutionTextBox.Name = "verticalResolutionTextBox";
+            this.verticalResolutionTextBox.Size = new System.Drawing.Size(90, 20);
+            this.verticalResolutionTextBox.TabIndex = 5;
             // 
-            // label3
+            // horizontalResolutionTextBox
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 21);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(54, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Horizontal";
+            this.horizontalResolutionTextBox.Location = new System.Drawing.Point(69, 18);
+            this.horizontalResolutionTextBox.Name = "horizontalResolutionTextBox";
+            this.horizontalResolutionTextBox.Size = new System.Drawing.Size(89, 20);
+            this.horizontalResolutionTextBox.TabIndex = 4;
+            // 
+            // verticalLabel
+            // 
+            this.verticalLabel.AutoSize = true;
+            this.verticalLabel.Location = new System.Drawing.Point(164, 21);
+            this.verticalLabel.Name = "verticalLabel";
+            this.verticalLabel.Size = new System.Drawing.Size(42, 13);
+            this.verticalLabel.TabIndex = 1;
+            this.verticalLabel.Text = "Vertical";
+            // 
+            // horizontalLabel
+            // 
+            this.horizontalLabel.AutoSize = true;
+            this.horizontalLabel.Location = new System.Drawing.Point(8, 21);
+            this.horizontalLabel.Name = "horizontalLabel";
+            this.horizontalLabel.Size = new System.Drawing.Size(54, 13);
+            this.horizontalLabel.TabIndex = 0;
+            this.horizontalLabel.Text = "Horizontal";
             // 
             // pixelFormatComboBox
             // 
@@ -183,34 +197,20 @@ namespace DemosCommonCode.Imaging
             this.buttonCancel.Text = "Cancel";
             this.buttonCancel.UseVisualStyleBackColor = true;
             // 
-            // label5
+            // pixelFormatLabel
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(20, 123);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(61, 13);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "Pixel format";
-            // 
-            // horizontalResolutionTextBox
-            // 
-            this.horizontalResolutionTextBox.Location = new System.Drawing.Point(69, 18);
-            this.horizontalResolutionTextBox.Name = "horizontalResolutionTextBox";
-            this.horizontalResolutionTextBox.Size = new System.Drawing.Size(89, 20);
-            this.horizontalResolutionTextBox.TabIndex = 4;
-            // 
-            // verticalResolutionTextBox
-            // 
-            this.verticalResolutionTextBox.Location = new System.Drawing.Point(212, 18);
-            this.verticalResolutionTextBox.Name = "verticalResolutionTextBox";
-            this.verticalResolutionTextBox.Size = new System.Drawing.Size(90, 20);
-            this.verticalResolutionTextBox.TabIndex = 5;
+            this.pixelFormatLabel.AutoSize = true;
+            this.pixelFormatLabel.Location = new System.Drawing.Point(20, 123);
+            this.pixelFormatLabel.Name = "pixelFormatLabel";
+            this.pixelFormatLabel.Size = new System.Drawing.Size(61, 13);
+            this.pixelFormatLabel.TabIndex = 5;
+            this.pixelFormatLabel.Text = "Pixel format";
             // 
             // CreateNewImageForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(326, 175);
-            this.Controls.Add(this.label5);
+            this.Controls.Add(this.pixelFormatLabel);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.okButton);
             this.Controls.Add(this.pixelFormatComboBox);
@@ -219,6 +219,7 @@ namespace DemosCommonCode.Imaging
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "CreateNewImageForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Create new image";
@@ -241,12 +242,12 @@ namespace DemosCommonCode.Imaging
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.NumericUpDown heightImageNumericUpDown;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label heightLabel;
         private System.Windows.Forms.NumericUpDown widthImageNumericUpDown;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label widthLabel;
+        private System.Windows.Forms.Label verticalLabel;
+        private System.Windows.Forms.Label horizontalLabel;
+        private System.Windows.Forms.Label pixelFormatLabel;
         private System.Windows.Forms.TextBox verticalResolutionTextBox;
         private System.Windows.Forms.TextBox horizontalResolutionTextBox;
     }

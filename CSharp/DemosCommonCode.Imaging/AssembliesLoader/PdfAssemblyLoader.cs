@@ -11,7 +11,9 @@
         /// </summary>
         public static void Load()
         {
-#if !REMOVE_PDF_PLUGIN
+#if REMOVE_PDF_PLUGIN
+            Vintasoft.Imaging.Codecs.AvailableCodecs.RemoveCodecByName("Pdf");
+#else
             using (Vintasoft.Imaging.Codecs.Decoders.PdfDecoder decoder =
                 new Vintasoft.Imaging.Codecs.Decoders.PdfDecoder())
             {

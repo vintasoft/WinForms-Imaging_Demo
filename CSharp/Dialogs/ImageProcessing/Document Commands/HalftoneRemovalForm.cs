@@ -1,13 +1,15 @@
-using System;
+﻿using System;
 using System.Drawing;
 
-using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.ImageProcessing.Document;
 using Vintasoft.Imaging.UI;
 
 namespace ImagingDemo
 {
+    /// <summary>
+    /// A form that allows to view and edit settings of the HalftoneRemovalCommand.
+    /// </summary>
     public partial class HalftoneRemovalForm : ParamsConfigForm
     {
 
@@ -61,6 +63,7 @@ namespace ImagingDemo
         /// <summary>
         /// Initializes a new instance of the <see cref="HalftoneRemovalForm"/> class.
         /// </summary>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public HalftoneRemovalForm(ImageViewer viewer)
             : base(viewer)
         {
@@ -155,7 +158,7 @@ namespace ImagingDemo
 
         private int _parameter1;
         /// <summary>
-        /// Value of the first parameter.
+        /// Gets the value of the first parameter.
         /// </summary>
         public int Parameter1
         {
@@ -167,7 +170,7 @@ namespace ImagingDemo
 
         private int _parameter2;
         /// <summary>
-        /// Value of the second parameter.
+        /// Gets the value of the second parameter.
         /// </summary>
         public int Parameter2
         {
@@ -179,7 +182,7 @@ namespace ImagingDemo
 
         private int _parameter3;
         /// <summary>
-        /// Value of the third parameter.
+        /// Gets the value of the third parameter.
         /// </summary>
         public int Parameter3
         {
@@ -191,7 +194,7 @@ namespace ImagingDemo
 
         private int _parameter4;
         /// <summary>
-        /// Value of the fourth parameter.
+        /// Gets the value of the fourth parameter.
         /// </summary>
         public int Parameter4
         {
@@ -203,7 +206,7 @@ namespace ImagingDemo
 
         private int _parameter5;
         /// <summary>
-        /// Value of the fifth parameter.
+        /// Gets the value of the fifth parameter.
         /// </summary>
         public int Parameter5
         {
@@ -215,7 +218,7 @@ namespace ImagingDemo
 
         private int _parameter6;
         /// <summary>
-        /// Value of the sixth parameter.
+        /// Gets the value of the sixth parameter.
         /// </summary>
         public int Parameter6
         {
@@ -231,11 +234,13 @@ namespace ImagingDemo
 
         #region Methods
 
+        #region PUBLIC
+
 #if !REMOVE_DOCCLEANUP_PLUGIN
         /// <summary>
-        /// Gets the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override ProcessingCommandBase GetProcessingCommand()
         {
             HalftoneRemovalCommand command = new HalftoneRemovalCommand();
@@ -257,8 +262,13 @@ namespace ImagingDemo
         }
 #endif
 
+        #endregion
+
+
+        #region PROTECTED
+
         /// <summary>
-        /// Execute processing command.
+        /// Executes processing command.
         /// </summary>
         protected override void ExecuteProcessing()
         {
@@ -271,122 +281,189 @@ namespace ImagingDemo
             base.ExecuteProcessing();
         }
 
+        #endregion
 
-        private void btOk_Click(object sender, EventArgs e)
+
+        #region PRIVATE
+
+        #region UI
+
+        /// <summary>
+        /// Handles the Click event of OkButton object.
+        /// </summary>
+        private void okButton_Click(object sender, EventArgs e)
         {
             DialogResult = System.Windows.Forms.DialogResult.OK;
         }
 
-        private void btCancel_Click(object sender, EventArgs e)
+        /// <summary>
+        /// Handles the Click event of CancelButton object.
+        /// </summary>
+        private void cancelButton_Click(object sender, EventArgs e)
         {
             DialogResult = System.Windows.Forms.DialogResult.Cancel;
         }
 
 
+        /// <summary>
+        /// Handles the Scroll event of TrackBar1 object.
+        /// </summary>
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
             if (numericUpDown1.Value != trackBar1.Value)
                 numericUpDown1.Value = trackBar1.Value;
         }
 
+        /// <summary>
+        /// Handles the Scroll event of TrackBar2 object.
+        /// </summary>
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
             if (numericUpDown2.Value != trackBar2.Value)
                 numericUpDown2.Value = trackBar2.Value;
         }
 
+        /// <summary>
+        /// Handles the Scroll event of TrackBar3 object.
+        /// </summary>
         private void trackBar3_Scroll(object sender, EventArgs e)
         {
             if (numericUpDown3.Value != trackBar3.Value)
                 numericUpDown3.Value = trackBar3.Value;
         }
 
+        /// <summary>
+        /// Handles the Scroll event of TrackBar4 object.
+        /// </summary>
         private void trackBar4_Scroll(object sender, EventArgs e)
         {
             if (numericUpDown4.Value != trackBar4.Value)
                 numericUpDown4.Value = trackBar4.Value;
         }
 
+        /// <summary>
+        /// Handles the Scroll event of TrackBar5 object.
+        /// </summary>
         private void trackBar5_Scroll(object sender, EventArgs e)
         {
             if (numericUpDown5.Value != trackBar5.Value)
                 numericUpDown5.Value = trackBar5.Value;
         }
 
+        /// <summary>
+        /// Handles the Scroll event of TrackBar6 object.
+        /// </summary>
         private void trackBar6_Scroll(object sender, EventArgs e)
         {
             if (numericUpDown6.Value != trackBar6.Value)
                 numericUpDown6.Value = trackBar6.Value;
         }
 
-
+        /// <summary>
+        /// Handles the ValueChanged event of NumericUpDown1 object.
+        /// </summary>
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
             trackBar1.Value = (int)numericUpDown1.Value;
             ExecuteProcessing();
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of NumericUpDown2 object.
+        /// </summary>
         private void numericUpDown2_ValueChanged(object sender, EventArgs e)
         {
             trackBar2.Value = (int)numericUpDown2.Value;
             ExecuteProcessing();
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of NumericUpDown3 object.
+        /// </summary>
         private void numericUpDown3_ValueChanged(object sender, EventArgs e)
         {
             trackBar3.Value = (int)numericUpDown3.Value;
             ExecuteProcessing();
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of NumericUpDown4 object.
+        /// </summary>
         private void numericUpDown4_ValueChanged(object sender, EventArgs e)
         {
             trackBar4.Value = (int)numericUpDown4.Value;
             ExecuteProcessing();
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of NumericUpDown5 object.
+        /// </summary>
         private void numericUpDown5_ValueChanged(object sender, EventArgs e)
         {
             trackBar5.Value = (int)numericUpDown5.Value;
             ExecuteProcessing();
         }
 
+        /// <summary>
+        /// Handles the ValueChanged event of NumericUpDown6 object.
+        /// </summary>
         private void numericUpDown6_ValueChanged(object sender, EventArgs e)
         {
             trackBar6.Value = (int)numericUpDown6.Value;
             ExecuteProcessing();
         }
 
-
+        /// <summary>
+        /// Handles the Click event of ButtonReset1 object.
+        /// </summary>
         private void buttonReset1_Click(object sender, EventArgs e)
         {
             numericUpDown1.Value = _initialParameter1.DefaultValue;
         }
 
+        /// <summary>
+        /// Handles the Click event of ButtonReset2 object.
+        /// </summary>
         private void buttonReset2_Click(object sender, EventArgs e)
         {
             numericUpDown2.Value = _initialParameter2.DefaultValue;
         }
 
+        /// <summary>
+        /// Handles the Click event of ButtonReset3 object.
+        /// </summary>
         private void buttonReset3_Click(object sender, EventArgs e)
         {
             numericUpDown3.Value = _initialParameter3.DefaultValue;
         }
 
+        /// <summary>
+        /// Handles the Click event of ButtonReset4 object.
+        /// </summary>
         private void buttonReset4_Click(object sender, EventArgs e)
         {
             numericUpDown4.Value = _initialParameter4.DefaultValue;
         }
 
+        /// <summary>
+        /// Handles the Click event of ButtonReset5 object.
+        /// </summary>
         private void buttonReset5_Click(object sender, EventArgs e)
         {
             numericUpDown5.Value = _initialParameter5.DefaultValue;
         }
 
+        /// <summary>
+        /// Handles the Click event of ButtonReset6 object.
+        /// </summary>
         private void buttonReset6_Click(object sender, EventArgs e)
         {
             numericUpDown6.Value = _initialParameter6.DefaultValue;
         }
 
+        /// <summary>
+        /// Handles the CheckedChanged event of AutoThresholdCheckBox object.
+        /// </summary>
         private void autoThresholdCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             if (autoThresholdCheckBox.Checked)
@@ -407,6 +484,9 @@ namespace ImagingDemo
             ExecuteProcessing();
         }
 
+        /// <summary>
+        /// Handles the CheckedChanged event of PreviewCheckBox object.
+        /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             IsPreviewEnabled = previewCheckBox.Checked;
@@ -415,6 +495,10 @@ namespace ImagingDemo
             else
                 previewCheckBox.ForeColor = Color.Green;
         }
+
+        #endregion
+
+        #endregion
 
         #endregion
 

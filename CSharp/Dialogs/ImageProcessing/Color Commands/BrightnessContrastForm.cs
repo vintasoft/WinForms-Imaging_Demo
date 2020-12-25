@@ -1,57 +1,68 @@
 using Vintasoft.Imaging;
-using System.Drawing;
 using Vintasoft.Imaging.ImageProcessing.Color;
 using Vintasoft.Imaging.UI;
 
 namespace ImagingDemo
 {
-	public partial class BrightnessContrastForm : TwoParamsConfigForm
-	{
+    /// <summary>
+    /// A form that allows to view and edit settings of the ChangeBrightnessContrastCommand.
+    /// </summary>
+    public partial class BrightnessContrastForm : TwoParamsConfigForm
+    {
 
-		#region Constructor
+        #region Constructors
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="AdaptiveBinarizeForm"/> class.
+        /// </summary>
+        /// <param name="viewer">The image viewer for image preview.</param>
+        /// <param name="image">The image.</param>
         public BrightnessContrastForm(ImageViewer viewer, VintasoftImage image)
-			: base(viewer, 
+            : base(viewer,
             "Brightness / contrast",
             new ImageProcessingParameter("Brightness", -100, 100, 0),
             new ImageProcessingParameter("Contrast", -100, 100, 0))
-		{
-		}
-		#endregion
+        {
+        }
+
+        #endregion
 
 
-		#region Properties
+
+        #region Properties
 
         /// <summary>
         /// Gets the brightness value.
         /// </summary>
-		public int Brightness
-		{
-			get
-			{
-				return Parameter1;
-			}
-		}
+        public int Brightness
+        {
+            get
+            {
+                return Parameter1;
+            }
+        }
 
         /// <summary>
         /// Gets the contrast value.
         /// </summary>
-		public int Contrast
-		{
-			get
-			{
-				return Parameter2;
-			}
-		}
+        public int Contrast
+        {
+            get
+            {
+                return Parameter2;
+            }
+        }
 
-		#endregion
+        #endregion
+
 
 
         #region Methods
 
         /// <summary>
-        /// Gets the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override Vintasoft.Imaging.ImageProcessing.ProcessingCommandBase GetProcessingCommand()
         {
             return new ChangeBrightnessContrastCommand(Brightness, Contrast);
@@ -59,5 +70,5 @@ namespace ImagingDemo
 
         #endregion
 
-	}
+    }
 }

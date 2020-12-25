@@ -1,22 +1,28 @@
-using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.ImageProcessing.Filters;
 using Vintasoft.Imaging.UI;
 
 namespace ImagingDemo
 {
-	public partial class MedianForm : OneParamConfigForm
-	{
+    /// <summary>
+    /// A form that allows to view and edit settings of the MedianCommand.
+    /// </summary>
+    public partial class MedianForm : OneParamConfigForm
+    {
 
-		#region Constructor
+        #region Constructors
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="MedianForm"/> class.
+        /// </summary>
+        /// <param name="viewer">The image viewer for image preview.</param>
         public MedianForm(ImageViewer viewer)
             : base(viewer, "Arithmetic.Median",
             new ImageProcessingParameter("Window Radius", 2, 6, 3))
         {
         }
 
-		#endregion	
+        #endregion
 
 
 
@@ -40,9 +46,9 @@ namespace ImagingDemo
         #region Methods
 
         /// <summary>
-        /// Gets the current image processing command.
+        /// Returns the image processing command.
         /// </summary>
-        /// <returns>Current image processing command.</returns>
+        /// <returns>The image processing command.</returns>
         public override ProcessingCommandBase GetProcessingCommand()
         {
             return new MedianCommand(WindowSize);
