@@ -1,4 +1,5 @@
 ﻿using Vintasoft.Imaging;
+using Vintasoft.Imaging.Codecs.Decoders;
 
 namespace DemosCommonCode.Imaging
 {
@@ -17,6 +18,10 @@ namespace DemosCommonCode.Imaging
         public ImageCollectionDocxLayoutSettingsManager(ImageCollection images)
             : base(images, "Docx")
         {
+#if !REMOVE_OFFICE_PLUGIN
+            LayoutSettings = new DocxDocumentLayoutSettings();
+            LayoutSettings.FontProgramsController = CustomFontProgramsController.Default;
+#endif
         }
 
         #endregion

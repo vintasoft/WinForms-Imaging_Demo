@@ -65,7 +65,9 @@ namespace DemosCommonCode.Imaging
                     // specify that custom settings are used
                     defaultSettingsCheckBox.Checked = false;
 
-                xlsxPageLayoutSettingsTypeControl1.Settings = settings.PageLayoutSettingsType; 
+                xlsxPageLayoutSettingsTypeControl1.Settings = settings.PageLayoutSettingsType;
+                showHiddenSheetsCheckBox.Checked = settings.ShowHiddenSheets;
+                showHiddenGraphicsCheckBox.Checked = settings.ShowHiddenGraphics;
 #endif
 
                 // pass settings to the control
@@ -126,7 +128,10 @@ namespace DemosCommonCode.Imaging
                 // get settings
                 base.LayoutSettings = documentLayoutSettingsEditorControl1.LayoutSettings;
 #if !REMOVE_OFFICE_PLUGIN
-                ((XlsxDocumentLayoutSettings)LayoutSettings).PageLayoutSettingsType = xlsxPageLayoutSettingsTypeControl1.Settings; 
+                XlsxDocumentLayoutSettings xlsxSettings = (XlsxDocumentLayoutSettings)LayoutSettings;
+                xlsxSettings.PageLayoutSettingsType = xlsxPageLayoutSettingsTypeControl1.Settings;
+                xlsxSettings.ShowHiddenSheets = showHiddenSheetsCheckBox.Checked;
+                xlsxSettings.ShowHiddenGraphics = showHiddenGraphicsCheckBox.Checked;
 #endif
             }
 

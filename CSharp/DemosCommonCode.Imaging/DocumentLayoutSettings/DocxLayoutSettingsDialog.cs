@@ -49,6 +49,10 @@ namespace DemosCommonCode.Imaging
                 if (DesignMode)
                     return;
 
+#if !REMOVE_OFFICE_PLUGIN
+                // cast settings to DOCX document layout settings
+                DocxDocumentLayoutSettings settings = (DocxDocumentLayoutSettings)value;
+
                 base.LayoutSettings = value;
 
                 // if new value equals to the default settings
@@ -59,6 +63,9 @@ namespace DemosCommonCode.Imaging
                 else
                     // specify that custom settings are used
                     defaultSettingsCheckBox.Checked = false;
+
+                showHiddenContentCheckBox.Checked = settings.ShowHiddenContent;
+#endif
 
                 // pass the settings to the control
                 documentLayoutSettingsEditorControl1.LayoutSettings = base.LayoutSettings;
@@ -81,7 +88,11 @@ namespace DemosCommonCode.Imaging
         /// </returns>
         protected override DocumentLayoutSettings CreateDefaultLayoutSettings()
         {
+#if REMOVE_OFFICE_PLUGIN
             return new DocumentLayoutSettings();
+#else
+            return new DocxDocumentLayoutSettings();
+#endif
         }
 
         #endregion
@@ -115,6 +126,9 @@ namespace DemosCommonCode.Imaging
             {
                 // get settings from control
                 base.LayoutSettings = documentLayoutSettingsEditorControl1.LayoutSettings;
+#if !REMOVE_OFFICE_PLUGIN
+                ((DocxDocumentLayoutSettings)LayoutSettings).ShowHiddenContent = showHiddenContentCheckBox.Checked;
+#endif
             }
 
             DialogResult = DialogResult.OK;

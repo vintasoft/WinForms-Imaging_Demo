@@ -113,7 +113,7 @@ namespace DemosCommonCode.Barcode
             _interactiveObject.GetRectangle(out x0, out y0, out x1, out y1);
 
             RectangleF objectRect = new RectangleF((float)x0, (float)y0, (float)(x1 - x0), (float)(y1 - y0));
-            objectRect = GraphicsUtils.TransformRect(objectRect, _interactiveObject.GetPointTransform(viewer));
+            objectRect = GraphicsUtils.TransformRect(objectRect, _interactiveObject.GetPointTransform(viewer, viewer.Image));
 
             return new RectangleF(objectRect.X + X, objectRect.Y - _distance - _image.Height, _image.Width, _image.Height);
         }

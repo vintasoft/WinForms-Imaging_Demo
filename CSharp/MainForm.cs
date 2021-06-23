@@ -37,7 +37,6 @@ using DemosCommonCode.Barcode;
 using Vintasoft.Barcode;
 #endif
 #if !REMOVE_PDF_PLUGIN
-using DemosCommonCode.Pdf;
 using Vintasoft.Imaging.Pdf.Tree;
 using Vintasoft.Imaging.Pdf;
 using Vintasoft.Imaging.Pdf.Drawing;

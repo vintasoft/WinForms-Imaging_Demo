@@ -12,7 +12,7 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>    
     <EnableDefaultItems>false</EnableDefaultItems>
-    <Version>10.0.16.1</Version>
+    <Version>10.1.0.1</Version>
     <AssemblyName>ImagingDemo</AssemblyName>
     <RootNamespace>ImagingDemo</RootNamespace>
     <StartupObject>ImagingDemo.Program</StartupObject>
@@ -36,23 +36,23 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Vintasoft.Barcode" Version="12.4.5.1" />
-    <PackageReference Include="Vintasoft.Imaging" Version="10.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation" Version="10.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf" Version="4.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation.UI" Version="10.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.Dicom" Version="3.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.DocCleanup" Version="5.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.Jbig2Codec" Version="7.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.Jpeg2000Codec" Version="6.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.Media" Version="4.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.Office.OpenXml" Version="2.0.2.3" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf" Version="7.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf.Mrc" Version="7.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.RawCodec" Version="4.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.UI" Version="10.0.16.1" />
-    <PackageReference Include="Vintasoft.Shared" Version="2.0.2.3" />
-    <PackageReference Include="Vintasoft.Twain" Version="12.0.5.1" />
+    <PackageReference Include="Vintasoft.Barcode" Version="12.4.6.1" />
+    <PackageReference Include="Vintasoft.Imaging" Version="10.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation" Version="10.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf" Version="4.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation.UI" Version="10.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Dicom" Version="3.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.DocCleanup" Version="5.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Jbig2Codec" Version="7.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Jpeg2000Codec" Version="6.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Media" Version="4.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Office.OpenXml" Version="2.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf" Version="7.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf.Mrc" Version="7.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.RawCodec" Version="4.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.UI" Version="10.1.0.1" />
+    <PackageReference Include="Vintasoft.Shared" Version="3.0.0.1" />
+    <PackageReference Include="Vintasoft.Twain" Version="12.0.6.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -249,6 +249,10 @@
     </Compile>
     <Compile Include="DemosCommonCode.Imaging\DocumentPasswordForm.designer.cs">
       <DependentUpon>DocumentPasswordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\Fonts\CustomFontProgramsController.cs">
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\Fonts\FontProgramsTools.cs">
     </Compile>
     <Compile Include="DemosCommonCode.Imaging\ImageViewerPrintManager.cs">
     </Compile>
@@ -475,10 +479,6 @@
       <DependentUpon>AboutBoxBaseForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DemosCommonCode\DemosTools.cs">
-    </Compile>
-    <Compile Include="DemosCommonCode.Pdf\Fonts\CustomFontProgramsController.cs">
-    </Compile>
-    <Compile Include="DemosCommonCode.Pdf\PdfFontProgramsTools.cs">
     </Compile>
     <Compile Include="DemosCommonCode.Imaging\VisualToolsToolStrip\VisualTools\BarcodeReaderTools\Actions\BarcodeReaderToolAction.cs" />
     <Compile Include="DemosCommonCode.Imaging\VisualToolsToolStrip\VisualTools\BarcodeReaderTools\BarcodeReaderToolActionFactory.cs" />
@@ -1207,6 +1207,15 @@
       <DependentUpon>ImageScalingForm.cs</DependentUpon>
       <SubType>Designer</SubType>
     </EmbeddedResource>
+    <EmbeddedResource Include="DemosCommonCode.Imaging\VisualTools\BarcodeReaderTool\Resources\BarcodeScanner.cur" />
+    <EmbeddedResource Include="DemosCommonCode.Imaging\VisualTools\BarcodeWriterTool\Resources\DrawBarcodeImage.png" />
+    <EmbeddedResource Include="Resources\Processing_Color.png" />
+    <EmbeddedResource Include="Resources\Processing_Document.png" />
+    <EmbeddedResource Include="Resources\Processing_Effects.png" />
+    <EmbeddedResource Include="Resources\Processing_Filters.png" />
+    <EmbeddedResource Include="Resources\Processing_Info.png" />
+    <EmbeddedResource Include="Resources\Processing_Transform.png" />
+    <EmbeddedResource Include="DemosCommonCode.Imaging\VisualTools\BarcodeWriterTool\Resources\RefreshBarcodeImage.png" />
     <None Include="Resources\DotNetCore3\VintasoftTwainService.dll">
       <Link>VintasoftTwainService.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
@@ -1219,14 +1228,5 @@
       <Link>VintasoftTwainService.runtimeconfig.json</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <EmbeddedResource Include="DemosCommonCode.Imaging\VisualTools\BarcodeReaderTool\Resources\BarcodeScanner.cur" />
-    <EmbeddedResource Include="DemosCommonCode.Imaging\VisualTools\BarcodeWriterTool\Resources\DrawBarcodeImage.png" />
-    <EmbeddedResource Include="Resources\Processing_Color.png" />
-    <EmbeddedResource Include="Resources\Processing_Document.png" />
-    <EmbeddedResource Include="Resources\Processing_Effects.png" />
-    <EmbeddedResource Include="Resources\Processing_Filters.png" />
-    <EmbeddedResource Include="Resources\Processing_Info.png" />
-    <EmbeddedResource Include="Resources\Processing_Transform.png" />
-    <EmbeddedResource Include="DemosCommonCode.Imaging\VisualTools\BarcodeWriterTool\Resources\RefreshBarcodeImage.png" />
   </ItemGroup>
 </Project>

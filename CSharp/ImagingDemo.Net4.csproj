@@ -84,23 +84,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="Vintasoft.Barcode" Version="12.4.5.1" />
-    <PackageReference Include="Vintasoft.Imaging" Version="10.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation" Version="10.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf" Version="4.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation.UI" Version="10.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.Dicom" Version="3.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.DocCleanup" Version="5.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.Jbig2Codec" Version="7.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.Jpeg2000Codec" Version="6.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.Media" Version="4.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.Office.OpenXml" Version="2.0.2.3" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf" Version="7.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf.Mrc" Version="7.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.RawCodec" Version="4.0.16.1" />
-    <PackageReference Include="Vintasoft.Imaging.UI" Version="10.0.16.1" />
-    <PackageReference Include="Vintasoft.Shared" Version="2.0.2.3" />
-    <PackageReference Include="Vintasoft.Twain" Version="12.0.5.1" />
+    <PackageReference Include="Vintasoft.Barcode" Version="12.4.6.1" />
+    <PackageReference Include="Vintasoft.Imaging" Version="10.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation" Version="10.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf" Version="4.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation.UI" Version="10.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Dicom" Version="3.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.DocCleanup" Version="5.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Jbig2Codec" Version="7.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Jpeg2000Codec" Version="6.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Media" Version="4.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Office.OpenXml" Version="2.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf" Version="7.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf.Mrc" Version="7.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.RawCodec" Version="4.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.UI" Version="10.1.0.1" />
+    <PackageReference Include="Vintasoft.Shared" Version="3.0.0.1" />
+    <PackageReference Include="Vintasoft.Twain" Version="12.0.6.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomControls\AnchorTypeEditorControl.cs">
@@ -296,6 +296,10 @@
     </Compile>
     <Compile Include="DemosCommonCode.Imaging\DocumentPasswordForm.designer.cs">
       <DependentUpon>DocumentPasswordForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\Fonts\CustomFontProgramsController.cs">
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\Fonts\FontProgramsTools.cs">
     </Compile>
     <Compile Include="DemosCommonCode.Imaging\ImageViewerPrintManager.cs">
     </Compile>
@@ -522,10 +526,6 @@
       <DependentUpon>AboutBoxBaseForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DemosCommonCode\DemosTools.cs">
-    </Compile>
-    <Compile Include="DemosCommonCode.Pdf\Fonts\CustomFontProgramsController.cs">
-    </Compile>
-    <Compile Include="DemosCommonCode.Pdf\PdfFontProgramsTools.cs">
     </Compile>
     <Compile Include="DemosCommonCode.Imaging\VisualToolsToolStrip\VisualTools\BarcodeReaderTools\Actions\BarcodeReaderToolAction.cs" />
     <Compile Include="DemosCommonCode.Imaging\VisualToolsToolStrip\VisualTools\BarcodeReaderTools\BarcodeReaderToolActionFactory.cs" />
@@ -1219,10 +1219,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DemosCommonCode.Imaging\VisualToolsToolStrip\VisualTools\BarcodeWriterTools\Resources\BarcodeWriterTool.png" />
     <Content Include="directives.txt" />
-    <None Include="Resources\DotNet4\VintasoftTwainService.exe">
-      <Link>VintasoftTwainService.exe</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
     <Content Include="Resources\Processing_Base.png" />
     <Content Include="Resources\Processing_Channels.png" />
     <Content Include="Resources\Processing_FFT.png" />
@@ -1267,6 +1263,10 @@
     <EmbeddedResource Include="Resources\Processing_Info.png" />
     <EmbeddedResource Include="Resources\Processing_Transform.png" />
     <EmbeddedResource Include="DemosCommonCode.Imaging\VisualTools\BarcodeWriterTool\Resources\RefreshBarcodeImage.png" />
+    <None Include="Resources\DotNet4\VintasoftTwainService.exe">
+      <Link>VintasoftTwainService.exe</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

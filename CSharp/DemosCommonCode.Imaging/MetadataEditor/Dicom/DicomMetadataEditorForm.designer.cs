@@ -173,7 +173,7 @@ namespace DemosCommonCode.Imaging
             this.Controls.Add(this.splitContainer1);
             this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "DicomMetadataEditorForm";
-            this.Text = "DicomMetadataEditorForm";
+            this.Text = "DICOM Metadata Editor";
             this.selectedNodeGroupBox.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.splitContainer1.Panel1.ResumeLayout(false);

@@ -1,25 +1,23 @@
-﻿#if !REMOVE_PDF_PLUGIN
-using System;
-using System.Text;
+﻿using System.Text;
 using System.Windows.Forms;
-using DemosCommonCode.Imaging;
-using Vintasoft.Imaging.Pdf;
 using Vintasoft.Imaging.Utils;
 
-namespace DemosCommonCode.Pdf
+using DemosCommonCode.Imaging;
+
+namespace DemosCommonCode.Imaging
 {
     /// <summary>
     /// Allows to use custom PDF font program controller for PDF documents, which are opened in PDF demos.
     /// </summary>
-    public static class PdfFontProgramsTools
+    public static class FontProgramsTools
     {
 
         #region Constructors
 
         /// <summary>
-        /// Initializes a new instance of the <see cref="PdfFontProgramsTools"/> class.
+        /// Initializes a new instance of the <see cref="FontProgramsTools"/> class.
         /// </summary>
-        static PdfFontProgramsTools()
+        static FontProgramsTools()
         {
         }
 
@@ -75,4 +73,3 @@ namespace DemosCommonCode.Pdf
 
     }
 }
-#endif

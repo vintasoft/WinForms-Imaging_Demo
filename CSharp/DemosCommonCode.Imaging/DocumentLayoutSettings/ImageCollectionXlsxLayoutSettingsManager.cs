@@ -1,4 +1,5 @@
 ﻿using Vintasoft.Imaging;
+using Vintasoft.Imaging.Codecs.Decoders;
 
 namespace DemosCommonCode.Imaging
 {
@@ -17,6 +18,10 @@ namespace DemosCommonCode.Imaging
         public ImageCollectionXlsxLayoutSettingsManager(ImageCollection images)
             : base(images, "Xlsx")
         {
+#if !REMOVE_OFFICE_PLUGIN
+            LayoutSettings = new XlsxDocumentLayoutSettings();
+            LayoutSettings.FontProgramsController = CustomFontProgramsController.Default;
+#endif
         }
 
         #endregion
