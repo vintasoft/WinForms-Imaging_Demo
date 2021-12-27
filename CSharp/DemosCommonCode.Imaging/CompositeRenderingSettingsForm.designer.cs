@@ -29,14 +29,14 @@ namespace DemosCommonCode.Imaging
         private void InitializeComponent()
         {
             this.showInvisibleTableBordersCheckBox = new System.Windows.Forms.CheckBox();
-            this.showNonPrintingCharactersCheckBox = new System.Windows.Forms.CheckBox();
+            this.showNonPrintableCharactersCheckBox = new System.Windows.Forms.CheckBox();
             this.buttonOk = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.textRenderingHintLabel = new System.Windows.Forms.Label();
             this.textRenderingHintComboBox = new System.Windows.Forms.ComboBox();
-            this.invisibleTableBordersColorPanelControl = new DemosCommonCode.CustomControls.ColorPanelControl();
             this.renderingSettingsTabControl = new System.Windows.Forms.TabControl();
             this.commonSettingsTabPage = new System.Windows.Forms.TabPage();
+            this.drawSharpImageBordersCheckBox = new System.Windows.Forms.CheckBox();
             this.resolutionSettingsCheckBox = new System.Windows.Forms.CheckBox();
             this.optimizeImageDrawingCheckBox = new System.Windows.Forms.CheckBox();
             this.resolutionSettingsGroupBox = new System.Windows.Forms.GroupBox();
@@ -64,7 +64,8 @@ namespace DemosCommonCode.Imaging
             this.officeSettingsTabPage = new System.Windows.Forms.TabPage();
             this.invisibleTableBordersGroupBox = new System.Windows.Forms.GroupBox();
             this.colorLabel = new System.Windows.Forms.Label();
-            this.drawSharpImageBordersCheckBox = new System.Windows.Forms.CheckBox();
+            this.drawErrorsCheckBox = new System.Windows.Forms.CheckBox();
+            this.invisibleTableBordersColorPanelControl = new DemosCommonCode.CustomControls.ColorPanelControl();
             this.renderingSettingsTabControl.SuspendLayout();
             this.commonSettingsTabPage.SuspendLayout();
             this.resolutionSettingsGroupBox.SuspendLayout();
@@ -89,15 +90,15 @@ namespace DemosCommonCode.Imaging
             this.showInvisibleTableBordersCheckBox.UseVisualStyleBackColor = true;
             this.showInvisibleTableBordersCheckBox.CheckedChanged += new System.EventHandler(this.showInvisibleTableBordersCheckBox_CheckedChanged);
             // 
-            // showNonPrintingCharactersCheckBox
+            // showNonPrintableCharactersCheckBox
             // 
-            this.showNonPrintingCharactersCheckBox.AutoSize = true;
-            this.showNonPrintingCharactersCheckBox.Location = new System.Drawing.Point(10, 102);
-            this.showNonPrintingCharactersCheckBox.Name = "showNonPrintingCharactersCheckBox";
-            this.showNonPrintingCharactersCheckBox.Size = new System.Drawing.Size(168, 17);
-            this.showNonPrintingCharactersCheckBox.TabIndex = 1;
-            this.showNonPrintingCharactersCheckBox.Text = "Show Non Printing Characters";
-            this.showNonPrintingCharactersCheckBox.UseVisualStyleBackColor = true;
+            this.showNonPrintableCharactersCheckBox.AutoSize = true;
+            this.showNonPrintableCharactersCheckBox.Location = new System.Drawing.Point(10, 102);
+            this.showNonPrintableCharactersCheckBox.Name = "showNonPrintableCharactersCheckBox";
+            this.showNonPrintableCharactersCheckBox.Size = new System.Drawing.Size(168, 17);
+            this.showNonPrintableCharactersCheckBox.TabIndex = 1;
+            this.showNonPrintableCharactersCheckBox.Text = "Show Non Printing Characters";
+            this.showNonPrintableCharactersCheckBox.UseVisualStyleBackColor = true;
             // 
             // buttonOk
             // 
@@ -139,16 +140,6 @@ namespace DemosCommonCode.Imaging
             this.textRenderingHintComboBox.Size = new System.Drawing.Size(136, 21);
             this.textRenderingHintComboBox.TabIndex = 7;
             // 
-            // invisibleTableBordersColorPanelControl
-            // 
-            this.invisibleTableBordersColorPanelControl.CanSetColor = false;
-            this.invisibleTableBordersColorPanelControl.Color = System.Drawing.Color.Transparent;
-            this.invisibleTableBordersColorPanelControl.DefaultColor = System.Drawing.Color.Empty;
-            this.invisibleTableBordersColorPanelControl.Location = new System.Drawing.Point(92, 19);
-            this.invisibleTableBordersColorPanelControl.Name = "invisibleTableBordersColorPanelControl";
-            this.invisibleTableBordersColorPanelControl.Size = new System.Drawing.Size(136, 22);
-            this.invisibleTableBordersColorPanelControl.TabIndex = 2;
-            // 
             // renderingSettingsTabControl
             // 
             this.renderingSettingsTabControl.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -179,6 +170,16 @@ namespace DemosCommonCode.Imaging
             this.commonSettingsTabPage.TabIndex = 0;
             this.commonSettingsTabPage.Text = "Common";
             this.commonSettingsTabPage.UseVisualStyleBackColor = true;
+            // 
+            // drawSharpImageBordersCheckBox
+            // 
+            this.drawSharpImageBordersCheckBox.AutoSize = true;
+            this.drawSharpImageBordersCheckBox.Location = new System.Drawing.Point(11, 160);
+            this.drawSharpImageBordersCheckBox.Name = "drawSharpImageBordersCheckBox";
+            this.drawSharpImageBordersCheckBox.Size = new System.Drawing.Size(153, 17);
+            this.drawSharpImageBordersCheckBox.TabIndex = 11;
+            this.drawSharpImageBordersCheckBox.Text = "Draw Sharp Image Borders";
+            this.drawSharpImageBordersCheckBox.UseVisualStyleBackColor = true;
             // 
             // resolutionSettingsCheckBox
             // 
@@ -319,6 +320,7 @@ namespace DemosCommonCode.Imaging
             // 
             // pdfSettingsTabPage
             // 
+            this.pdfSettingsTabPage.Controls.Add(this.drawErrorsCheckBox);
             this.pdfSettingsTabPage.Controls.Add(this.annotationRenderingModeLabel);
             this.pdfSettingsTabPage.Controls.Add(this.annotationRenderingModeGroupBox);
             this.pdfSettingsTabPage.Controls.Add(this.optimizePatternRenderingCheckBox);
@@ -334,7 +336,7 @@ namespace DemosCommonCode.Imaging
             // annotationRenderingModeLabel
             // 
             this.annotationRenderingModeLabel.AutoSize = true;
-            this.annotationRenderingModeLabel.Location = new System.Drawing.Point(19, 13);
+            this.annotationRenderingModeLabel.Location = new System.Drawing.Point(19, 4);
             this.annotationRenderingModeLabel.Name = "annotationRenderingModeLabel";
             this.annotationRenderingModeLabel.Size = new System.Drawing.Size(140, 13);
             this.annotationRenderingModeLabel.TabIndex = 0;
@@ -350,7 +352,7 @@ namespace DemosCommonCode.Imaging
             this.annotationRenderingModeGroupBox.Controls.Add(this.markupAnnotationsCheckBox);
             this.annotationRenderingModeGroupBox.Controls.Add(this.nonMarkupAnnotationsCheckBox);
             this.annotationRenderingModeGroupBox.Controls.Add(this.vintasoftAnnotationsCheckBox);
-            this.annotationRenderingModeGroupBox.Location = new System.Drawing.Point(10, 15);
+            this.annotationRenderingModeGroupBox.Location = new System.Drawing.Point(10, 6);
             this.annotationRenderingModeGroupBox.Name = "annotationRenderingModeGroupBox";
             this.annotationRenderingModeGroupBox.Size = new System.Drawing.Size(237, 204);
             this.annotationRenderingModeGroupBox.TabIndex = 4;
@@ -439,7 +441,7 @@ namespace DemosCommonCode.Imaging
             // optimizePatternRenderingCheckBox
             // 
             this.optimizePatternRenderingCheckBox.AutoSize = true;
-            this.optimizePatternRenderingCheckBox.Location = new System.Drawing.Point(11, 250);
+            this.optimizePatternRenderingCheckBox.Location = new System.Drawing.Point(11, 238);
             this.optimizePatternRenderingCheckBox.Name = "optimizePatternRenderingCheckBox";
             this.optimizePatternRenderingCheckBox.Size = new System.Drawing.Size(155, 17);
             this.optimizePatternRenderingCheckBox.TabIndex = 3;
@@ -449,7 +451,7 @@ namespace DemosCommonCode.Imaging
             // ignoreImageInterpolationFlagCheckBox
             // 
             this.ignoreImageInterpolationFlagCheckBox.AutoSize = true;
-            this.ignoreImageInterpolationFlagCheckBox.Location = new System.Drawing.Point(11, 225);
+            this.ignoreImageInterpolationFlagCheckBox.Location = new System.Drawing.Point(11, 213);
             this.ignoreImageInterpolationFlagCheckBox.Name = "ignoreImageInterpolationFlagCheckBox";
             this.ignoreImageInterpolationFlagCheckBox.Size = new System.Drawing.Size(172, 17);
             this.ignoreImageInterpolationFlagCheckBox.TabIndex = 2;
@@ -462,7 +464,7 @@ namespace DemosCommonCode.Imaging
             this.officeSettingsTabPage.Controls.Add(this.invisibleTableBordersGroupBox);
             this.officeSettingsTabPage.Controls.Add(this.textRenderingHintLabel);
             this.officeSettingsTabPage.Controls.Add(this.textRenderingHintComboBox);
-            this.officeSettingsTabPage.Controls.Add(this.showNonPrintingCharactersCheckBox);
+            this.officeSettingsTabPage.Controls.Add(this.showNonPrintableCharactersCheckBox);
             this.officeSettingsTabPage.Location = new System.Drawing.Point(4, 22);
             this.officeSettingsTabPage.Name = "officeSettingsTabPage";
             this.officeSettingsTabPage.Padding = new System.Windows.Forms.Padding(3);
@@ -490,15 +492,25 @@ namespace DemosCommonCode.Imaging
             this.colorLabel.TabIndex = 3;
             this.colorLabel.Text = "Border Color";
             // 
-            // drawSharpImageBordersCheckBox
+            // drawErrorsCheckBox
             // 
-            this.drawSharpImageBordersCheckBox.AutoSize = true;
-            this.drawSharpImageBordersCheckBox.Location = new System.Drawing.Point(11, 160);
-            this.drawSharpImageBordersCheckBox.Name = "drawSharpImageBordersCheckBox";
-            this.drawSharpImageBordersCheckBox.Size = new System.Drawing.Size(153, 17);
-            this.drawSharpImageBordersCheckBox.TabIndex = 11;
-            this.drawSharpImageBordersCheckBox.Text = "Draw Sharp Image Borders";
-            this.drawSharpImageBordersCheckBox.UseVisualStyleBackColor = true;
+            this.drawErrorsCheckBox.AutoSize = true;
+            this.drawErrorsCheckBox.Location = new System.Drawing.Point(11, 261);
+            this.drawErrorsCheckBox.Name = "drawErrorsCheckBox";
+            this.drawErrorsCheckBox.Size = new System.Drawing.Size(162, 17);
+            this.drawErrorsCheckBox.TabIndex = 5;
+            this.drawErrorsCheckBox.Text = "Draw Image Resource Errors";
+            this.drawErrorsCheckBox.UseVisualStyleBackColor = true;
+            // 
+            // invisibleTableBordersColorPanelControl
+            // 
+            this.invisibleTableBordersColorPanelControl.CanSetColor = false;
+            this.invisibleTableBordersColorPanelControl.Color = System.Drawing.Color.Transparent;
+            this.invisibleTableBordersColorPanelControl.DefaultColor = System.Drawing.Color.Empty;
+            this.invisibleTableBordersColorPanelControl.Location = new System.Drawing.Point(92, 19);
+            this.invisibleTableBordersColorPanelControl.Name = "invisibleTableBordersColorPanelControl";
+            this.invisibleTableBordersColorPanelControl.Size = new System.Drawing.Size(136, 22);
+            this.invisibleTableBordersColorPanelControl.TabIndex = 2;
             // 
             // CompositeRenderingSettingsForm
             // 
@@ -512,7 +524,6 @@ namespace DemosCommonCode.Imaging
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "CompositeRenderingSettingsForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
@@ -539,7 +550,7 @@ namespace DemosCommonCode.Imaging
         #endregion
 
         private System.Windows.Forms.CheckBox showInvisibleTableBordersCheckBox;
-        private System.Windows.Forms.CheckBox showNonPrintingCharactersCheckBox;
+        private System.Windows.Forms.CheckBox showNonPrintableCharactersCheckBox;
         private System.Windows.Forms.Button buttonOk;
         private System.Windows.Forms.Button buttonCancel;
         private DemosCommonCode.CustomControls.ColorPanelControl invisibleTableBordersColorPanelControl;
@@ -575,5 +586,6 @@ namespace DemosCommonCode.Imaging
         private System.Windows.Forms.GroupBox invisibleTableBordersGroupBox;
         private System.Windows.Forms.Label colorLabel;
         private System.Windows.Forms.CheckBox drawSharpImageBordersCheckBox;
+        private System.Windows.Forms.CheckBox drawErrorsCheckBox;
     }
 }

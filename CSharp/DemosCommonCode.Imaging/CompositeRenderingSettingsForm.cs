@@ -118,6 +118,7 @@ namespace DemosCommonCode.Imaging
                 
                 ignoreImageInterpolationFlagCheckBox.Checked = pdfSettings.IgnoreImageInterpolateFlag;
                 optimizePatternRenderingCheckBox.Checked = pdfSettings.OptimizePatternRendering;
+                drawErrorsCheckBox.Checked = pdfSettings.DrawResourceErrorMessages;
 
                 isPdfSettingsEnabled = true;
             }
@@ -145,7 +146,7 @@ namespace DemosCommonCode.Imaging
                 invisibleTableBordersColorPanelControl.CanSetColor = true;
                 invisibleTableBordersColorPanelControl.Color = markupSettings.InvisibleTableBordersColor;
                 invisibleTableBordersGroupBox.Enabled = showInvisibleTableBordersCheckBox.Checked;
-                showNonPrintingCharactersCheckBox.Checked = markupSettings.ShowNonPrintingCharacters;
+                showNonPrintableCharactersCheckBox.Checked = markupSettings.ShowNonPrintableCharacters;
 
                 isOfficeDocumentSettingsEnabled = true;
             }
@@ -207,6 +208,7 @@ namespace DemosCommonCode.Imaging
                     settings.AnnotationRenderingMode = GetAnnotationRenderingMode();
                     settings.IgnoreImageInterpolateFlag = ignoreImageInterpolationFlagCheckBox.Checked;
                     settings.OptimizePatternRendering = optimizePatternRenderingCheckBox.Checked;
+                    settings.DrawResourceErrorMessages = drawErrorsCheckBox.Checked;
                 }
             }
 #endif
@@ -223,7 +225,7 @@ namespace DemosCommonCode.Imaging
                     // copy setting from dialog to each markup rendering settings object
                     settings.TextRenderingHint = (GdiTextRenderingHint)textRenderingHintComboBox.SelectedItem;
                     settings.ShowInvisibleTableBorders = showInvisibleTableBordersCheckBox.Checked;
-                    settings.ShowNonPrintingCharacters = showNonPrintingCharactersCheckBox.Checked;
+                    settings.ShowNonPrintableCharacters = showNonPrintableCharactersCheckBox.Checked;
                     settings.InvisibleTableBordersColor = invisibleTableBordersColorPanelControl.Color;
                 }
             }

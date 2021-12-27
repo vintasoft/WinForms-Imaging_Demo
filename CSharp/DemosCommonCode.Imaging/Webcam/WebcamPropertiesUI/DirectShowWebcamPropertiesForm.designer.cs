@@ -67,7 +67,6 @@ namespace DemosCommonCode.Imaging
             this.Controls.Add(this.closeButton);
             this.Controls.Add(this.directShowCameraControlPropertiesControl1);
             this.Controls.Add(this.directShowImageQualityPropertiesControl1);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "DirectShowWebcamPropertiesForm";
             this.ResumeLayout(false);
 

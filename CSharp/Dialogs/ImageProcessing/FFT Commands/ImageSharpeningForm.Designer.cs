@@ -170,7 +170,6 @@ namespace ImagingDemo
             this.Controls.Add(this.filterTypeLabel);
             this.Controls.Add(this.blendingModeComboBox);
             this.Controls.Add(this.blendingModeLabel);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "ImageSharpeningForm";
             this.Text = "Image Sharpening";
             this.ResumeLayout(false);

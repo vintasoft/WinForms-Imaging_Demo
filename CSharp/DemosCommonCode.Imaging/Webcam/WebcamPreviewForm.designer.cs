@@ -246,7 +246,6 @@ namespace DemosCommonCode.Imaging
             this.Controls.Add(this.processingGroupBox);
             this.Controls.Add(this.captureImageButton);
             this.Controls.Add(this.videoPreviewImageViewer);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "WebcamPreviewForm";
             this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.WebcamVideoForm_FormClosed);
             this.Shown += new System.EventHandler(this.WebcamVideoForm_Shown);

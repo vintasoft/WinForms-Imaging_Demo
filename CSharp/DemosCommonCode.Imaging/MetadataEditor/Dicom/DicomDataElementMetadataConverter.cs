@@ -60,6 +60,26 @@ namespace DemosCommonCode.Imaging
 
         #region PUBLIC
 
+        bool _canEdit = true;
+        /// <summary>
+        /// Gets or sets a value indicating whether DICOM metadata can be edited.
+        /// </summary>
+        /// <value>
+        /// <b>True</b> if DICOM metadata can be edited; otherwise, <b>false</b>.
+        /// </value>
+        [Browsable(false)]
+        public bool CanEdit
+        {
+            get
+            {
+                return _canEdit;
+            }
+            set
+            {
+                _canEdit = value;
+            }
+        }
+
         /// <summary> 
         /// Gets a value that indicating whether the metadata node can be copied
         /// to new metadata three.
@@ -314,54 +334,57 @@ namespace DemosCommonCode.Imaging
             }
             set
             {
-                if (!CanEditValue || ValueRepresentation == DicomValueRepresentation.SQ)
-                    return;
-
-                if (_dataElement.IsReadOnly)
-                    throw new Exception("This node is read-only.");
-
-                try
+                if (CanEdit)
                 {
-                    Array newValue = value;
+                    if (!CanEditValue || ValueRepresentation == DicomValueRepresentation.SQ)
+                        return;
 
-                    switch (ValueRepresentation)
+                    if (_dataElement.IsReadOnly)
+                        throw new Exception("This node is read-only.");
+
+                    try
                     {
-                        case DicomValueRepresentation.DA:
-                        case DicomValueRepresentation.DT:
-                            List<DateTime> dateTimeList = new List<DateTime>();
-                            for (int i = 0; i < value.Length; i++)
-                            {
-                                if (!string.IsNullOrEmpty(value[i]))
-                                    dateTimeList.Add(DateTime.Parse(value[i]));
-                            }
-                            newValue = dateTimeList.ToArray();
-                            break;
+                        Array newValue = value;
 
-                        case DicomValueRepresentation.TM:
-                            List<TimeSpan> timeSpanList = new List<TimeSpan>();
-                            for (int i = 0; i < value.Length; i++)
-                            {
-                                if (!string.IsNullOrEmpty(value[i]))
-                                    timeSpanList.Add(TimeSpan.Parse(value[i]));
-                            }
-                            newValue = timeSpanList.ToArray();
-                            break;
+                        switch (ValueRepresentation)
+                        {
+                            case DicomValueRepresentation.DA:
+                            case DicomValueRepresentation.DT:
+                                List<DateTime> dateTimeList = new List<DateTime>();
+                                for (int i = 0; i < value.Length; i++)
+                                {
+                                    if (!string.IsNullOrEmpty(value[i]))
+                                        dateTimeList.Add(DateTime.Parse(value[i]));
+                                }
+                                newValue = dateTimeList.ToArray();
+                                break;
 
-                        case DicomValueRepresentation.UI:
-                            List<DicomUid> uidList = new List<DicomUid>();
-                            for (int i = 0; i < value.Length; i++)
-                            {
-                                if (!string.IsNullOrEmpty(value[i]))
-                                    uidList.Add(new DicomUid(value[i]));
-                            }
-                            newValue = uidList.ToArray();
-                            break;
+                            case DicomValueRepresentation.TM:
+                                List<TimeSpan> timeSpanList = new List<TimeSpan>();
+                                for (int i = 0; i < value.Length; i++)
+                                {
+                                    if (!string.IsNullOrEmpty(value[i]))
+                                        timeSpanList.Add(TimeSpan.Parse(value[i]));
+                                }
+                                newValue = timeSpanList.ToArray();
+                                break;
+
+                            case DicomValueRepresentation.UI:
+                                List<DicomUid> uidList = new List<DicomUid>();
+                                for (int i = 0; i < value.Length; i++)
+                                {
+                                    if (!string.IsNullOrEmpty(value[i]))
+                                        uidList.Add(new DicomUid(value[i]));
+                                }
+                                newValue = uidList.ToArray();
+                                break;
+                        }
+                        NodeValue = (object)newValue;
                     }
-                    NodeValue = (object)newValue;
-                }
-                catch (Exception exc)
-                {
-                    MessageBox.Show(exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    catch (Exception exc)
+                    {
+                        MessageBox.Show(exc.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
         }
