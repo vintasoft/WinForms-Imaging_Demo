@@ -36,7 +36,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Vintasoft.Barcode" Version="12.5.0.7" />
+    <PackageReference Include="Vintasoft.Barcode" Version="12.5.1.1" />
     <PackageReference Include="Vintasoft.Imaging" Version="11.0.4.1" />
     <PackageReference Include="Vintasoft.Imaging.Annotation" Version="11.0.4.1" />
     <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf" Version="11.0.4.1" />
