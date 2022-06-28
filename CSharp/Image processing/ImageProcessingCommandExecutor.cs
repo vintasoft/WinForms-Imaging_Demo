@@ -18,7 +18,7 @@ using Vintasoft.Imaging.Undo;
 using DemosCommonCode;
 using DemosCommonCode.Imaging;
 using DemosCommonCode.Imaging.Codecs;
-
+using Vintasoft.Imaging.Drawing.Gdi;
 
 namespace ImagingDemo
 {
@@ -346,7 +346,7 @@ namespace ImagingDemo
                             else
                             {
                                 // process path
-                                command = new ProcessPathCommand(command, path);
+                                command = new ProcessPathCommand(command, new GdiGraphicsPath(path, false));
                             }
                         }
                         else
@@ -1019,7 +1019,7 @@ namespace ImagingDemo
             OverlayCommand overlay = new OverlayCommand(_overlayImage);
 
             // overlay with path command
-            ProcessPathCommand overlayWithPath = new ProcessPathCommand(overlay, path);
+            ProcessPathCommand overlayWithPath = new ProcessPathCommand(overlay, new GdiGraphicsPath(path, false));
 
             // clear image command
             ClearImageCommand clearImage = new ClearImageCommand(Color.Transparent);

@@ -221,6 +221,9 @@ namespace DemosCommonCode.Imaging
         /// </summary>
         private void UpdateUI()
         {
+            addButton.Visible = CanEdit;
+            removeButton.Visible = CanEdit;
+
             MetadataNode metadataNode = metadataTreeView.SelectedMetadataNode;
 
             bool canAddSubNode = false;

@@ -349,7 +349,6 @@ namespace DemosCommonCode.Imaging
                         switch (ValueRepresentation)
                         {
                             case DicomValueRepresentation.DA:
-                            case DicomValueRepresentation.DT:
                                 List<DateTime> dateTimeList = new List<DateTime>();
                                 for (int i = 0; i < value.Length; i++)
                                 {
@@ -357,6 +356,36 @@ namespace DemosCommonCode.Imaging
                                         dateTimeList.Add(DateTime.Parse(value[i]));
                                 }
                                 newValue = dateTimeList.ToArray();
+                                break;
+
+                            case DicomValueRepresentation.DT:
+                                List<DicomDateTime> dicomDateTimeList = new List<DicomDateTime>();
+                                for (int i = 0; i < value.Length; i++)
+                                {
+                                    if (!string.IsNullOrEmpty(value[i]))
+                                    {
+                                        string[] splitedValue = value[i].Split(' ');
+
+                                        if (splitedValue.Length != 2 && splitedValue.Length != 3)
+                                            throw new FormatException("Invalid DicomDateTime format.");
+
+                                        DateTime utcDateTime = DateTime.Parse(splitedValue[0] + " " + splitedValue[1]);
+
+                                        TimeSpan? utcOffset = null;
+                                        if (splitedValue.Length == 3)
+                                        {
+                                            bool isNegative = splitedValue[2].StartsWith("-");
+
+                                            utcOffset = TimeSpan.Parse(splitedValue[2].TrimStart('+', '-'));
+
+                                            if (isNegative)
+                                                utcOffset = utcOffset.Value.Negate();
+                                        }
+
+                                        dicomDateTimeList.Add(new DicomDateTime(DateTime.SpecifyKind(utcDateTime, DateTimeKind.Utc), utcOffset));
+                                    }
+                                }
+                                newValue = dicomDateTimeList.ToArray();
                                 break;
 
                             case DicomValueRepresentation.TM:
@@ -437,6 +466,26 @@ namespace DemosCommonCode.Imaging
                 case DicomValueRepresentation.UI:
                     DicomUid uid = (DicomUid)value;
                     return uid.Value;
+
+                case DicomValueRepresentation.DT:
+                    DicomDateTime dicomDateTime = (DicomDateTime)value;
+                    string result = dicomDateTime.UtcDateTime.ToShortDateString() + " " + dicomDateTime.UtcDateTime.ToLongTimeString();
+                    if (dicomDateTime.OffsetFromUtc.HasValue)
+                    {
+                        TimeSpan offsetFromUtc = dicomDateTime.OffsetFromUtc.Value;
+
+                        if (offsetFromUtc.Ticks < 0)
+                        {
+                            result += " -";
+                            offsetFromUtc = offsetFromUtc.Negate();
+                        }
+                        else
+                        {
+                            result += " +";
+                        }
+                        result += offsetFromUtc.ToString();
+                    }
+                    return result;
             }
 
             return value.ToString();

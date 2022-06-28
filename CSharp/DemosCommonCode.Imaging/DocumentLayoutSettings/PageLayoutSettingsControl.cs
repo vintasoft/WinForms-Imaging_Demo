@@ -190,13 +190,16 @@ namespace DemosCommonCode.Imaging
         /// </summary>
         private void pageSizeNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
-            if (pageSizeComboBox.SelectedItem.ToString() == "Custom")
+            if (pageSizeComboBox.SelectedItem != null)
             {
-                // create custom page size
-                PageLayoutSettings.PageSize = ImageSize.FromMillimeters(
-                    (int)pageWidthNumericUpDown.Value,
-                    (int)pageHeightNumericUpDown.Value,
-                    Resolution.ScreenResolution);
+                if (pageSizeComboBox.SelectedItem.ToString() == "Custom")
+                {
+                    // create custom page size
+                    PageLayoutSettings.PageSize = ImageSize.FromMillimeters(
+                        (int)pageWidthNumericUpDown.Value,
+                        (int)pageHeightNumericUpDown.Value,
+                        Resolution.ScreenResolution);
+                }
             }
         }
 

@@ -75,7 +75,7 @@ namespace DemosCommonCode.Imaging
             0,
             0});
             this.heightImageNumericUpDown.Name = "heightImageNumericUpDown";
-            this.heightImageNumericUpDown.Size = new System.Drawing.Size(90, 20);
+            this.heightImageNumericUpDown.Size = new System.Drawing.Size(90, 23);
             this.heightImageNumericUpDown.TabIndex = 3;
             this.heightImageNumericUpDown.Value = new decimal(new int[] {
             1000,
@@ -88,7 +88,7 @@ namespace DemosCommonCode.Imaging
             this.heightLabel.AutoSize = true;
             this.heightLabel.Location = new System.Drawing.Point(164, 22);
             this.heightLabel.Name = "heightLabel";
-            this.heightLabel.Size = new System.Drawing.Size(38, 13);
+            this.heightLabel.Size = new System.Drawing.Size(43, 15);
             this.heightLabel.TabIndex = 2;
             this.heightLabel.Text = "Height";
             // 
@@ -106,7 +106,7 @@ namespace DemosCommonCode.Imaging
             0,
             0});
             this.widthImageNumericUpDown.Name = "widthImageNumericUpDown";
-            this.widthImageNumericUpDown.Size = new System.Drawing.Size(90, 20);
+            this.widthImageNumericUpDown.Size = new System.Drawing.Size(90, 23);
             this.widthImageNumericUpDown.TabIndex = 1;
             this.widthImageNumericUpDown.Value = new decimal(new int[] {
             1000,
@@ -119,7 +119,7 @@ namespace DemosCommonCode.Imaging
             this.widthLabel.AutoSize = true;
             this.widthLabel.Location = new System.Drawing.Point(8, 22);
             this.widthLabel.Name = "widthLabel";
-            this.widthLabel.Size = new System.Drawing.Size(35, 13);
+            this.widthLabel.Size = new System.Drawing.Size(39, 15);
             this.widthLabel.TabIndex = 0;
             this.widthLabel.Text = "Width";
             // 
@@ -140,14 +140,14 @@ namespace DemosCommonCode.Imaging
             // 
             this.verticalResolutionTextBox.Location = new System.Drawing.Point(212, 18);
             this.verticalResolutionTextBox.Name = "verticalResolutionTextBox";
-            this.verticalResolutionTextBox.Size = new System.Drawing.Size(90, 20);
+            this.verticalResolutionTextBox.Size = new System.Drawing.Size(90, 23);
             this.verticalResolutionTextBox.TabIndex = 5;
             // 
             // horizontalResolutionTextBox
             // 
             this.horizontalResolutionTextBox.Location = new System.Drawing.Point(69, 18);
             this.horizontalResolutionTextBox.Name = "horizontalResolutionTextBox";
-            this.horizontalResolutionTextBox.Size = new System.Drawing.Size(89, 20);
+            this.horizontalResolutionTextBox.Size = new System.Drawing.Size(89, 23);
             this.horizontalResolutionTextBox.TabIndex = 4;
             // 
             // verticalLabel
@@ -155,7 +155,7 @@ namespace DemosCommonCode.Imaging
             this.verticalLabel.AutoSize = true;
             this.verticalLabel.Location = new System.Drawing.Point(164, 21);
             this.verticalLabel.Name = "verticalLabel";
-            this.verticalLabel.Size = new System.Drawing.Size(42, 13);
+            this.verticalLabel.Size = new System.Drawing.Size(45, 15);
             this.verticalLabel.TabIndex = 1;
             this.verticalLabel.Text = "Vertical";
             // 
@@ -164,7 +164,7 @@ namespace DemosCommonCode.Imaging
             this.horizontalLabel.AutoSize = true;
             this.horizontalLabel.Location = new System.Drawing.Point(8, 21);
             this.horizontalLabel.Name = "horizontalLabel";
-            this.horizontalLabel.Size = new System.Drawing.Size(54, 13);
+            this.horizontalLabel.Size = new System.Drawing.Size(62, 15);
             this.horizontalLabel.TabIndex = 0;
             this.horizontalLabel.Text = "Horizontal";
             // 
@@ -172,9 +172,9 @@ namespace DemosCommonCode.Imaging
             // 
             this.pixelFormatComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.pixelFormatComboBox.FormattingEnabled = true;
-            this.pixelFormatComboBox.Location = new System.Drawing.Point(87, 120);
+            this.pixelFormatComboBox.Location = new System.Drawing.Point(97, 120);
             this.pixelFormatComboBox.Name = "pixelFormatComboBox";
-            this.pixelFormatComboBox.Size = new System.Drawing.Size(234, 21);
+            this.pixelFormatComboBox.Size = new System.Drawing.Size(224, 23);
             this.pixelFormatComboBox.TabIndex = 2;
             // 
             // okButton
@@ -202,13 +202,13 @@ namespace DemosCommonCode.Imaging
             this.pixelFormatLabel.AutoSize = true;
             this.pixelFormatLabel.Location = new System.Drawing.Point(20, 123);
             this.pixelFormatLabel.Name = "pixelFormatLabel";
-            this.pixelFormatLabel.Size = new System.Drawing.Size(61, 13);
+            this.pixelFormatLabel.Size = new System.Drawing.Size(71, 15);
             this.pixelFormatLabel.TabIndex = 5;
             this.pixelFormatLabel.Text = "Pixel format";
             // 
             // CreateNewImageForm
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.ClientSize = new System.Drawing.Size(326, 175);
             this.Controls.Add(this.pixelFormatLabel);
             this.Controls.Add(this.buttonCancel);

@@ -38,7 +38,7 @@ namespace ImagingDemo
             // buttonCancel
             // 
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(142, 74);
+            this.buttonCancel.Location = new System.Drawing.Point(125, 72);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(81, 23);
             this.buttonCancel.TabIndex = 55;
@@ -47,7 +47,7 @@ namespace ImagingDemo
             // 
             // buttonOk
             // 
-            this.buttonOk.Location = new System.Drawing.Point(50, 74);
+            this.buttonOk.Location = new System.Drawing.Point(33, 72);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(81, 23);
             this.buttonOk.TabIndex = 54;
@@ -77,6 +77,7 @@ namespace ImagingDemo
             // 
             // fillColorPanelControl
             // 
+            this.fillColorPanelControl.CanEditAlphaChannel = false;
             this.fillColorPanelControl.Color = System.Drawing.SystemColors.Control;
             this.fillColorPanelControl.ColorButtonMargin = 8;
             this.fillColorPanelControl.ColorButtonWidth = 46;
@@ -90,7 +91,7 @@ namespace ImagingDemo
             // FillImageForm
             // 
             this.AcceptButton = this.buttonOk;
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(235, 107);
             this.Controls.Add(this.fillColorPanelControl);

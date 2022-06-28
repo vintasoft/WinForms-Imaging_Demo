@@ -119,6 +119,8 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
                     EncoderSettings.EmbeddedImageEncoder = jpegEncoder;
                     break;
             }
+
+            EncoderSettings.AllowExternalFonts = allowExternalFontsCheckBox.Checked;
         }
 
         /// <summary>
@@ -156,6 +158,8 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             {
                 encoderNameComboBox.SelectedItem = EncoderSettings.EmbeddedImageEncoder.Name.ToUpper();
             }
+
+            allowExternalFontsCheckBox.Checked = EncoderSettings.AllowExternalFonts;
         }
 
         /// <summary>

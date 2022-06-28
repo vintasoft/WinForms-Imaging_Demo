@@ -40,7 +40,7 @@ namespace DemosCommonCode.Imaging
             this.useWorksheetWidthAsPageWidthCheckBox.AutoSize = true;
             this.useWorksheetWidthAsPageWidthCheckBox.Location = new System.Drawing.Point(0, 0);
             this.useWorksheetWidthAsPageWidthCheckBox.Name = "useWorksheetWidthAsPageWidthCheckBox";
-            this.useWorksheetWidthAsPageWidthCheckBox.Size = new System.Drawing.Size(194, 17);
+            this.useWorksheetWidthAsPageWidthCheckBox.Size = new System.Drawing.Size(211, 19);
             this.useWorksheetWidthAsPageWidthCheckBox.TabIndex = 0;
             this.useWorksheetWidthAsPageWidthCheckBox.Text = "Use worksheet width as page width";
             this.useWorksheetWidthAsPageWidthCheckBox.UseVisualStyleBackColor = true;
@@ -51,7 +51,7 @@ namespace DemosCommonCode.Imaging
             this.useWorksheetHeightAsPageHeightCheckBox.AutoSize = true;
             this.useWorksheetHeightAsPageHeightCheckBox.Location = new System.Drawing.Point(0, 23);
             this.useWorksheetHeightAsPageHeightCheckBox.Name = "useWorksheetHeightAsPageHeightCheckBox";
-            this.useWorksheetHeightAsPageHeightCheckBox.Size = new System.Drawing.Size(202, 17);
+            this.useWorksheetHeightAsPageHeightCheckBox.Size = new System.Drawing.Size(219, 19);
             this.useWorksheetHeightAsPageHeightCheckBox.TabIndex = 1;
             this.useWorksheetHeightAsPageHeightCheckBox.Text = "Use worksheet height as page height";
             this.useWorksheetHeightAsPageHeightCheckBox.UseVisualStyleBackColor = true;
@@ -62,7 +62,7 @@ namespace DemosCommonCode.Imaging
             this.usePrintAreaCheckBox.AutoSize = true;
             this.usePrintAreaCheckBox.Location = new System.Drawing.Point(0, 46);
             this.usePrintAreaCheckBox.Name = "usePrintAreaCheckBox";
-            this.usePrintAreaCheckBox.Size = new System.Drawing.Size(92, 17);
+            this.usePrintAreaCheckBox.Size = new System.Drawing.Size(98, 19);
             this.usePrintAreaCheckBox.TabIndex = 2;
             this.usePrintAreaCheckBox.Text = "Use print area";
             this.usePrintAreaCheckBox.UseVisualStyleBackColor = true;
@@ -72,7 +72,7 @@ namespace DemosCommonCode.Imaging
             this.usePageMarginCheckBox.AutoSize = true;
             this.usePageMarginCheckBox.Location = new System.Drawing.Point(0, 69);
             this.usePageMarginCheckBox.Name = "usePageMarginCheckBox";
-            this.usePageMarginCheckBox.Size = new System.Drawing.Size(106, 17);
+            this.usePageMarginCheckBox.Size = new System.Drawing.Size(115, 19);
             this.usePageMarginCheckBox.TabIndex = 3;
             this.usePageMarginCheckBox.Text = "Use page margin";
             this.usePageMarginCheckBox.UseVisualStyleBackColor = true;
@@ -82,14 +82,14 @@ namespace DemosCommonCode.Imaging
             this.usePageScaleCheckBox.AutoSize = true;
             this.usePageScaleCheckBox.Location = new System.Drawing.Point(0, 92);
             this.usePageScaleCheckBox.Name = "usePageScaleCheckBox";
-            this.usePageScaleCheckBox.Size = new System.Drawing.Size(100, 17);
+            this.usePageScaleCheckBox.Size = new System.Drawing.Size(103, 19);
             this.usePageScaleCheckBox.TabIndex = 4;
             this.usePageScaleCheckBox.Text = "Use page scale";
             this.usePageScaleCheckBox.UseVisualStyleBackColor = true;
             // 
             // XlsxPageLayoutSettingsTypeEditorControl
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.usePageScaleCheckBox);
             this.Controls.Add(this.usePageMarginCheckBox);
             this.Controls.Add(this.usePrintAreaCheckBox);
@@ -97,7 +97,7 @@ namespace DemosCommonCode.Imaging
             this.Controls.Add(this.useWorksheetWidthAsPageWidthCheckBox);
             this.MinimumSize = new System.Drawing.Size(202, 107);
             this.Name = "XlsxPageLayoutSettingsTypeEditorControl";
-            this.Size = new System.Drawing.Size(202, 107);
+            this.Size = new System.Drawing.Size(220, 107);
             this.ResumeLayout(false);
             this.PerformLayout();
 

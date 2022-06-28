@@ -202,7 +202,7 @@ namespace ImagingDemo
             // ResizeCanvasForm
             // 
             this.AcceptButton = this.btOk;
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.btCancel;
             this.ClientSize = new System.Drawing.Size(200, 185);
             this.Controls.Add(this.canvasColorPanelControl);

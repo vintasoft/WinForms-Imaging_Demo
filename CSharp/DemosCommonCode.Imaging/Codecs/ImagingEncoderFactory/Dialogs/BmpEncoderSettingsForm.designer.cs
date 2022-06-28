@@ -38,7 +38,7 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(107, 48);
+            this.okButton.Location = new System.Drawing.Point(118, 48);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 0;
@@ -50,7 +50,7 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(188, 48);
+            this.buttonCancel.Location = new System.Drawing.Point(199, 48);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 1;
@@ -62,27 +62,27 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(12, 15);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(67, 13);
+            this.label1.Size = new System.Drawing.Size(77, 15);
             this.label1.TabIndex = 2;
             this.label1.Text = "Compression";
             // 
             // compressionComboBox
             // 
-            this.compressionComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.compressionComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.compressionComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.compressionComboBox.FormattingEnabled = true;
-            this.compressionComboBox.Location = new System.Drawing.Point(85, 12);
+            this.compressionComboBox.Location = new System.Drawing.Point(95, 12);
             this.compressionComboBox.Name = "compressionComboBox";
-            this.compressionComboBox.Size = new System.Drawing.Size(178, 21);
+            this.compressionComboBox.Size = new System.Drawing.Size(179, 23);
             this.compressionComboBox.TabIndex = 3;
             // 
             // BmpEncoderSettingsForm
             // 
             this.AcceptButton = this.okButton;
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(275, 84);
+            this.ClientSize = new System.Drawing.Size(286, 84);
             this.Controls.Add(this.compressionComboBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonCancel);

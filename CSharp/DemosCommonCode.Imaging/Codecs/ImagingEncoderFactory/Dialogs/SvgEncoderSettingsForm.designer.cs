@@ -39,6 +39,7 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             this.jpegGrayscaleCheckBox = new System.Windows.Forms.CheckBox();
             this.jpegQualityNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label3 = new System.Windows.Forms.Label();
+            this.allowExternalFontsCheckBox = new System.Windows.Forms.CheckBox();
             this.pngEncoderSettingsGroupBox.SuspendLayout();
             this.jpegEncoderSettingsGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.jpegQualityNumericUpDown)).BeginInit();
@@ -48,7 +49,7 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.okButton.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.okButton.Location = new System.Drawing.Point(111, 106);
+            this.okButton.Location = new System.Drawing.Point(117, 135);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 0;
@@ -60,7 +61,7 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(192, 106);
+            this.buttonCancel.Location = new System.Drawing.Point(198, 135);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 1;
@@ -82,9 +83,9 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             | System.Windows.Forms.AnchorStyles.Right)));
             this.encoderNameComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.encoderNameComboBox.FormattingEnabled = true;
-            this.encoderNameComboBox.Location = new System.Drawing.Point(159, 12);
+            this.encoderNameComboBox.Location = new System.Drawing.Point(169, 12);
             this.encoderNameComboBox.Name = "encoderNameComboBox";
-            this.encoderNameComboBox.Size = new System.Drawing.Size(108, 21);
+            this.encoderNameComboBox.Size = new System.Drawing.Size(105, 21);
             this.encoderNameComboBox.TabIndex = 3;
             this.encoderNameComboBox.SelectedIndexChanged += new System.EventHandler(this.encoderNameComboBox_SelectedIndexChanged);
             // 
@@ -94,7 +95,7 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             this.pngEncoderSettingsGroupBox.Controls.Add(this.label2);
             this.pngEncoderSettingsGroupBox.Location = new System.Drawing.Point(15, 38);
             this.pngEncoderSettingsGroupBox.Name = "pngEncoderSettingsGroupBox";
-            this.pngEncoderSettingsGroupBox.Size = new System.Drawing.Size(252, 58);
+            this.pngEncoderSettingsGroupBox.Size = new System.Drawing.Size(259, 58);
             this.pngEncoderSettingsGroupBox.TabIndex = 4;
             this.pngEncoderSettingsGroupBox.TabStop = false;
             this.pngEncoderSettingsGroupBox.Text = "PNG settings";
@@ -105,9 +106,9 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             | System.Windows.Forms.AnchorStyles.Right)));
             this.pngSettingsComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.pngSettingsComboBox.FormattingEnabled = true;
-            this.pngSettingsComboBox.Location = new System.Drawing.Point(145, 22);
+            this.pngSettingsComboBox.Location = new System.Drawing.Point(136, 22);
             this.pngSettingsComboBox.Name = "pngSettingsComboBox";
-            this.pngSettingsComboBox.Size = new System.Drawing.Size(99, 21);
+            this.pngSettingsComboBox.Size = new System.Drawing.Size(115, 21);
             this.pngSettingsComboBox.TabIndex = 5;
             // 
             // label2
@@ -162,12 +163,23 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
             this.label3.TabIndex = 6;
             this.label3.Text = "Quality";
             // 
+            // allowExternalFontsCheckBox
+            // 
+            this.allowExternalFontsCheckBox.AutoSize = true;
+            this.allowExternalFontsCheckBox.Location = new System.Drawing.Point(15, 105);
+            this.allowExternalFontsCheckBox.Name = "allowExternalFontsCheckBox";
+            this.allowExternalFontsCheckBox.Size = new System.Drawing.Size(121, 17);
+            this.allowExternalFontsCheckBox.TabIndex = 6;
+            this.allowExternalFontsCheckBox.Text = "Allow External Fonts";
+            this.allowExternalFontsCheckBox.UseVisualStyleBackColor = true;
+            // 
             // SvgEncoderSettingsForm
             // 
             this.AcceptButton = this.okButton;
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(279, 142);
+            this.ClientSize = new System.Drawing.Size(285, 171);
+            this.Controls.Add(this.allowExternalFontsCheckBox);
             this.Controls.Add(this.encoderNameComboBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonCancel);
@@ -204,5 +216,6 @@ namespace DemosCommonCode.Imaging.Codecs.Dialogs
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.NumericUpDown jpegQualityNumericUpDown;
         private System.Windows.Forms.CheckBox jpegGrayscaleCheckBox;
+        private System.Windows.Forms.CheckBox allowExternalFontsCheckBox;
     }
 }

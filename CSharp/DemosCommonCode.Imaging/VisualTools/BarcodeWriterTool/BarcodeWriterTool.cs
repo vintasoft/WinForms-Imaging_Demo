@@ -263,7 +263,7 @@ namespace DemosCommonCode.Barcode
         public VintasoftImage GetBarcodeImage()
         {
 #if !REMOVE_BARCODE_SDK
-            return new VintasoftImage(_writer.GetBarcodeAsBitmap(), true); 
+            return VintasoftImageGdiExtensions.Create(_writer.GetBarcodeAsBitmap(), true); 
 #else
             return null;
 #endif
@@ -346,7 +346,7 @@ namespace DemosCommonCode.Barcode
             // generate the barcode image
             try
             {
-                BarcodeImage = new VintasoftImage(_writer.GetBarcodeAsBitmap(), true);
+                BarcodeImage = VintasoftImageGdiExtensions.Create(_writer.GetBarcodeAsBitmap(), true);
             }
             catch (WriterSettingsException ex)
             {
@@ -428,7 +428,7 @@ namespace DemosCommonCode.Barcode
             {
                 using (Matrix oldTransformation = g.Transform)
                 {
-                    g.Transform = VintasoftDrawingConverter.Convert(ImageViewer.ViewerState.GetTransformToViewer());
+                    g.Transform = GdiConverter.Convert(ImageViewer.ViewerState.GetTransformToViewer());
                     BarcodeImage.Draw(g, GetDestBarcodeImageRectangle());
                     g.Transform = oldTransformation;
                 }

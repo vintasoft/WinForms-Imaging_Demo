@@ -169,7 +169,7 @@ namespace DemosCommonCode.Imaging
             // 
             // DicomMetadataEditorControl
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.splitContainer1);
             this.Name = "DicomMetadataEditorControl";
             this.Size = new System.Drawing.Size(803, 516);

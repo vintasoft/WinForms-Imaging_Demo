@@ -133,7 +133,7 @@ namespace DemosCommonCode.Twain
                         {
                             case AcquireModalState.ImageAcquired:
                                 // get acquired image as Bitmap and add Bitmap to the image collection
-                                _images.Add(new VintasoftImage(device.AcquiredImage.GetAsBitmap(), true));
+                                _images.Add(device.AcquiredImage.GetAsBitmap(), true);
                                 // dispose the acquired image
                                 device.AcquiredImage.Dispose();
                                 break;

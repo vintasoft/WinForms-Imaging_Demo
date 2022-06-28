@@ -40,6 +40,8 @@ using Vintasoft.Barcode;
 using Vintasoft.Imaging.Pdf.Tree;
 using Vintasoft.Imaging.Pdf;
 using Vintasoft.Imaging.Pdf.Drawing;
+using Vintasoft.Imaging.Drawing.Gdi;
+using Vintasoft.Imaging.Drawing;
 #endif
 
 namespace ImagingDemo
@@ -258,8 +260,14 @@ namespace ImagingDemo
             PdfAnnotationsAssemblyLoader.Load();
             DocxAssemblyLoader.Load();
             PdfAssemblyLoader.Load();
+#if NETCORE
+            WebpCodecAssemblyLoader.Load();
+#endif
 
             ImagingTypeEditorRegistrator.Register();
+
+            // set CustomFontProgramsController for all opened documents
+            CustomFontProgramsController.SetDefaultFontProgramsController();
 
             _imageMapTool = new ImageMapTool();
 
@@ -341,6 +349,9 @@ namespace ImagingDemo
                 new XlsxRenderingSettings());
 #endif
 
+            // initialize color management in viewer
+            ColorManagementHelper.EnableColorManagement(imageViewer1);
+
             UpdateUI();
 
             imageViewer1.Focus();
@@ -353,11 +364,6 @@ namespace ImagingDemo
             _imageCollectionXlsxLayoutSettingsManager = new ImageCollectionXlsxLayoutSettingsManager(imageViewer1.Images);
 #else
             documentLayoutSettingsToolStripMenuItem.Visible = false;
-#endif
-
-#if !REMOVE_PDF_PLUGIN
-            // set CustomFontProgramsController for all opened PDF documents
-            CustomFontProgramsController.EnableUsageOfDefaultFontProgramsController();
 #endif
         }
 
@@ -683,7 +689,7 @@ namespace ImagingDemo
             {
                 // add image from clipboard to the image collection of the image viewer
                 Image bitmap = Clipboard.GetImage();
-                VintasoftImage image = new VintasoftImage(bitmap, true);
+                VintasoftImage image = VintasoftImageGdiExtensions.Create(bitmap, true);
                 imageViewer1.Images.Add(image);
 
                 // update the UI
@@ -1005,7 +1011,7 @@ namespace ImagingDemo
                 try
                 {
                     // insert image from clipboard into image viewer
-                    VintasoftImage image = new VintasoftImage(Clipboard.GetImage(), true);
+                    VintasoftImage image = VintasoftImageGdiExtensions.Create(Clipboard.GetImage(), true);
                     imageViewer1.Images.Insert(imageViewer1.FocusedIndex, image);
                 }
                 catch (Exception ex)
@@ -1894,7 +1900,7 @@ namespace ImagingDemo
             VintasoftImage image = imageViewer1.Image;
             using (ResampleForm dlg = new ResampleForm((float)image.Resolution.Horizontal,
                 (float)image.Resolution.Vertical,
-                InterpolationMode.HighQualityBicubic,
+                ImageInterpolationMode.HighQualityBicubic,
                 "Change resolution", false))
             {
                 dlg.ShowInterpolationComboBox = false;
@@ -3069,23 +3075,23 @@ namespace ImagingDemo
                     int width = this.imageViewer1.Image.Width;
                     int height = this.imageViewer1.Image.Height;
 
-                    GraphicsPath paths = new GraphicsPath();
+                    Vintasoft.Imaging.Drawing.Gdi.GdiGraphicsPath paths = new Vintasoft.Imaging.Drawing.Gdi.GdiGraphicsPath();
 
                     // find image path resources
                     foreach (PhotoshopResource resource in photoshopMetadata.Resources)
                     {
                         if (resource is PhotoshopImagePathResource)
                         {
-                            GraphicsPath path = ((PhotoshopImagePathResource)resource).GetPath(width, height);
+                            Vintasoft.Imaging.Drawing.IGraphicsPath path = ((PhotoshopImagePathResource)resource).GetPath(width, height);
                             if (path.PointCount > 0)
-                                paths.AddPath(path, false);
+                                paths.AddPath(path);
                         }
                     }
 
                     if (paths.PointCount > 0)
                     {
                         // create selection tool with loaded paths
-                        PathSelectionRegion selection = new PathSelectionRegion(paths);
+                        PathSelectionRegion selection = new PathSelectionRegion(paths.Source);
                         selection.InteractionController = selection.TransformInteractionController;
                         CustomSelectionTool tool = new CustomSelectionTool();
                         tool.Selection = selection;
@@ -4479,7 +4485,7 @@ namespace ImagingDemo
                         // create a composite command, which will clear image, overlay image with path and crop the image
                         CompositeCommand compositeCommand = new CompositeCommand(
                             new ClearImageCommand(Color.Transparent),
-                            new ProcessPathCommand(new OverlayCommand(image), path),
+                            new ProcessPathCommand(new OverlayCommand(image), new Vintasoft.Imaging.Drawing.Gdi.GdiGraphicsPath(path, false)),
                             new CropCommand(viewerCopyRect));
                         // apply the composite command to the iamge and get the result image
                         clipboardImage = compositeCommand.Execute(imageViewer1.Image);
@@ -4579,7 +4585,7 @@ namespace ImagingDemo
                 else
                 {
                     // add image from clipboard as new image
-                    imageViewer1.Images.Add(new VintasoftImage(Clipboard.GetImage(), true));
+                    imageViewer1.Images.Add(Clipboard.GetImage(), true);
                 }
             }
             catch (Exception ex)
@@ -4645,7 +4651,7 @@ namespace ImagingDemo
                         return;
 
                     // get image from clipboard
-                    using (VintasoftImage imageFromClipboard = new VintasoftImage(Clipboard.GetImage(), true))
+                    using (VintasoftImage imageFromClipboard = VintasoftImageGdiExtensions.Create(Clipboard.GetImage(), true))
                     {
                         if (imageFromClipboard.Width != width || imageFromClipboard.Height != height)
                         {
@@ -4658,7 +4664,8 @@ namespace ImagingDemo
 
                         OverlayCommand overlayCommand = new OverlayCommand(imageFromClipboard);
                         // overlay with path command
-                        ProcessPathCommand overlayWithPath = new ProcessPathCommand(overlayCommand, path);
+                        ProcessPathCommand overlayWithPath = 
+                            new ProcessPathCommand(overlayCommand, new Vintasoft.Imaging.Drawing.Gdi.GdiGraphicsPath(path, false));
                         overlayWithPath.ExecuteInPlace(source);
                     }
                 }
@@ -4716,7 +4723,7 @@ namespace ImagingDemo
                 else
                 {
                     // add image from clipboard as new image
-                    thumbnailViewer1.Images.Add(new VintasoftImage(Clipboard.GetImage(), true));
+                    thumbnailViewer1.Images.Add(Clipboard.GetImage(), true);
                 }
             }
             catch (Exception ex)
@@ -5145,6 +5152,6 @@ namespace ImagingDemo
 
         #endregion
 
-     
+
     }
 }

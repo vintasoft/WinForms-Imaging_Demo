@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
+using Vintasoft.Imaging;
 
 namespace ImagingDemo
 {
@@ -19,21 +20,18 @@ namespace ImagingDemo
         /// <param name="verticalResolution">The vertical resolution of the image.</param>
         /// <param name="interpolationMode">The image interpolation mode.</param>
         /// <param name="dlgCaption">Title text.</param>
-        public ResampleForm(float horizontalResolution, float verticalResolution, InterpolationMode interpolationMode, string dlgCaption, bool resample)
+        public ResampleForm(float horizontalResolution, float verticalResolution, ImageInterpolationMode interpolationMode, string dlgCaption, bool resample)
         {
             InitializeComponent();
             this.Text = dlgCaption;
             _horizontalResolution = horizontalResolution;
             _verticalResolution = verticalResolution;
 
-            interpolationModeComboBox.Items.Add(InterpolationMode.Default);
-            interpolationModeComboBox.Items.Add(InterpolationMode.Low);
-            interpolationModeComboBox.Items.Add(InterpolationMode.High);
-            interpolationModeComboBox.Items.Add(InterpolationMode.Bilinear);
-            interpolationModeComboBox.Items.Add(InterpolationMode.Bicubic);
-            interpolationModeComboBox.Items.Add(InterpolationMode.NearestNeighbor);
-            interpolationModeComboBox.Items.Add(InterpolationMode.HighQualityBilinear);
-            interpolationModeComboBox.Items.Add(InterpolationMode.HighQualityBicubic);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.Bilinear);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.Bicubic);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.NearestNeighbor);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.HighQualityBilinear);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.HighQualityBicubic);
 
             interpolationModeComboBox.SelectedItem = interpolationMode;
 
@@ -71,11 +69,11 @@ namespace ImagingDemo
             }
         }
 
-        private InterpolationMode _interpolationMode;
+        private ImageInterpolationMode _interpolationMode;
         /// <summary>
         /// Gets the image interpolation mode.
         /// </summary>
-        public InterpolationMode InterpolationMode
+        public ImageInterpolationMode InterpolationMode
         {
             get
             {
@@ -114,7 +112,7 @@ namespace ImagingDemo
         {
             _horizontalResolution = (float)nHorizontalResolution.Value;
             _verticalResolution = (float)nVerticalResolution.Value;
-            _interpolationMode = (InterpolationMode)interpolationModeComboBox.SelectedItem;
+            _interpolationMode = (ImageInterpolationMode)interpolationModeComboBox.SelectedItem;
             DialogResult = System.Windows.Forms.DialogResult.OK;
         }
 

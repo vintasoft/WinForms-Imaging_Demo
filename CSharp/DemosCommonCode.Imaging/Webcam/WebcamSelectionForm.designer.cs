@@ -41,7 +41,7 @@ namespace DemosCommonCode.Imaging
             this.devicesComboBox.FormattingEnabled = true;
             this.devicesComboBox.Location = new System.Drawing.Point(9, 12);
             this.devicesComboBox.Name = "devicesComboBox";
-            this.devicesComboBox.Size = new System.Drawing.Size(352, 21);
+            this.devicesComboBox.Size = new System.Drawing.Size(352, 23);
             this.devicesComboBox.TabIndex = 0;
             this.devicesComboBox.SelectedIndexChanged += new System.EventHandler(this.devicesComboBox_SelectedIndexChanged);
             // 
@@ -69,9 +69,9 @@ namespace DemosCommonCode.Imaging
             // 
             this.videoFormatComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.videoFormatComboBox.FormattingEnabled = true;
-            this.videoFormatComboBox.Location = new System.Drawing.Point(81, 39);
+            this.videoFormatComboBox.Location = new System.Drawing.Point(90, 39);
             this.videoFormatComboBox.Name = "videoFormatComboBox";
-            this.videoFormatComboBox.Size = new System.Drawing.Size(280, 21);
+            this.videoFormatComboBox.Size = new System.Drawing.Size(271, 23);
             this.videoFormatComboBox.TabIndex = 3;
             // 
             // videoFormatLabel
@@ -79,14 +79,14 @@ namespace DemosCommonCode.Imaging
             this.videoFormatLabel.AutoSize = true;
             this.videoFormatLabel.Location = new System.Drawing.Point(6, 42);
             this.videoFormatLabel.Name = "videoFormatLabel";
-            this.videoFormatLabel.Size = new System.Drawing.Size(69, 13);
+            this.videoFormatLabel.Size = new System.Drawing.Size(78, 15);
             this.videoFormatLabel.TabIndex = 4;
             this.videoFormatLabel.Text = "Video Format";
             // 
             // WebcamSelectionForm
             // 
             this.AcceptButton = this.okButton;
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(369, 99);
             this.Controls.Add(this.videoFormatLabel);

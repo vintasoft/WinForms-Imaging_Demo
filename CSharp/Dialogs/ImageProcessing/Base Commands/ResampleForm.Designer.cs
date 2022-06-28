@@ -61,7 +61,7 @@ namespace ImagingDemo
             // btOk
             // 
             this.btOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btOk.Location = new System.Drawing.Point(42, 105);
+            this.btOk.Location = new System.Drawing.Point(63, 106);
             this.btOk.Name = "btOk";
             this.btOk.Size = new System.Drawing.Size(75, 23);
             this.btOk.TabIndex = 4;
@@ -73,7 +73,7 @@ namespace ImagingDemo
             // 
             this.btCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btCancel.Location = new System.Drawing.Point(123, 105);
+            this.btCancel.Location = new System.Drawing.Point(144, 106);
             this.btCancel.Name = "btCancel";
             this.btCancel.Size = new System.Drawing.Size(75, 23);
             this.btCancel.TabIndex = 5;
@@ -95,7 +95,7 @@ namespace ImagingDemo
             0,
             0});
             this.nHorizontalResolution.Name = "nHorizontalResolution";
-            this.nHorizontalResolution.Size = new System.Drawing.Size(100, 20);
+            this.nHorizontalResolution.Size = new System.Drawing.Size(155, 20);
             this.nHorizontalResolution.TabIndex = 6;
             this.nHorizontalResolution.Value = new decimal(new int[] {
             1,
@@ -105,7 +105,7 @@ namespace ImagingDemo
             // 
             // nVerticalResolution
             // 
-            this.nVerticalResolution.Location = new System.Drawing.Point(123, 49);
+            this.nVerticalResolution.Location = new System.Drawing.Point(123, 48);
             this.nVerticalResolution.Maximum = new decimal(new int[] {
             12800,
             0,
@@ -117,7 +117,7 @@ namespace ImagingDemo
             0,
             0});
             this.nVerticalResolution.Name = "nVerticalResolution";
-            this.nVerticalResolution.Size = new System.Drawing.Size(100, 20);
+            this.nVerticalResolution.Size = new System.Drawing.Size(155, 20);
             this.nVerticalResolution.TabIndex = 7;
             this.nVerticalResolution.Value = new decimal(new int[] {
             1,
@@ -128,7 +128,7 @@ namespace ImagingDemo
             // interpolationLabel
             // 
             this.interpolationLabel.AutoSize = true;
-            this.interpolationLabel.Location = new System.Drawing.Point(5, 78);
+            this.interpolationLabel.Location = new System.Drawing.Point(12, 78);
             this.interpolationLabel.Name = "interpolationLabel";
             this.interpolationLabel.Size = new System.Drawing.Size(65, 13);
             this.interpolationLabel.TabIndex = 8;
@@ -138,7 +138,7 @@ namespace ImagingDemo
             // 
             this.interpolationModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.interpolationModeComboBox.FormattingEnabled = true;
-            this.interpolationModeComboBox.Location = new System.Drawing.Point(76, 75);
+            this.interpolationModeComboBox.Location = new System.Drawing.Point(123, 75);
             this.interpolationModeComboBox.Name = "interpolationModeComboBox";
             this.interpolationModeComboBox.Size = new System.Drawing.Size(155, 21);
             this.interpolationModeComboBox.TabIndex = 9;
@@ -146,9 +146,9 @@ namespace ImagingDemo
             // ResampleForm
             // 
             this.AcceptButton = this.btOk;
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.btCancel;
-            this.ClientSize = new System.Drawing.Size(243, 141);
+            this.ClientSize = new System.Drawing.Size(292, 141);
             this.Controls.Add(this.interpolationModeComboBox);
             this.Controls.Add(this.interpolationLabel);
             this.Controls.Add(this.nVerticalResolution);

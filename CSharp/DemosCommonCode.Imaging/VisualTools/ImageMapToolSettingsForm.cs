@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-using Vintasoft.Imaging.UI;
+using Vintasoft.Imaging;
 using Vintasoft.Imaging.UI.VisualTools;
 
 namespace DemosCommonCode.Imaging

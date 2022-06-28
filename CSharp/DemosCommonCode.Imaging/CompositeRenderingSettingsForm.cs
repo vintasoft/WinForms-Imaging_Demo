@@ -4,6 +4,7 @@ using System.Windows.Forms;
 
 using Vintasoft.Imaging;
 using Vintasoft.Imaging.Codecs.Decoders;
+using Vintasoft.Imaging.Drawing;
 using Vintasoft.Imaging.Drawing.Gdi;
 #if !REMOVE_PDF_PLUGIN
 using Vintasoft.Imaging.Pdf;
@@ -38,30 +39,24 @@ namespace DemosCommonCode.Imaging
             InitializeComponent();
 
             // init "Text Rendering Hint"
-            textRenderingHintComboBox.Items.Add(GdiTextRenderingHint.Auto);
-            textRenderingHintComboBox.Items.Add(GdiTextRenderingHint.AntiAlias);
-            textRenderingHintComboBox.Items.Add(GdiTextRenderingHint.AntiAliasGridFit);
-            textRenderingHintComboBox.Items.Add(GdiTextRenderingHint.ClearTypeGridFit);
-            textRenderingHintComboBox.Items.Add(GdiTextRenderingHint.SingleBitPerPixel);
-            textRenderingHintComboBox.Items.Add(GdiTextRenderingHint.SingleBitPerPixelGridFit);
-            textRenderingHintComboBox.Items.Add(GdiTextRenderingHint.SystemDefault);
+            textRenderingHintComboBox.Items.Add(TextRenderingHint.Auto);
+            textRenderingHintComboBox.Items.Add(TextRenderingHint.AntiAlias);
+            textRenderingHintComboBox.Items.Add(TextRenderingHint.AntiAliasGridFit);
+            textRenderingHintComboBox.Items.Add(TextRenderingHint.ClearTypeGridFit);
+            textRenderingHintComboBox.Items.Add(TextRenderingHint.SingleBitPerPixel);
+            textRenderingHintComboBox.Items.Add(TextRenderingHint.SingleBitPerPixelGridFit);
+            textRenderingHintComboBox.Items.Add(TextRenderingHint.SystemDefault);
 
             // init "Interpolation Mode"
-            interpolationModeComboBox.Items.Add(InterpolationMode.Bicubic);
-            interpolationModeComboBox.Items.Add(InterpolationMode.Bilinear);
-            interpolationModeComboBox.Items.Add(InterpolationMode.Default);
-            interpolationModeComboBox.Items.Add(InterpolationMode.High);
-            interpolationModeComboBox.Items.Add(InterpolationMode.HighQualityBicubic);
-            interpolationModeComboBox.Items.Add(InterpolationMode.HighQualityBilinear);
-            interpolationModeComboBox.Items.Add(InterpolationMode.Low);
-            interpolationModeComboBox.Items.Add(InterpolationMode.NearestNeighbor);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.Bicubic);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.Bilinear);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.HighQualityBicubic);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.HighQualityBilinear);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.NearestNeighbor);
 
             // init "Smoothing Mode"
-            smoothingModeComboBox.Items.Add(SmoothingMode.AntiAlias);
-            smoothingModeComboBox.Items.Add(SmoothingMode.Default);
-            smoothingModeComboBox.Items.Add(SmoothingMode.HighQuality);
-            smoothingModeComboBox.Items.Add(SmoothingMode.HighSpeed);
-            smoothingModeComboBox.Items.Add(SmoothingMode.None);
+            smoothingModeComboBox.Items.Add(DrawingSmoothingMode.AntiAlias);
+            smoothingModeComboBox.Items.Add(DrawingSmoothingMode.None);
         }
 
         /// <summary>
@@ -186,9 +181,9 @@ namespace DemosCommonCode.Imaging
             }
 
             // get rendering interpolation mode
-            _renderingSettings.InterpolationMode = (InterpolationMode)interpolationModeComboBox.SelectedItem;
+            _renderingSettings.InterpolationMode = (ImageInterpolationMode)interpolationModeComboBox.SelectedItem;
             // get rendering smoothing mode
-            _renderingSettings.SmoothingMode = (SmoothingMode)smoothingModeComboBox.SelectedItem;
+            _renderingSettings.SmoothingMode = (DrawingSmoothingMode)smoothingModeComboBox.SelectedItem;
             // get a value indicating whether the image drawing method must use performance optimizations for image drawing
             _renderingSettings.OptimizeImageDrawing = optimizeImageDrawingCheckBox.Checked;
             // get a value indicating whether the SDK must use special algorithm for drawing sharp image borders
@@ -223,7 +218,7 @@ namespace DemosCommonCode.Imaging
                 foreach (MarkupRenderingSettings settings in markupSettings)
                 {
                     // copy setting from dialog to each markup rendering settings object
-                    settings.TextRenderingHint = (GdiTextRenderingHint)textRenderingHintComboBox.SelectedItem;
+                    settings.TextRenderingHint = (TextRenderingHint)textRenderingHintComboBox.SelectedItem;
                     settings.ShowInvisibleTableBorders = showInvisibleTableBordersCheckBox.Checked;
                     settings.ShowNonPrintableCharacters = showNonPrintableCharactersCheckBox.Checked;
                     settings.InvisibleTableBordersColor = invisibleTableBordersColorPanelControl.Color;

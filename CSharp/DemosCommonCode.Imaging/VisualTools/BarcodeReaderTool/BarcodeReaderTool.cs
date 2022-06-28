@@ -374,7 +374,7 @@ namespace DemosCommonCode.Barcode
             {
                 using (Matrix oldTransformation = g.Transform)
                 {
-                    g.Transform = VintasoftDrawingConverter.Convert(ImageViewer.ViewerState.GetTransformToViewer());
+                    g.Transform = GdiConverter.Convert(ImageViewer.ViewerState.GetTransformToViewer());
                     for (int i = 0; i < _recognitionResults.Length; i++)
                         DrawBarcodeInfo(g, _recognitionResults[i]);
                     g.Transform = oldTransformation;

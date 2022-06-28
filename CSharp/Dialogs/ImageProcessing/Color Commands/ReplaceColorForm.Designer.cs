@@ -137,6 +137,7 @@ namespace ImagingDemo
             // 
             // oldColorPanelControl
             // 
+            this.oldColorPanelControl.CanEditAlphaChannel = false;
             this.oldColorPanelControl.Color = System.Drawing.SystemColors.Control;
             this.oldColorPanelControl.ColorButtonMargin = 8;
             this.oldColorPanelControl.ColorButtonWidth = 47;
@@ -149,6 +150,7 @@ namespace ImagingDemo
             // 
             // newColorPanelControl
             // 
+            this.newColorPanelControl.CanEditAlphaChannel = false;
             this.newColorPanelControl.Color = System.Drawing.SystemColors.Control;
             this.newColorPanelControl.ColorButtonMargin = 8;
             this.newColorPanelControl.ColorButtonWidth = 47;

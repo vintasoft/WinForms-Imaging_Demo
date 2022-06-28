@@ -65,7 +65,7 @@ namespace ImagingDemo
             this.levelLabel.AutoSize = true;
             this.levelLabel.Location = new System.Drawing.Point(176, 341);
             this.levelLabel.Name = "levelLabel";
-            this.levelLabel.Size = new System.Drawing.Size(36, 13);
+            this.levelLabel.Size = new System.Drawing.Size(37, 15);
             this.levelLabel.TabIndex = 2;
             this.levelLabel.Text = "Level:";
             // 
@@ -74,7 +74,7 @@ namespace ImagingDemo
             this.countLabel.AutoSize = true;
             this.countLabel.Location = new System.Drawing.Point(176, 357);
             this.countLabel.Name = "countLabel";
-            this.countLabel.Size = new System.Drawing.Size(38, 13);
+            this.countLabel.Size = new System.Drawing.Size(43, 15);
             this.countLabel.TabIndex = 3;
             this.countLabel.Text = "Count:";
             // 
@@ -83,7 +83,7 @@ namespace ImagingDemo
             this.percentageLabel.AutoSize = true;
             this.percentageLabel.Location = new System.Drawing.Point(176, 373);
             this.percentageLabel.Name = "percentageLabel";
-            this.percentageLabel.Size = new System.Drawing.Size(65, 13);
+            this.percentageLabel.Size = new System.Drawing.Size(69, 15);
             this.percentageLabel.TabIndex = 4;
             this.percentageLabel.Text = "Percentage:";
             // 
@@ -92,7 +92,7 @@ namespace ImagingDemo
             this.pixelCountLabel.AutoSize = true;
             this.pixelCountLabel.Location = new System.Drawing.Point(9, 341);
             this.pixelCountLabel.Name = "pixelsLabel";
-            this.pixelCountLabel.Size = new System.Drawing.Size(37, 13);
+            this.pixelCountLabel.Size = new System.Drawing.Size(40, 15);
             this.pixelCountLabel.TabIndex = 5;
             this.pixelCountLabel.Text = "Pixels:";
             // 
@@ -105,9 +105,9 @@ namespace ImagingDemo
             "Red",
             "Green",
             "Blue"});
-            this.histogramTypeComboBox.Location = new System.Drawing.Point(95, 5);
+            this.histogramTypeComboBox.Location = new System.Drawing.Point(107, 5);
             this.histogramTypeComboBox.Name = "histogramTypeComboBox";
-            this.histogramTypeComboBox.Size = new System.Drawing.Size(121, 21);
+            this.histogramTypeComboBox.Size = new System.Drawing.Size(121, 23);
             this.histogramTypeComboBox.TabIndex = 6;
             this.histogramTypeComboBox.SelectedIndexChanged += new System.EventHandler(this.histogramTypeComboBox_SelectedIndexChanged);
             // 
@@ -116,14 +116,14 @@ namespace ImagingDemo
             this.histogramTypeLabel.AutoSize = true;
             this.histogramTypeLabel.Location = new System.Drawing.Point(9, 8);
             this.histogramTypeLabel.Name = "histogramTypeLabel";
-            this.histogramTypeLabel.Size = new System.Drawing.Size(80, 13);
+            this.histogramTypeLabel.Size = new System.Drawing.Size(92, 15);
             this.histogramTypeLabel.TabIndex = 7;
             this.histogramTypeLabel.Text = "Histogram type:";
             // 
             // HistogramForm
             // 
             this.AcceptButton = this.closeButton;
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.closeButton;
             this.ClientSize = new System.Drawing.Size(627, 392);
             this.Controls.Add(this.histogramTypeLabel);

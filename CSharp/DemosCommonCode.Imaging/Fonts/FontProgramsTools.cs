@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using Vintasoft.Imaging.Utils;
 
 using DemosCommonCode.Imaging;
+using Vintasoft.Imaging.Fonts;
 
 namespace DemosCommonCode.Imaging
 {
@@ -38,13 +39,13 @@ namespace DemosCommonCode.Imaging
         {
             StringBuilder messageString = new StringBuilder();
             messageString.AppendLine("This operation will parse all fonts available on system and refresh");
-            messageString.AppendLine("the font map by replacing current names with actual PostScript names.");
+            messageString.AppendLine("the font map by replacing current names with actual font names.");
             messageString.AppendLine("It can be time consuming.");
             messageString.AppendLine("Do you want to refresh names of all available fonts?");
 
-            if (MessageBox.Show(messageString.ToString(), "Refresh PostScript font names?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
+            if (MessageBox.Show(messageString.ToString(), "Refresh font names?", MessageBoxButtons.YesNo, MessageBoxIcon.Warning) == DialogResult.Yes)
             {
-                using (ActionProgressForm actionProgressForm = new ActionProgressForm(RefreshPostScriptFontNames, 2, "Refreshing PostScript font names..."))
+                using (ActionProgressForm actionProgressForm = new ActionProgressForm(RefreshFontNames, 1, "Refreshing font names..."))
                     return actionProgressForm.RunAndShowDialog(dialogOwner);
             }
             else
@@ -62,9 +63,11 @@ namespace DemosCommonCode.Imaging
         /// Refreshes the PostScript font names of programs controller.
         /// </summary>
         /// <param name="progressController">Progress controller.</param>
-        private static void RefreshPostScriptFontNames(IActionProgressController progressController)
+        private static void RefreshFontNames(IActionProgressController progressController)
         {
-            CustomFontProgramsController.Default.RefreshPostScriptFontNames(progressController);
+            FileFontProgramsControllerBase fontProgramsController = FontProgramsControllerBase.Default as FileFontProgramsControllerBase;
+            if (fontProgramsController != null)
+                fontProgramsController.RefreshFontNames(progressController);
         }
 
         #endregion

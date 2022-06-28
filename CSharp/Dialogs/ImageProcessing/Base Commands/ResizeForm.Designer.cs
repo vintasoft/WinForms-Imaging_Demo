@@ -62,7 +62,7 @@ namespace ImagingDemo
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.okButton.Location = new System.Drawing.Point(43, 128);
+            this.okButton.Location = new System.Drawing.Point(43, 135);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 4;
@@ -74,7 +74,7 @@ namespace ImagingDemo
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(124, 128);
+            this.buttonCancel.Location = new System.Drawing.Point(124, 135);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 5;
@@ -153,8 +153,8 @@ namespace ImagingDemo
             // 
             // interpolationModeComboBox
             // 
-            this.interpolationModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.interpolationModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.interpolationModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.interpolationModeComboBox.FormattingEnabled = true;
             this.interpolationModeComboBox.Location = new System.Drawing.Point(79, 101);
@@ -165,9 +165,9 @@ namespace ImagingDemo
             // ResizeForm
             // 
             this.AcceptButton = this.okButton;
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(243, 158);
+            this.ClientSize = new System.Drawing.Size(243, 165);
             this.Controls.Add(this.interpolationModeComboBox);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.constrainProportionsCheckBox);

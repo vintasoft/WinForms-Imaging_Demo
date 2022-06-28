@@ -49,6 +49,7 @@ namespace DemosCommonCode.Imaging
             this.smoothingModeComboBox = new System.Windows.Forms.ComboBox();
             this.interpolationModeComboBox = new System.Windows.Forms.ComboBox();
             this.pdfSettingsTabPage = new System.Windows.Forms.TabPage();
+            this.drawErrorsCheckBox = new System.Windows.Forms.CheckBox();
             this.annotationRenderingModeLabel = new System.Windows.Forms.Label();
             this.annotationRenderingModeGroupBox = new System.Windows.Forms.GroupBox();
             this.renderDisplayableCheckBox = new System.Windows.Forms.CheckBox();
@@ -64,7 +65,6 @@ namespace DemosCommonCode.Imaging
             this.officeSettingsTabPage = new System.Windows.Forms.TabPage();
             this.invisibleTableBordersGroupBox = new System.Windows.Forms.GroupBox();
             this.colorLabel = new System.Windows.Forms.Label();
-            this.drawErrorsCheckBox = new System.Windows.Forms.CheckBox();
             this.invisibleTableBordersColorPanelControl = new DemosCommonCode.CustomControls.ColorPanelControl();
             this.renderingSettingsTabControl.SuspendLayout();
             this.commonSettingsTabPage.SuspendLayout();
@@ -135,9 +135,9 @@ namespace DemosCommonCode.Imaging
             // 
             this.textRenderingHintComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.textRenderingHintComboBox.FormattingEnabled = true;
-            this.textRenderingHintComboBox.Location = new System.Drawing.Point(111, 11);
+            this.textRenderingHintComboBox.Location = new System.Drawing.Point(123, 11);
             this.textRenderingHintComboBox.Name = "textRenderingHintComboBox";
-            this.textRenderingHintComboBox.Size = new System.Drawing.Size(136, 21);
+            this.textRenderingHintComboBox.Size = new System.Drawing.Size(124, 21);
             this.textRenderingHintComboBox.TabIndex = 7;
             // 
             // renderingSettingsTabControl
@@ -215,7 +215,7 @@ namespace DemosCommonCode.Imaging
             this.resolutionSettingsGroupBox.Controls.Add(this.label1);
             this.resolutionSettingsGroupBox.Location = new System.Drawing.Point(10, 15);
             this.resolutionSettingsGroupBox.Name = "resolutionSettingsGroupBox";
-            this.resolutionSettingsGroupBox.Size = new System.Drawing.Size(237, 76);
+            this.resolutionSettingsGroupBox.Size = new System.Drawing.Size(237, 78);
             this.resolutionSettingsGroupBox.TabIndex = 9;
             this.resolutionSettingsGroupBox.TabStop = false;
             // 
@@ -332,6 +332,16 @@ namespace DemosCommonCode.Imaging
             this.pdfSettingsTabPage.TabIndex = 1;
             this.pdfSettingsTabPage.Text = "PDF";
             this.pdfSettingsTabPage.UseVisualStyleBackColor = true;
+            // 
+            // drawErrorsCheckBox
+            // 
+            this.drawErrorsCheckBox.AutoSize = true;
+            this.drawErrorsCheckBox.Location = new System.Drawing.Point(11, 261);
+            this.drawErrorsCheckBox.Name = "drawErrorsCheckBox";
+            this.drawErrorsCheckBox.Size = new System.Drawing.Size(162, 17);
+            this.drawErrorsCheckBox.TabIndex = 5;
+            this.drawErrorsCheckBox.Text = "Draw Image Resource Errors";
+            this.drawErrorsCheckBox.UseVisualStyleBackColor = true;
             // 
             // annotationRenderingModeLabel
             // 
@@ -492,18 +502,9 @@ namespace DemosCommonCode.Imaging
             this.colorLabel.TabIndex = 3;
             this.colorLabel.Text = "Border Color";
             // 
-            // drawErrorsCheckBox
-            // 
-            this.drawErrorsCheckBox.AutoSize = true;
-            this.drawErrorsCheckBox.Location = new System.Drawing.Point(11, 261);
-            this.drawErrorsCheckBox.Name = "drawErrorsCheckBox";
-            this.drawErrorsCheckBox.Size = new System.Drawing.Size(162, 17);
-            this.drawErrorsCheckBox.TabIndex = 5;
-            this.drawErrorsCheckBox.Text = "Draw Image Resource Errors";
-            this.drawErrorsCheckBox.UseVisualStyleBackColor = true;
-            // 
             // invisibleTableBordersColorPanelControl
             // 
+            this.invisibleTableBordersColorPanelControl.CanEditAlphaChannel = false;
             this.invisibleTableBordersColorPanelControl.CanSetColor = false;
             this.invisibleTableBordersColorPanelControl.Color = System.Drawing.Color.Transparent;
             this.invisibleTableBordersColorPanelControl.DefaultColor = System.Drawing.Color.Empty;
@@ -515,7 +516,7 @@ namespace DemosCommonCode.Imaging
             // CompositeRenderingSettingsForm
             // 
             this.AcceptButton = this.buttonOk;
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(263, 342);
             this.Controls.Add(this.renderingSettingsTabControl);

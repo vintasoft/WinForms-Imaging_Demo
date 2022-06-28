@@ -77,7 +77,7 @@ namespace DemosCommonCode.Imaging
                 return;
 
             // get DICOM value type from combo-box
-            DicomValueRepresentation selectedValueRepresentation = 
+            DicomValueRepresentation selectedValueRepresentation =
                 (DicomValueRepresentation)valueRepresentationComboBox.SelectedItem;
 
 
@@ -277,10 +277,14 @@ namespace DemosCommonCode.Imaging
                     case DicomValueRepresentation.DT:
                         DateTime date = valueDatePicker.Value;
                         DateTime time = valueTimePicker.Value;
+
                         DateTime dateTime = new DateTime(
                             date.Year, date.Month, date.Day,
                             time.Hour, time.Minute, time.Second);
-                        value = dateTime;
+
+                        value = new DicomDateTime(
+                            TimeZone.CurrentTimeZone.ToUniversalTime(dateTime),
+                            TimeZone.CurrentTimeZone.GetUtcOffset(dateTime));
                         break;
 
                     // Sequence of Items

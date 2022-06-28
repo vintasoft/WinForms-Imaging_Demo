@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using Vintasoft.Imaging.Codecs.Encoders;
 
 using DemosCommonCode.Imaging.Codecs.Dialogs;
-
+using Vintasoft.Imaging.Codecs.Decoders;
 
 namespace DemosCommonCode.Imaging.Codecs
 {
@@ -286,6 +286,7 @@ namespace DemosCommonCode.Imaging.Codecs
                         tiffEncoder.CreateNewFile = !tiffEncoderSettingsForm.AddImagesToExistingFile;
                         return true;
                     }
+
                 case "Svg":
                     using (SvgEncoderSettingsForm svgEncoderSettingsForm = new SvgEncoderSettingsForm())
                     {
@@ -298,6 +299,50 @@ namespace DemosCommonCode.Imaging.Codecs
                         svgEncoder.Settings = svgEncoderSettingsForm.EncoderSettings;
                         return true;
                     }
+
+                case "Pcx":
+                    return true;
+
+                case "Tga":
+                    using (TgaEncoderSettingsForm tgaEncoderSettingsForm = new TgaEncoderSettingsForm())
+                    {
+                        SetEncoderSettingsDialogProperties(tgaEncoderSettingsForm);
+                        if (tgaEncoderSettingsForm.ShowDialog() != DialogResult.OK)
+                            return false;
+
+                        TgaEncoder tgaEncoder = (TgaEncoder)encoder;
+
+                        tgaEncoder.Settings = tgaEncoderSettingsForm.EncoderSettings;
+                        return true;
+                    }
+
+                case "Pbm":
+                    using (PbmEncoderSettingsForm pbmEncoderSettingsForm = new PbmEncoderSettingsForm())
+                    {
+                        SetEncoderSettingsDialogProperties(pbmEncoderSettingsForm);
+                        if (pbmEncoderSettingsForm.ShowDialog() != DialogResult.OK)
+                            return false;
+
+                        PbmEncoder pbmEncoder = (PbmEncoder)encoder;
+
+                        pbmEncoder.Settings = pbmEncoderSettingsForm.EncoderSettings;
+                        return true;
+                    }
+
+#if NETCOREAPP
+                case "Webp":
+                    using (WebpEncoderSettingsForm webpEncoderSettingsForm = new WebpEncoderSettingsForm())
+                    {
+                        SetEncoderSettingsDialogProperties(webpEncoderSettingsForm);
+                        if (webpEncoderSettingsForm.ShowDialog() != DialogResult.OK)
+                            return false;
+
+                        WebpEncoder webpEncoder = (WebpEncoder)encoder;
+
+                        webpEncoder.Settings = webpEncoderSettingsForm.EncoderSettings;
+                        return true;
+                    }
+#endif
             }
 
             return false;
@@ -344,24 +389,20 @@ namespace DemosCommonCode.Imaging.Codecs
                 // exit
                 return false;
 
-            // if file exists
-            if (File.Exists(filename))
+            // if we need to ask that the existing file must be overwritten and the file exists
+            if (askIfFileCanBeOverwritten && File.Exists(filename))
             {
-                // if we need to ask that the existing file must be overwritten
-                if (askIfFileCanBeOverwritten)
+                // if encoder is multipage encoder
+                if (encoder is MultipageEncoderBase)
                 {
-                    // if encoder is multipage encoder
-                    if (encoder is MultipageEncoderBase)
-                    {
-                        // if encoder must create new image file
-                        if (((MultipageEncoderBase)encoder).CreateNewFile)
-                            ShowDialogAndAskIfFileMustBeOverwritten(filename);
-                    }
-                    // if encoder is NOT multipage encoder
-                    else
-                    {
-                        ShowDialogAndAskIfFileMustBeOverwritten(filename);
-                    }
+                    // if encoder must create new image file
+                    if (((MultipageEncoderBase)encoder).CreateNewFile)
+                        return ShowDialogAndAskIfFileMustBeOverwritten(filename);
+                }
+                // if encoder is NOT multipage encoder
+                else
+                {
+                    return ShowDialogAndAskIfFileMustBeOverwritten(filename);
                 }
             }
 

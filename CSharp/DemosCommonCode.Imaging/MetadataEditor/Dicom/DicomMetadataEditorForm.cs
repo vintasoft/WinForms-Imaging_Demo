@@ -94,6 +94,15 @@ namespace DemosCommonCode.Imaging
             base.OnShown(e);
 
             dicomMetadataEditorControl1.Select();
+
+            if (CanEdit)
+            {
+                this.Text = "DICOM Metadata Editor";
+            }
+            else
+            {
+                this.Text = "DICOM Metadata Viewer";
+            }
         }
 
         #endregion

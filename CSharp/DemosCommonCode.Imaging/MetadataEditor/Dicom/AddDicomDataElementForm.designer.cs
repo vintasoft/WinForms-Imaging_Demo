@@ -109,9 +109,9 @@ namespace DemosCommonCode.Imaging
             // 
             // valueTextBox
             // 
-            this.valueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.valueTextBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.valueTextBox.Location = new System.Drawing.Point(15, 87);
             this.valueTextBox.Multiline = true;
             this.valueTextBox.Name = "valueTextBox";
@@ -222,7 +222,7 @@ namespace DemosCommonCode.Imaging
             // 
             // AddDicomDataElementForm
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.cancelButton1;
             this.ClientSize = new System.Drawing.Size(304, 221);
             this.Controls.Add(this.valueAgeComboBox);
@@ -239,12 +239,12 @@ namespace DemosCommonCode.Imaging
             this.Controls.Add(this.label2);
             this.Controls.Add(this.groupNumberNumericUpDown);
             this.Controls.Add(this.label1);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.SizableToolWindow;
             this.MaximizeBox = false;
             this.MaximumSize = new System.Drawing.Size(320, 65535);
             this.MinimizeBox = false;
             this.MinimumSize = new System.Drawing.Size(320, 190);
-            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "AddDicomDataElementForm";
             this.Text = "Add Dicom Data Element";
             ((System.ComponentModel.ISupportInitialize)(this.groupNumberNumericUpDown)).EndInit();

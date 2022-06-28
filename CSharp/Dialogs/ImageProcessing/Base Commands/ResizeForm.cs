@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 using System.Drawing.Drawing2D;
+using Vintasoft.Imaging;
 
 namespace ImagingDemo
 {
@@ -29,7 +30,7 @@ namespace ImagingDemo
         /// <param name="width">Image width.</param>
         /// <param name="height">Image height.</param>
         /// <param name="interpolationMode">Image interpolation mode.</param>
-        public ResizeForm(int width, int height, InterpolationMode interpolationMode)
+        public ResizeForm(int width, int height, ImageInterpolationMode interpolationMode)
         {
             InitializeComponent();
 
@@ -39,14 +40,11 @@ namespace ImagingDemo
             widthNumericUpDown.Value = width;
             heightNumericUpDown.Value = height;
 
-            interpolationModeComboBox.Items.Add(InterpolationMode.Default);
-            interpolationModeComboBox.Items.Add(InterpolationMode.Low);
-            interpolationModeComboBox.Items.Add(InterpolationMode.High);
-            interpolationModeComboBox.Items.Add(InterpolationMode.Bilinear);
-            interpolationModeComboBox.Items.Add(InterpolationMode.Bicubic);
-            interpolationModeComboBox.Items.Add(InterpolationMode.NearestNeighbor);
-            interpolationModeComboBox.Items.Add(InterpolationMode.HighQualityBilinear);
-            interpolationModeComboBox.Items.Add(InterpolationMode.HighQualityBicubic);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.Bilinear);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.Bicubic);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.NearestNeighbor);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.HighQualityBilinear);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.HighQualityBicubic);
 
             interpolationModeComboBox.SelectedItem = interpolationMode;
 
@@ -83,11 +81,11 @@ namespace ImagingDemo
             }
         }
 
-        InterpolationMode _interpolationMode;
+        ImageInterpolationMode _interpolationMode;
         /// <summary>
         /// Gets the image interpolation mode.
         /// </summary>
-        public InterpolationMode InterpolationMode
+        public ImageInterpolationMode InterpolationMode
         {
             get
             {
@@ -110,7 +108,7 @@ namespace ImagingDemo
         {
             _imageWidth = (int)widthNumericUpDown.Value;
             _imageHeight = (int)heightNumericUpDown.Value;
-            _interpolationMode = (InterpolationMode)interpolationModeComboBox.SelectedItem;
+            _interpolationMode = (ImageInterpolationMode)interpolationModeComboBox.SelectedItem;
             DialogResult = System.Windows.Forms.DialogResult.OK;
         }
 

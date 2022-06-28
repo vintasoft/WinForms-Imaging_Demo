@@ -123,6 +123,7 @@ namespace ImagingDemo
             // 
             // startColorPanelControl
             // 
+            this.startColorPanelControl.CanEditAlphaChannel = false;
             this.startColorPanelControl.Color = System.Drawing.SystemColors.Control;
             this.startColorPanelControl.ColorButtonMargin = 8;
             this.startColorPanelControl.ColorButtonWidth = 47;
@@ -135,6 +136,7 @@ namespace ImagingDemo
             // 
             // stopColorPanelControl
             // 
+            this.stopColorPanelControl.CanEditAlphaChannel = false;
             this.stopColorPanelControl.Color = System.Drawing.SystemColors.Control;
             this.stopColorPanelControl.ColorButtonMargin = 8;
             this.stopColorPanelControl.ColorButtonWidth = 47;
@@ -147,6 +149,7 @@ namespace ImagingDemo
             // 
             // replaceColorPanelControl
             // 
+            this.replaceColorPanelControl.CanEditAlphaChannel = false;
             this.replaceColorPanelControl.Color = System.Drawing.SystemColors.Control;
             this.replaceColorPanelControl.ColorButtonMargin = 8;
             this.replaceColorPanelControl.ColorButtonWidth = 47;

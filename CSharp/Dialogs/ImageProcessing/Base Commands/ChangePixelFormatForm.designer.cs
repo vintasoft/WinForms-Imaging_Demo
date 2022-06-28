@@ -55,7 +55,7 @@ namespace ImagingDemo
             "64-bpp (ARGB)"});
             this.pixelFormatComboBox.Location = new System.Drawing.Point(115, 9);
             this.pixelFormatComboBox.Name = "pixelFormatComboBox";
-            this.pixelFormatComboBox.Size = new System.Drawing.Size(215, 21);
+            this.pixelFormatComboBox.Size = new System.Drawing.Size(215, 23);
             this.pixelFormatComboBox.TabIndex = 0;
             // 
             // convertButton
@@ -82,16 +82,16 @@ namespace ImagingDemo
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(46, 12);
+            this.label1.Location = new System.Drawing.Point(35, 12);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(64, 13);
+            this.label1.Size = new System.Drawing.Size(74, 15);
             this.label1.TabIndex = 3;
             this.label1.Text = "Pixel format:";
             // 
             // ChangePixelFormatForm
             // 
             this.AcceptButton = this.convertButton;
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(377, 76);
             this.Controls.Add(this.label1);

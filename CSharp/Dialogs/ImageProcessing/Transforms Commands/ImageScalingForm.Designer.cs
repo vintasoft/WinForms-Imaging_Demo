@@ -76,13 +76,13 @@ namespace ImagingDemo
             // 
             // interpolationModeComboBox
             // 
-            this.interpolationModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.interpolationModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.interpolationModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.interpolationModeComboBox.FormattingEnabled = true;
-            this.interpolationModeComboBox.Location = new System.Drawing.Point(107, 86);
+            this.interpolationModeComboBox.Location = new System.Drawing.Point(121, 86);
             this.interpolationModeComboBox.Name = "interpolationModeComboBox";
-            this.interpolationModeComboBox.Size = new System.Drawing.Size(166, 21);
+            this.interpolationModeComboBox.Size = new System.Drawing.Size(166, 23);
             this.interpolationModeComboBox.TabIndex = 43;
             // 
             // label1
@@ -90,14 +90,14 @@ namespace ImagingDemo
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(6, 90);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(95, 13);
+            this.label1.Size = new System.Drawing.Size(109, 15);
             this.label1.TabIndex = 42;
             this.label1.Text = "Interpolation Mode";
             // 
             // ImageScalingForm
             // 
             this.AcceptButton = this.buttonOk;
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.buttonCancel;
             this.ClientSize = new System.Drawing.Size(346, 147);
             this.Controls.Add(this.interpolationModeComboBox);

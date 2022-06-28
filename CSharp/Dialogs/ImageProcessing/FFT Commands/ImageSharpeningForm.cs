@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Drawing;
 
-using Vintasoft.Imaging.ImageProcessing;
+using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageProcessing.Fft.Filtering;
 using Vintasoft.Imaging.ImageProcessing.Fft.Filters;
 using Vintasoft.Imaging.UI;

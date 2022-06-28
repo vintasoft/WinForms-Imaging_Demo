@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Drawing.Drawing2D;
+using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.ImageProcessing.Transforms;
 
@@ -22,14 +23,11 @@ namespace ImagingDemo
             InitializeComponent();
 
             // initialize interpolation mode combo box
-            interpolationModeComboBox.Items.Add(InterpolationMode.Default);
-            interpolationModeComboBox.Items.Add(InterpolationMode.Low);
-            interpolationModeComboBox.Items.Add(InterpolationMode.High);
-            interpolationModeComboBox.Items.Add(InterpolationMode.Bilinear);
-            interpolationModeComboBox.Items.Add(InterpolationMode.Bicubic);
-            interpolationModeComboBox.Items.Add(InterpolationMode.NearestNeighbor);
-            interpolationModeComboBox.Items.Add(InterpolationMode.HighQualityBilinear);
-            interpolationModeComboBox.Items.Add(InterpolationMode.HighQualityBicubic);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.Bilinear);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.Bicubic);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.NearestNeighbor);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.HighQualityBilinear);
+            interpolationModeComboBox.Items.Add(ImageInterpolationMode.HighQualityBicubic);
             interpolationModeComboBox.SelectedItem = InterpolationMode.HighQualityBicubic;
         }
 
@@ -81,7 +79,7 @@ namespace ImagingDemo
         public override ProcessingCommandBase GetProcessingCommand()
         {
             Command.Scale = ImageScale;
-            Command.InterpolationMode = (InterpolationMode)interpolationModeComboBox.SelectedItem;
+            Command.InterpolationMode = (ImageInterpolationMode)interpolationModeComboBox.SelectedItem;
             return Command;
         }
 
