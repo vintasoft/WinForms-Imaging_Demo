@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 
 using Vintasoft.Imaging.Codecs.Encoders;
-using Vintasoft.Imaging.Codecs.Pbm;
+using Vintasoft.Imaging.Codecs.ImageFiles.Pbm;
 
 namespace DemosCommonCode.Imaging.Codecs.Dialogs
 {

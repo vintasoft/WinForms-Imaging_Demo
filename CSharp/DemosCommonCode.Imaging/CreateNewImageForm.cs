@@ -53,10 +53,10 @@ namespace DemosCommonCode.Imaging
 
             pixelFormatComboBox.SelectedItem = PixelFormat.Bgr24;
 
-            horizontalResolutionTextBox.Text = Resolution.ScreenResolution.Horizontal.ToString();
-            verticalResolutionTextBox.Text = Resolution.ScreenResolution.Vertical.ToString();
+            horizontalResolutionTextBox.Text = ImagingEnvironment.ScreenResolution.Horizontal.ToString();
+            verticalResolutionTextBox.Text = ImagingEnvironment.ScreenResolution.Vertical.ToString();
 
-            SetImageParams(Resolution.ScreenResolution);
+            SetImageParams(ImagingEnvironment.ScreenResolution);
         }
 
         #endregion

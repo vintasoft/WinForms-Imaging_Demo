@@ -160,7 +160,7 @@ namespace DemosCommonCode.Imaging
                     else
                     {
                         // create custom page size with default values
-                        size = ImageSize.FromMillimeters(100, 100, Resolution.ScreenResolution);
+                        size = ImageSize.FromMillimeters(100, 100, ImagingEnvironment.ScreenResolution);
                     }
                 }
                 else
@@ -198,7 +198,7 @@ namespace DemosCommonCode.Imaging
                     PageLayoutSettings.PageSize = ImageSize.FromMillimeters(
                         (int)pageWidthNumericUpDown.Value,
                         (int)pageHeightNumericUpDown.Value,
-                        Resolution.ScreenResolution);
+                        ImagingEnvironment.ScreenResolution);
                 }
             }
         }

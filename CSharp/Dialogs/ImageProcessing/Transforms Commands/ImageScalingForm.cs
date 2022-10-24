@@ -28,7 +28,7 @@ namespace ImagingDemo
             interpolationModeComboBox.Items.Add(ImageInterpolationMode.NearestNeighbor);
             interpolationModeComboBox.Items.Add(ImageInterpolationMode.HighQualityBilinear);
             interpolationModeComboBox.Items.Add(ImageInterpolationMode.HighQualityBicubic);
-            interpolationModeComboBox.SelectedItem = InterpolationMode.HighQualityBicubic;
+            interpolationModeComboBox.SelectedItem = ImageInterpolationMode.HighQualityBicubic;
         }
 
         #endregion

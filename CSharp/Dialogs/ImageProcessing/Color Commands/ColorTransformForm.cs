@@ -2,6 +2,7 @@
 using System.IO;
 using System.Windows.Forms;
 
+using Vintasoft.Imaging;
 using Vintasoft.Imaging.ColorManagement;
 using Vintasoft.Imaging.ColorManagement.Icc;
 using Vintasoft.Imaging.ImageProcessing;
@@ -9,7 +10,6 @@ using Vintasoft.Imaging.ImageProcessing.Color;
 using Vintasoft.Imaging.UI;
 
 using DemosCommonCode;
-
 
 namespace ImagingDemo
 {

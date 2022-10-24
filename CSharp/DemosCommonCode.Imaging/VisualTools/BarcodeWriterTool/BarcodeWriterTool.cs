@@ -11,6 +11,7 @@ using Vintasoft.Imaging.UI.VisualTools;
 using Vintasoft.Imaging.UI.VisualTools.UserInteraction;
 using Vintasoft.Imaging.UI;
 using Vintasoft.Imaging.Utils;
+using Vintasoft.Imaging.Drawing;
 
 namespace DemosCommonCode.Barcode
 {
@@ -73,6 +74,14 @@ namespace DemosCommonCode.Barcode
 
 
         #region Constructors
+
+        /// <summary>
+        /// Initializes the <see cref="BarcodeWriterTool"/> class.
+        /// </summary>
+        static BarcodeWriterTool()
+        {
+            Vintasoft.Barcode.GdiAssembly.Init();
+        }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="BarcodeWriterTool"/> class. 
@@ -263,7 +272,7 @@ namespace DemosCommonCode.Barcode
         public VintasoftImage GetBarcodeImage()
         {
 #if !REMOVE_BARCODE_SDK
-            return VintasoftImageGdiExtensions.Create(_writer.GetBarcodeAsBitmap(), true); 
+            return new VintasoftImage(_writer.GetBarcodeAsVintasoftBitmap(), true); 
 #else
             return null;
 #endif
@@ -272,10 +281,12 @@ namespace DemosCommonCode.Barcode
         /// <summary>
         /// Returns barcode as <see cref="GraphicsPath"/>.
         /// </summary>
-        public GraphicsPath GetBarcodeGraphicsPath()
+        public IGraphicsPath GetBarcodeGraphicsPath()
         {
 #if !REMOVE_BARCODE_SDK
-            return _writer.GetBarcodeAsGraphicsPath(); 
+            BarcodePathData barcodePathData = _writer.GetBarcodeAsBarcodePath();
+            GraphicsPathData pathData = new GraphicsPathData(Vintasoft.Imaging.GdiConverter.Convert(barcodePathData.Points), barcodePathData.GetPointTypesAsByteArray());
+            return DrawingFactory.Default.CreateGraphicsPath(pathData); 
 #else
             return null;
 #endif
@@ -334,7 +345,7 @@ namespace DemosCommonCode.Barcode
                         int valueGap = 0;
                         if (WriterSettings.ValueGap > 0)
                             valueGap = WriterSettings.ValueGap;
-                        height -= valueGap + WriterSettings.ValueFont.Height;
+                        height -= valueGap + (int)Math.Floor(WriterSettings.ValueFont.LineHeight);
                     }
 
                     _writer.Settings.SetWidth(width);
@@ -346,7 +357,7 @@ namespace DemosCommonCode.Barcode
             // generate the barcode image
             try
             {
-                BarcodeImage = VintasoftImageGdiExtensions.Create(_writer.GetBarcodeAsBitmap(), true);
+                BarcodeImage = new VintasoftImage(_writer.GetBarcodeAsVintasoftBitmap(), true);
             }
             catch (WriterSettingsException ex)
             {
@@ -428,7 +439,7 @@ namespace DemosCommonCode.Barcode
             {
                 using (Matrix oldTransformation = g.Transform)
                 {
-                    g.Transform = GdiConverter.Convert(ImageViewer.ViewerState.GetTransformToViewer());
+                    g.Transform = Vintasoft.Imaging.GdiConverter.Convert(ImageViewer.ViewerState.GetTransformToViewer());
                     BarcodeImage.Draw(g, GetDestBarcodeImageRectangle());
                     g.Transform = oldTransformation;
                 }

@@ -293,12 +293,12 @@ namespace DemosCommonCode.Barcode
 
                         // set settings
                         if (Rectangle.Size.IsEmpty)
-                            ReaderSettings.ScanRectangle = Rectangle.Empty;
+                            ReaderSettings.ScanRectangle = Vintasoft.Imaging.GdiConverter.Convert(Rectangle.Empty);
                         else
-                            ReaderSettings.ScanRectangle = Rectangle;
+                            ReaderSettings.ScanRectangle = Vintasoft.Imaging.GdiConverter.Convert(Rectangle);
 
                         // recognize barcodes
-                        using (Image bitmap = image.GetAsBitmap())
+                        using (VintasoftBitmap bitmap = image.GetAsVintasoftBitmap())
                             RecognitionResults = _reader.ReadBarcodes(bitmap);
 
                         if (convertCommand != null)
@@ -374,7 +374,7 @@ namespace DemosCommonCode.Barcode
             {
                 using (Matrix oldTransformation = g.Transform)
                 {
-                    g.Transform = GdiConverter.Convert(ImageViewer.ViewerState.GetTransformToViewer());
+                    g.Transform = Vintasoft.Imaging.GdiConverter.Convert(ImageViewer.ViewerState.GetTransformToViewer());
                     for (int i = 0; i < _recognitionResults.Length; i++)
                         DrawBarcodeInfo(g, _recognitionResults[i]);
                     g.Transform = oldTransformation;
@@ -396,7 +396,7 @@ namespace DemosCommonCode.Barcode
         /// <param name="info">A barcode info.</param>
         protected virtual RectangleF GetDrawBarcodeInfoBoundingBox(IBarcodeInfo info)
         {
-            RectangleF rectBBox = info.Region.Rectangle;
+            RectangleF rectBBox = Vintasoft.Imaging.GdiConverter.Convert(info.Region.Rectangle);
             Pen pen;
             if (info.BarcodeType != BarcodeType.UnknownLinear &&
                 (info.Confidence > 95 || info.Confidence == ReaderSettings.ConfidenceNotAvailable))
@@ -440,9 +440,9 @@ namespace DemosCommonCode.Barcode
             }
 
             if (brush != null)
-                g.FillPolygon(brush, info.Region.GetPoints());
+                g.FillPolygon(brush, Vintasoft.Imaging.GdiConverter.Convert(info.Region.GetPoints()));
             if (pen != null)
-                g.DrawPolygon(pen, info.Region.GetPoints());
+                g.DrawPolygon(pen, Vintasoft.Imaging.GdiConverter.Convert(info.Region.GetPoints()));
 
             if (_fontBrush != null)
                 g.DrawString(GetBarcodeInfoAsString(info), _font, _fontBrush, info.Region.LeftTop.X, info.Region.LeftTop.Y - _font.SizeInPoints * 2);

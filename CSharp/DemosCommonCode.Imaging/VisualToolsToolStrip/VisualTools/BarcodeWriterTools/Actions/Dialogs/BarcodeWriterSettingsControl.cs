@@ -3,13 +3,12 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 using System.Collections.Generic;
+using Vintasoft.Imaging;
 
 #if !REMOVE_BARCODE_SDK
 using Vintasoft.Barcode;
 using Vintasoft.Barcode.BarcodeInfo;
 using Vintasoft.Barcode.SymbologySubsets;
-using Vintasoft.Barcode.SymbologySubsets.GS1;
-using Vintasoft.Barcode.SymbologySubsets.RoyalMailMailmark;
 using Vintasoft.Barcode.GS1; 
 #endif
 using DemosCommonCode.Imaging;
@@ -318,8 +317,8 @@ namespace DemosCommonCode.Barcode
                     linearBarcodeTypeComboBox.SelectedItem = value.Barcode;
 
                     barcodeValueTextBox.Text = value.Value;
-                    foregroundColorPanel.BackColor = value.ForeColor;
-                    backgroundColorPanel.BackColor = value.BackColor;
+                    foregroundColorPanel.BackColor = Vintasoft.Imaging.GdiConverter.Convert(value.ForeColor);
+                    backgroundColorPanel.BackColor = Vintasoft.Imaging.GdiConverter.Convert(value.BackColor);
                     pixelFormatComboBox.SelectedItem = value.PixelFormat;
                     if (barcodeWidthPanel.Visible)
                         minWidthNumericUpDown.Value = value.MinWidth;
@@ -333,7 +332,7 @@ namespace DemosCommonCode.Barcode
                         valueVisibleCheckBox.Checked = value.Value2DVisible;
                     valueGapNumericUpDown.Value = value.ValueGap;
                     fontSelector.SelectedItem = value.ValueFont.Name;
-                    valueFontSizeNumericUpDown.Value = (decimal)value.ValueFont.SizeInPoints;
+                    valueFontSizeNumericUpDown.Value = (decimal)value.ValueFont.Size;
                     msiChecksumComboBox.SelectedItem = value.MSIChecksum;
                     code128ModeComboBox.SelectedItem = value.Code128EncodingMode;
                     postalADMiltiplierNumericUpDown.Value = (decimal)(value.PostBarcodesADMultiplier * 10.0);
@@ -473,8 +472,8 @@ namespace DemosCommonCode.Barcode
                 foregroundColorPanel.BackColor = colorDialog1.Color;
 
 #if !REMOVE_BARCODE_SDK
-            if (BarcodeWriterSettings.ForeColor != foregroundColorPanel.BackColor)
-                BarcodeWriterSettings.ForeColor = foregroundColorPanel.BackColor; 
+            if (BarcodeWriterSettings.ForeColor != Vintasoft.Imaging.GdiConverter.Convert(foregroundColorPanel.BackColor))
+                BarcodeWriterSettings.ForeColor = Vintasoft.Imaging.GdiConverter.Convert(foregroundColorPanel.BackColor); 
 #endif
         }
 
@@ -489,8 +488,8 @@ namespace DemosCommonCode.Barcode
                 backgroundColorPanel.BackColor = colorDialog1.Color;
 
 #if !REMOVE_BARCODE_SDK
-            if (BarcodeWriterSettings.BackColor != backgroundColorPanel.BackColor)
-                BarcodeWriterSettings.BackColor = backgroundColorPanel.BackColor; 
+            if (BarcodeWriterSettings.BackColor != Vintasoft.Imaging.GdiConverter.Convert(backgroundColorPanel.BackColor))
+                BarcodeWriterSettings.BackColor = Vintasoft.Imaging.GdiConverter.Convert(backgroundColorPanel.BackColor); 
 #endif
         }
 
@@ -810,8 +809,10 @@ namespace DemosCommonCode.Barcode
         {
 #if !REMOVE_BARCODE_SDK
             if (fontSelector.SelectedItem != null)
-                BarcodeWriterSettings.ValueFont = new Font(fontSelector.SelectedItem.ToString(),
-                    (float)valueFontSizeNumericUpDown.Value); 
+                BarcodeWriterSettings.ValueFont = Vintasoft.Barcode.TextRendering.TextRenderingFactory.Default.CreateTextFont(
+                    fontSelector.SelectedItem.ToString(),
+                    (float)valueFontSizeNumericUpDown.Value, 
+                    false, false); 
 #endif
         }
 

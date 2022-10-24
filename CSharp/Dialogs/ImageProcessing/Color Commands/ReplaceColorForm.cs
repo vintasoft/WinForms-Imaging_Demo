@@ -2,7 +2,7 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-using Vintasoft.Imaging.ColorManagement;
+using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.ImageProcessing.Color;
 using Vintasoft.Imaging.UI;

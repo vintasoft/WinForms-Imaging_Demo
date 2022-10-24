@@ -5,9 +5,6 @@ using System.Windows.Forms;
 #if !REMOVE_BARCODE_SDK
 using Vintasoft.Barcode;
 using Vintasoft.Barcode.SymbologySubsets;
-using Vintasoft.Barcode.SymbologySubsets.GS1;
-using Vintasoft.Barcode.SymbologySubsets.RoyalMailMailmark;
-using Vintasoft.Barcode.SymbologySubsets.XFACompressed; 
 #endif
 
 namespace DemosCommonCode.Barcode

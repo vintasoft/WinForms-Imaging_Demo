@@ -9,7 +9,6 @@ namespace DemosCommonCode.Barcode
 {
     public partial class BarcodeWriterToolForm : Form
     {
-
         public BarcodeWriterToolForm()
         {
             InitializeComponent();
