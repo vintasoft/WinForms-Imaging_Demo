@@ -52,11 +52,7 @@ namespace DemosCommonCode.Twain
         public void SelectDeviceAndAcquireImage()
         {
 #if !REMOVE_TWAIN_SDK
-#if NETCORE
             DeviceManager deviceManager = new DeviceManager(_parentForm, _parentForm.Handle);
-#else
-            DeviceManager deviceManager = new DeviceManager(_parentForm);
-#endif
             try
             {
                 Device device = null;
@@ -133,7 +129,7 @@ namespace DemosCommonCode.Twain
                         {
                             case AcquireModalState.ImageAcquired:
                                 // get acquired image as Bitmap and add Bitmap to the image collection
-                                _images.Add(device.AcquiredImage.GetAsBitmap(), true);
+                                _images.Add(new VintasoftImage(device.AcquiredImage.GetAsVintasoftBitmap(), true));
                                 // dispose the acquired image
                                 device.AcquiredImage.Dispose();
                                 break;
