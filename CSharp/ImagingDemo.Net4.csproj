@@ -86,22 +86,22 @@
   <ItemGroup>
     <PackageReference Include="Vintasoft.Barcode" Version="14.1.8.1" />
     <PackageReference Include="Vintasoft.Barcode.Gdi" Version="14.1.8.1" />
-    <PackageReference Include="Vintasoft.Imaging" Version="12.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation" Version="12.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf" Version="12.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf.UI" Version="12.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation.UI" Version="12.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Dicom" Version="5.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.DocCleanup" Version="7.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Gdi" Version="12.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Jbig2Codec" Version="9.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Jpeg2000Codec" Version="8.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Media" Version="12.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Office.OpenXml" Version="4.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf" Version="9.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf.Mrc" Version="9.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.RawCodec" Version="12.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.UI" Version="12.1.21.1" />
+    <PackageReference Include="Vintasoft.Imaging" Version="12.1.22.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation" Version="12.1.22.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf" Version="12.1.22.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf.UI" Version="12.1.22.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation.UI" Version="12.1.22.1" />
+    <PackageReference Include="Vintasoft.Imaging.Dicom" Version="5.1.22.1" />
+    <PackageReference Include="Vintasoft.Imaging.DocCleanup" Version="7.1.22.1" />
+    <PackageReference Include="Vintasoft.Imaging.Gdi" Version="12.1.22.1" />
+    <PackageReference Include="Vintasoft.Imaging.Jbig2Codec" Version="9.1.22.1" />
+    <PackageReference Include="Vintasoft.Imaging.Jpeg2000Codec" Version="8.1.22.1" />
+    <PackageReference Include="Vintasoft.Imaging.Media" Version="12.1.22.1" />
+    <PackageReference Include="Vintasoft.Imaging.Office.OpenXml" Version="4.1.22.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf" Version="9.1.22.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf.Mrc" Version="9.1.22.1" />
+    <PackageReference Include="Vintasoft.Imaging.RawCodec" Version="12.1.22.1" />
+    <PackageReference Include="Vintasoft.Imaging.UI" Version="12.1.22.1" />
     <PackageReference Include="Vintasoft.Shared" Version="3.4.0.1" />
     <PackageReference Include="Vintasoft.Twain" Version="14.0.5.1" />
   </ItemGroup>
