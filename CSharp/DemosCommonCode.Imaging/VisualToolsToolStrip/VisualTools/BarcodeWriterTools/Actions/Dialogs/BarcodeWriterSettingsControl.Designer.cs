@@ -2013,8 +2013,9 @@ namespace DemosCommonCode.Barcode
             // 
             // BarcodeWriterSettingsControl
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.mainPanel);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "BarcodeWriterSettingsControl";
             this.Size = new System.Drawing.Size(265, 530);
             ((System.ComponentModel.ISupportInitialize)(this.valueFontSizeNumericUpDown)).EndInit();

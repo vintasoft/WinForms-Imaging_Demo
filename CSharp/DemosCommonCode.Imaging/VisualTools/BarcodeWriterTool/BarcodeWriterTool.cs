@@ -80,7 +80,9 @@ namespace DemosCommonCode.Barcode
         /// </summary>
         static BarcodeWriterTool()
         {
+#if !REMOVE_BARCODE_SDK
             Vintasoft.Barcode.GdiAssembly.Init();
+#endif
         }
 
         /// <summary>

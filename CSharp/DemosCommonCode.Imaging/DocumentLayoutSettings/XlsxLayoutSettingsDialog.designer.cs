@@ -61,7 +61,7 @@ namespace DemosCommonCode.Imaging
             this.cancelBtn.TabIndex = 4;
             this.cancelBtn.Text = "Cancel";
             this.cancelBtn.UseVisualStyleBackColor = true;
-            this.cancelBtn.Click += new System.EventHandler(this.cancelButton_Click);
+            this.cancelBtn.Click += new System.EventHandler(this.buttonCancel_Click);
             // 
             // settingsGroupBox
             // 

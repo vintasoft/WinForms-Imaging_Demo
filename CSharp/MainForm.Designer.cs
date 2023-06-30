@@ -260,6 +260,7 @@ namespace ImagingDemo
             this.shapeRemovalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.colorNoiseClearToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.advancedReplaceColorCommandToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.replaceColorGradientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.effectsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoLevelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoColorsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -360,7 +361,6 @@ namespace ImagingDemo
             this.viewerToolStrip = new DemosCommonCode.Imaging.ImageViewerToolStrip();
             this.visualToolsToolStrip1 = new DemosCommonCode.Imaging.VisualToolsToolStrip();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.replaceColorGradientToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.formMenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zoomTrackBar)).BeginInit();
@@ -1702,28 +1702,28 @@ namespace ImagingDemo
             // thresholdToolStripMenuItem
             // 
             this.thresholdToolStripMenuItem.Name = "thresholdToolStripMenuItem";
-            this.thresholdToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.thresholdToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.thresholdToolStripMenuItem.Text = "Threshold...";
             this.thresholdToolStripMenuItem.Click += new System.EventHandler(this.convertToBlackWhiteThresholdByUserToolStripMenuItem_Click);
             // 
             // globalToolStripMenuItem
             // 
             this.globalToolStripMenuItem.Name = "globalToolStripMenuItem";
-            this.globalToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.globalToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.globalToolStripMenuItem.Text = "Global";
             this.globalToolStripMenuItem.Click += new System.EventHandler(this.convertToBlackWhiteGlobalThresholdToolStripMenuItem_Click);
             // 
             // adaptiveToolStripMenuItem
             // 
             this.adaptiveToolStripMenuItem.Name = "adaptiveToolStripMenuItem";
-            this.adaptiveToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.adaptiveToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.adaptiveToolStripMenuItem.Text = "Adaptive...";
             this.adaptiveToolStripMenuItem.Click += new System.EventHandler(this.convertToBlackWhiteAdaptiveThresholdToolStripMenuItem_Click);
             // 
             // colorGradientToolStripMenuItem
             // 
             this.colorGradientToolStripMenuItem.Name = "colorGradientToolStripMenuItem";
-            this.colorGradientToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
+            this.colorGradientToolStripMenuItem.Size = new System.Drawing.Size(160, 22);
             this.colorGradientToolStripMenuItem.Text = "Color Gradient...";
             this.colorGradientToolStripMenuItem.Click += new System.EventHandler(this.colorGradientToolStripMenuItem_Click);
             // 
@@ -2126,6 +2126,13 @@ namespace ImagingDemo
             this.advancedReplaceColorCommandToolStripMenuItem.Text = "Advanced Replace Color...";
             this.advancedReplaceColorCommandToolStripMenuItem.Click += new System.EventHandler(this.advancedReplaceColorCommandToolStripMenuItem_Click);
             // 
+            // replaceColorGradientToolStripMenuItem
+            // 
+            this.replaceColorGradientToolStripMenuItem.Name = "replaceColorGradientToolStripMenuItem";
+            this.replaceColorGradientToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
+            this.replaceColorGradientToolStripMenuItem.Text = "Replace Color Gradient...";
+            this.replaceColorGradientToolStripMenuItem.Click += new System.EventHandler(this.replaceColorGradientToolStripMenuItem_Click);
+            // 
             // effectsToolStripMenuItem
             // 
             this.effectsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -2485,6 +2492,7 @@ namespace ImagingDemo
             thumbnailCaption1.TextColor = System.Drawing.Color.Black;
             this.thumbnailViewer1.ThumbnailCaption = thumbnailCaption1;
             this.thumbnailViewer1.ThumbnailContextMenuStrip = this.thumbnailContextMenu;
+            this.thumbnailViewer1.ThumbnailControlPadding = new Vintasoft.Imaging.PaddingF(0F, 0F, 0F, 0F);
             this.thumbnailViewer1.ThumbnailFlowStyle = Vintasoft.Imaging.UI.ThumbnailFlowStyle.WrappedRows;
             this.thumbnailViewer1.ThumbnailImagePadding = new Vintasoft.Imaging.PaddingF(0F, 0F, 0F, 0F);
             this.thumbnailViewer1.ThumbnailMargin = new System.Windows.Forms.Padding(3);
@@ -2925,14 +2933,14 @@ namespace ImagingDemo
             this.viewerToolStrip.AssociatedZoomTrackBar = this.zoomTrackBar;
             this.viewerToolStrip.CanCaptureFromCamera = true;
             this.viewerToolStrip.CanScan = true;
+            this.viewerToolStrip.CaptureFromCameraButtonEnabled = true;
             this.viewerToolStrip.Dock = System.Windows.Forms.DockStyle.None;
             this.viewerToolStrip.ImageViewer = null;
-            this.viewerToolStrip.IsScanEnabled = true;
             this.viewerToolStrip.Location = new System.Drawing.Point(3, 0);
             this.viewerToolStrip.Name = "viewerToolStrip";
             this.viewerToolStrip.PageCount = 0;
             this.viewerToolStrip.PrintButtonEnabled = true;
-            this.viewerToolStrip.SaveButtonEnabled = true;
+            this.viewerToolStrip.ScanButtonEnabled = true;
             this.viewerToolStrip.Size = new System.Drawing.Size(414, 25);
             this.viewerToolStrip.TabIndex = 3;
             this.viewerToolStrip.Text = "imageViewerToolStrip";
@@ -2963,13 +2971,6 @@ namespace ImagingDemo
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(844, 25);
             this.panel2.TabIndex = 0;
-            // 
-            // replaceColorGradientToolStripMenuItem
-            // 
-            this.replaceColorGradientToolStripMenuItem.Name = "replaceColorGradientToolStripMenuItem";
-            this.replaceColorGradientToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
-            this.replaceColorGradientToolStripMenuItem.Text = "Replace Color Gradient...";
-            this.replaceColorGradientToolStripMenuItem.Click += new System.EventHandler(this.replaceColorGradientToolStripMenuItem_Click);
             // 
             // MainForm
             // 

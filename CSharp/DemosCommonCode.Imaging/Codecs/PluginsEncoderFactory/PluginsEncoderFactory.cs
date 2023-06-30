@@ -80,7 +80,7 @@ namespace DemosCommonCode.Imaging.Codecs
                         return true;
                     }
 
-#if !REMOVE_PDF_PLUGIN && !REMOVE_DOCCLEANUP_PLUGIN
+#if !REMOVE_PDF_PLUGIN
                 case "Pdf":
                     using (PdfEncoderSettingsForm pdfEncoderSettingsForm = new PdfEncoderSettingsForm())
                     {
@@ -88,6 +88,7 @@ namespace DemosCommonCode.Imaging.Codecs
                         pdfEncoderSettingsForm.AppendExistingDocumentEnabled = canAddImagesToExistingFile;
                         if (pdfEncoderSettingsForm.ShowDialog() != DialogResult.OK)
                             return false;
+#if !REMOVE_DOCCLEANUP_PLUGIN
                         if (pdfEncoderSettingsForm.MrcCompressionSettings != null &&
                             pdfEncoderSettingsForm.MrcCompressionSettings.EnableMrcCompression)
                         {
@@ -95,6 +96,7 @@ namespace DemosCommonCode.Imaging.Codecs
                             encoder = new PdfMrcEncoder();
                             ((PdfMrcEncoder)encoder).MrcCompressionSettings = pdfEncoderSettingsForm.MrcCompressionSettings;
                         }
+#endif
                         ((IPdfEncoder)encoder).Settings = pdfEncoderSettingsForm.EncoderSettings;
                         ((MultipageEncoderBase)encoder).CreateNewFile = !pdfEncoderSettingsForm.AppendExistingDocument;
                         return true;

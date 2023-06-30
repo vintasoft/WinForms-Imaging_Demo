@@ -127,24 +127,21 @@ namespace ImagingDemo
             // 
             // radiusEditorControl
             // 
-            this.radiusEditorControl.ValueName = "Radius";
-            this.radiusEditorControl.ValueUnitOfMeasure = "Pixels";
             this.radiusEditorControl.DecimalPlaces = 2;
             this.radiusEditorControl.DefaultValue = 12F;
             this.radiusEditorControl.Location = new System.Drawing.Point(12, 12);
-            this.radiusEditorControl.MaxValue = 50F;
             this.radiusEditorControl.MinValue = 1F;
             this.radiusEditorControl.Name = "radiusEditorControl";
             this.radiusEditorControl.Size = new System.Drawing.Size(335, 76);
             this.radiusEditorControl.Step = 2F;
             this.radiusEditorControl.TabIndex = 44;
             this.radiusEditorControl.Value = 12F;
+            this.radiusEditorControl.ValueName = "Radius";
+            this.radiusEditorControl.ValueUnitOfMeasure = "Pixels";
             this.radiusEditorControl.ValueChanged += new System.EventHandler(this.amountEditorControl_ValueChanged);
             // 
             // overlayAlphaEditorControl
             // 
-            this.overlayAlphaEditorControl.ValueName = "Overlay Alpha";
-            this.overlayAlphaEditorControl.ValueUnitOfMeasure = "";
             this.overlayAlphaEditorControl.DecimalPlaces = 2;
             this.overlayAlphaEditorControl.DefaultValue = 1F;
             this.overlayAlphaEditorControl.Location = new System.Drawing.Point(12, 94);
@@ -154,6 +151,8 @@ namespace ImagingDemo
             this.overlayAlphaEditorControl.Step = 0.01F;
             this.overlayAlphaEditorControl.TabIndex = 45;
             this.overlayAlphaEditorControl.Value = 1F;
+            this.overlayAlphaEditorControl.ValueName = "Overlay Alpha";
+            this.overlayAlphaEditorControl.ValueUnitOfMeasure = "";
             this.overlayAlphaEditorControl.ValueChanged += new System.EventHandler(this.amountEditorControl_ValueChanged);
             // 
             // ImageSharpeningForm

@@ -528,7 +528,7 @@ namespace DemosCommonCode.Imaging
             this.Name = "CompositeRenderingSettingsForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Viewer Rendering Settings";
+            this.Text = "Rendering Settings";
             this.renderingSettingsTabControl.ResumeLayout(false);
             this.commonSettingsTabPage.ResumeLayout(false);
             this.commonSettingsTabPage.PerformLayout();

@@ -60,21 +60,6 @@ namespace ImagingDemo
         string _titlePrefix = "VintaSoft Imaging Demo v" + ImagingGlobalSettings.ProductVersion + " - {0}";
 
         /// <summary>
-        /// Name of the first image file in the image collection of the image viewer.
-        /// </summary>
-        string _sourceFilename;
-
-        /// <summary>
-        /// Decoder name of the first image file in the image collection of the image viewer.
-        /// </summary>
-        string _sourceDecoderName;
-
-        /// <summary>
-        /// Determines that stream of the first image file is readonly.
-        /// </summary>
-        bool _sourceStreamIsReadOnly = false;
-
-        /// <summary>
         /// Selected "View - Image scale mode" menu item.
         /// </summary>
         ToolStripMenuItem _imageScaleSelectedMenuItem;
@@ -83,11 +68,6 @@ namespace ImagingDemo
         /// Image map tool.
         /// </summary>
         ImageMapTool _imageMapTool;
-
-        /// <summary>
-        /// Determines that the Open File Dialog is opened.
-        /// </summary>
-        bool _isFileDialogOpened = false;
 
         /// <summary>
         /// The location of the selection tool context menu.
@@ -105,6 +85,41 @@ namespace ImagingDemo
         ImageCollectionXlsxLayoutSettingsManager _imageCollectionXlsxLayoutSettingsManager;
 
 
+        #region Open
+
+        /// <summary>
+        /// Name of the first image file in the image collection of the image viewer.
+        /// </summary>
+        string _sourceFilename;
+
+        /// <summary>
+        /// Decoder name of the first image file in the image collection of the image viewer.
+        /// </summary>
+        string _sourceDecoderName;
+
+        /// <summary>
+        /// Determines that file is opened in read-only mode.
+        /// </summary>
+        bool _isFileReadOnlyMode = false;
+
+        /// <summary>
+        /// Determines that the Open File Dialog is opened.
+        /// </summary>
+        bool _isFileDialogOpened = false;
+
+        /// <summary>
+        /// A value indicating whether the source image file is changing.
+        /// </summary> 
+        bool _isSourceChanging = false;
+
+        /// <summary>
+        /// Manages asynchronous operations of an image viewer images.
+        /// </summary>
+        ImageViewerImagesManager _imagesManager;
+
+        #endregion
+
+
         #region Load
 
         /// <summary>
@@ -118,9 +133,9 @@ namespace ImagingDemo
         TimeSpan _imageLoadingTime = TimeSpan.Zero;
 
         /// <summary>
-        /// A value indicating whether images have been changed.
+        /// A value indicating whether image collection has been changed.
         /// </summary>
-        bool _areImagesChanged = false;
+        bool _isImageCollectionChanged = false;
 
         #endregion
 
@@ -314,11 +329,20 @@ namespace ImagingDemo
             CreateUndoManager(_keepUndoForCurrentImageOnly);
             UpdateUndoRedoMenu(_undoManager);
 
+            // create images manager
+            _imagesManager = new ImageViewerImagesManager(imageViewer1);
+            _imagesManager.IsAsync = true;
+            _imagesManager.AddStarting += new EventHandler(ImagesManager_AddStarting);
+            _imagesManager.AddFinished += new EventHandler(ImagesManager_AddFinished);
+            _imagesManager.ImageSourceAddStarting += new EventHandler<ImageSourceEventArgs>(ImagesManager_ImageSourceAddStarting);
+            _imagesManager.ImageSourceAddFinished += new EventHandler<ImageSourceEventArgs>(ImagesManager_ImageSourceAddFinished);
+            _imagesManager.ImageSourceAddException += new EventHandler<ImageSourceExceptionEventArgs>(ImagesManager_ImageSourceAddException);
+
             // set filters in open dialog
             CodecsFileFilters.SetOpenFileDialogFilter(openImageFileDialog);
 
             // set the initial directory in open file dialog
-            DemosTools.SetDemoImagesFolder(openImageFileDialog);
+            DemosTools.SetTestFilesFolder(openImageFileDialog);
 
             DemosTools.CatchVisualToolExceptions(imageViewer1);
 
@@ -403,16 +427,31 @@ namespace ImagingDemo
             }
         }
 
-        bool _isImageOpening = false;
+        bool _isFileOpening = false;
         /// <summary>
-        /// Gets or sets a value indicating whether image is opening.
+        /// Gets or sets a value indicating whether file is opening.
         /// </summary>
-        bool IsImageOpening
+        internal bool IsFileOpening
         {
-            get { return _isImageOpening; }
+            get
+            {
+                return _isFileOpening;
+            }
             set
             {
-                _isImageOpening = value;
+                _isFileOpening = value;
+
+                if (_isFileOpening)
+                {
+                    Cursor = Cursors.AppStarting;
+                }
+                else
+                {
+                    Cursor = Cursors.Default;
+                    imageViewer1.Focus();
+                }
+
+                UpdateUI();
             }
         }
 
@@ -489,24 +528,28 @@ namespace ImagingDemo
                 {
                     try
                     {
+                        // add image file to the image viewer
                         OpenFile(appArgs[1]);
                     }
-                    catch
+                    catch (Exception ex)
                     {
-                        CloseFile();
+                        DemosTools.ShowErrorMessage(ex);
                     }
                 }
                 else
                 {
-                    for (int i = 1; i < appArgs.Length; i++)
+                    // get filenames from application arguments
+                    string[] filenames = new string[appArgs.Length - 1];
+                    Array.Copy(appArgs, 1, filenames, 0, filenames.Length);
+
+                    try
                     {
-                        try
-                        {
-                            imageViewer1.Images.Add(appArgs[i]);
-                        }
-                        catch
-                        {
-                        }
+                        // add image file(s) to image collection of the image viewer
+                        AddFiles(filenames);
+                    }
+                    catch (Exception ex)
+                    {
+                        DemosTools.ShowErrorMessage(ex);
                     }
                 }
             }
@@ -546,9 +589,7 @@ namespace ImagingDemo
         /// </summary>
         private void MainForm_FormClosed(object sender, FormClosedEventArgs e)
         {
-            WaitUntilSavingAndProcessingIsFinished();
-
-            CloseFile();
+            CloseCurrentFile();
 
             ClearHistory();
 
@@ -556,6 +597,8 @@ namespace ImagingDemo
 
             if (_dataStorage != null)
                 _dataStorage.Dispose();
+
+            _imagesManager.Dispose();
         }
 
         #endregion
@@ -604,19 +647,9 @@ namespace ImagingDemo
             // select image file
             if (openImageFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                WaitUntilSavingAndProcessingIsFinished();
-
-                // if image collection of image viewer is not empty
-                if (imageViewer1.Images.Count > 0)
-                {
-                    // clear the image collection of the image viewer
-                    imageViewer1.Images.ClearAndDisposeItems();
-                }
-
-                CloseFile();
-
                 try
                 {
+                    // add image file to image viewer as a source
                     OpenFile(openImageFileDialog.FileName);
                 }
                 catch (Exception ex)
@@ -642,22 +675,15 @@ namespace ImagingDemo
             // select image file(s)
             if (openImageFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                // add images from selected image sources (files) to temporary image collection
-                ImageCollection images = new ImageCollection();
-                foreach (string fileName in openImageFileDialog.FileNames)
+                try
                 {
-                    try
-                    {
-                        images.Add(fileName);
-                    }
-                    catch (Exception ex)
-                    {
-                        DemosTools.ShowErrorMessage(ex, fileName);
-                    }
+                    // add image file(s) to image collection of the image viewer
+                    AddFiles(openImageFileDialog.FileNames);
                 }
-
-                // add images from temporary image collection to the image collection of image viewer
-                imageViewer1.Images.AddRange(images.ToArray());
+                catch (Exception ex)
+                {
+                    DemosTools.ShowErrorMessage(ex);
+                }
             }
 
             openImageFileDialog.Multiselect = false;
@@ -705,7 +731,7 @@ namespace ImagingDemo
             bool scanMenuEnabled = acquireFromScannerToolStripMenuItem.Enabled;
             acquireFromScannerToolStripMenuItem.Enabled = false;
             bool viewerToolStripCanScan = viewerToolStrip.CanScan;
-            viewerToolStrip.IsScanEnabled = false;
+            viewerToolStrip.ScanButtonEnabled = false;
 
             try
             {
@@ -724,7 +750,7 @@ namespace ImagingDemo
             finally
             {
                 acquireFromScannerToolStripMenuItem.Enabled = scanMenuEnabled;
-                viewerToolStrip.IsScanEnabled = viewerToolStripCanScan;
+                viewerToolStrip.ScanButtonEnabled = viewerToolStripCanScan;
             }
         }
 
@@ -924,11 +950,7 @@ namespace ImagingDemo
         /// </summary>
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            WaitUntilSavingAndProcessingIsFinished();
-
-            imageViewer1.Images.ClearAndDisposeItems();
-
-            CloseFile();
+            CloseCurrentFile();
 
             CloseHistoryForm();
 
@@ -3132,7 +3154,7 @@ namespace ImagingDemo
         /// Handles the Click event of AboutToolStripMenuItem object.
         /// </summary>
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {
+        {            
             using (AboutBoxForm dlg = new AboutBoxForm())
             {
                 dlg.ShowDialog();
@@ -3490,11 +3512,11 @@ namespace ImagingDemo
             if (imageViewer1.Images.Count == 0)
                 _isImageLoaded = false;
 
-            if (!IsImageOpening)
-                _areImagesChanged = true;
+            if (!_isSourceChanging)
+                _isImageCollectionChanged = true;
 
             // update the UI
-            UpdateUI();
+            InvokeUpdateUI();
         }
 
         #endregion
@@ -3596,8 +3618,9 @@ namespace ImagingDemo
             bool isImageLoaded = currentImage != null;
             bool isImageProcessing = this.IsImageProcessing;
             bool isImageSaving = this.IsImageSaving;
+            bool isFileOpening = IsFileOpening;
 
-            bool canSaveToTheSameSource = _sourceFilename != null && !_sourceStreamIsReadOnly;
+            bool canSaveToTheSameSource = _sourceFilename != null && !_isFileReadOnlyMode;
             if (canSaveToTheSameSource)
             {
                 // if the format of the source does not support multiple images (BMP, PNG, ...)
@@ -3610,35 +3633,38 @@ namespace ImagingDemo
                 }
             }
 
-
             // form title
-            if (_sourceFilename == null)
+            if (!isFileOpening)
             {
-                this.Text = string.Format(_titlePrefix, "(Untitled)");
+                string str;
+                if (_sourceFilename != null)
+                    str = Path.GetFileName(_sourceFilename);
+                else
+                    str = "(Untitled)";
+
+                if (_isFileReadOnlyMode)
+                    str += " [Read Only]";
+
+                Text = string.Format(_titlePrefix, str);
             }
-            else
-            {
-                string imageSourceInfo = Path.GetFileName(_sourceFilename);
-                if (_sourceStreamIsReadOnly)
-                    imageSourceInfo += " [Read Only]";
-                this.Text = string.Format(_titlePrefix, imageSourceInfo);
-            }
+
             if (!isImageLoaded)
                 CloseHistoryForm();
 
-
             // "File" menu
-            //
-            addFromClipboardToolStripMenuItem.Enabled = true;
+            newToolStripMenuItem.Enabled = !isFileOpening;
+            openToolStripMenuItem.Enabled = !isFileOpening;
+            documentLayoutSettingsToolStripMenuItem.Enabled = !isFileOpening;
+            addFromClipboardToolStripMenuItem.Enabled = !isFileOpening;
+            acquireFromScannerToolStripMenuItem.Enabled = !isFileOpening;
+            captureFromCameraToolStripMenuItem.Enabled = !isFileOpening;
 
-            saveChangesToolStripMenuItem.Enabled = isImageLoaded && canSaveToTheSameSource && !isImageProcessing && !isImageSaving && (currentImage.IsChanged || currentImage.Metadata.IsChanged || _areImagesChanged);
-            saveAsToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
-            saveToToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
-            saveCurrentImageToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
-
-            printToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
-
-            closeToolStripMenuItem.Enabled = _sourceFilename != null && !isImageProcessing && !isImageSaving;
+            saveChangesToolStripMenuItem.Enabled = !isFileOpening && isImageLoaded && canSaveToTheSameSource && !isImageProcessing && !isImageSaving && (currentImage.IsChanged || currentImage.Metadata.IsChanged || _isImageCollectionChanged);
+            saveAsToolStripMenuItem.Enabled = !isFileOpening && isImageLoaded && !isImageProcessing && !isImageSaving;
+            saveToToolStripMenuItem.Enabled = !isFileOpening && isImageLoaded && !isImageProcessing && !isImageSaving;
+            saveCurrentImageToolStripMenuItem.Enabled = !isFileOpening && isImageLoaded && !isImageProcessing && !isImageSaving;
+            printToolStripMenuItem.Enabled = !isFileOpening && isImageLoaded && !isImageProcessing && !isImageSaving;
+            closeToolStripMenuItem.Enabled = imageCount > 0 || isFileOpening;
 
             // "Edit" menu
             UpdateEditMenu();
@@ -3653,9 +3679,7 @@ namespace ImagingDemo
             showHistoryForDisplayedImagesToolStripMenuItem.Enabled = isImageLoaded && enableUndoRedoToolStripMenuItem.Checked;
             historyDialogToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving && enableUndoRedoToolStripMenuItem.Checked;
 
-
             // "View" menu
-            //
             currentImageDecodingSettingsToolStripMenuItem.Enabled = imageCount > 0;
 
             // update "View => Image Display Mode" menu
@@ -3705,14 +3729,15 @@ namespace ImagingDemo
             // Image viewer context menu
             imageViewer_setImageFromClipboardToolStripMenuItem.Enabled = pasteImageToolStripMenuItem.Enabled;
 
-
-            // Toolstip
-            viewerToolStrip.CanSaveFile = saveAsToolStripMenuItem.Enabled;
-            viewerToolStrip.CanPrint = printToolStripMenuItem.Enabled;
+            // viewer tool strip
+            viewerToolStrip.OpenButtonEnabled = openToolStripMenuItem.Enabled;
+            viewerToolStrip.SaveButtonEnabled = saveAsToolStripMenuItem.Enabled;
+            viewerToolStrip.ScanButtonEnabled = acquireFromScannerToolStripMenuItem.Enabled;
+            viewerToolStrip.CaptureFromCameraButtonEnabled = captureFromCameraToolStripMenuItem.Enabled;
+            viewerToolStrip.PrintButtonEnabled = printToolStripMenuItem.Enabled;
             viewerToolStrip.PageCount = imageViewer1.Images.Count;
 
-            // Image processing history
-
+            // image processing history
             if (_historyForm != null)
                 _historyForm.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
 
@@ -3743,14 +3768,15 @@ namespace ImagingDemo
             bool isEntireImageLoaded = imageViewer1.IsEntireImageLoaded;
             bool isImageProcessing = this.IsImageProcessing;
             bool isImageSaving = this.IsImageSaving;
+            bool isFileOpening = IsFileOpening;
 
             copyImageToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
 
             pasteImageToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
             setImageFromFileToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
 
-            insertImageFromClipboardToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
-            insertImageFromFileToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
+            insertImageFromClipboardToolStripMenuItem.Enabled = !isFileOpening && isImageLoaded && !isImageProcessing && !isImageSaving;
+            insertImageFromFileToolStripMenuItem.Enabled = !isFileOpening && isImageLoaded && !isImageProcessing && !isImageSaving;
 
             deleteImageToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
 
@@ -3763,20 +3789,70 @@ namespace ImagingDemo
         #region File manipulation
 
         /// <summary>
-        /// Opens a stream of the image file and
-        /// adds stream of image file to the image collection of image viewer - this allows
+        /// Opens a stream of the image file and adds opened stream to the image collection of image viewer - this allows
         /// to save modified multipage image files back to the source.
         /// </summary>
         /// <param name="filename">Opening file name.</param>
         private void OpenFile(string filename)
         {
+            // close the previosly opened file
+            CloseCurrentFile();
+
+            // specify that file source is changing
+            _isSourceChanging = true;
+
+            // reset flag
+            _isImageCollectionChanged = false;
+
+            // save the source filename
             _sourceFilename = Path.GetFullPath(filename);
 
-            Stream sourceStream = null;
-            // try to open file in read-write mode
+            // check the source file for read-write access
+            CheckSourceFileForReadWriteAccess();
+
+            // add the source file to the viewer
+            _imagesManager.Add(filename, _isFileReadOnlyMode);
+        }
+
+        /// <summary>
+        /// Adds files to the image collection of image viewer.
+        /// </summary>
+        /// <param name="filenames">Opening files names.</param>
+        private void AddFiles(string[] filenames)
+        {
+            foreach (string filename in filenames)
+            {
+                // add the source file to the viewer
+                _imagesManager.Add(filename);
+            }
+        }
+
+        /// <summary>
+        /// Closes current file.
+        /// </summary>
+        private void CloseCurrentFile()
+        {
+            WaitUntilSavingAndProcessingIsFinished();
+
+            _imagesManager.Cancel();
+
+            _isFileReadOnlyMode = false;
+            _sourceFilename = null;
+            _sourceDecoderName = null;
+
+            imageViewer1.Images.ClearAndDisposeItems();
+        }
+
+        /// <summary>
+        /// Checks the source file for read-write access.
+        /// </summary>
+        private void CheckSourceFileForReadWriteAccess()
+        {
+            _isFileReadOnlyMode = false;
+            Stream stream = null;
             try
             {
-                sourceStream = new FileStream(_sourceFilename, FileMode.Open, FileAccess.ReadWrite);
+                stream = new FileStream(_sourceFilename, FileMode.Open, FileAccess.ReadWrite);
             }
             catch (IOException)
             {
@@ -3784,37 +3860,15 @@ namespace ImagingDemo
             catch (UnauthorizedAccessException)
             {
             }
-
-            if (sourceStream == null)
+            if (stream == null)
             {
-                // open file in read-only mode
-                _sourceStreamIsReadOnly = true;
+                _isFileReadOnlyMode = true;
             }
             else
             {
-                _sourceStreamIsReadOnly = false;
-                sourceStream.Close();
-                sourceStream.Dispose();
+                stream.Close();
+                stream.Dispose();
             }
-
-            IsImageOpening = true;
-
-            imageViewer1.Images.Add(_sourceFilename, _sourceStreamIsReadOnly);
-            _sourceDecoderName = imageViewer1.Images[0].SourceInfo.DecoderName;
-            _areImagesChanged = false;
-
-            IsImageOpening = false;
-
-            imageViewer1.Focus();
-        }
-
-        /// <summary>
-        /// Closes a file marked as a source for image collection in image viewer.
-        /// </summary>
-        private void CloseFile()
-        {
-            _sourceFilename = null;
-            _sourceDecoderName = null;
         }
 
         /// <summary>
@@ -3841,6 +3895,64 @@ namespace ImagingDemo
                 Application.DoEvents();
                 Thread.Sleep(5);
             }
+        }
+
+        /// <summary>
+        /// Handler of the ImageViewerImagesManager.AddStarting event.
+        /// </summary>
+        private void ImagesManager_AddStarting(object sender, EventArgs e)
+        {
+            IsFileOpening = true;
+        }
+
+        /// <summary>
+        /// Handler of the ImageViewerImagesManager.ImageSourceAddStarting event.
+        /// </summary>
+        private void ImagesManager_ImageSourceAddStarting(object sender, ImageSourceEventArgs e)
+        {
+            // update window title
+            string fileState = string.Format("Opening {0}...", Path.GetFileName(e.SourceFilename));
+            Text = string.Format(_titlePrefix, fileState);
+        }
+
+        /// <summary>
+        /// Handler of the ImageViewerImagesManager.ImageSourceAddFinished event.
+        /// </summary>
+        private void ImagesManager_ImageSourceAddFinished(object sender, ImageSourceEventArgs e)
+        {
+            // if source is changed
+            if (_isSourceChanging)
+            {
+                if (imageViewer1.Images.Count > 0)
+                {
+                    // set new source decoder name
+                    _sourceDecoderName = imageViewer1.Images[0].SourceInfo.DecoderName;
+                }
+                _isSourceChanging = false;
+            }
+        }
+
+        /// <summary>
+        /// Handler of the ImageViewerImagesManager.AddFinished event.
+        /// </summary>
+        private void ImagesManager_AddFinished(object sender, EventArgs e)
+        {
+            IsFileOpening = false;
+            _isSourceChanging = false;
+        }
+
+        /// <summary>
+        /// Handler of the ImageViewerImagesManager.ImageSourceAddException event.
+        /// </summary>
+        private void ImagesManager_ImageSourceAddException(object sender, ImageSourceExceptionEventArgs e)
+        {
+            // show error message
+            string message = string.Format("Cannot open {0} : {1}", Path.GetFileName(e.SourceFilename), e.Exception.Message);
+            DemosTools.ShowErrorMessage(message);
+
+            // if new source failed to set, close file
+            if (_isSourceChanging)
+                CloseCurrentFile();
         }
 
         #endregion
@@ -4084,8 +4196,6 @@ namespace ImagingDemo
         /// <summary>
         /// Handler of the ImageCollection.ImageSavingProgress and VintasoftImage.ImageSavingProgress events.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="ProgressEventArgs"/> instance containing the event data.</param>
         private void images_ImageSavingProgress(object sender, ProgressEventArgs e)
         {
             // if saving of image must be canceled (application is closing OR new image is opening)
@@ -4111,8 +4221,6 @@ namespace ImagingDemo
         /// <summary>
         /// Handler of the ImageCollection.ImageSavingException event.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="ExceptionEventArgs"/> instance containing the event data.</param>
         private void images_ImageSavingException(object sender, ExceptionEventArgs e)
         {
             // do not show error message if application is closing
@@ -4127,8 +4235,6 @@ namespace ImagingDemo
         /// <summary>
         /// Handler of the ImageCollection.ImageCollectionSavingFinished event.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void images_ImageCollectionSavingFinished(object sender, EventArgs e)
         {
             ImageCollection images = (ImageCollection)sender;
@@ -4145,7 +4251,7 @@ namespace ImagingDemo
             {
                 _sourceFilename = _saveFilename;
                 _sourceDecoderName = _encoderName;
-                _sourceStreamIsReadOnly = false;
+                _isFileReadOnlyMode = false;
 
                 _saveFilename = null;
                 _encoderName = null;
@@ -4271,8 +4377,6 @@ namespace ImagingDemo
         /// <summary>
         /// Handler of the ImageProcessingCommandExecutor.ImageProcessingCommandStarted event.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="ImageProcessingEventArgs"/> instance containing the event data.</param>
         private void imageProcessingCommandExecutor_ImageProcessingCommandStarted(object sender, ImageProcessingEventArgs e)
         {
             if (this.InvokeRequired)
@@ -4289,8 +4393,6 @@ namespace ImagingDemo
         /// <summary>
         /// Handler of the ImageProcessingCommandExecutor.ImageProcessingCommandProgress event.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="ImageProcessingProgressEventArgs"/> instance containing the event data.</param>
         private void imageProcessingCommandExecutor_ImageProcessingCommandProgress(object sender, ImageProcessingProgressEventArgs e)
         {
             if (e.Progress == 100)
@@ -4315,8 +4417,6 @@ namespace ImagingDemo
         /// <summary>
         /// Handler of the ImageProcessingCommandExecutor.ImageProcessingCommandFinished event.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="ImageProcessedEventArgs"/> instance containing the event data.</param>
         private void imageProcessingCommandExecutor_ImageProcessingCommandFinished(object sender, ImageProcessedEventArgs e)
         {
             if (this.InvokeRequired)
@@ -4333,8 +4433,6 @@ namespace ImagingDemo
         /// <summary>
         /// Updates the "Image processing" progress info. Thread safe.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="ImageProcessingProgressEventArgs"/> instance containing the event data.</param>
         private void UpdateImageProcessingProgress(object sender, ImageProcessingProgressEventArgs e)
         {
             if (e.Progress == 100)
@@ -4664,7 +4762,7 @@ namespace ImagingDemo
 
                         OverlayCommand overlayCommand = new OverlayCommand(imageFromClipboard);
                         // overlay with path command
-                        ProcessPathCommand overlayWithPath = 
+                        ProcessPathCommand overlayWithPath =
                             new ProcessPathCommand(overlayCommand, new Vintasoft.Imaging.Drawing.Gdi.GdiGraphicsPath(path, false));
                         overlayWithPath.ExecuteInPlace(source);
                     }
@@ -4876,8 +4974,6 @@ namespace ImagingDemo
         /// <summary>
         /// Handler of the UndoManager.Changed event.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="UndoManagerChangedEventArgs"/> instance containing the event data.</param>
         private void undoManager_Changed(object sender, UndoManagerChangedEventArgs e)
         {
             if (InvokeRequired)
@@ -4889,8 +4985,6 @@ namespace ImagingDemo
         /// <summary>
         /// Handler of the UndoManager.Navigated event.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="UndoManagerNavigatedEventArgs"/> instance containing the event data.</param>
         private void undoManager_Navigated(object sender, UndoManagerNavigatedEventArgs e)
         {
             if (InvokeRequired)
@@ -4961,8 +5055,6 @@ namespace ImagingDemo
         /// <summary>
         /// Handler of the UndoManagerHistoryForm.FormClosed event.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="FormClosedEventArgs"/> instance containing the event data.</param>
         private void historyForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             historyDialogToolStripMenuItem.Checked = false;
@@ -5005,8 +5097,6 @@ namespace ImagingDemo
         /// <summary>
         /// Handler of the DirectPixelAccessForm.FormClosed event.
         /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="FormClosedEventArgs"/> instance containing the event data.</param>
         private void directPixeAccessForm_FormClosed(object sender, FormClosedEventArgs e)
         {
             editImagePixelsToolStripMenuItem.Checked = false;
@@ -5094,7 +5184,7 @@ namespace ImagingDemo
         #region View Rotation
 
         /// <summary>
-        /// Rotates images in both annotation viewer and thumbnail viewer by 90 degrees clockwise.
+        /// Rotates images in both image viewer and thumbnail viewer by 90 degrees clockwise.
         /// </summary>
         private void RotateViewClockwise()
         {
@@ -5111,7 +5201,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Rotates images in both annotation viewer and thumbnail viewer by 90 degrees counterclockwise.
+        /// Rotates images in both image viewer and thumbnail viewer by 90 degrees counterclockwise.
         /// </summary>
         private void RotateViewCounterClockwise()
         {
@@ -5138,6 +5228,12 @@ namespace ImagingDemo
         #region Delegates
 
         private delegate void UpdateUIDelegate();
+
+        private delegate void SetIsFileOpeningDelegate(bool isFileOpening);
+
+        private delegate void CloseCurrentFileDelegate();
+
+        private delegate void SetAddingFilenameDelegate(string filename);
 
         private delegate void UpdateImageCollectionSavingProgressMethod(ProgressEventArgs e);
         private delegate void UpdateImageSavingProgressMethod(ProgressEventArgs e);

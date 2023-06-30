@@ -1269,8 +1269,9 @@
             // 
             // BarcodeReaderSettingsControl
             // 
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.Controls.Add(this.panel1);
+            this.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "BarcodeReaderSettingsControl";
             this.Size = new System.Drawing.Size(286, 532);
             this.panel1.ResumeLayout(false);

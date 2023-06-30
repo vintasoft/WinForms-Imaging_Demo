@@ -120,7 +120,7 @@ namespace DemosCommonCode.Imaging
         /// <summary>
         /// Edits the document layout settings using DocumentLayoutSettingsDialog.
         /// </summary>
-        public void EditLayoutSettingsUseDialog()
+        public bool EditLayoutSettingsUseDialog()
         {
             // create dialog with necessary layout settings
             using (DocumentLayoutSettingsDialog dialog = CreateLayoutSettingsDialog())
@@ -135,12 +135,15 @@ namespace DemosCommonCode.Imaging
                     try
                     {
                         LayoutSettings = dialog.LayoutSettings;
+                        return true;
                     }
                     catch (Exception ex)
                     {
                         DemosTools.ShowErrorMessage(ex);
                     }
                 }
+
+                return false;
             }
         }
 
