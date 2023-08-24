@@ -1,4 +1,4 @@
-<h1>VintaSoft WinForms Imaging Demo</h1>
+# VintaSoft WinForms Imaging Demo
 
 The project uses <a href="https://www.vintasoft.com/vsimaging-dotnet-index.html">VintaSoft Imaging .NET SDK</a> and demonstrates how to process images in WinForms:
 * Load image from file, acquire from scanner, capture from webcam.
@@ -15,7 +15,7 @@ The project uses <a href="https://www.vintasoft.com/vsimaging-dotnet-index.html"
 * Supported image formats: BMP, CUR, DICOM, DOC, DOCX, XLS, XLSX, EMF, GIF, ICO, JBIG2, JPEG, JPEG2000, JPEG-LS, PCX, PDF, PNG, TIFF, BigTIFF, WMF, RAW (NEF, NRW, CR2, CRW, DNG).
 
 
-<h2>Screenshot</h2>
+## Screenshot
 <img src="vintasoft-imaging-demo.png" alt="VintaSoft Imaging Demo">
 
 
