@@ -1,13 +1,13 @@
 # VintaSoft WinForms Imaging Demo
 
 The project uses <a href="https://www.vintasoft.com/vsimaging-dotnet-index.html">VintaSoft Imaging .NET SDK</a> and demonstrates how to process images in WinForms:
-* Load image from file, acquire from scanner, capture from webcam.
+* Load image from file, acquire from TWAIN scanner, capture from webcam.
 * Display, print and save all supported image and document formats.
 * Navigate images: first, previous, next, last.
 * Copy image to/from clipboard.
 * Access image pixels directly.
 * Set image and thumbnail preview settings.
-* Process images using  90+ image processing functions.
+* Process images using 90+ image processing functions.
 * Undo/redo changes in processed images.
 * View image slide show.
 * View and edit image palette.
