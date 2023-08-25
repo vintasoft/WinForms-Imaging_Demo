@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
@@ -39,6 +39,7 @@
     <PackageReference Include="Vintasoft.Barcode" Version="14.1.11.1" />
     <PackageReference Include="Vintasoft.Barcode.Gdi" Version="14.1.11.1" />
     <PackageReference Include="Vintasoft.Imaging" Version="12.2.6.1" />
+    <PackageReference Include="Vintasoft.Imaging.Gdi" Version="12.2.6.1" />
     <PackageReference Include="Vintasoft.Imaging.Annotation" Version="12.2.6.1" />
     <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf" Version="12.2.6.1" />
     <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf.UI" Version="12.2.6.1" />
@@ -47,17 +48,17 @@
     <PackageReference Include="Vintasoft.Imaging.DocCleanup" Version="7.2.6.1" />
     <PackageReference Include="Vintasoft.Imaging.Jbig2Codec" Version="9.2.6.1" />
     <PackageReference Include="Vintasoft.Imaging.Jpeg2000Codec" Version="8.2.6.1" />
-    <PackageReference Include="Vintasoft.Imaging.Media" Version="12.2.6.1" />
     <PackageReference Include="Vintasoft.Imaging.Office.OpenXml" Version="4.2.6.1" />
     <PackageReference Include="Vintasoft.Imaging.Pdf" Version="9.2.6.1" />
     <PackageReference Include="Vintasoft.Imaging.Pdf.Mrc" Version="9.2.6.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf.UI" Version="9.2.6.1" />
     <PackageReference Include="Vintasoft.Imaging.RawCodec" Version="12.2.6.1" />
+    <PackageReference Include="Vintasoft.Imaging.Media" Version="12.2.6.1" />
     <PackageReference Include="Vintasoft.Imaging.UI" Version="12.2.6.1" />
-    <PackageReference Include="Vintasoft.Imaging.WebpCodec" Version="12.2.6.1" />
     <PackageReference Include="Vintasoft.Shared" Version="4.0.0.3" />
     <PackageReference Include="Vintasoft.Twain" Version="14.0.8.1" />
+    <PackageReference Include="Vintasoft.Imaging.WebpCodec" Version="12.2.6.1" />
   </ItemGroup>
-
   <ItemGroup>
     <Compile Include="CustomControls\AnchorTypeEditorControl.cs">
       <SubType>UserControl</SubType>
@@ -990,12 +991,31 @@
       <SubType>Designer</SubType>
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
+    </Compile>
     <None Include="DefaultCMYK.icc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="DefaultRGB.icc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
     <EmbeddedResource Include="CustomControls\ColorPanelControl\ColorPanelControl.resx">
       <DependentUpon>ColorPanelControl.cs</DependentUpon>
       <SubType>Designer</SubType>
@@ -1286,18 +1306,17 @@
     <EmbeddedResource Include="Resources\Processing_Info.png" />
     <EmbeddedResource Include="Resources\Processing_Transform.png" />
     <EmbeddedResource Include="DemosCommonCode.Imaging\VisualTools\BarcodeWriterTool\Resources\RefreshBarcodeImage.png" />
-    <None Include="Resources\DotNet7\VintasoftTwainService.dll">
-      <Link>VintasoftTwainService.dll</Link>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\DotNet7\VintasoftTwainService.exe">
+    <Content Include="Resources\DotNet7\VintasoftTwainService.exe">
       <Link>VintasoftTwainService.exe</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
-    <None Include="Resources\DotNet7\VintasoftTwainService.runtimeconfig.json">
+    </Content>
+    <Content Include="Resources\DotNet7\VintasoftTwainService.dll">
+      <Link>VintasoftTwainService.dll</Link>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\DotNet7\VintasoftTwainService.runtimeconfig.json">
       <Link>VintasoftTwainService.runtimeconfig.json</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </None>
+    </Content>
   </ItemGroup>
-
 </Project>
