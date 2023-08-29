@@ -16,7 +16,7 @@ This C# project uses <a href="https://www.vintasoft.com/vsimaging-dotnet-index.h
 
 
 ## Screenshot
-<img src="vintasoft-imaging-demo.png" alt="VintaSoft Imaging Demo">
+<img src="vintasoft-imaging-demo.png" title="VintaSoft Imaging Demo">
 
 
 ## Usage
