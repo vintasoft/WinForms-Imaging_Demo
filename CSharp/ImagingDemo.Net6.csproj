@@ -12,7 +12,7 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>    
     <EnableDefaultItems>false</EnableDefaultItems>
-    <Version>12.2.9.1</Version>
+    <Version>12.2.10.1</Version>
     <AssemblyName>ImagingDemo</AssemblyName>
     <RootNamespace>ImagingDemo</RootNamespace>
     <StartupObject>ImagingDemo.Program</StartupObject>
@@ -36,8 +36,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Vintasoft.Barcode" Version="14.1.14.1" />
-    <PackageReference Include="Vintasoft.Barcode.Gdi" Version="14.1.14.1" />
+    <PackageReference Include="Vintasoft.Barcode" Version="14.1.12.1" />
+    <PackageReference Include="Vintasoft.Barcode.Gdi" Version="14.1.12.1" />
     <PackageReference Include="Vintasoft.Imaging" Version="12.2.7.1" />
     <PackageReference Include="Vintasoft.Imaging.Gdi" Version="12.2.7.1" />
     <PackageReference Include="Vintasoft.Imaging.Annotation" Version="12.2.7.1" />
