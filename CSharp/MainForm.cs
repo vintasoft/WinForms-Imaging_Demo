@@ -2833,6 +2833,14 @@ namespace ImagingDemo
             _imageProcessingCommandExecutor.ExecuteAdvancedReplaceColorCommand();
         }
 
+        /// <summary>
+        /// Handles the Click event of DocumentPerspectiveCorrectionToolStripMenuItem object.
+        /// </summary>
+        private void documentPerspectiveCorrectionToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            _imageProcessingCommandExecutor.ExecuteDocumentPerspectiveCorrectionCommand();
+        }
+
         #endregion
 
 

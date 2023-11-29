@@ -66,6 +66,7 @@ namespace DemosCommonCode.Imaging
             this.invisibleTableBordersGroupBox = new System.Windows.Forms.GroupBox();
             this.colorLabel = new System.Windows.Forms.Label();
             this.invisibleTableBordersColorPanelControl = new DemosCommonCode.CustomControls.ColorPanelControl();
+            this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.renderingSettingsTabControl.SuspendLayout();
             this.commonSettingsTabPage.SuspendLayout();
             this.resolutionSettingsGroupBox.SuspendLayout();
@@ -75,6 +76,7 @@ namespace DemosCommonCode.Imaging
             this.annotationRenderingModeGroupBox.SuspendLayout();
             this.officeSettingsTabPage.SuspendLayout();
             this.invisibleTableBordersGroupBox.SuspendLayout();
+            this.tableLayoutPanel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // showInvisibleTableBordersCheckBox
@@ -82,7 +84,7 @@ namespace DemosCommonCode.Imaging
             this.showInvisibleTableBordersCheckBox.AutoSize = true;
             this.showInvisibleTableBordersCheckBox.Checked = true;
             this.showInvisibleTableBordersCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.showInvisibleTableBordersCheckBox.Location = new System.Drawing.Point(18, 42);
+            this.showInvisibleTableBordersCheckBox.Location = new System.Drawing.Point(17, 55);
             this.showInvisibleTableBordersCheckBox.Name = "showInvisibleTableBordersCheckBox";
             this.showInvisibleTableBordersCheckBox.Size = new System.Drawing.Size(163, 17);
             this.showInvisibleTableBordersCheckBox.TabIndex = 0;
@@ -93,7 +95,7 @@ namespace DemosCommonCode.Imaging
             // showNonPrintableCharactersCheckBox
             // 
             this.showNonPrintableCharactersCheckBox.AutoSize = true;
-            this.showNonPrintableCharactersCheckBox.Location = new System.Drawing.Point(10, 102);
+            this.showNonPrintableCharactersCheckBox.Location = new System.Drawing.Point(9, 115);
             this.showNonPrintableCharactersCheckBox.Name = "showNonPrintableCharactersCheckBox";
             this.showNonPrintableCharactersCheckBox.Size = new System.Drawing.Size(168, 17);
             this.showNonPrintableCharactersCheckBox.TabIndex = 1;
@@ -103,7 +105,7 @@ namespace DemosCommonCode.Imaging
             // buttonOk
             // 
             this.buttonOk.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.buttonOk.Location = new System.Drawing.Point(99, 310);
+            this.buttonOk.Location = new System.Drawing.Point(160, 309);
             this.buttonOk.Name = "buttonOk";
             this.buttonOk.Size = new System.Drawing.Size(75, 23);
             this.buttonOk.TabIndex = 4;
@@ -115,7 +117,7 @@ namespace DemosCommonCode.Imaging
             // 
             this.buttonCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.buttonCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.buttonCancel.Location = new System.Drawing.Point(180, 310);
+            this.buttonCancel.Location = new System.Drawing.Point(241, 309);
             this.buttonCancel.Name = "buttonCancel";
             this.buttonCancel.Size = new System.Drawing.Size(75, 23);
             this.buttonCancel.TabIndex = 5;
@@ -135,7 +137,7 @@ namespace DemosCommonCode.Imaging
             // 
             this.textRenderingHintComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.textRenderingHintComboBox.FormattingEnabled = true;
-            this.textRenderingHintComboBox.Location = new System.Drawing.Point(123, 11);
+            this.textRenderingHintComboBox.Location = new System.Drawing.Point(9, 30);
             this.textRenderingHintComboBox.Name = "textRenderingHintComboBox";
             this.textRenderingHintComboBox.Size = new System.Drawing.Size(124, 21);
             this.textRenderingHintComboBox.TabIndex = 7;
@@ -150,23 +152,20 @@ namespace DemosCommonCode.Imaging
             this.renderingSettingsTabControl.Location = new System.Drawing.Point(0, 0);
             this.renderingSettingsTabControl.Name = "renderingSettingsTabControl";
             this.renderingSettingsTabControl.SelectedIndex = 0;
-            this.renderingSettingsTabControl.Size = new System.Drawing.Size(265, 305);
+            this.renderingSettingsTabControl.Size = new System.Drawing.Size(326, 305);
             this.renderingSettingsTabControl.TabIndex = 8;
             // 
             // commonSettingsTabPage
             // 
+            this.commonSettingsTabPage.Controls.Add(this.tableLayoutPanel1);
             this.commonSettingsTabPage.Controls.Add(this.drawSharpImageBordersCheckBox);
             this.commonSettingsTabPage.Controls.Add(this.resolutionSettingsCheckBox);
             this.commonSettingsTabPage.Controls.Add(this.optimizeImageDrawingCheckBox);
             this.commonSettingsTabPage.Controls.Add(this.resolutionSettingsGroupBox);
-            this.commonSettingsTabPage.Controls.Add(this.label3);
-            this.commonSettingsTabPage.Controls.Add(this.label6);
-            this.commonSettingsTabPage.Controls.Add(this.smoothingModeComboBox);
-            this.commonSettingsTabPage.Controls.Add(this.interpolationModeComboBox);
             this.commonSettingsTabPage.Location = new System.Drawing.Point(4, 22);
             this.commonSettingsTabPage.Name = "commonSettingsTabPage";
             this.commonSettingsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.commonSettingsTabPage.Size = new System.Drawing.Size(257, 279);
+            this.commonSettingsTabPage.Size = new System.Drawing.Size(318, 279);
             this.commonSettingsTabPage.TabIndex = 0;
             this.commonSettingsTabPage.Text = "Common";
             this.commonSettingsTabPage.UseVisualStyleBackColor = true;
@@ -206,8 +205,7 @@ namespace DemosCommonCode.Imaging
             // 
             // resolutionSettingsGroupBox
             // 
-            this.resolutionSettingsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
-            | System.Windows.Forms.AnchorStyles.Left) 
+            this.resolutionSettingsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.resolutionSettingsGroupBox.Controls.Add(this.verticalResolutionNumericUpDown);
             this.resolutionSettingsGroupBox.Controls.Add(this.horizontalResolutionNumericUpDown);
@@ -215,14 +213,16 @@ namespace DemosCommonCode.Imaging
             this.resolutionSettingsGroupBox.Controls.Add(this.label1);
             this.resolutionSettingsGroupBox.Location = new System.Drawing.Point(10, 15);
             this.resolutionSettingsGroupBox.Name = "resolutionSettingsGroupBox";
-            this.resolutionSettingsGroupBox.Size = new System.Drawing.Size(237, 78);
+            this.resolutionSettingsGroupBox.Size = new System.Drawing.Size(298, 78);
             this.resolutionSettingsGroupBox.TabIndex = 9;
             this.resolutionSettingsGroupBox.TabStop = false;
             // 
             // verticalResolutionNumericUpDown
             // 
             this.verticalResolutionNumericUpDown.AccessibleName = "";
-            this.verticalResolutionNumericUpDown.Location = new System.Drawing.Point(160, 44);
+            this.verticalResolutionNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.verticalResolutionNumericUpDown.Location = new System.Drawing.Point(227, 44);
             this.verticalResolutionNumericUpDown.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -234,7 +234,7 @@ namespace DemosCommonCode.Imaging
             0,
             0});
             this.verticalResolutionNumericUpDown.Name = "verticalResolutionNumericUpDown";
-            this.verticalResolutionNumericUpDown.Size = new System.Drawing.Size(67, 20);
+            this.verticalResolutionNumericUpDown.Size = new System.Drawing.Size(65, 20);
             this.verticalResolutionNumericUpDown.TabIndex = 5;
             this.verticalResolutionNumericUpDown.Value = new decimal(new int[] {
             96,
@@ -244,7 +244,9 @@ namespace DemosCommonCode.Imaging
             // 
             // horizontalResolutionNumericUpDown
             // 
-            this.horizontalResolutionNumericUpDown.Location = new System.Drawing.Point(160, 18);
+            this.horizontalResolutionNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.horizontalResolutionNumericUpDown.Location = new System.Drawing.Point(227, 18);
             this.horizontalResolutionNumericUpDown.Maximum = new decimal(new int[] {
             10000,
             0,
@@ -256,7 +258,7 @@ namespace DemosCommonCode.Imaging
             0,
             0});
             this.horizontalResolutionNumericUpDown.Name = "horizontalResolutionNumericUpDown";
-            this.horizontalResolutionNumericUpDown.Size = new System.Drawing.Size(67, 20);
+            this.horizontalResolutionNumericUpDown.Size = new System.Drawing.Size(65, 20);
             this.horizontalResolutionNumericUpDown.TabIndex = 4;
             this.horizontalResolutionNumericUpDown.Value = new decimal(new int[] {
             96,
@@ -284,8 +286,9 @@ namespace DemosCommonCode.Imaging
             // 
             // label3
             // 
+            this.label3.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(8, 101);
+            this.label3.Location = new System.Drawing.Point(3, 7);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(87, 13);
             this.label3.TabIndex = 2;
@@ -293,8 +296,9 @@ namespace DemosCommonCode.Imaging
             // 
             // label6
             // 
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(8, 131);
+            this.label6.Location = new System.Drawing.Point(3, 34);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(95, 13);
             this.label6.TabIndex = 9;
@@ -302,20 +306,22 @@ namespace DemosCommonCode.Imaging
             // 
             // smoothingModeComboBox
             // 
+            this.smoothingModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.smoothingModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.smoothingModeComboBox.FormattingEnabled = true;
-            this.smoothingModeComboBox.Location = new System.Drawing.Point(125, 97);
+            this.smoothingModeComboBox.Location = new System.Drawing.Point(104, 3);
             this.smoothingModeComboBox.Name = "smoothingModeComboBox";
-            this.smoothingModeComboBox.Size = new System.Drawing.Size(122, 21);
+            this.smoothingModeComboBox.Size = new System.Drawing.Size(191, 21);
             this.smoothingModeComboBox.TabIndex = 7;
             // 
             // interpolationModeComboBox
             // 
+            this.interpolationModeComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
             this.interpolationModeComboBox.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.interpolationModeComboBox.FormattingEnabled = true;
-            this.interpolationModeComboBox.Location = new System.Drawing.Point(125, 128);
+            this.interpolationModeComboBox.Location = new System.Drawing.Point(104, 30);
             this.interpolationModeComboBox.Name = "interpolationModeComboBox";
-            this.interpolationModeComboBox.Size = new System.Drawing.Size(122, 21);
+            this.interpolationModeComboBox.Size = new System.Drawing.Size(191, 21);
             this.interpolationModeComboBox.TabIndex = 8;
             // 
             // pdfSettingsTabPage
@@ -328,7 +334,7 @@ namespace DemosCommonCode.Imaging
             this.pdfSettingsTabPage.Location = new System.Drawing.Point(4, 22);
             this.pdfSettingsTabPage.Name = "pdfSettingsTabPage";
             this.pdfSettingsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.pdfSettingsTabPage.Size = new System.Drawing.Size(257, 279);
+            this.pdfSettingsTabPage.Size = new System.Drawing.Size(318, 279);
             this.pdfSettingsTabPage.TabIndex = 1;
             this.pdfSettingsTabPage.Text = "PDF";
             this.pdfSettingsTabPage.UseVisualStyleBackColor = true;
@@ -354,6 +360,8 @@ namespace DemosCommonCode.Imaging
             // 
             // annotationRenderingModeGroupBox
             // 
+            this.annotationRenderingModeGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.annotationRenderingModeGroupBox.Controls.Add(this.renderDisplayableCheckBox);
             this.annotationRenderingModeGroupBox.Controls.Add(this.renderNoViewCheckBox);
             this.annotationRenderingModeGroupBox.Controls.Add(this.renderPrintableCheckBox);
@@ -364,7 +372,7 @@ namespace DemosCommonCode.Imaging
             this.annotationRenderingModeGroupBox.Controls.Add(this.vintasoftAnnotationsCheckBox);
             this.annotationRenderingModeGroupBox.Location = new System.Drawing.Point(10, 6);
             this.annotationRenderingModeGroupBox.Name = "annotationRenderingModeGroupBox";
-            this.annotationRenderingModeGroupBox.Size = new System.Drawing.Size(237, 204);
+            this.annotationRenderingModeGroupBox.Size = new System.Drawing.Size(298, 204);
             this.annotationRenderingModeGroupBox.TabIndex = 4;
             this.annotationRenderingModeGroupBox.TabStop = false;
             // 
@@ -478,18 +486,20 @@ namespace DemosCommonCode.Imaging
             this.officeSettingsTabPage.Location = new System.Drawing.Point(4, 22);
             this.officeSettingsTabPage.Name = "officeSettingsTabPage";
             this.officeSettingsTabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.officeSettingsTabPage.Size = new System.Drawing.Size(257, 279);
+            this.officeSettingsTabPage.Size = new System.Drawing.Size(278, 279);
             this.officeSettingsTabPage.TabIndex = 2;
             this.officeSettingsTabPage.Text = "Office";
             this.officeSettingsTabPage.UseVisualStyleBackColor = true;
             // 
             // invisibleTableBordersGroupBox
             // 
+            this.invisibleTableBordersGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.invisibleTableBordersGroupBox.Controls.Add(this.colorLabel);
             this.invisibleTableBordersGroupBox.Controls.Add(this.invisibleTableBordersColorPanelControl);
-            this.invisibleTableBordersGroupBox.Location = new System.Drawing.Point(10, 44);
+            this.invisibleTableBordersGroupBox.Location = new System.Drawing.Point(9, 57);
             this.invisibleTableBordersGroupBox.Name = "invisibleTableBordersGroupBox";
-            this.invisibleTableBordersGroupBox.Size = new System.Drawing.Size(237, 49);
+            this.invisibleTableBordersGroupBox.Size = new System.Drawing.Size(258, 49);
             this.invisibleTableBordersGroupBox.TabIndex = 8;
             this.invisibleTableBordersGroupBox.TabStop = false;
             // 
@@ -510,15 +520,36 @@ namespace DemosCommonCode.Imaging
             this.invisibleTableBordersColorPanelControl.DefaultColor = System.Drawing.Color.Empty;
             this.invisibleTableBordersColorPanelControl.Location = new System.Drawing.Point(92, 19);
             this.invisibleTableBordersColorPanelControl.Name = "invisibleTableBordersColorPanelControl";
-            this.invisibleTableBordersColorPanelControl.Size = new System.Drawing.Size(136, 22);
+            this.invisibleTableBordersColorPanelControl.Size = new System.Drawing.Size(160, 22);
             this.invisibleTableBordersColorPanelControl.TabIndex = 2;
+            // 
+            // tableLayoutPanel1
+            // 
+            this.tableLayoutPanel1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel1.AutoSize = true;
+            this.tableLayoutPanel1.ColumnCount = 2;
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel1.Controls.Add(this.label3, 0, 0);
+            this.tableLayoutPanel1.Controls.Add(this.smoothingModeComboBox, 1, 0);
+            this.tableLayoutPanel1.Controls.Add(this.label6, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.interpolationModeComboBox, 1, 1);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(10, 96);
+            this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.RowCount = 2;
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(298, 54);
+            this.tableLayoutPanel1.TabIndex = 12;
             // 
             // CompositeRenderingSettingsForm
             // 
             this.AcceptButton = this.buttonOk;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.CancelButton = this.buttonCancel;
-            this.ClientSize = new System.Drawing.Size(263, 342);
+            this.ClientSize = new System.Drawing.Size(324, 341);
             this.Controls.Add(this.renderingSettingsTabControl);
             this.Controls.Add(this.buttonCancel);
             this.Controls.Add(this.buttonOk);
@@ -544,6 +575,8 @@ namespace DemosCommonCode.Imaging
             this.officeSettingsTabPage.PerformLayout();
             this.invisibleTableBordersGroupBox.ResumeLayout(false);
             this.invisibleTableBordersGroupBox.PerformLayout();
+            this.tableLayoutPanel1.ResumeLayout(false);
+            this.tableLayoutPanel1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -588,5 +621,6 @@ namespace DemosCommonCode.Imaging
         private System.Windows.Forms.Label colorLabel;
         private System.Windows.Forms.CheckBox drawSharpImageBordersCheckBox;
         private System.Windows.Forms.CheckBox drawErrorsCheckBox;
+        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
     }
 }
