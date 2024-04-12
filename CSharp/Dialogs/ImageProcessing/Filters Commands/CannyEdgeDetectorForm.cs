@@ -177,7 +177,7 @@ namespace ImagingDemo
         #region UI
 
         /// <summary>
-        /// Handles the Click event of OkButton object.
+        /// Handles the Click event of okButton object.
         /// </summary>
         private void okButton_Click(object sender, EventArgs e)
         {
@@ -185,7 +185,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of CancelButton object.
+        /// Handles the Click event of cancelButton object.
         /// </summary>
         private void cancelButton_Click(object sender, EventArgs e)
         {
@@ -193,7 +193,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Scroll event of TrackBar1 object.
+        /// Handles the Scroll event of trackBar1 object.
         /// </summary>
         private void trackBar1_Scroll(object sender, EventArgs e)
         {
@@ -202,7 +202,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Scroll event of TrackBar2 object.
+        /// Handles the Scroll event of trackBar2 object.
         /// </summary>
         private void trackBar2_Scroll(object sender, EventArgs e)
         {
@@ -215,7 +215,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Scroll event of TrackBar3 object.
+        /// Handles the Scroll event of trackBar3 object.
         /// </summary>
         private void trackBar3_Scroll(object sender, EventArgs e)
         {
@@ -224,7 +224,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the ValueChanged event of NumericUpDown1 object.
+        /// Handles the ValueChanged event of numericUpDown1 object.
         /// </summary>
         private void numericUpDown1_ValueChanged(object sender, EventArgs e)
         {
@@ -233,7 +233,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the ValueChanged event of NumericUpDown2 object.
+        /// Handles the ValueChanged event of numericUpDown2 object.
         /// </summary>
         private void numericUpDown2_ValueChanged(object sender, EventArgs e)
         {
@@ -242,7 +242,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the ValueChanged event of NumericUpDown3 object.
+        /// Handles the ValueChanged event of numericUpDown3 object.
         /// </summary>
         private void numericUpDown3_ValueChanged(object sender, EventArgs e)
         {
@@ -251,7 +251,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ButtonReset1 object.
+        /// Handles the Click event of buttonReset1 object.
         /// </summary>
         private void buttonReset1_Click(object sender, EventArgs e)
         {
@@ -259,7 +259,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ButtonReset2 object.
+        /// Handles the Click event of buttonReset2 object.
         /// </summary>
         private void buttonReset2_Click(object sender, EventArgs e)
         {
@@ -267,7 +267,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ButtonReset3 object.
+        /// Handles the Click event of buttonReset3 object.
         /// </summary>
         private void buttonReset3_Click(object sender, EventArgs e)
         {
@@ -275,7 +275,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of PreviewCheckBox object.
+        /// Handles the CheckedChanged event of previewCheckBox object.
         /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {

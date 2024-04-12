@@ -82,7 +82,7 @@ namespace ImagingDemo
         #region UI
 
         /// <summary>
-        /// Handles the CheckedChanged event of ColorCheckBox object.
+        /// Handles the CheckedChanged event of colorCheckBox object.
         /// </summary>
         private void colorCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -98,7 +98,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Scroll event of WhiteTrackBar object.
+        /// Handles the Scroll event of whiteTrackBar object.
         /// </summary>
         private void whiteTrackBar_Scroll(object sender, EventArgs e)
         {
@@ -107,7 +107,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Scroll event of BlackTrackBar object.
+        /// Handles the Scroll event of blackTrackBar object.
         /// </summary>
         private void blackTrackBar_Scroll(object sender, EventArgs e)
         {
@@ -116,7 +116,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Scroll event of RedTrackBar object.
+        /// Handles the Scroll event of redTrackBar object.
         /// </summary>
         private void redTrackBar_Scroll(object sender, EventArgs e)
         {
@@ -125,7 +125,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Scroll event of GreenTrackBar object.
+        /// Handles the Scroll event of greenTrackBar object.
         /// </summary>
         private void greenTrackBar_Scroll(object sender, EventArgs e)
         {
@@ -134,7 +134,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Scroll event of BlueTrackBar object.
+        /// Handles the Scroll event of blueTrackBar object.
         /// </summary>
         private void blueTrackBar_Scroll(object sender, EventArgs e)
         {
@@ -143,7 +143,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Scroll event of CyanTrackBar object.
+        /// Handles the Scroll event of cyanTrackBar object.
         /// </summary>
         private void cyanTrackBar_Scroll(object sender, EventArgs e)
         {
@@ -152,7 +152,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Scroll event of MagentaTrackBar object.
+        /// Handles the Scroll event of magentaTrackBar object.
         /// </summary>
         private void magentaTrackBar_Scroll(object sender, EventArgs e)
         {
@@ -161,7 +161,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Scroll event of YellowTrackBar object.
+        /// Handles the Scroll event of yellowTrackBar object.
         /// </summary>
         private void yellowTrackBar_Scroll(object sender, EventArgs e)
         {
@@ -170,7 +170,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Scroll event of InterpolationTrackBar object.
+        /// Handles the Scroll event of interpolationTrackBar object.
         /// </summary>
         private void interpolationTrackBar_Scroll(object sender, EventArgs e)
         {
@@ -180,7 +180,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of PreviewCheckBox object.
+        /// Handles the CheckedChanged event of previewCheckBox object.
         /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {

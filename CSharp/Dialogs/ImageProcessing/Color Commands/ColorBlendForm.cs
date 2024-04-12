@@ -131,7 +131,7 @@ namespace ImagingDemo
         #region UI
 
         /// <summary>
-        /// Handles the ColorChanged event of ColorPickerControl object.
+        /// Handles the ColorChanged event of colorPickerControl object.
         /// </summary>
         private void colorPickerControl_ColorChanged(object sender, EventArgs e)
         {
@@ -140,7 +140,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the SelectedValueChanged event of ComboBoxBlendMode object.
+        /// Handles the SelectedValueChanged event of comboBoxBlendMode object.
         /// </summary>
         private void comboBoxBlendMode_SelectedValueChanged(object sender, EventArgs e)
         {

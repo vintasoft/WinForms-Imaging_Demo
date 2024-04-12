@@ -76,7 +76,7 @@ namespace DemosCommonCode.Barcode
         #region Methods
 
         /// <summary>
-        /// Handles the SelectedIndexChanged event of AiNumberComboBox object.
+        /// Handles the SelectedIndexChanged event of aiNumberComboBox object.
         /// </summary>
         private void aiNumberComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -95,7 +95,7 @@ namespace DemosCommonCode.Barcode
         }
 
         /// <summary>
-        /// Handles the RowEnter event of AiListDataGridView object.
+        /// Handles the RowEnter event of aiListDataGridView object.
         /// </summary>
         private void aiListDataGridView_RowEnter(object sender, DataGridViewCellEventArgs e)
         {
@@ -109,7 +109,7 @@ namespace DemosCommonCode.Barcode
         }
 
         /// <summary>
-        /// Handles the Click event of AddButton object.
+        /// Handles the Click event of addButton object.
         /// </summary>
         private void addButton_Click(object sender, EventArgs e)
         {
@@ -119,7 +119,7 @@ namespace DemosCommonCode.Barcode
         }
 
         /// <summary>
-        /// Handles the Click event of DeleteButton object.
+        /// Handles the Click event of deleteButton object.
         /// </summary>
         private void deleteButton_Click(object sender, EventArgs e)
         {
@@ -135,7 +135,7 @@ namespace DemosCommonCode.Barcode
         }
 
         /// <summary>
-        /// Handles the Click event of OkButton object.
+        /// Handles the Click event of okButton object.
         /// </summary>
         private void okButton_Click(object sender, EventArgs e)
         {
@@ -146,7 +146,7 @@ namespace DemosCommonCode.Barcode
         }
 
         /// <summary>
-        /// Handles the Click event of ButtonCancel object.
+        /// Handles the Click event of buttonCancel object.
         /// </summary>
         private void buttonCancel_Click(object sender, EventArgs e)
         {

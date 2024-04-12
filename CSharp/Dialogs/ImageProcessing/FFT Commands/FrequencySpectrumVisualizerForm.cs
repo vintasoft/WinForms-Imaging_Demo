@@ -131,7 +131,7 @@ namespace ImagingDemo
         #region UI
 
         /// <summary>
-        /// Handles the CheckedChanged event of FixedSpectrumSizeCheckBox object.
+        /// Handles the CheckedChanged event of fixedSpectrumSizeCheckBox object.
         /// </summary>
         private void fixedSpectrumSizeCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -147,7 +147,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of GrayscaleVisualizationCheckBox object.
+        /// Handles the CheckedChanged event of grayscaleVisualizationCheckBox object.
         /// </summary>
         private void grayscaleVisualizationCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -156,7 +156,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of NormalizationCheckBox object.
+        /// Handles the CheckedChanged event of normalizationCheckBox object.
         /// </summary>
         private void normalizationCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -165,7 +165,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of AbsoluteValuesCheckBox object.
+        /// Handles the CheckedChanged event of absoluteValuesCheckBox object.
         /// </summary>
         private void absoluteValuesCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -174,7 +174,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the SelectedIndexChanged event of VisualizationTypeComboBox object.
+        /// Handles the SelectedIndexChanged event of visualizationTypeComboBox object.
         /// </summary>
         private void visualizationTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -183,7 +183,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of OkButton object.
+        /// Handles the Click event of okButton object.
         /// </summary>
         private void okButton_Click(object sender, EventArgs e)
         {
@@ -191,7 +191,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ButtonCancel object.
+        /// Handles the Click event of buttonCancel object.
         /// </summary>
         private void buttonCancel_Click(object sender, EventArgs e)
         {
@@ -199,7 +199,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of PreviewCheckBox object.
+        /// Handles the CheckedChanged event of previewCheckBox object.
         /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -211,7 +211,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the ValueChanged event of SpectrumSizeNumericUpDown object.
+        /// Handles the ValueChanged event of spectrumSizeNumericUpDown object.
         /// </summary>
         private void spectrumSizeNumericUpDown_ValueChanged(object sender, EventArgs e)
         {

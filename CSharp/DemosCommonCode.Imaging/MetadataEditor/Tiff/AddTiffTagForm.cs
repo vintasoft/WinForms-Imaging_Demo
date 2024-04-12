@@ -124,7 +124,7 @@ namespace DemosCommonCode.Imaging
         #region Methods
 
         /// <summary>
-        /// Handles the Click event of OkButton object.
+        /// Handles the Click event of okButton object.
         /// </summary>
         private void okButton_Click(object sender, EventArgs e)
         {
@@ -158,7 +158,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the SelectedIndexChanged event of TagDataTypeComboBox object.
+        /// Handles the SelectedIndexChanged event of tagDataTypeComboBox object.
         /// </summary>
         private void tagDataTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -245,7 +245,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the ValueChanged event of TagIdNumericUpDown object.
+        /// Handles the ValueChanged event of tagIdNumericUpDown object.
         /// </summary>
         private void tagIdNumericUpDown_ValueChanged(object sender, EventArgs e)
         {

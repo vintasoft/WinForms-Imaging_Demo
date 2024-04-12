@@ -40,7 +40,7 @@ namespace ImagingDemo
         #region UI
 
         /// <summary>
-        /// Handles the ValueChanged event of DefaultDelayNumericUpDown object.
+        /// Handles the ValueChanged event of defaultDelayNumericUpDown object.
         /// </summary>
         private void defaultDelayNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
@@ -48,7 +48,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of StartButton object.
+        /// Handles the Click event of startButton object.
         /// </summary>
         private void startButton_Click(object sender, EventArgs e)
         {
@@ -59,7 +59,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of StropButton object.
+        /// Handles the Click event of stropButton object.
         /// </summary>
         private void stropButton_Click(object sender, EventArgs e)
         {

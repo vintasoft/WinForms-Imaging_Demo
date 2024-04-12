@@ -72,7 +72,7 @@ namespace DemosCommonCode.Imaging
         #region UI
 
         /// <summary>
-        /// Handles the CheckedChanged event of DefaultSettingsCheckBox object.
+        /// Handles the CheckedChanged event of defaultSettingsCheckBox object.
         /// </summary>
         private void defaultSettingsCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -113,7 +113,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the PaddingValueChanged event of PagePaddingFEditorControl object.
+        /// Handles the PaddingValueChanged event of pagePaddingFEditorControl object.
         /// </summary>
         private void pagePaddingFEditorControl_PaddingValueChanged(object sender, EventArgs e)
         {
@@ -122,7 +122,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the ValueChanged event of ContentScaleNumericUpDown object.
+        /// Handles the ValueChanged event of contentScaleNumericUpDown object.
         /// </summary>
         private void contentScaleNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
@@ -131,7 +131,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the SelectedIndexChanged event of PageSizeComboBox object.
+        /// Handles the SelectedIndexChanged event of pageSizeComboBox object.
         /// </summary>
         private void pageSizeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -186,7 +186,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the ValueChanged event of PageSizeNumericUpDown object.
+        /// Handles the ValueChanged event of pageSizeNumericUpDown object.
         /// </summary>
         private void pageSizeNumericUpDown_ValueChanged(object sender, EventArgs e)
         {

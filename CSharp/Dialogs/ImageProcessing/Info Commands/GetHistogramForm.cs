@@ -140,7 +140,7 @@ namespace ImagingDemo
         #region UI
 
         /// <summary>
-        /// Handles the Click event of CloseButton object.
+        /// Handles the Click event of closeButton object.
         /// </summary>
         private void closeButton_Click(object sender, EventArgs e)
         {
@@ -148,7 +148,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the MouseMove event of HistogramImagePictureBox object.
+        /// Handles the MouseMove event of histogramImagePictureBox object.
         /// </summary>
         private void histogramImagePictureBox_MouseMove(object sender, MouseEventArgs e)
         {
@@ -173,7 +173,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the MouseMove event of GetHistorgamForm object.
+        /// Handles the MouseMove event of getHistorgamForm object.
         /// </summary>
         private void getHistorgamForm_MouseMove(object sender, MouseEventArgs e)
         {
@@ -183,7 +183,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the SelectedIndexChanged event of HistogramTypeComboBox object.
+        /// Handles the SelectedIndexChanged event of histogramTypeComboBox object.
         /// </summary>
         private void histogramTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {

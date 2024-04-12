@@ -136,7 +136,7 @@ namespace ImagingDemo
         #region UI
 
         /// <summary>
-        /// Handles the Click event of OkButton object.
+        /// Handles the Click event of okButton object.
         /// </summary>
         private void okButton_Click(object sender, EventArgs e)
         {
@@ -144,7 +144,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of CancelButton object.
+        /// Handles the Click event of cancelButton object.
         /// </summary>
         private void cancelButton_Click(object sender, EventArgs e)
         {
@@ -152,7 +152,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of PreviewCheckBox object.
+        /// Handles the CheckedChanged event of previewCheckBox object.
         /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -163,6 +163,9 @@ namespace ImagingDemo
                 previewCheckBox.ForeColor = Color.Green;
         }
 
+        /// <summary>
+        /// Handles the PropertyValueChanged event of propertyGrid1 object.
+        /// </summary>
         private void propertyGrid1_PropertyValueChanged(object s, System.Windows.Forms.PropertyValueChangedEventArgs e)
         {
             ExecuteProcessing();

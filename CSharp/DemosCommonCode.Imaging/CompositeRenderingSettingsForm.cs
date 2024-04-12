@@ -160,7 +160,7 @@ namespace DemosCommonCode.Imaging
         #region Methods
 
         /// <summary>
-        /// Handles the Click event of ButtonOk object.
+        /// Handles the Click event of buttonOk object.
         /// </summary>
         private void buttonOk_Click(object sender, EventArgs e)
         {
@@ -229,7 +229,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of ResolutionSettingsCheckBox object.
+        /// Handles the CheckedChanged event of resolutionSettingsCheckBox object.
         /// </summary>
         private void resolutionSettingsCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -238,7 +238,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of ShowInvisibleTableBordersCheckBox object.
+        /// Handles the CheckedChanged event of showInvisibleTableBordersCheckBox object.
         /// </summary>
         private void showInvisibleTableBordersCheckBox_CheckedChanged(object sender, EventArgs e)
         {

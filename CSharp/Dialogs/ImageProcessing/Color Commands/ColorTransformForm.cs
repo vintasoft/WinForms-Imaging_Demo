@@ -120,7 +120,7 @@ namespace ImagingDemo
         #region UI
 
         /// <summary>
-        /// Handles the Click event of InputProfileButton object.
+        /// Handles the Click event of inputProfileButton object.
         /// </summary>
         private void inputProfileButton_Click(object sender, EventArgs e)
         {
@@ -162,7 +162,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of OutputProfileButton object.
+        /// Handles the Click event of outputProfileButton object.
         /// </summary>
         private void outputProfileButton_Click(object sender, EventArgs e)
         {
@@ -204,7 +204,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of RemoveInputProfileButton object.
+        /// Handles the Click event of removeInputProfileButton object.
         /// </summary>
         private void removeInputProfileButton_Click(object sender, EventArgs e)
         {
@@ -227,7 +227,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of RemoveOutputProfileButton object.
+        /// Handles the Click event of removeOutputProfileButton object.
         /// </summary>
         private void removeOutputProfileButton_Click(object sender, EventArgs e)
         {
@@ -250,7 +250,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of PreviewCheckBox object.
+        /// Handles the CheckedChanged event of previewCheckBox object.
         /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -258,7 +258,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the SelectedIndexChanged event of RenderingIntentComboBox object.
+        /// Handles the SelectedIndexChanged event of renderingIntentComboBox object.
         /// </summary>
         private void renderingIntentComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -267,7 +267,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of UseBlackPointCompensationCheckBox object.
+        /// Handles the CheckedChanged event of useBlackPointCompensationCheckBox object.
         /// </summary>
         private void useBlackPointCompensationCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -276,7 +276,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the SelectedIndexChanged event of ColorTransformComboBox object.
+        /// Handles the SelectedIndexChanged event of colorTransformComboBox object.
         /// </summary>
         private void colorTransformComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {

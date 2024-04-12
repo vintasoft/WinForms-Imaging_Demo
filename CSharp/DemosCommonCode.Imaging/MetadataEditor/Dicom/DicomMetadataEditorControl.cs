@@ -116,7 +116,7 @@ namespace DemosCommonCode.Imaging
         #region UI
 
         /// <summary>
-        /// Handles the AfterSelect event of MetadataTreeView object.
+        /// Handles the AfterSelect event of metadataTreeView object.
         /// </summary>
         private void metadataTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -149,7 +149,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the Click event of AddButton object.
+        /// Handles the Click event of addButton object.
         /// </summary>
         private void addButton_Click(object sender, EventArgs e)
         {
@@ -195,7 +195,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the Click event of RemoveButton object.
+        /// Handles the Click event of removeButton object.
         /// </summary>
         private void removeButton_Click(object sender, EventArgs e)
         {

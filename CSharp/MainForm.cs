@@ -42,6 +42,7 @@ using Vintasoft.Imaging.Pdf;
 using Vintasoft.Imaging.Pdf.Drawing;
 using Vintasoft.Imaging.Drawing.Gdi;
 using Vintasoft.Imaging.Drawing;
+using Vintasoft.Imaging.ImageRendering;
 #endif
 
 namespace ImagingDemo
@@ -143,14 +144,19 @@ namespace ImagingDemo
         #region Save
 
         /// <summary>
-        /// Image file name to save the image collection of the image viewer.
+        /// A name of file, where image collection of image viewer must be saved.
         /// </summary>
         string _saveFilename;
 
         /// <summary>
-        /// Encoder name to save the image collection of the image viewer.
+        /// A name that defines image encoder that must be used to save image collection of the image viewer.
         /// </summary>
         string _encoderName;
+
+        /// <summary>
+        /// An image encoder that must be used to save image collection of the image viewer.
+        /// </summary>
+        EncoderBase _encoder = null;
 
         /// <summary>
         /// A value indicating whether image saving must be canceled.
@@ -170,7 +176,7 @@ namespace ImagingDemo
         #endregion
 
 
-        #region Scan
+        #region TWAIN scanning
 
         /// <summary>
         /// Simple TWAIN manager.
@@ -262,6 +268,14 @@ namespace ImagingDemo
         #region Constructors
 
         /// <summary>
+        /// Initializes the <see cref="MainForm"/> class.
+        /// </summary>
+        static MainForm()
+        {
+            WsiCodecAssembly.Init();
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="MainForm"/> class.
         /// </summary>
         public MainForm()
@@ -276,8 +290,9 @@ namespace ImagingDemo
             RawAssemblyLoader.Load();
             DicomAssemblyLoader.Load();
             PdfAnnotationsAssemblyLoader.Load();
-            DocxAssemblyLoader.Load();
             PdfAssemblyLoader.Load();
+            DocxAssemblyLoader.Load();
+            PdfOfficeAssemblyLoader.Load();
 #if NETCORE
             WebpCodecAssemblyLoader.Load();
 #endif
@@ -392,6 +407,7 @@ namespace ImagingDemo
 #else
             documentLayoutSettingsToolStripMenuItem.Visible = false;
 #endif
+
         }
 
         #endregion
@@ -610,7 +626,7 @@ namespace ImagingDemo
         #region 'File' menu
 
         /// <summary>
-        /// Handles the DropDownOpening event of FileToolStripMenuItem object.
+        /// Handles the DropDownOpening event of fileToolStripMenuItem object.
         /// </summary>
         private void fileToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
@@ -622,7 +638,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of NewToolStripMenuItem object.
+        /// Handles the Click event of newToolStripMenuItem object.
         /// </summary>
         private void newToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -638,7 +654,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of OpenToolStripMenuItem object.
+        /// Handles the Click event of openToolStripMenuItem object.
         /// </summary>
         private void openToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -665,7 +681,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of AddToolStripMenuItem object.
+        /// Handles the Click event of addToolStripMenuItem object.
         /// </summary>
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -694,7 +710,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of DocxLayoutSettingsToolStripMenuItem object.
+        /// Handles the Click event of docxLayoutSettingsToolStripMenuItem object.
         /// </summary>
         private void docxLayoutSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -702,7 +718,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of XlsxLayoutSettingsToolStripMenuItem object.
+        /// Handles the Click event of xlsxLayoutSettingsToolStripMenuItem object.
         /// </summary>
         private void xlsxLayoutSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -710,7 +726,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of AddFromClipboardToolStripMenuItem object.
+        /// Handles the Click event of addFromClipboardToolStripMenuItem object.
         /// </summary>
         private void addFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -727,7 +743,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of AcquireFromScannerToolStripMenuItem object.
+        /// Handles the Click event of acquireFromScannerToolStripMenuItem object.
         /// </summary>
         private void acquireFromScannerToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -758,7 +774,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of CaptureFromCameraToolStripMenuItem object.
+        /// Handles the Click event of captureFromCameraToolStripMenuItem object.
         /// </summary>
         private void captureFromCameraToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -782,7 +798,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of SaveChangesToolStripMenuItem object.
+        /// Handles the Click event of saveChangesToolStripMenuItem object.
         /// </summary>
         private void saveChangesToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -806,7 +822,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of SaveAsToolStripMenuItem object.
+        /// Handles the Click event of saveAsToolStripMenuItem object.
         /// </summary>
         private void saveAsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -848,7 +864,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of SaveToToolStripMenuItem object.
+        /// Handles the Click event of saveToToolStripMenuItem object.
         /// </summary>
         private void saveToToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -891,7 +907,43 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of SaveCurrentImageToolStripMenuItem object.
+        /// Handles the Click event of saveToDocxToolStripMenuItem object.
+        /// </summary>
+        private void saveToDocxToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_OFFICE_PLUGIN && !REMOVE_PDF_PLUGIN
+            if (_isFileDialogOpened)
+                return;
+
+            _isFileDialogOpened = true;
+
+            saveImageFileDialog.Filter = "DOCX files|*.docx";
+            if (saveImageFileDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                string filename = Path.GetFullPath(saveImageFileDialog.FileName);
+                bool isFileExist = File.Exists(filename);
+
+                try
+                {
+                    EncoderBase encoder = new PdfDocxEncoder();
+                    // save image collection to a new source without switching to it
+                    if (!SaveImageCollection(imageViewer1.Images, filename, encoder, false))
+                    {
+                        DemosTools.ShowErrorMessage("Image is not saved.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    DemosTools.ShowErrorMessage(ex);
+                }
+            }
+
+            _isFileDialogOpened = false;
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of saveCurrentImageToolStripMenuItem object.
         /// </summary>
         private void saveCurrentImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -933,7 +985,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of PageSettingsToolStripMenuItem object.
+        /// Handles the Click event of pageSettingsToolStripMenuItem object.
         /// </summary>
         private void pageSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -941,7 +993,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of PrintToolStripMenuItem object.
+        /// Handles the Click event of printToolStripMenuItem object.
         /// </summary>
         private void printToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -949,7 +1001,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of CloseToolStripMenuItem object.
+        /// Handles the Click event of closeToolStripMenuItem object.
         /// </summary>
         private void closeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -961,7 +1013,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ExitToolStripMenuItem object.
+        /// Handles the Click event of exitToolStripMenuItem object.
         /// </summary>
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -974,7 +1026,7 @@ namespace ImagingDemo
         #region 'Edit' menu
 
         /// <summary>
-        /// Handles the DropDownOpening event of EditToolStripMenuItem object.
+        /// Handles the DropDownOpening event of editToolStripMenuItem object.
         /// </summary>
         private void editToolStripMenuItem_DropDownOpening(object sender, EventArgs e)
         {
@@ -991,7 +1043,7 @@ namespace ImagingDemo
         #region Copy, paste and delete image
 
         /// <summary>
-        /// Handles the Click event of CopyImageToolStripMenuItem object.
+        /// Handles the Click event of copyImageToolStripMenuItem object.
         /// </summary>
         private void copyImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -999,7 +1051,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of PasteImageToolStripMenuItem object.
+        /// Handles the Click event of pasteImageToolStripMenuItem object.
         /// </summary>
         private void pasteImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1007,7 +1059,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of SetImageFromFileToolStripMenuItem object.
+        /// Handles the Click event of setImageFromFileToolStripMenuItem object.
         /// </summary>
         private void setImageFromFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1027,7 +1079,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of InsertImageFromClipboardToolStripMenuItem object.
+        /// Handles the Click event of insertImageFromClipboardToolStripMenuItem object.
         /// </summary>
         private void insertImageFromClipboardToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1047,7 +1099,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of InsertImageFromFileToolStripMenuItem object.
+        /// Handles the Click event of insertImageFromFileToolStripMenuItem object.
         /// </summary>
         private void insertImageFromFileToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1066,7 +1118,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of DeleteImageToolStripMenuItem object.
+        /// Handles the Click event of deleteImageToolStripMenuItem object.
         /// </summary>
         private void deleteImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1082,7 +1134,7 @@ namespace ImagingDemo
         #region Copy, paste and delete measurement object
 
         /// <summary>
-        /// Handles the Click event of CopyToolStripMenuItem object.
+        /// Handles the Click event of copyToolStripMenuItem object.
         /// </summary>
         private void copyToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1102,7 +1154,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of CutToolStripMenuItem object.
+        /// Handles the Click event of cutToolStripMenuItem object.
         /// </summary>
         private void cutToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1120,7 +1172,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of PasteToolStripMenuItem object.
+        /// Handles the Click event of pasteToolStripMenuItem object.
         /// </summary>
         private void pasteToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1142,7 +1194,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of DeleteToolStripMenuItem object.
+        /// Handles the Click event of deleteToolStripMenuItem object.
         /// </summary>
         private void deleteToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1159,7 +1211,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of DeleteAllToolStripMenuItem object.
+        /// Handles the Click event of deleteAllToolStripMenuItem object.
         /// </summary>
         private void deleteAllToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1178,7 +1230,7 @@ namespace ImagingDemo
 
 
         /// <summary>
-        /// Handles the Click event of DocumentMetadataToolStripMenuItem object.
+        /// Handles the Click event of documentMetadataToolStripMenuItem object.
         /// </summary>
         private void documentMetadataToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1199,7 +1251,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ImageMetadataEditorToolStripMenuItem object.
+        /// Handles the Click event of imageMetadataEditorToolStripMenuItem object.
         /// </summary>
         private void imageMetadataEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1237,7 +1289,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of PaletteEditorToolStripMenuItem object.
+        /// Handles the Click event of paletteEditorToolStripMenuItem object.
         /// </summary>
         private void paletteEditorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1261,7 +1313,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the CheckStateChanged event of EditImagePixelsToolStripMenuItem object.
+        /// Handles the CheckStateChanged event of editImagePixelsToolStripMenuItem object.
         /// </summary>
         private void editImagePixelsToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
@@ -1279,7 +1331,7 @@ namespace ImagingDemo
         #region Undo/redo changes in images
 
         /// <summary>
-        /// Handles the Click event of EnableUndoRedoToolStripMenuItem object.
+        /// Handles the Click event of enableUndoRedoToolStripMenuItem object.
         /// </summary>
         private void enableUndoRedoToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1305,7 +1357,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of KeepUndoForCurrentImageOnlyToolStripMenuItem object.
+        /// Handles the Click event of keepUndoForCurrentImageOnlyToolStripMenuItem object.
         /// </summary>
         private void keepUndoForCurrentImageOnlyToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1318,7 +1370,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of UndoToolStripMenuItem object.
+        /// Handles the Click event of undoToolStripMenuItem object.
         /// </summary>
         private void undoToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1328,7 +1380,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of RedoToolStripMenuItem object.
+        /// Handles the Click event of redoToolStripMenuItem object.
         /// </summary>
         private void redoToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1338,7 +1390,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ShowHistoryForDisplayedImagesToolStripMenuItem object.
+        /// Handles the Click event of showHistoryForDisplayedImagesToolStripMenuItem object.
         /// </summary>
         private void showHistoryForDisplayedImagesToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1350,7 +1402,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of UndoRedoSettingsToolStripMenuItem object.
+        /// Handles the Click event of undoRedoSettingsToolStripMenuItem object.
         /// </summary>
         private void undoRedoSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1386,7 +1438,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of HistoryDialogToolStripMenuItem object.
+        /// Handles the Click event of historyDialogToolStripMenuItem object.
         /// </summary>
         private void historyDialogToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1413,7 +1465,7 @@ namespace ImagingDemo
         #region 'View' menu
 
         /// <summary>
-        /// Handles the Click event of ThumbnailViewerSettingsToolStripMenuItem object.
+        /// Handles the Click event of thumbnailViewerSettingsToolStripMenuItem object.
         /// </summary>
         private void thumbnailViewerSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1461,7 +1513,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of CenterImageToolStripMenuItem object.
+        /// Handles the Click event of centerImageToolStripMenuItem object.
         /// </summary>
         private void centerImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1481,7 +1533,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of RotateClockwiseToolStripMenuItem object.
+        /// Handles the Click event of rotateClockwiseToolStripMenuItem object.
         /// </summary>
         private void rotateClockwiseToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1489,7 +1541,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of RotateCounterclockwiseToolStripMenuItem object.
+        /// Handles the Click event of rotateCounterclockwiseToolStripMenuItem object.
         /// </summary>
         private void rotateCounterclockwiseToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1497,7 +1549,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ImageViewerSettingsToolStripMenuItem object.
+        /// Handles the Click event of imageViewerSettingsToolStripMenuItem object.
         /// </summary>
         private void imageViewerSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1509,7 +1561,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ViewerRenderingSettingsToolStripMenuItem object.
+        /// Handles the Click event of viewerRenderingSettingsToolStripMenuItem object.
         /// </summary>
         private void viewerRenderingSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1521,7 +1573,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ImageMapSettingsToolStripMenuItem object.
+        /// Handles the Click event of imageMapSettingsToolStripMenuItem object.
         /// </summary>
         private void imageMapSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1599,7 +1651,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of MagnifierSettingsToolStripMenuItem object.
+        /// Handles the Click event of magnifierSettingsToolStripMenuItem object.
         /// </summary>
         private void magnifierSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1613,7 +1665,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of CurrentImageDecodingSettingsToolStripMenuItem object.
+        /// Handles the Click event of currentImageDecodingSettingsToolStripMenuItem object.
         /// </summary>
         private void currentImageDecodingSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1636,7 +1688,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ColorManagementToolStripMenuItem object.
+        /// Handles the Click event of colorManagementToolStripMenuItem object.
         /// </summary>
         private void colorManagementToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1644,7 +1696,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of MaxThreadsToolStripMenuItem object.
+        /// Handles the Click event of maxThreadsToolStripMenuItem object.
         /// </summary>
         private void maxThreadsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1669,7 +1721,7 @@ namespace ImagingDemo
         #region Change pixel format
 
         /// <summary>
-        /// Handles the Click event of ChangePixelFormatToBlackWhiteThresholdModeToolStripMenuItem object.
+        /// Handles the Click event of changePixelFormatToBlackWhiteThresholdModeToolStripMenuItem object.
         /// </summary>
         private void changePixelFormatToBlackWhiteThresholdModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1687,7 +1739,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ChangePixelFormatToBlackWhiteGlobalModeToolStripMenuItem object.
+        /// Handles the Click event of changePixelFormatToBlackWhiteGlobalModeToolStripMenuItem object.
         /// </summary>
         private void changePixelFormatToBlackWhiteGlobalModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1696,7 +1748,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ChangePixelFormatToBlackWhiteAdaptiveModeToolStripMenuItem object.
+        /// Handles the Click event of changePixelFormatToBlackWhiteAdaptiveModeToolStripMenuItem object.
         /// </summary>
         private void changePixelFormatToBlackWhiteAdaptiveModeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1714,7 +1766,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ColorGradientBinariaztionToolStripMenuItem object.
+        /// Handles the Click event of colorGradientBinariaztionToolStripMenuItem object.
         /// </summary>
         private void colorGradientBinariaztionToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1730,7 +1782,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of HalftoneToolStripMenuItem1 object.
+        /// Handles the Click event of halftoneToolStripMenuItem1 object.
         /// </summary>
         private void halftoneToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -1739,7 +1791,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ChangePixelFormatToPalette1ToolStripMenuItem object.
+        /// Handles the Click event of changePixelFormatToPalette1ToolStripMenuItem object.
         /// </summary>
         private void changePixelFormatToPalette1ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1748,7 +1800,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ChangePixelFormatToGray8ToolStripMenuItem object.
+        /// Handles the Click event of changePixelFormatToGray8ToolStripMenuItem object.
         /// </summary>
         private void changePixelFormatToGray8ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1757,7 +1809,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ChangePixelFormatToPalette8ToolStripMenuItem object.
+        /// Handles the Click event of changePixelFormatToPalette8ToolStripMenuItem object.
         /// </summary>
         private void changePixelFormatToPalette8ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1776,7 +1828,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ChangePixelFormatToBgr24ToolStripMenuItem object.
+        /// Handles the Click event of changePixelFormatToBgr24ToolStripMenuItem object.
         /// </summary>
         private void changePixelFormatToBgr24ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1785,7 +1837,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ConvertToBgra32ToolStripMenuItem object.
+        /// Handles the Click event of convertToBgra32ToolStripMenuItem object.
         /// </summary>
         private void convertToBgra32ToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1794,7 +1846,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ChangePixelFormatToCustomFormatToolStripMenuItem object.
+        /// Handles the Click event of changePixelFormatToCustomFormatToolStripMenuItem object.
         /// </summary>
         private void changePixelFormatToCustomFormatToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1812,7 +1864,7 @@ namespace ImagingDemo
 
 
         /// <summary>
-        /// Handles the Click event of CropToolStripMenuItem object.
+        /// Handles the Click event of cropToolStripMenuItem object.
         /// </summary>
         private void cropToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1832,7 +1884,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ResizeToolStripMenuItem object.
+        /// Handles the Click event of resizeToolStripMenuItem object.
         /// </summary>
         private void resizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1875,7 +1927,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ResizeCanvasToolStripMenuItem object.
+        /// Handles the Click event of resizeCanvasToolStripMenuItem object.
         /// </summary>
         private void resizeCanvasToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1897,7 +1949,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ResampleToolStripMenuItem object.
+        /// Handles the Click event of resampleToolStripMenuItem object.
         /// </summary>
         private void resampleToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1918,7 +1970,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ChangeResolutionToolStripMenuItem object.
+        /// Handles the Click event of changeResolutionToolStripMenuItem object.
         /// </summary>
         private void changeResolutionToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1947,7 +1999,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of FillImageToolStripMenuItem object.
+        /// Handles the Click event of fillImageToolStripMenuItem object.
         /// </summary>
         private void fillImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1955,7 +2007,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of FillRectangleToolStripMenuItem object.
+        /// Handles the Click event of fillRectangleToolStripMenuItem object.
         /// </summary>
         private void fillRectangleToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1964,7 +2016,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of OverlayImageToolStripMenuItem object.
+        /// Handles the Click event of overlayImageToolStripMenuItem object.
         /// </summary>
         private void overlayImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1972,7 +2024,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of OverlayBinaryImageToolStripMenuItem object.
+        /// Handles the Click event of overlayBinaryImageToolStripMenuItem object.
         /// </summary>
         private void overlayBinaryImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1980,7 +2032,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of DrawImageToolStripMenuItem object.
+        /// Handles the Click event of drawImageToolStripMenuItem object.
         /// </summary>
         private void drawImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1988,7 +2040,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of OverlayWithBlendingToolStripMenuItem object.
+        /// Handles the Click event of overlayWithBlendingToolStripMenuItem object.
         /// </summary>
         private void overlayWithBlendingToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -1996,7 +2048,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of OverlayWithMaskToolStripMenuItem object.
+        /// Handles the Click event of overlayWithMaskToolStripMenuItem object.
         /// </summary>
         private void overlayWithMaskToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2004,7 +2056,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ImageCompareToolStripMenuItem object.
+        /// Handles the Click event of imageCompareToolStripMenuItem object.
         /// </summary>
         private void imageCompareToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2017,7 +2069,7 @@ namespace ImagingDemo
         #region Info
 
         /// <summary>
-        /// Handles the Click event of HistogramToolStripMenuItem object.
+        /// Handles the Click event of histogramToolStripMenuItem object.
         /// </summary>
         private void histogramToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2048,7 +2100,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of IsImageBlackWhiteToolStripMenuItem object.
+        /// Handles the Click event of isImageBlackWhiteToolStripMenuItem object.
         /// </summary>
         private void isImageBlackWhiteToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2056,7 +2108,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of IsImageGrayscaleToolStripMenuItem object.
+        /// Handles the Click event of isImageGrayscaleToolStripMenuItem object.
         /// </summary>
         private void isImageGrayscaleToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2064,7 +2116,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of GetColorCountToolStripMenuItem object.
+        /// Handles the Click event of getColorCountToolStripMenuItem object.
         /// </summary>
         private void getColorCountToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2072,7 +2124,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of GetImageColorDepthToolStripMenuItem object.
+        /// Handles the Click event of getImageColorDepthToolStripMenuItem object.
         /// </summary>
         private void getImageColorDepthToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2081,7 +2133,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of GetBorderColorToolStripMenuItem object.
+        /// Handles the Click event of getBorderColorToolStripMenuItem object.
         /// </summary>
         private void getBorderColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2089,7 +2141,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of GetBackgroundColorToolStripMenuItem object.
+        /// Handles the Click event of getBackgroundColorToolStripMenuItem object.
         /// </summary>
         private void getBackgroundColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2097,7 +2149,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of DetectThresholdToolStripMenuItem object.
+        /// Handles the Click event of detectThresholdToolStripMenuItem object.
         /// </summary>
         private void detectThresholdToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2106,7 +2158,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of IsImageBlankToolStripMenuItem object.
+        /// Handles the Click event of isImageBlankToolStripMenuItem object.
         /// </summary>
         private void isImageBlankToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2114,7 +2166,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of HasCertainColorToolStripMenuItem object.
+        /// Handles the Click event of hasCertainColorToolStripMenuItem object.
         /// </summary>
         private void hasCertainColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2127,7 +2179,7 @@ namespace ImagingDemo
         #region Transforms
 
         /// <summary>
-        /// Handles the Click event of FlipToolStripMenuItem object.
+        /// Handles the Click event of flipToolStripMenuItem object.
         /// </summary>
         private void flipToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2199,7 +2251,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ScaleToolStripMenuItem1 object.
+        /// Handles the Click event of scaleToolStripMenuItem1 object.
         /// </summary>
         private void scaleToolStripMenuItem1_Click(object sender, EventArgs e)
         {
@@ -2209,7 +2261,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of SkewToolStripMenuItem object.
+        /// Handles the Click event of skewToolStripMenuItem object.
         /// </summary>
         private void skewToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2218,7 +2270,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of QuadrilateralWarpToolStripMenuItem object.
+        /// Handles the Click event of quadrilateralWarpToolStripMenuItem object.
         /// </summary>
         private void quadrilateralWarpToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2228,7 +2280,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of MatrixTransformToolStripMenuItem object.
+        /// Handles the Click event of matrixTransformToolStripMenuItem object.
         /// </summary>
         private void matrixTransformToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2243,7 +2295,7 @@ namespace ImagingDemo
         #region Channels
 
         /// <summary>
-        /// Handles the Click event of ExtractAlphaChannelToolStripMenuItem object.
+        /// Handles the Click event of extractAlphaChannelToolStripMenuItem object.
         /// </summary>
         private void extractAlphaChannelToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2251,7 +2303,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of InvertRedChannelToolStripMenuItem object.
+        /// Handles the Click event of invertRedChannelToolStripMenuItem object.
         /// </summary>
         private void invertRedChannelToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2259,7 +2311,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of InvertGreenChannelToolStripMenuItem object.
+        /// Handles the Click event of invertGreenChannelToolStripMenuItem object.
         /// </summary>
         private void invertGreenChannelToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2267,7 +2319,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of InvertBlueChannelToolStripMenuItem object.
+        /// Handles the Click event of invertBlueChannelToolStripMenuItem object.
         /// </summary>
         private void invertBlueChannelToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2275,7 +2327,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of SetAlphaChannelValueToolStripMenuItem object.
+        /// Handles the Click event of setAlphaChannelValueToolStripMenuItem object.
         /// </summary>
         private void setAlphaChannelValueToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2284,7 +2336,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of SetAlphaChannelFromMaskToolStripMenuItem object.
+        /// Handles the Click event of setAlphaChannelFromMaskToolStripMenuItem object.
         /// </summary>
         private void setAlphaChannelFromMaskToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2293,7 +2345,7 @@ namespace ImagingDemo
 
 
         /// <summary>
-        /// Handles the Click event of RemoveRedChannelToolStripMenuItem object.
+        /// Handles the Click event of removeRedChannelToolStripMenuItem object.
         /// </summary>
         private void removeRedChannelToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2302,7 +2354,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of RemoveGreenChannelToolStripMenuItem object.
+        /// Handles the Click event of removeGreenChannelToolStripMenuItem object.
         /// </summary>
         private void removeGreenChannelToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2311,7 +2363,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of RemoveBlueChannelToolStripMenuItem object.
+        /// Handles the Click event of removeBlueChannelToolStripMenuItem object.
         /// </summary>
         private void removeBlueChannelToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2325,7 +2377,7 @@ namespace ImagingDemo
         #region Color
 
         /// <summary>
-        /// Handles the Click event of ConvertToBlackWhiteThresholdByUserToolStripMenuItem object.
+        /// Handles the Click event of convertToBlackWhiteThresholdByUserToolStripMenuItem object.
         /// </summary>
         private void convertToBlackWhiteThresholdByUserToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2337,7 +2389,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ConvertToBlackWhiteGlobalThresholdToolStripMenuItem object.
+        /// Handles the Click event of convertToBlackWhiteGlobalThresholdToolStripMenuItem object.
         /// </summary>
         private void convertToBlackWhiteGlobalThresholdToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2346,7 +2398,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ConvertToBlackWhiteAdaptiveThresholdToolStripMenuItem object.
+        /// Handles the Click event of convertToBlackWhiteAdaptiveThresholdToolStripMenuItem object.
         /// </summary>
         private void convertToBlackWhiteAdaptiveThresholdToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2358,7 +2410,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ColorGradientToolStripMenuItem object.
+        /// Handles the Click event of colorGradientToolStripMenuItem object.
         /// </summary>
         private void colorGradientToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2372,7 +2424,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of DesaturateToolStripMenuItem object.
+        /// Handles the Click event of desaturateToolStripMenuItem object.
         /// </summary>
         private void desaturateToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2382,7 +2434,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ConvertToHalftoneToolStripMenuItem object.
+        /// Handles the Click event of convertToHalftoneToolStripMenuItem object.
         /// </summary>
         private void convertToHalftoneToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2390,7 +2442,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of PosterizeToolStripMenuItem object.
+        /// Handles the Click event of posterizeToolStripMenuItem object.
         /// </summary>
         private void posterizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2399,7 +2451,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of BrightnessContrastToolStripMenuItem object.
+        /// Handles the Click event of brightnessContrastToolStripMenuItem object.
         /// </summary>
         private void brightnessContrastToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2407,7 +2459,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of HueSaturationLuminanceToolStripMenuItem object.
+        /// Handles the Click event of hueSaturationLuminanceToolStripMenuItem object.
         /// </summary>
         private void hueSaturationLuminanceToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2415,7 +2467,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of GammaToolStripMenuItem object.
+        /// Handles the Click event of gammaToolStripMenuItem object.
         /// </summary>
         private void gammaToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2423,7 +2475,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of LevelsToolStripMenuItem object.
+        /// Handles the Click event of levelsToolStripMenuItem object.
         /// </summary>
         private void levelsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2431,7 +2483,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of InvertColorsToolStripMenuItem object.
+        /// Handles the Click event of invertColorsToolStripMenuItem object.
         /// </summary>
         private void invertColorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2439,7 +2491,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ReplaceColorToolStripMenuItem object.
+        /// Handles the Click event of replaceColorToolStripMenuItem object.
         /// </summary>
         private void replaceColorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2447,7 +2499,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ReplaceColorGradientToolStripMenuItem object.
+        /// Handles the Click event of replaceColorGradientToolStripMenuItem object.
         /// </summary>
         private void replaceColorGradientToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2457,7 +2509,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ColorBlendToolStripMenuItem object.
+        /// Handles the Click event of colorBlendToolStripMenuItem object.
         /// </summary>
         private void colorBlendToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2465,7 +2517,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ColorTransformToolStripMenuItem object.
+        /// Handles the Click event of colorTransformToolStripMenuItem object.
         /// </summary>
         private void colorTransformToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2480,7 +2532,7 @@ namespace ImagingDemo
         #region Arithmetic filters
 
         /// <summary>
-        /// Handles the Click event of MinimumFilterToolStripMenuItem object.
+        /// Handles the Click event of minimumFilterToolStripMenuItem object.
         /// </summary>
         private void minimumFilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2489,7 +2541,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of MaximumFilterToolStripMenuItem object.
+        /// Handles the Click event of maximumFilterToolStripMenuItem object.
         /// </summary>
         private void maximumFilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2498,7 +2550,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of MidPointFilterToolStripMenuItem object.
+        /// Handles the Click event of midPointFilterToolStripMenuItem object.
         /// </summary>
         private void midPointFilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2507,7 +2559,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of MeanFilterToolStripMenuItem object.
+        /// Handles the Click event of meanFilterToolStripMenuItem object.
         /// </summary>
         private void meanFilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2516,7 +2568,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of MedianFilterToolStripMenuItem object.
+        /// Handles the Click event of medianFilterToolStripMenuItem object.
         /// </summary>
         private void medianFilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2530,7 +2582,7 @@ namespace ImagingDemo
         #region Morphological filters
 
         /// <summary>
-        /// Handles the Click event of DilateFilterToolStripMenuItem object.
+        /// Handles the Click event of dilateFilterToolStripMenuItem object.
         /// </summary>
         private void dilateFilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2539,7 +2591,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ErodeFilterToolStripMenuItem object.
+        /// Handles the Click event of erodeFilterToolStripMenuItem object.
         /// </summary>
         private void erodeFilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2551,7 +2603,7 @@ namespace ImagingDemo
 
 
         /// <summary>
-        /// Handles the Click event of BlurFilterToolStripMenuItem object.
+        /// Handles the Click event of blurFilterToolStripMenuItem object.
         /// </summary>
         private void blurFilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2560,7 +2612,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of GaussianBlurFilterToolStripMenuItem object.
+        /// Handles the Click event of gaussianBlurFilterToolStripMenuItem object.
         /// </summary>
         private void gaussianBlurFilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2569,7 +2621,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of SharpenFilterToolStripMenuItem object.
+        /// Handles the Click event of sharpenFilterToolStripMenuItem object.
         /// </summary>
         private void sharpenFilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2578,7 +2630,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of EdgeDetectionFilterToolStripMenuItem object.
+        /// Handles the Click event of edgeDetectionFilterToolStripMenuItem object.
         /// </summary>
         private void edgeDetectionFilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2587,7 +2639,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of EmbossFilterToolStripMenuItem object.
+        /// Handles the Click event of embossFilterToolStripMenuItem object.
         /// </summary>
         private void embossFilterToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2596,7 +2648,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of AddNoiseToolStripMenuItem object.
+        /// Handles the Click event of addNoiseToolStripMenuItem object.
         /// </summary>
         private void addNoiseToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2606,7 +2658,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of CannyEdgeDetectorToolStripMenuItem object.
+        /// Handles the Click event of cannyEdgeDetectorToolStripMenuItem object.
         /// </summary>
         private void cannyEdgeDetectorToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2620,7 +2672,7 @@ namespace ImagingDemo
         #region Document Cleanup
 
         /// <summary>
-        /// Handles the Click event of IsDocumentImageToolStripMenuItem object.
+        /// Handles the Click event of isDocumentImageToolStripMenuItem object.
         /// </summary>
         private void isDocumentImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2629,7 +2681,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of GetDocumentImageRotationAngleToolStripMenuItem object.
+        /// Handles the Click event of getDocumentImageRotationAngleToolStripMenuItem object.
         /// </summary>
         private void getDocumentImageRotationAngleToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2639,7 +2691,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of RotationAngleToolStripMenuItem object.
+        /// Handles the Click event of rotationAngleToolStripMenuItem object.
         /// </summary>
         private void rotationAngleToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2647,7 +2699,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of GetTextOrientationToolStripMenuItem object.
+        /// Handles the Click event of getTextOrientationToolStripMenuItem object.
         /// </summary>
         private void getTextOrientationToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2657,7 +2709,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of DespeckleToolStripMenuItem object.
+        /// Handles the Click event of despeckleToolStripMenuItem object.
         /// </summary>
         private void despeckleToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2668,7 +2720,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of DeskewDocumentImageToolStripMenuItem object.
+        /// Handles the Click event of deskewDocumentImageToolStripMenuItem object.
         /// </summary>
         private void deskewDocumentImageToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2680,7 +2732,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of DeskewToolStripMenuItem object.
+        /// Handles the Click event of deskewToolStripMenuItem object.
         /// </summary>
         private void deskewToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2692,7 +2744,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of AutoOrientationToolStripMenuItem object.
+        /// Handles the Click event of autoOrientationToolStripMenuItem object.
         /// </summary>
         private void autoOrientationToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2703,7 +2755,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of TextBlockInvertToolStripMenuItem object.
+        /// Handles the Click event of textBlockInvertToolStripMenuItem object.
         /// </summary>
         private void textBlockInvertToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2713,7 +2765,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of AutomaticInvertToolStripMenuItem object.
+        /// Handles the Click event of automaticInvertToolStripMenuItem object.
         /// </summary>
         private void automaticInvertToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2723,7 +2775,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of BorderClearToolStripMenuItem object.
+        /// Handles the Click event of borderClearToolStripMenuItem object.
         /// </summary>
         private void borderClearToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2733,7 +2785,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of DetectBorderToolStripMenuItem object.
+        /// Handles the Click event of detectBorderToolStripMenuItem object.
         /// </summary>
         private void detectBorderToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2742,7 +2794,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of HalftoneRemovalToolStripMenuItem object.
+        /// Handles the Click event of halftoneRemovalToolStripMenuItem object.
         /// </summary>
         private void halftoneRemovalToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2752,7 +2804,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of SmoothingToolStripMenuItem object.
+        /// Handles the Click event of smoothingToolStripMenuItem object.
         /// </summary>
         private void smoothingToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2762,7 +2814,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of HolePuchFillingToolStripMenuItem object.
+        /// Handles the Click event of holePuchFillingToolStripMenuItem object.
         /// </summary>
         private void holePuchFillingToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2778,7 +2830,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of HolePunchRemovalToolStripMenuItem object.
+        /// Handles the Click event of holePunchRemovalToolStripMenuItem object.
         /// </summary>
         private void holePunchRemovalToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2794,7 +2846,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of LineRemovalToolStripMenuItem object.
+        /// Handles the Click event of lineRemovalToolStripMenuItem object.
         /// </summary>
         private void lineRemovalToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2805,7 +2857,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ShapeRemovalToolStripMenuItem object.
+        /// Handles the Click event of shapeRemovalToolStripMenuItem object.
         /// </summary>
         private void shapeRemovalToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2816,7 +2868,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ColorNoiseClearToolStripMenuItem object.
+        /// Handles the Click event of colorNoiseClearToolStripMenuItem object.
         /// </summary>
         private void colorNoiseClearToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2826,7 +2878,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of AdvancedReplaceColorCommandToolStripMenuItem object.
+        /// Handles the Click event of advancedReplaceColorCommandToolStripMenuItem object.
         /// </summary>
         private void advancedReplaceColorCommandToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2834,7 +2886,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of DocumentPerspectiveCorrectionToolStripMenuItem object.
+        /// Handles the Click event of documentPerspectiveCorrectionToolStripMenuItem object.
         /// </summary>
         private void documentPerspectiveCorrectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2847,7 +2899,7 @@ namespace ImagingDemo
         #region Photo Effects
 
         /// <summary>
-        /// Handles the Click event of AutoLevelsToolStripMenuItem object.
+        /// Handles the Click event of autoLevelsToolStripMenuItem object.
         /// </summary>
         private void autoLevelsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2856,7 +2908,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of AutoColorsToolStripMenuItem object.
+        /// Handles the Click event of autoColorsToolStripMenuItem object.
         /// </summary>
         private void autoColorsToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2865,7 +2917,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of AutoContrastToolStripMenuItem object.
+        /// Handles the Click event of autoContrastToolStripMenuItem object.
         /// </summary>
         private void autoContrastToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2874,7 +2926,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of BevelEdgeToolStripMenuItem object.
+        /// Handles the Click event of bevelEdgeToolStripMenuItem object.
         /// </summary>
         private void bevelEdgeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2883,7 +2935,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of DropShadowToolStripMenuItem object.
+        /// Handles the Click event of dropShadowToolStripMenuItem object.
         /// </summary>
         private void dropShadowToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2893,7 +2945,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of MotionBlurToolStripMenuItem object.
+        /// Handles the Click event of motionBlurToolStripMenuItem object.
         /// </summary>
         private void motionBlurToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2902,7 +2954,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of MozaicToolStripMenuItem object.
+        /// Handles the Click event of mozaicToolStripMenuItem object.
         /// </summary>
         private void mozaicToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2911,7 +2963,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of OilPaintingToolStripMenuItem object.
+        /// Handles the Click event of oilPaintingToolStripMenuItem object.
         /// </summary>
         private void oilPaintingToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2920,7 +2972,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of PixelateToolStripMenuItem object.
+        /// Handles the Click event of pixelateToolStripMenuItem object.
         /// </summary>
         private void pixelateToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2929,7 +2981,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of RedEyeRemovalToolStripMenuItem object.
+        /// Handles the Click event of redEyeRemovalToolStripMenuItem object.
         /// </summary>
         private void redEyeRemovalToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2938,7 +2990,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of SepiaToolStripMenuItem object.
+        /// Handles the Click event of sepiaToolStripMenuItem object.
         /// </summary>
         private void sepiaToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2947,7 +2999,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of SolarizeToolStripMenuItem object.
+        /// Handles the Click event of solarizeToolStripMenuItem object.
         /// </summary>
         private void solarizeToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2956,7 +3008,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of TileReflectionToolStripMenuItem object.
+        /// Handles the Click event of tileReflectionToolStripMenuItem object.
         /// </summary>
         private void tileReflectionToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2972,7 +3024,7 @@ namespace ImagingDemo
         #region Filtering
 
         /// <summary>
-        /// Handles the Click event of IdealLowpassToolStripMenuItem object.
+        /// Handles the Click event of idealLowpassToolStripMenuItem object.
         /// </summary>
         private void idealLowpassToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2983,7 +3035,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ButterworthLowpassToolStripMenuItem object.
+        /// Handles the Click event of butterworthLowpassToolStripMenuItem object.
         /// </summary>
         private void butterworthLowpassToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -2994,7 +3046,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of GaussianLowpassToolStripMenuItem object.
+        /// Handles the Click event of gaussianLowpassToolStripMenuItem object.
         /// </summary>
         private void gaussianLowpassToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3005,7 +3057,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of IdealHighPassToolStripMenuItem object.
+        /// Handles the Click event of idealHighPassToolStripMenuItem object.
         /// </summary>
         private void idealHighPassToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3016,7 +3068,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ButterworthHighPassToolStripMenuItem object.
+        /// Handles the Click event of butterworthHighPassToolStripMenuItem object.
         /// </summary>
         private void butterworthHighPassToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3027,7 +3079,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of GaussianHighpassToolStripMenuItem object.
+        /// Handles the Click event of gaussianHighpassToolStripMenuItem object.
         /// </summary>
         private void gaussianHighpassToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3041,7 +3093,7 @@ namespace ImagingDemo
 
 
         /// <summary>
-        /// Handles the Click event of ImageSmoothingToolStripMenuItem object.
+        /// Handles the Click event of imageSmoothingToolStripMenuItem object.
         /// </summary>
         private void imageSmoothingToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3050,7 +3102,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ImageSharpeningToolStripMenuItem object.
+        /// Handles the Click event of imageSharpeningToolStripMenuItem object.
         /// </summary>
         private void imageSharpeningToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3059,7 +3111,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of FrequencySpectumVisualizerToolStripMenuItem object.
+        /// Handles the Click event of frequencySpectumVisualizerToolStripMenuItem object.
         /// </summary>
         private void frequencySpectumVisualizerToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3071,7 +3123,7 @@ namespace ImagingDemo
 
 
         /// <summary>
-        /// Handles the CheckedChanged event of UseMultithreadingToolStripMenuItem object.
+        /// Handles the CheckedChanged event of useMultithreadingToolStripMenuItem object.
         /// </summary>
         private void useMultithreadingToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
@@ -3081,7 +3133,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of ExpandPixelFormatToolStripMenuItem object.
+        /// Handles the CheckedChanged event of expandPixelFormatToolStripMenuItem object.
         /// </summary>
         private void expandPixelFormatToolStripMenuItem_CheckedChanged(object sender, EventArgs e)
         {
@@ -3091,7 +3143,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of LoadPathsFromMetadataToolStripMenuItem object.
+        /// Handles the Click event of loadPathsFromMetadataToolStripMenuItem object.
         /// </summary>
         private void loadPathsFromMetadataToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3145,7 +3197,7 @@ namespace ImagingDemo
         #region 'Tools' menu
 
         /// <summary>
-        /// Handles the Click event of AnimationToolStripMenuItem object.
+        /// Handles the Click event of animationToolStripMenuItem object.
         /// </summary>
         private void animationToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -3162,10 +3214,10 @@ namespace ImagingDemo
         #region 'Help' menu
 
         /// <summary>
-        /// Handles the Click event of AboutToolStripMenuItem object.
+        /// Handles the Click event of aboutToolStripMenuItem object.
         /// </summary>
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
-        {            
+        {
             using (AboutBoxForm dlg = new AboutBoxForm())
             {
                 dlg.ShowDialog();
@@ -3178,7 +3230,7 @@ namespace ImagingDemo
         #region SelectionTool's context menu
 
         /// <summary>
-        /// Handles the Opening event of SelectionContextMenuStrip object.
+        /// Handles the Opening event of selectionContextMenuStrip object.
         /// </summary>
         private void selectionContextMenuStrip_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
@@ -3260,7 +3312,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of RemoveSelectedPoints object.
+        /// Handles the Click event of removeSelectedPoints object.
         /// </summary>
         private void removeSelectedPoints_Click(object sender, EventArgs e)
         {
@@ -3284,7 +3336,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of AddPoint object.
+        /// Handles the Click event of addPoint object.
         /// </summary>
         private void addPoint_Click(object sender, EventArgs e)
         {
@@ -3312,7 +3364,7 @@ namespace ImagingDemo
         #region Image viewer
 
         /// <summary>
-        /// Handles the ImageLoading event of ImageViewer1 object.
+        /// Handles the ImageLoading event of imageViewer1 object.
         /// </summary>
         private void imageViewer1_ImageLoading(object sender, ImageLoadingEventArgs e)
         {
@@ -3324,7 +3376,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the ImageLoadingProgress event of ImageViewer1 object.
+        /// Handles the ImageLoadingProgress event of imageViewer1 object.
         /// </summary>
         private void imageViewer1_ImageLoadingProgress(object sender, ProgressEventArgs e)
         {
@@ -3338,7 +3390,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the ImageLoaded event of ImageViewer1 object.
+        /// Handles the ImageLoaded event of imageViewer1 object.
         /// </summary>
         private void imageViewer1_ImageLoaded(object sender, ImageLoadedEventArgs e)
         {
@@ -3357,7 +3409,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the ImageLoadingException event of ImageViewer1 object.
+        /// Handles the ImageLoadingException event of imageViewer1 object.
         /// </summary>
         private void imageViewer1_ImageLoadingException(object sender, ExceptionEventArgs e)
         {
@@ -3366,7 +3418,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the ImageChanged event of ImageViewer1 object.
+        /// Handles the ImageChanged event of imageViewer1 object.
         /// </summary>
         private void imageViewer1_ImageChanged(object sender, ImageChangedEventArgs e)
         {
@@ -3374,7 +3426,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the ImageReloaded event of ImageViewer1 object.
+        /// Handles the ImageReloaded event of imageViewer1 object.
         /// </summary>
         private void imageViewer1_ImageReloaded(object sender, ImageReloadEventArgs e)
         {
@@ -3382,7 +3434,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the FocusedIndexChanging event of ImageViewer1 object.
+        /// Handles the FocusedIndexChanging event of imageViewer1 object.
         /// </summary>
         private void imageViewer1_FocusedIndexChanging(object sender, FocusedIndexChangedEventArgs e)
         {
@@ -3391,7 +3443,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the FocusedIndexChanged event of ImageViewer1 object.
+        /// Handles the FocusedIndexChanged event of imageViewer1 object.
         /// </summary>
         private void imageViewer1_FocusedIndexChanged(object sender, FocusedIndexChangedEventArgs e)
         {
@@ -3405,7 +3457,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the InsertKeyPressed event of ImageViewer1 object.
+        /// Handles the InsertKeyPressed event of imageViewer1 object.
         /// </summary>
         private void imageViewer1_InsertKeyPressed(object sender, KeyEventArgs e)
         {
@@ -3413,7 +3465,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the MouseUp event of ImageViewer1 object.
+        /// Handles the MouseUp event of imageViewer1 object.
         /// </summary>
         private void imageViewer1_MouseUp(object sender, MouseEventArgs e)
         {
@@ -3461,7 +3513,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the VisualToolChanged event of ImageViewer1 object.
+        /// Handles the VisualToolChanged event of imageViewer1 object.
         /// </summary>
         private void imageViewer1_VisualToolChanged(object sender, VisualToolChangedEventArgs e)
         {
@@ -3486,7 +3538,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the ZoomChanged event of ImageViewer1 object.
+        /// Handles the ZoomChanged event of imageViewer1 object.
         /// </summary>
         private void imageViewer1_ZoomChanged(object sender, ZoomChangedEventArgs e)
         {
@@ -3516,7 +3568,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the ImageCollectionChanged event of Images property of ImageViewer1 object.
+        /// Handles the Images_ImageCollectionChanged event of imageViewer1 object.
         /// </summary>
         private void imageViewer1_Images_ImageCollectionChanged(object sender, ImageCollectionChangeEventArgs e)
         {
@@ -3536,7 +3588,7 @@ namespace ImagingDemo
         #region Thumbnail viewer
 
         /// <summary>
-        /// Handles the ThumbnailsLoadingProgress event of ThumbnailViewer1 object.
+        /// Handles the ThumbnailsLoadingProgress event of thumbnailViewer1 object.
         /// </summary>
         private void thumbnailViewer1_ThumbnailsLoadingProgress(object sender, ThumbnailsLoadingProgressEventArgs e)
         {
@@ -3547,7 +3599,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the InsertKeyPressed event of ThumbnailViewer1 object.
+        /// Handles the InsertKeyPressed event of thumbnailViewer1 object.
         /// </summary>
         private void thumbnailViewer1_InsertKeyPressed(object sender, KeyEventArgs e)
         {
@@ -3555,7 +3607,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the HoveredThumbnailChanged event of ThumbnailViewer1 object.
+        /// Handles the HoveredThumbnailChanged event of thumbnailViewer1 object.
         /// </summary>
         private void thumbnailViewer1_HoveredThumbnailChanged(object sender, ThumbnailEventArgs e)
         {
@@ -3673,6 +3725,7 @@ namespace ImagingDemo
             saveChangesToolStripMenuItem.Enabled = !isFileOpening && isImageLoaded && canSaveToTheSameSource && !isImageProcessing && !isImageSaving && (currentImage.IsChanged || currentImage.Metadata.IsChanged || _isImageCollectionChanged);
             saveAsToolStripMenuItem.Enabled = !isFileOpening && isImageLoaded && !isImageProcessing && !isImageSaving;
             saveToToolStripMenuItem.Enabled = !isFileOpening && isImageLoaded && !isImageProcessing && !isImageSaving;
+            saveToDocxToolStripMenuItem.Enabled = !isFileOpening && isImageLoaded && !isImageProcessing && !isImageSaving;
             saveCurrentImageToolStripMenuItem.Enabled = !isFileOpening && isImageLoaded && !isImageProcessing && !isImageSaving;
             printToolStripMenuItem.Enabled = !isFileOpening && isImageLoaded && !isImageProcessing && !isImageSaving;
             closeToolStripMenuItem.Enabled = imageCount > 0 || isFileOpening;
@@ -4128,6 +4181,7 @@ namespace ImagingDemo
             EncoderBase encoder,
             bool saveAndSwitchSource)
         {
+            _encoder = encoder;
             filename = Path.GetFullPath(filename);
 
             bool result = true;
@@ -4166,6 +4220,12 @@ namespace ImagingDemo
                 _saveFilename = null;
 
                 result = false;
+
+                if(_encoder != null)
+                {
+                    _encoder.Dispose();
+                    _encoder = null;
+                }
 
                 DemosTools.ShowErrorMessage(ex);
 
@@ -4266,6 +4326,12 @@ namespace ImagingDemo
 
                 _saveFilename = null;
                 _encoderName = null;
+            }
+
+            if (_encoder != null)
+            {
+                _encoder.Dispose();
+                _encoder = null;
             }
 
             // saving images completed successfully
@@ -4503,7 +4569,7 @@ namespace ImagingDemo
             RectangularSelectionTool rectangularSelectionTool = CompositeVisualTool.FindVisualTool<RectangularSelectionToolWithCopyPaste>(imageViewer1.VisualTool);
             if (rectangularSelectionTool != null)
             {
-                if (rectangularSelectionTool.Rectangle != Rectangle.Empty)
+                if (rectangularSelectionTool.Rectangle.Width > 0 && rectangularSelectionTool.Rectangle.Height > 0)
                     return true;
             }
             return false;
@@ -4569,42 +4635,20 @@ namespace ImagingDemo
 
                     // get selection
                     SelectionRegionBase selection = customSelectionTool.Selection;
+
                     // get selection as graphics path
                     GraphicsPath path = selection.GetAsGraphicsPath();
-                    // get bounding box
-                    Rectangle bounds = Rectangle.Round(path.GetBounds());
-                    if (bounds.Width <= 0 && bounds.Height <= 0)
-                        return;
 
-                    // get image viewer rectangle
-                    Rectangle viewerImageRect = new Rectangle(0, 0, imageViewer1.Image.Width, imageViewer1.Image.Height);
-                    // get copy rectangle
-                    Rectangle viewerCopyRect = Rectangle.Intersect(bounds, viewerImageRect);
-
-                    if (viewerCopyRect.Width <= 0 || viewerCopyRect.Height <= 0)
-                        return;
-
-                    VintasoftImage clipboardImage;
-                    // get image for rectangle
-                    using (VintasoftImage image = imageViewer1.GetFocusedImageRect(viewerCopyRect))
+                    // crop image
+                    VintasoftImage cropImage = ImageProcessingCommandExecutor.CropFocusedImage(imageViewer1, new Vintasoft.Imaging.Drawing.Gdi.GdiGraphicsPath(path, false));
+                    if (cropImage != null)
                     {
-                        if (image == null)
-                            return;
-
-                        // create a composite command, which will clear image, overlay image with path and crop the image
-                        CompositeCommand compositeCommand = new CompositeCommand(
-                            new ClearImageCommand(Color.Transparent),
-                            new ProcessPathCommand(new OverlayCommand(image), new Vintasoft.Imaging.Drawing.Gdi.GdiGraphicsPath(path, false)),
-                            new CropCommand(viewerCopyRect));
-                        // apply the composite command to the iamge and get the result image
-                        clipboardImage = compositeCommand.Execute(imageViewer1.Image);
+                        // get image as System.Drawing.Bitmap
+                        Bitmap bitmap = cropImage.GetAsBitmap();
+                        // copy to the clipboard
+                        Clipboard.SetImage(bitmap);
+                        cropImage.Dispose();
                     }
-
-                    // get image as System.Drawing.Bitmap
-                    Bitmap bitmap = clipboardImage.GetAsBitmap();
-                    // copy to the clipboard
-                    Clipboard.SetImage(bitmap);
-                    clipboardImage.Dispose();
                 }
                 catch (Exception ex)
                 {
@@ -4615,6 +4659,7 @@ namespace ImagingDemo
             UpdateUI();
         }
 
+       
         /// <summary>
         /// Copies an image from rectangular selection to the clipboard.
         /// </summary>
@@ -4687,14 +4732,17 @@ namespace ImagingDemo
                 // if image viewer has focused image
                 if (imageViewer1.FocusedIndex != -1)
                 {
-                    // change the focused image to the image from clipboard
-                    imageViewer1.Image.SetImage(Clipboard.GetImage(), true);
+                    // insert the image from from clipboard
+                    int index = imageViewer1.FocusedIndex;
+                    imageViewer1.Images.Insert(index, Clipboard.GetImage(), true);
+                    imageViewer1.FocusedIndex = index;
                 }
                 // if image viewer does NOT have focused image
                 else
                 {
                     // add image from clipboard as new image
                     imageViewer1.Images.Add(Clipboard.GetImage(), true);
+                    imageViewer1.FocusedIndex = imageViewer1.Images.Count - 1;
                 }
             }
             catch (Exception ex)
@@ -5257,8 +5305,8 @@ namespace ImagingDemo
         private delegate void UpdateUndoRedoMenuDelegate(UndoManager undoManager);
 
 
-        #endregion
 
+        #endregion
 
     }
 }

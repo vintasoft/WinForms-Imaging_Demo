@@ -106,7 +106,7 @@ namespace DemosCommonCode.Imaging
         #region UI
 
         /// <summary>
-        /// Handles the CheckedChanged event of DefaultSettingsCheckBox object.
+        /// Handles the CheckedChanged event of defaultSettingsCheckBox object.
         /// </summary>
         private void defaultSettingsCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -114,7 +114,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the Click event of OkButton object.
+        /// Handles the Click event of okButton object.
         /// </summary>
         private void okButton_Click(object sender, EventArgs e)
         {
@@ -139,7 +139,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the Click event of ButtonCancel object.
+        /// Handles the Click event of buttonCancel object.
         /// </summary>
         private void buttonCancel_Click(object sender, EventArgs e)
         {

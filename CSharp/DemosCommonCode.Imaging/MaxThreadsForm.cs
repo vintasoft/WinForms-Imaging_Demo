@@ -52,7 +52,7 @@ namespace DemosCommonCode.Imaging
         #region Methods
 
         /// <summary>
-        /// Handles the Click event of OkButton object.
+        /// Handles the Click event of okButton object.
         /// </summary>
         private void okButton_Click(object sender, EventArgs e)
         {
@@ -61,7 +61,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the Click event of ResetButton object.
+        /// Handles the Click event of resetButton object.
         /// </summary>
         private void resetButton_Click(object sender, EventArgs e)
         {
@@ -70,7 +70,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the ValueChanged event of MaxThreadsTrackBar object.
+        /// Handles the ValueChanged event of maxThreadsTrackBar object.
         /// </summary>
         private void maxThreadsTrackBar_ValueChanged(object sender, EventArgs e)
         {
@@ -81,7 +81,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the ValueChanged event of MaxThreadsNumericUpDown object.
+        /// Handles the ValueChanged event of maxThreadsNumericUpDown object.
         /// </summary>
         private void maxThreadsNumericUpDown_ValueChanged(object sender, EventArgs e)
         {

@@ -173,7 +173,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the Click event of ResetButton object.
+        /// Handles the Click event of resetButton object.
         /// </summary>
         private void resetButton_Click(object sender, EventArgs e)
         {
@@ -188,7 +188,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the Click event of RestoreButton object.
+        /// Handles the Click event of restoreButton object.
         /// </summary>
         private void restoreButton_Click(object sender, EventArgs e)
         {
@@ -203,7 +203,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the PropertyChanged event of ExposureDirectShowPropertyControl object.
+        /// Handles the PropertyChanged event of exposureDirectShowPropertyControl object.
         /// </summary>
         private void exposureDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
@@ -221,7 +221,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the PropertyChanged event of FocusDirectShowPropertyControl object.
+        /// Handles the PropertyChanged event of focusDirectShowPropertyControl object.
         /// </summary>
         private void focusDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
@@ -239,7 +239,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the PropertyChanged event of IrisDirectShowPropertyControl object.
+        /// Handles the PropertyChanged event of irisDirectShowPropertyControl object.
         /// </summary>
         private void irisDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
@@ -257,7 +257,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the PropertyChanged event of PanDirectShowPropertyControl object.
+        /// Handles the PropertyChanged event of panDirectShowPropertyControl object.
         /// </summary>
         private void panDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
@@ -275,7 +275,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the PropertyChanged event of RollDirectShowPropertyControl object.
+        /// Handles the PropertyChanged event of rollDirectShowPropertyControl object.
         /// </summary>
         private void rollDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
@@ -293,7 +293,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the PropertyChanged event of TiltDirectShowPropertyControl object.
+        /// Handles the PropertyChanged event of tiltDirectShowPropertyControl object.
         /// </summary>
         private void tiltDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
@@ -311,7 +311,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the PropertyChanged event of ZoomDirectShowPropertyControl object.
+        /// Handles the PropertyChanged event of zoomDirectShowPropertyControl object.
         /// </summary>
         private void zoomDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {

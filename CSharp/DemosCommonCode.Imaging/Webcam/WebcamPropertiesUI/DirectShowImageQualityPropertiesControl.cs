@@ -217,7 +217,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the Click event of ResetButton object.
+        /// Handles the Click event of resetButton object.
         /// </summary>
         private void resetButton_Click(object sender, EventArgs e)
         {
@@ -232,7 +232,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the Click event of RestoreButton object.
+        /// Handles the Click event of restoreButton object.
         /// </summary>
         private void restoreButton_Click(object sender, EventArgs e)
         {
@@ -247,7 +247,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the PropertyChanged event of BacklightCompensationDirectShowPropertyControl object.
+        /// Handles the PropertyChanged event of backlightCompensationDirectShowPropertyControl object.
         /// </summary>
         private void backlightCompensationDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
@@ -265,7 +265,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the PropertyChanged event of BrightnessDirectShowPropertyControl object.
+        /// Handles the PropertyChanged event of brightnessDirectShowPropertyControl object.
         /// </summary>
         private void brightnessDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
@@ -283,7 +283,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the PropertyChanged event of ColorEnableDirectShowPropertyControl object.
+        /// Handles the PropertyChanged event of colorEnableDirectShowPropertyControl object.
         /// </summary>
         private void colorEnableDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
@@ -301,7 +301,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the PropertyChanged event of ContrastDirectShowPropertyControl object.
+        /// Handles the PropertyChanged event of contrastDirectShowPropertyControl object.
         /// </summary>
         private void contrastDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
@@ -319,7 +319,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the PropertyChanged event of GainDirectShowPropertyControl object.
+        /// Handles the PropertyChanged event of gainDirectShowPropertyControl object.
         /// </summary>
         private void gainDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
@@ -337,7 +337,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the PropertyChanged event of GammaDirectShowPropertyControl object.
+        /// Handles the PropertyChanged event of gammaDirectShowPropertyControl object.
         /// </summary>
         private void gammaDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
@@ -355,7 +355,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the PropertyChanged event of HueDirectShowPropertyControl object.
+        /// Handles the PropertyChanged event of hueDirectShowPropertyControl object.
         /// </summary>
         private void hueDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
@@ -373,7 +373,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the PropertyChanged event of SaturationDirectShowPropertyControl object.
+        /// Handles the PropertyChanged event of saturationDirectShowPropertyControl object.
         /// </summary>
         private void saturationDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
@@ -391,7 +391,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the PropertyChanged event of SharpnessDirectShowPropertyControl object.
+        /// Handles the PropertyChanged event of sharpnessDirectShowPropertyControl object.
         /// </summary>
         private void sharpnessDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {
@@ -409,7 +409,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the PropertyChanged event of WhiteBalanceDirectShowPropertyControl object.
+        /// Handles the PropertyChanged event of whiteBalanceDirectShowPropertyControl object.
         /// </summary>
         private void whiteBalanceDirectShowPropertyControl_PropertyChanged(object sender, DirectShowPropertyChangedEventArgs e)
         {

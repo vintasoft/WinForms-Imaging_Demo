@@ -30,15 +30,15 @@ namespace ImagingDemo
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            Vintasoft.Imaging.Utils.WinFormsSystemClipboard winFormsSystemClipboard3 = new Vintasoft.Imaging.Utils.WinFormsSystemClipboard();
-            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance6 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
-            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance7 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
-            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance8 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
-            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance9 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
-            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance10 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
-            Vintasoft.Imaging.UI.ThumbnailCaption thumbnailCaption2 = new Vintasoft.Imaging.UI.ThumbnailCaption();
-            Vintasoft.Imaging.Utils.WinFormsSystemClipboard winFormsSystemClipboard4 = new Vintasoft.Imaging.Utils.WinFormsSystemClipboard();
-            Vintasoft.Imaging.Codecs.Decoders.RenderingSettings renderingSettings2 = new Vintasoft.Imaging.Codecs.Decoders.RenderingSettings();
+            Vintasoft.Imaging.Utils.WinFormsSystemClipboard winFormsSystemClipboard1 = new Vintasoft.Imaging.Utils.WinFormsSystemClipboard();
+            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance1 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
+            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance2 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
+            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance3 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
+            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance4 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
+            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance5 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
+            Vintasoft.Imaging.UI.ThumbnailCaption thumbnailCaption1 = new Vintasoft.Imaging.UI.ThumbnailCaption();
+            Vintasoft.Imaging.Utils.WinFormsSystemClipboard winFormsSystemClipboard2 = new Vintasoft.Imaging.Utils.WinFormsSystemClipboard();
+            Vintasoft.Imaging.Codecs.Decoders.RenderingSettings renderingSettings1 = new Vintasoft.Imaging.Codecs.Decoders.RenderingSettings();
             this.formMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,6 +56,7 @@ namespace ImagingDemo
             this.saveChangesToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveToDocxToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveCurrentImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.closeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
@@ -246,6 +247,7 @@ namespace ImagingDemo
             this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
             this.despeckleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deskewDocumentImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.documentPerspectiveCorrectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deskewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoOrientationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBlockInvertToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -361,7 +363,6 @@ namespace ImagingDemo
             this.viewerToolStrip = new DemosCommonCode.Imaging.ImageViewerToolStrip();
             this.visualToolsToolStrip1 = new DemosCommonCode.Imaging.VisualToolsToolStrip();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.documentPerspectiveCorrectionToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.formMenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zoomTrackBar)).BeginInit();
@@ -407,6 +408,7 @@ namespace ImagingDemo
             this.saveChangesToolStripMenuItem,
             this.saveAsToolStripMenuItem,
             this.saveToToolStripMenuItem,
+            this.saveToDocxToolStripMenuItem,
             this.saveCurrentImageToolStripMenuItem,
             this.closeToolStripMenuItem,
             this.toolStripSeparator1,
@@ -528,6 +530,13 @@ namespace ImagingDemo
             this.saveToToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.saveToToolStripMenuItem.Text = "Save To...";
             this.saveToToolStripMenuItem.Click += new System.EventHandler(this.saveToToolStripMenuItem_Click);
+            // 
+            // saveToDocxToolStripMenuItem
+            // 
+            this.saveToDocxToolStripMenuItem.Name = "saveToDocxToolStripMenuItem";
+            this.saveToDocxToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.saveToDocxToolStripMenuItem.Text = "Save To Docx...";
+            this.saveToDocxToolStripMenuItem.Click += new System.EventHandler(this.saveToDocxToolStripMenuItem_Click);
             // 
             // saveCurrentImageToolStripMenuItem
             // 
@@ -2030,6 +2039,13 @@ namespace ImagingDemo
             this.deskewDocumentImageToolStripMenuItem.Text = "Deskew Document Image...";
             this.deskewDocumentImageToolStripMenuItem.Click += new System.EventHandler(this.deskewDocumentImageToolStripMenuItem_Click);
             // 
+            // documentPerspectiveCorrectionToolStripMenuItem
+            // 
+            this.documentPerspectiveCorrectionToolStripMenuItem.Name = "documentPerspectiveCorrectionToolStripMenuItem";
+            this.documentPerspectiveCorrectionToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
+            this.documentPerspectiveCorrectionToolStripMenuItem.Text = "Document Perspective Correction";
+            this.documentPerspectiveCorrectionToolStripMenuItem.Click += new System.EventHandler(this.documentPerspectiveCorrectionToolStripMenuItem_Click);
+            // 
             // deskewToolStripMenuItem
             // 
             this.deskewToolStripMenuItem.Name = "deskewToolStripMenuItem";
@@ -2454,45 +2470,45 @@ namespace ImagingDemo
             this.thumbnailViewer1.AllowDrop = true;
             this.thumbnailViewer1.AutoScrollMinSize = new System.Drawing.Size(1, 1);
             this.thumbnailViewer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.thumbnailViewer1.Clipboard = winFormsSystemClipboard3;
+            this.thumbnailViewer1.Clipboard = winFormsSystemClipboard1;
             this.thumbnailViewer1.ContextMenuStrip = this.thumbnailViewerContextMenuStrip;
             this.thumbnailViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            thumbnailAppearance6.BackColor = System.Drawing.Color.Transparent;
-            thumbnailAppearance6.BorderColor = System.Drawing.Color.Gray;
-            thumbnailAppearance6.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Dotted;
-            thumbnailAppearance6.BorderWidth = 1;
-            this.thumbnailViewer1.FocusedThumbnailAppearance = thumbnailAppearance6;
+            thumbnailAppearance1.BackColor = System.Drawing.Color.Transparent;
+            thumbnailAppearance1.BorderColor = System.Drawing.Color.Gray;
+            thumbnailAppearance1.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Dotted;
+            thumbnailAppearance1.BorderWidth = 1;
+            this.thumbnailViewer1.FocusedThumbnailAppearance = thumbnailAppearance1;
             this.thumbnailViewer1.GenerateOnlyVisibleThumbnails = true;
-            thumbnailAppearance7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(186)))), ((int)(((byte)(210)))), ((int)(((byte)(235)))));
-            thumbnailAppearance7.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(186)))), ((int)(((byte)(210)))), ((int)(((byte)(235)))));
-            thumbnailAppearance7.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
-            thumbnailAppearance7.BorderWidth = 2;
-            this.thumbnailViewer1.HoveredThumbnailAppearance = thumbnailAppearance7;
+            thumbnailAppearance2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(186)))), ((int)(((byte)(210)))), ((int)(((byte)(235)))));
+            thumbnailAppearance2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(186)))), ((int)(((byte)(210)))), ((int)(((byte)(235)))));
+            thumbnailAppearance2.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            thumbnailAppearance2.BorderWidth = 2;
+            this.thumbnailViewer1.HoveredThumbnailAppearance = thumbnailAppearance2;
             this.thumbnailViewer1.ImageRotationAngle = 0;
             this.thumbnailViewer1.Location = new System.Drawing.Point(0, 0);
             this.thumbnailViewer1.MasterViewer = this.imageViewer1;
             this.thumbnailViewer1.Name = "thumbnailViewer1";
-            thumbnailAppearance8.BackColor = System.Drawing.Color.Black;
-            thumbnailAppearance8.BorderColor = System.Drawing.Color.Black;
-            thumbnailAppearance8.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
-            thumbnailAppearance8.BorderWidth = 0;
-            this.thumbnailViewer1.NotReadyThumbnailAppearance = thumbnailAppearance8;
-            thumbnailAppearance9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(238)))), ((int)(((byte)(253)))));
-            thumbnailAppearance9.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(222)))), ((int)(((byte)(253)))));
-            thumbnailAppearance9.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
-            thumbnailAppearance9.BorderWidth = 1;
-            this.thumbnailViewer1.SelectedThumbnailAppearance = thumbnailAppearance9;
+            thumbnailAppearance3.BackColor = System.Drawing.Color.Black;
+            thumbnailAppearance3.BorderColor = System.Drawing.Color.Black;
+            thumbnailAppearance3.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            thumbnailAppearance3.BorderWidth = 0;
+            this.thumbnailViewer1.NotReadyThumbnailAppearance = thumbnailAppearance3;
+            thumbnailAppearance4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(238)))), ((int)(((byte)(253)))));
+            thumbnailAppearance4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(222)))), ((int)(((byte)(253)))));
+            thumbnailAppearance4.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            thumbnailAppearance4.BorderWidth = 1;
+            this.thumbnailViewer1.SelectedThumbnailAppearance = thumbnailAppearance4;
             this.thumbnailViewer1.Size = new System.Drawing.Size(280, 451);
             this.thumbnailViewer1.TabIndex = 0;
             this.thumbnailViewer1.Text = "thumbnailViewer1";
-            thumbnailAppearance10.BackColor = System.Drawing.Color.Transparent;
-            thumbnailAppearance10.BorderColor = System.Drawing.Color.Transparent;
-            thumbnailAppearance10.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
-            thumbnailAppearance10.BorderWidth = 1;
-            this.thumbnailViewer1.ThumbnailAppearance = thumbnailAppearance10;
-            thumbnailCaption2.Padding = new Vintasoft.Imaging.PaddingF(0F, 0F, 0F, 0F);
-            thumbnailCaption2.TextColor = System.Drawing.Color.Black;
-            this.thumbnailViewer1.ThumbnailCaption = thumbnailCaption2;
+            thumbnailAppearance5.BackColor = System.Drawing.Color.Transparent;
+            thumbnailAppearance5.BorderColor = System.Drawing.Color.Transparent;
+            thumbnailAppearance5.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            thumbnailAppearance5.BorderWidth = 1;
+            this.thumbnailViewer1.ThumbnailAppearance = thumbnailAppearance5;
+            thumbnailCaption1.Padding = new Vintasoft.Imaging.PaddingF(0F, 0F, 0F, 0F);
+            thumbnailCaption1.TextColor = System.Drawing.Color.Black;
+            this.thumbnailViewer1.ThumbnailCaption = thumbnailCaption1;
             this.thumbnailViewer1.ThumbnailContextMenuStrip = this.thumbnailContextMenu;
             this.thumbnailViewer1.ThumbnailControlPadding = new Vintasoft.Imaging.PaddingF(0F, 0F, 0F, 0F);
             this.thumbnailViewer1.ThumbnailFlowStyle = Vintasoft.Imaging.UI.ThumbnailFlowStyle.WrappedRows;
@@ -2545,10 +2561,10 @@ namespace ImagingDemo
             // imageViewer1
             // 
             this.imageViewer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.imageViewer1.Clipboard = winFormsSystemClipboard4;
+            this.imageViewer1.Clipboard = winFormsSystemClipboard2;
             this.imageViewer1.Cursor = System.Windows.Forms.Cursors.Default;
             this.imageViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.imageViewer1.ImageRenderingSettings = renderingSettings2;
+            this.imageViewer1.ImageRenderingSettings = renderingSettings1;
             this.imageViewer1.ImageRotationAngle = 0;
             this.imageViewer1.IsKeyboardNavigationEnabled = true;
             this.imageViewer1.Location = new System.Drawing.Point(0, 0);
@@ -2974,13 +2990,6 @@ namespace ImagingDemo
             this.panel2.Size = new System.Drawing.Size(844, 25);
             this.panel2.TabIndex = 0;
             // 
-            // documentPerspectiveCorrectionToolStripMenuItem
-            // 
-            this.documentPerspectiveCorrectionToolStripMenuItem.Name = "documentPerspectiveCorrectionToolStripMenuItem";
-            this.documentPerspectiveCorrectionToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
-            this.documentPerspectiveCorrectionToolStripMenuItem.Text = "Document Perspective Correction";
-            this.documentPerspectiveCorrectionToolStripMenuItem.Click += new System.EventHandler(this.documentPerspectiveCorrectionToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -3349,5 +3358,6 @@ namespace ImagingDemo
         private System.Windows.Forms.ToolStripMenuItem colorGradientToolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem replaceColorGradientToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem documentPerspectiveCorrectionToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveToDocxToolStripMenuItem;
     }
 }

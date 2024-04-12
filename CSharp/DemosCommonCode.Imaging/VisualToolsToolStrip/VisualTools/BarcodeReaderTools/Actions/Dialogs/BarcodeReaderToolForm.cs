@@ -53,7 +53,7 @@ namespace DemosCommonCode.Barcode
         #region Methods
 
         /// <summary>
-        /// Handles the RecognitionFinished event of ReaderTool object.
+        /// Handles the RecognitionFinished event of readerTool object.
         /// </summary>
         private void readerTool_RecognitionFinished(object sender, EventArgs e)
         {
@@ -152,7 +152,7 @@ namespace DemosCommonCode.Barcode
         }
 
         /// <summary>
-        /// Handles the RecognitionStarted event of ReaderTool object.
+        /// Handles the RecognitionStarted event of readerTool object.
         /// </summary>
         private void readerTool_RecognitionStarted(object sender, EventArgs e)
         {
@@ -163,7 +163,7 @@ namespace DemosCommonCode.Barcode
         }
 
         /// <summary>
-        /// Handles the Click event of RecognizeBarcodeButton object.
+        /// Handles the Click event of recognizeBarcodeButton object.
         /// </summary>
         private void recognizeBarcodeButton_Click(object sender, EventArgs e)
         {
@@ -182,7 +182,7 @@ namespace DemosCommonCode.Barcode
 
 #if !REMOVE_BARCODE_SDK
         /// <summary>
-        /// Handles the RecognitionProgress event of ReaderTool object.
+        /// Handles the RecognitionProgress event of readerTool object.
         /// </summary>
         private void readerTool_RecognitionProgress(object sender, BarcodeReaderProgressEventArgs e)
         {

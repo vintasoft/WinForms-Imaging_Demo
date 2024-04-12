@@ -86,7 +86,7 @@ namespace DemosCommonCode.Imaging
         #region UI
 
         /// <summary>
-        /// Handles the Click event of ButtonOk object.
+        /// Handles the Click event of buttonOk object.
         /// </summary>
         private void buttonOk_Click(object sender, EventArgs e)
         {
@@ -96,7 +96,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of EnabledCheckBox object.
+        /// Handles the CheckedChanged event of enabledCheckBox object.
         /// </summary>
         private void enabledCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -113,7 +113,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of CanvasPenCheckBox object.
+        /// Handles the CheckedChanged event of canvasPenCheckBox object.
         /// </summary>
         private void canvasPenCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -125,7 +125,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of VisibleRectPenCheckBox object.
+        /// Handles the CheckedChanged event of visibleRectPenCheckBox object.
         /// </summary>
         private void visibleRectPenCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -137,7 +137,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of ImageBufferPenCheckBox object.
+        /// Handles the CheckedChanged event of imageBufferPenCheckBox object.
         /// </summary>
         private void imageBufferPenCheckBox_CheckedChanged(object sender, EventArgs e)
         {

@@ -148,7 +148,7 @@ namespace ImagingDemo
         #region UI
 
         /// <summary>
-        /// Handles the Click event of ButtonOk object.
+        /// Handles the Click event of buttonOk object.
         /// </summary>
         private void buttonOk_Click(object sender, EventArgs e)
         {
@@ -156,7 +156,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ButtonCancel object.
+        /// Handles the Click event of buttonCancel object.
         /// </summary>
         private void buttonCancel_Click(object sender, EventArgs e)
         {
@@ -164,7 +164,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of PreviewCheckBox object.
+        /// Handles the CheckedChanged event of previewCheckBox object.
         /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -176,7 +176,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the SelectedIndexChanged event of BlendingModeComboBox object.
+        /// Handles the SelectedIndexChanged event of blendingModeComboBox object.
         /// </summary>
         private void blendingModeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -185,7 +185,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the SelectedIndexChanged event of FilterTypeComboBox object.
+        /// Handles the SelectedIndexChanged event of filterTypeComboBox object.
         /// </summary>
         private void filterTypeComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -194,7 +194,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of GrayscaleFiltrationCheckBox object.
+        /// Handles the CheckedChanged event of grayscaleFiltrationCheckBox object.
         /// </summary>
         private void grayscaleFiltrationCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -203,7 +203,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the ValueChanged event of ValueEditorControl object.
+        /// Handles the ValueChanged event of valueEditorControl object.
         /// </summary>
         private void valueEditorControl_ValueChanged(object sender, EventArgs e)
         {

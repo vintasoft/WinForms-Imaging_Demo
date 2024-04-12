@@ -93,7 +93,7 @@ namespace DemosCommonCode.CustomControls
         #region UI
 
         /// <summary>
-        /// Handles the Click event of FindButton object.
+        /// Handles the Click event of findButton object.
         /// </summary>
         private void findButton_Click(object sender, EventArgs e)
         {
@@ -104,7 +104,7 @@ namespace DemosCommonCode.CustomControls
         }
 
         /// <summary>
-        /// Handles the TextChanged event of FindPatternTextBox object.
+        /// Handles the TextChanged event of findPatternTextBox object.
         /// </summary>
         private void findPatternTextBox_TextChanged(object sender, EventArgs e)
         {
@@ -113,7 +113,7 @@ namespace DemosCommonCode.CustomControls
         }
 
         /// <summary>
-        /// Handles the KeyUp event of FindPatternTextBox object.
+        /// Handles the KeyUp event of findPatternTextBox object.
         /// </summary>
         private void findPatternTextBox_KeyUp(object sender, KeyEventArgs e)
         {

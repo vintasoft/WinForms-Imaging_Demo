@@ -77,7 +77,7 @@ namespace ImagingDemo
         #region UI
 
         /// <summary>
-        /// Handles the ValueChanged event of ProcessingProperty object.
+        /// Handles the ValueChanged event of processingProperty object.
         /// </summary>
         private void processingProperty_ValueChanged(object sender, EventArgs e)
         {
@@ -85,7 +85,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of PreviewCheckBox object.
+        /// Handles the CheckedChanged event of previewCheckBox object.
         /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -97,7 +97,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ButtonOk object.
+        /// Handles the Click event of buttonOk object.
         /// </summary>
         private void buttonOk_Click(object sender, EventArgs e)
         {

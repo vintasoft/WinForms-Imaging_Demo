@@ -171,7 +171,7 @@ namespace DemosCommonCode.Imaging
         #region PRIVATE
 
         /// <summary>
-        /// Handles the Scroll event of PropertyTrackBar object.
+        /// Handles the Scroll event of propertyTrackBar object.
         /// </summary>
         private void propertyTrackBar_Scroll(object sender, EventArgs e)
         {
@@ -180,7 +180,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of PropertyAutoCheckBox object.
+        /// Handles the CheckedChanged event of propertyAutoCheckBox object.
         /// </summary>
         private void propertyAutoCheckBox_CheckedChanged(object sender, EventArgs e)
         {

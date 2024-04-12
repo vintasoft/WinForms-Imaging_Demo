@@ -85,7 +85,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the Click event of InvertButton object.
+        /// Handles the Click event of invertButton object.
         /// </summary>
         private void invertButton_Click(object sender, EventArgs e)
         {
@@ -96,7 +96,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the Click event of ToGrayButton object.
+        /// Handles the Click event of toGrayButton object.
         /// </summary>
         private void toGrayButton_Click(object sender, EventArgs e)
         {

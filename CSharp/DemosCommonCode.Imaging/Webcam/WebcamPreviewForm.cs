@@ -133,7 +133,7 @@ namespace DemosCommonCode.Imaging
         #region UI
 
         /// <summary>
-        /// Handles the ValueChanged event of FrameDelayNumericUpDown object.
+        /// Handles the ValueChanged event of frameDelayNumericUpDown object.
         /// </summary>
         private void frameDelayNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
@@ -142,7 +142,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the Click event of PropertiesDefaultUiButton object.
+        /// Handles the Click event of propertiesDefaultUiButton object.
         /// </summary>
         private void propertiesDefaultUiButton_Click(object sender, EventArgs e)
         {
@@ -151,7 +151,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the Click event of PropertiesCustomUiButton object.
+        /// Handles the Click event of propertiesCustomUiButton object.
         /// </summary>
         private void propertiesCustomUiButton_Click(object sender, EventArgs e)
         {
@@ -164,7 +164,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the Click event of CaptureImageButton object.
+        /// Handles the Click event of captureImageButton object.
         /// </summary>
         private void captureImageButton_Click(object sender, EventArgs e)
         {
@@ -206,7 +206,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the SelectedIndexChanged event of FormatsComboBox object.
+        /// Handles the SelectedIndexChanged event of formatsComboBox object.
         /// </summary>
         private void formatsComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {

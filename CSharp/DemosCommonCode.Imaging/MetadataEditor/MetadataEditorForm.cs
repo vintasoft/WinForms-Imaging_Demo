@@ -93,7 +93,7 @@ namespace DemosCommonCode.Imaging
         #region UI
 
         /// <summary>
-        /// Handles the Click event of ButtonOk object.
+        /// Handles the Click event of buttonOk object.
         /// </summary>
         private void buttonOk_Click(object sender, EventArgs e)
         {
@@ -102,7 +102,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the AfterSelect event of MetadataTreeView object.
+        /// Handles the AfterSelect event of metadataTreeView object.
         /// </summary>
         private void metadataTreeView_AfterSelect(object sender, TreeViewEventArgs e)
         {
@@ -113,6 +113,9 @@ namespace DemosCommonCode.Imaging
             UpdateUI();
         }
 
+        /// <summary>
+        /// Handles the PropertyValueChanged event of nodePropertyGrid object.
+        /// </summary>
         private void nodePropertyGrid_PropertyValueChanged(object s, PropertyValueChangedEventArgs e)
         {
             // update user interface
@@ -120,7 +123,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the Click event of ExecuteButton object.
+        /// Handles the Click event of executeButton object.
         /// </summary>
         private void executeButton_Click(object sender, EventArgs e)
         {
@@ -142,7 +145,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the Click event of ButtonDelete object.
+        /// Handles the Click event of buttonDelete object.
         /// </summary>
         private void buttonDelete_Click(object sender, EventArgs e)
         {
@@ -157,7 +160,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the Click event of SaveBinaryValueToFileButton object.
+        /// Handles the Click event of saveBinaryValueToFileButton object.
         /// </summary>
         private void saveBinaryValueToFileButton_Click(object sender, EventArgs e)
         {
@@ -177,7 +180,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the Click event of LoadBinaryValueFromFileButton object.
+        /// Handles the Click event of loadBinaryValueFromFileButton object.
         /// </summary>
         private void loadBinaryValueFromFileButton_Click(object sender, EventArgs e)
         {
@@ -199,7 +202,7 @@ namespace DemosCommonCode.Imaging
         }
 
         /// <summary>
-        /// Handles the Click event of AddNewNodeToSelectedNodeButton object.
+        /// Handles the Click event of addNewNodeToSelectedNodeButton object.
         /// </summary>
         private void addNewNodeToSelectedNodeButton_Click(object sender, EventArgs e)
         {

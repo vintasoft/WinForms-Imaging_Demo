@@ -86,7 +86,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the ValueChanged event of ColorToleranceNumericUpDown object.
+        /// Handles the ValueChanged event of colorToleranceNumericUpDown object.
         /// </summary>
         private void colorToleranceNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
@@ -94,7 +94,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the SelectedIndexChanged event of ColorSpaceComboBox object.
+        /// Handles the SelectedIndexChanged event of colorSpaceComboBox object.
         /// </summary>
         private void colorSpaceComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -102,7 +102,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of PreviewCheckBox object.
+        /// Handles the CheckedChanged event of previewCheckBox object.
         /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -114,7 +114,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of ButtonOk object.
+        /// Handles the Click event of buttonOk object.
         /// </summary>
         private void buttonOk_Click(object sender, EventArgs e)
         {

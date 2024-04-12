@@ -74,7 +74,7 @@ namespace ImagingDemo
         #region UI
 
         /// <summary>
-        /// Handles the ColorChanged event of FillColorPanelControl object.
+        /// Handles the ColorChanged event of fillColorPanelControl object.
         /// </summary>
         private void fillColorPanelControl_ColorChanged(object sender, EventArgs e)
         {
@@ -82,7 +82,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the CheckedChanged event of PreviewCheckBox object.
+        /// Handles the CheckedChanged event of previewCheckBox object.
         /// </summary>
         private void previewCheckBox_CheckedChanged(object sender, EventArgs e)
         {
@@ -90,7 +90,7 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the Click event of OkButton object.
+        /// Handles the Click event of okButton object.
         /// </summary>
         private void okButton_Click(object sender, EventArgs e)
         {
