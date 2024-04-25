@@ -130,7 +130,7 @@ namespace ImagingDemo
         /// </summary>
         void viewer_MouseDown(object sender, MouseEventArgs e)
         {
-            if (pixelsGroupBox.Enabled && _viewer.IsEntireImageLoaded)
+            if (pixelsGroupBox.Enabled)
             {
                 if (_viewer.FocusedIndex >= 0)
                 {

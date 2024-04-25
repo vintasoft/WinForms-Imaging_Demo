@@ -407,7 +407,6 @@ namespace ImagingDemo
 #else
             documentLayoutSettingsToolStripMenuItem.Visible = false;
 #endif
-
         }
 
         #endregion
@@ -1313,13 +1312,26 @@ namespace ImagingDemo
         }
 
         /// <summary>
-        /// Handles the CheckStateChanged event of editImagePixelsToolStripMenuItem object.
+        /// Shows a window for editing image pixels.
         /// </summary>
         private void editImagePixelsToolStripMenuItem_CheckStateChanged(object sender, EventArgs e)
         {
             if (editImagePixelsToolStripMenuItem.Checked)
             {
-                OpenDirectPixelAccessForm();
+                bool answerResult = true;
+                if (!imageViewer1.IsEntireImageLoaded)
+                {
+                    VintasoftImage image = imageViewer1.Images[imageViewer1.FocusedIndex];
+
+                    double megabytesPerPixel = image.BitsPerPixel / 8d / 1024d / 1024d;
+                    double imageMemory = Math.Round(megabytesPerPixel * image.Width * image.Height, 2);
+                    answerResult = MessageBox.Show(
+                        string.Format("Image pixels can be edited only if the whole image is loaded in memory. Current image is not loaded in memory and has size {0}Mb. Do you want to load the whole image in memory?", imageMemory),
+                        "Pixel direct access", MessageBoxButtons.OKCancel) == DialogResult.OK;
+                }
+
+                if (answerResult)
+                    OpenDirectPixelAccessForm();
             }
             else
             {
@@ -3403,9 +3415,6 @@ namespace ImagingDemo
             imageLoadingProgressBar.Visible = false;
 
             this.IsImageLoaded = true;
-
-            if (editImagePixelsToolStripMenuItem.Checked && !imageViewer1.IsEntireImageLoaded)
-                editImagePixelsToolStripMenuItem.Checked = false;
         }
 
         /// <summary>
@@ -3829,7 +3838,6 @@ namespace ImagingDemo
         {
             VintasoftImage currentImage = imageViewer1.Image;
             bool isImageLoaded = currentImage != null;
-            bool isEntireImageLoaded = imageViewer1.IsEntireImageLoaded;
             bool isImageProcessing = this.IsImageProcessing;
             bool isImageSaving = this.IsImageSaving;
             bool isFileOpening = IsFileOpening;
@@ -3844,7 +3852,7 @@ namespace ImagingDemo
 
             deleteImageToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
 
-            editImagePixelsToolStripMenuItem.Enabled = isEntireImageLoaded && !isImageProcessing && !isImageSaving;
+            editImagePixelsToolStripMenuItem.Enabled = isImageLoaded && !isImageProcessing && !isImageSaving;
         }
 
         #endregion
