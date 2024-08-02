@@ -363,6 +363,7 @@ namespace ImagingDemo
             this.viewerToolStrip = new DemosCommonCode.Imaging.ImageViewerToolStrip();
             this.visualToolsToolStrip1 = new DemosCommonCode.Imaging.VisualToolsToolStrip();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.dottedLineRemovalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.formMenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zoomTrackBar)).BeginInit();
@@ -1983,6 +1984,7 @@ namespace ImagingDemo
             this.holePuchFillingToolStripMenuItem,
             this.holePunchRemovalToolStripMenuItem,
             this.lineRemovalToolStripMenuItem,
+            this.dottedLineRemovalToolStripMenuItem,
             this.shapeRemovalToolStripMenuItem,
             this.colorNoiseClearToolStripMenuItem,
             this.advancedReplaceColorCommandToolStripMenuItem,
@@ -2473,6 +2475,11 @@ namespace ImagingDemo
             this.thumbnailViewer1.Clipboard = winFormsSystemClipboard1;
             this.thumbnailViewer1.ContextMenuStrip = this.thumbnailViewerContextMenuStrip;
             this.thumbnailViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.thumbnailViewer1.FastScrollingCursor = System.Windows.Forms.Cursors.SizeAll;
+            this.thumbnailViewer1.FastScrollingInterval = 10;
+            this.thumbnailViewer1.FastScrollingMinDistance = 5F;
+            this.thumbnailViewer1.FastScrollingMouseButton = System.Windows.Forms.MouseButtons.Middle;
+            this.thumbnailViewer1.FastScrollingScale = 0.5F;
             thumbnailAppearance1.BackColor = System.Drawing.Color.Transparent;
             thumbnailAppearance1.BorderColor = System.Drawing.Color.Gray;
             thumbnailAppearance1.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Dotted;
@@ -2514,6 +2521,7 @@ namespace ImagingDemo
             this.thumbnailViewer1.ThumbnailFlowStyle = Vintasoft.Imaging.UI.ThumbnailFlowStyle.WrappedRows;
             this.thumbnailViewer1.ThumbnailImagePadding = new Vintasoft.Imaging.PaddingF(0F, 0F, 0F, 0F);
             this.thumbnailViewer1.ThumbnailMargin = new System.Windows.Forms.Padding(3);
+            this.thumbnailViewer1.ThumbnailRenderingSettings = null;
             this.thumbnailViewer1.ThumbnailRenderingThreadCount = 4;
             this.thumbnailViewer1.ThumbnailSize = new System.Drawing.Size(100, 100);
             this.thumbnailViewer1.ThumbnailsLoadingProgress += new System.EventHandler<Vintasoft.Imaging.UI.ThumbnailsLoadingProgressEventArgs>(this.thumbnailViewer1_ThumbnailsLoadingProgress);
@@ -2564,6 +2572,11 @@ namespace ImagingDemo
             this.imageViewer1.Clipboard = winFormsSystemClipboard2;
             this.imageViewer1.Cursor = System.Windows.Forms.Cursors.Default;
             this.imageViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.imageViewer1.FastScrollingCursor = System.Windows.Forms.Cursors.SizeAll;
+            this.imageViewer1.FastScrollingInterval = 10;
+            this.imageViewer1.FastScrollingMinDistance = 5F;
+            this.imageViewer1.FastScrollingMouseButton = System.Windows.Forms.MouseButtons.Middle;
+            this.imageViewer1.FastScrollingScale = 0.5F;
             this.imageViewer1.ImageRenderingSettings = renderingSettings1;
             this.imageViewer1.ImageRotationAngle = 0;
             this.imageViewer1.IsKeyboardNavigationEnabled = true;
@@ -2990,6 +3003,13 @@ namespace ImagingDemo
             this.panel2.Size = new System.Drawing.Size(844, 25);
             this.panel2.TabIndex = 0;
             // 
+            // dottedLineRemovalToolStripMenuItem
+            // 
+            this.dottedLineRemovalToolStripMenuItem.Name = "dottedLineRemovalToolStripMenuItem";
+            this.dottedLineRemovalToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
+            this.dottedLineRemovalToolStripMenuItem.Text = "Dotted Line Removal...";
+            this.dottedLineRemovalToolStripMenuItem.Click += new System.EventHandler(this.dottedLineRemovalToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -3359,5 +3379,6 @@ namespace ImagingDemo
         private System.Windows.Forms.ToolStripMenuItem replaceColorGradientToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem documentPerspectiveCorrectionToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveToDocxToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem dottedLineRemovalToolStripMenuItem;
     }
 }

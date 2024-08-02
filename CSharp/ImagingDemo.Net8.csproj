@@ -12,7 +12,7 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>    
     <EnableDefaultItems>false</EnableDefaultItems>
-    <Version>12.4.10.1</Version>
+    <Version>12.5.0.1</Version>
     <AssemblyName>ImagingDemo</AssemblyName>
     <RootNamespace>ImagingDemo</RootNamespace>
     <StartupObject>ImagingDemo.Program</StartupObject>
@@ -36,30 +36,30 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Vintasoft.Barcode" Version="15.0.3.1" />
-    <PackageReference Include="Vintasoft.Barcode.Gdi" Version="15.0.3.1" />
-    <PackageReference Include="Vintasoft.Imaging" Version="12.4.10.1" />
-    <PackageReference Include="Vintasoft.Imaging.Gdi" Version="12.4.10.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation" Version="12.4.10.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf" Version="12.4.10.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf.UI" Version="12.4.10.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation.UI" Version="12.4.10.1" />
-    <PackageReference Include="Vintasoft.Imaging.Dicom" Version="5.4.10.1" />
-    <PackageReference Include="Vintasoft.Imaging.DocCleanup" Version="7.4.10.1" />
-    <PackageReference Include="Vintasoft.Imaging.Jbig2Codec" Version="9.4.10.1" />
-    <PackageReference Include="Vintasoft.Imaging.Jpeg2000Codec" Version="8.4.10.1" />
-    <PackageReference Include="Vintasoft.Imaging.Office.OpenXml" Version="4.4.10.1" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf" Version="9.4.10.1" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf.Mrc" Version="9.4.10.1" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf.Office" Version="9.4.10.1" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf.UI" Version="9.4.10.1" />
-    <PackageReference Include="Vintasoft.Imaging.RawCodec" Version="12.4.10.1" />
-    <PackageReference Include="Vintasoft.Imaging.WsiCodec" Version="12.4.10.1" />
-    <PackageReference Include="Vintasoft.Imaging.Media" Version="12.4.10.1" />
-    <PackageReference Include="Vintasoft.Imaging.UI" Version="12.4.10.1" />
-    <PackageReference Include="Vintasoft.Shared" Version="4.2.0.1" />
-    <PackageReference Include="Vintasoft.Twain" Version="15.0.3.1" />
-    <PackageReference Include="Vintasoft.Imaging.WebpCodec" Version="12.4.10.1" />
+    <PackageReference Include="Vintasoft.Barcode" Version="15.0.4.1" />
+    <PackageReference Include="Vintasoft.Barcode.Gdi" Version="15.0.4.1" />
+    <PackageReference Include="Vintasoft.Imaging" Version="12.5.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Gdi" Version="12.5.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation" Version="12.5.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf" Version="12.5.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf.UI" Version="12.5.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation.UI" Version="12.5.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Dicom" Version="5.5.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.DocCleanup" Version="7.5.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Jbig2Codec" Version="9.5.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Jpeg2000Codec" Version="8.5.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Office.OpenXml" Version="4.5.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf" Version="9.5.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf.Mrc" Version="9.5.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf.Office" Version="9.5.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf.UI" Version="9.5.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.RawCodec" Version="12.5.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.WsiCodec" Version="12.5.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Media" Version="12.5.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.UI" Version="12.5.0.1" />
+    <PackageReference Include="Vintasoft.Shared" Version="4.3.0.1" />
+    <PackageReference Include="Vintasoft.Twain" Version="15.0.4.1" />
+    <PackageReference Include="Vintasoft.Imaging.WebpCodec" Version="12.5.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomControls\AnchorTypeEditorControl.cs">
@@ -995,31 +995,12 @@
       <SubType>Designer</SubType>
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <SubType>Designer</SubType>
-    </EmbeddedResource>
-    <Compile Include="Properties\Resources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Resources.resx</DependentUpon>
-      <DesignTime>True</DesignTime>
-    </Compile>
     <None Include="DefaultCMYK.icc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Include="DefaultRGB.icc">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Include="Properties\Settings.settings">
-      <Generator>SettingsSingleFileGenerator</Generator>
-      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
-    </None>
-    <Compile Include="Properties\Settings.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DependentUpon>Settings.settings</DependentUpon>
-      <DesignTimeSharedInput>True</DesignTimeSharedInput>
-    </Compile>
     <EmbeddedResource Include="CustomControls\ColorPanelControl\ColorPanelControl.resx">
       <DependentUpon>ColorPanelControl.cs</DependentUpon>
       <SubType>Designer</SubType>

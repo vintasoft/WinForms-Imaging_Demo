@@ -39,10 +39,6 @@ using Vintasoft.Barcode;
 #if !REMOVE_PDF_PLUGIN
 using Vintasoft.Imaging.Pdf.Tree;
 using Vintasoft.Imaging.Pdf;
-using Vintasoft.Imaging.Pdf.Drawing;
-using Vintasoft.Imaging.Drawing.Gdi;
-using Vintasoft.Imaging.Drawing;
-using Vintasoft.Imaging.ImageRendering;
 #endif
 
 namespace ImagingDemo
@@ -2869,6 +2865,17 @@ namespace ImagingDemo
         }
 
         /// <summary>
+        /// Handles the Click event of dottedLineRemovalToolStripMenuItem object.
+        /// </summary>
+        private void dottedLineRemovalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            ShowAndDisposeProcessingDialog(
+                new PropertyGridConfigForm(imageViewer1, new DottedLineRemovalCommand()), false, false);
+#endif
+        }
+
+        /// <summary>
         /// Handles the Click event of shapeRemovalToolStripMenuItem object.
         /// </summary>
         private void shapeRemovalToolStripMenuItem_Click(object sender, EventArgs e)
@@ -4229,7 +4236,7 @@ namespace ImagingDemo
 
                 result = false;
 
-                if(_encoder != null)
+                if (_encoder != null)
                 {
                     _encoder.Dispose();
                     _encoder = null;
@@ -4667,7 +4674,7 @@ namespace ImagingDemo
             UpdateUI();
         }
 
-       
+
         /// <summary>
         /// Copies an image from rectangular selection to the clipboard.
         /// </summary>
