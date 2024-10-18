@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("VintaSoft Imaging Demo")]
 [assembly: AssemblyDescription("Shows how to create, view, process, print and save images.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("VintaSoft Llc.")]
+[assembly: AssemblyCompany("VintaSoft LLC")]
 [assembly: AssemblyProduct("VintaSoft Imaging .NET SDK")]
-[assembly: AssemblyCopyright("Copyright VintaSoft Llc. 2024")]
+[assembly: AssemblyCopyright("Copyright VintaSoft LLC 2024")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -29,5 +29,5 @@ using System.Runtime.InteropServices;
 //      Build Number
 //      Revision
 //
-[assembly: AssemblyVersion("12.5.6.1")]
-[assembly: AssemblyFileVersion("12.5.6.1")]
+[assembly: AssemblyVersion("12.5.7.1")]
+[assembly: AssemblyFileVersion("12.5.7.1")]
