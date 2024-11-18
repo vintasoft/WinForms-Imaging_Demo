@@ -31,6 +31,8 @@ namespace DemosCommonCode.Imaging
             this.okButton = new System.Windows.Forms.Button();
             this.cancelBtn = new System.Windows.Forms.Button();
             this.settingsGroupBox = new System.Windows.Forms.GroupBox();
+            this.worksheetIndexCheckBox = new System.Windows.Forms.CheckBox();
+            this.worksheetIndexNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.showHiddenGraphicsCheckBox = new System.Windows.Forms.CheckBox();
             this.showHiddenSheetsCheckBox = new System.Windows.Forms.CheckBox();
             this.xlsxPageLayoutSettingsTypeControl1 = new DemosCommonCode.Imaging.XlsxPageLayoutSettingsTypeEditorControl();
@@ -38,12 +40,13 @@ namespace DemosCommonCode.Imaging
             this.defaultSettingsCheckBox = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.settingsGroupBox.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.worksheetIndexNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
             // okButton
             // 
             this.okButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.okButton.Location = new System.Drawing.Point(197, 453);
+            this.okButton.Location = new System.Drawing.Point(197, 478);
             this.okButton.Name = "okButton";
             this.okButton.Size = new System.Drawing.Size(75, 23);
             this.okButton.TabIndex = 3;
@@ -55,7 +58,7 @@ namespace DemosCommonCode.Imaging
             // 
             this.cancelBtn.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cancelBtn.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelBtn.Location = new System.Drawing.Point(278, 453);
+            this.cancelBtn.Location = new System.Drawing.Point(278, 478);
             this.cancelBtn.Name = "cancelBtn";
             this.cancelBtn.Size = new System.Drawing.Size(75, 23);
             this.cancelBtn.TabIndex = 4;
@@ -68,6 +71,8 @@ namespace DemosCommonCode.Imaging
             this.settingsGroupBox.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.settingsGroupBox.Controls.Add(this.worksheetIndexCheckBox);
+            this.settingsGroupBox.Controls.Add(this.worksheetIndexNumericUpDown);
             this.settingsGroupBox.Controls.Add(this.showHiddenGraphicsCheckBox);
             this.settingsGroupBox.Controls.Add(this.showHiddenSheetsCheckBox);
             this.settingsGroupBox.Controls.Add(this.xlsxPageLayoutSettingsTypeControl1);
@@ -75,9 +80,33 @@ namespace DemosCommonCode.Imaging
             this.settingsGroupBox.Enabled = false;
             this.settingsGroupBox.Location = new System.Drawing.Point(4, 8);
             this.settingsGroupBox.Name = "settingsGroupBox";
-            this.settingsGroupBox.Size = new System.Drawing.Size(356, 434);
+            this.settingsGroupBox.Size = new System.Drawing.Size(356, 459);
             this.settingsGroupBox.TabIndex = 6;
             this.settingsGroupBox.TabStop = false;
+            // 
+            // worksheetIndexCheckBox
+            // 
+            this.worksheetIndexCheckBox.AutoSize = true;
+            this.worksheetIndexCheckBox.Location = new System.Drawing.Point(6, 183);
+            this.worksheetIndexCheckBox.Name = "worksheetIndexCheckBox";
+            this.worksheetIndexCheckBox.Size = new System.Drawing.Size(106, 17);
+            this.worksheetIndexCheckBox.TabIndex = 12;
+            this.worksheetIndexCheckBox.Text = "Worksheet index";
+            this.worksheetIndexCheckBox.UseVisualStyleBackColor = true;
+            this.worksheetIndexCheckBox.CheckedChanged += new System.EventHandler(this.worksheetIndexCheckBox_CheckedChanged);
+            // 
+            // worksheetIndexNumericUpDown
+            // 
+            this.worksheetIndexNumericUpDown.Enabled = false;
+            this.worksheetIndexNumericUpDown.Location = new System.Drawing.Point(146, 182);
+            this.worksheetIndexNumericUpDown.Maximum = new decimal(new int[] {
+            999999,
+            0,
+            0,
+            0});
+            this.worksheetIndexNumericUpDown.Name = "worksheetIndexNumericUpDown";
+            this.worksheetIndexNumericUpDown.Size = new System.Drawing.Size(188, 20);
+            this.worksheetIndexNumericUpDown.TabIndex = 11;
             // 
             // showHiddenGraphicsCheckBox
             // 
@@ -113,7 +142,7 @@ namespace DemosCommonCode.Imaging
             // 
             this.documentLayoutSettingsEditorControl1.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.documentLayoutSettingsEditorControl1.Location = new System.Drawing.Point(6, 184);
+            this.documentLayoutSettingsEditorControl1.Location = new System.Drawing.Point(6, 209);
             this.documentLayoutSettingsEditorControl1.Name = "documentLayoutSettingsEditorControl1";
             this.documentLayoutSettingsEditorControl1.Size = new System.Drawing.Size(347, 244);
             this.documentLayoutSettingsEditorControl1.TabIndex = 0;
@@ -146,7 +175,7 @@ namespace DemosCommonCode.Imaging
             this.AcceptButton = this.okButton;
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cancelBtn;
-            this.ClientSize = new System.Drawing.Size(365, 485);
+            this.ClientSize = new System.Drawing.Size(365, 510);
             this.Controls.Add(this.defaultSettingsCheckBox);
             this.Controls.Add(this.settingsGroupBox);
             this.Controls.Add(this.cancelBtn);
@@ -159,6 +188,7 @@ namespace DemosCommonCode.Imaging
             this.Text = "XLSX Layout Settings";
             this.settingsGroupBox.ResumeLayout(false);
             this.settingsGroupBox.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.worksheetIndexNumericUpDown)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -174,5 +204,7 @@ namespace DemosCommonCode.Imaging
         private XlsxPageLayoutSettingsTypeEditorControl xlsxPageLayoutSettingsTypeControl1;
         private System.Windows.Forms.CheckBox showHiddenGraphicsCheckBox;
         private System.Windows.Forms.CheckBox showHiddenSheetsCheckBox;
+        private System.Windows.Forms.NumericUpDown worksheetIndexNumericUpDown;
+        private System.Windows.Forms.CheckBox worksheetIndexCheckBox;
     }
 }

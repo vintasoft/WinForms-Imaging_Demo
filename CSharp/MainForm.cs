@@ -394,15 +394,18 @@ namespace ImagingDemo
 
             imageViewer1.Focus();
 
-            DocumentPasswordForm.EnableAuthentication(imageViewer1);
 
 #if !REMOVE_OFFICE_PLUGIN
             // specify that image collection of image viewer must handle layout settings requests
             _imageCollectionDocxLayoutSettingsManager = new ImageCollectionDocxLayoutSettingsManager(imageViewer1.Images);
             _imageCollectionXlsxLayoutSettingsManager = new ImageCollectionXlsxLayoutSettingsManager(imageViewer1.Images);
-#else
+#endif
+
+#if REMOVE_OFFICE_PLUGIN
             documentLayoutSettingsToolStripMenuItem.Visible = false;
 #endif
+
+            DocumentPasswordForm.EnableAuthentication(imageViewer1);
         }
 
         #endregion

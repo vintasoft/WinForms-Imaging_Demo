@@ -68,6 +68,12 @@ namespace DemosCommonCode.Imaging
                 xlsxPageLayoutSettingsTypeControl1.Settings = settings.PageLayoutSettingsType;
                 showHiddenSheetsCheckBox.Checked = settings.ShowHiddenSheets;
                 showHiddenGraphicsCheckBox.Checked = settings.ShowHiddenGraphics;
+
+                if (settings.WorksheetIndex != null)
+                {
+                    worksheetIndexCheckBox.Checked = true;
+                    worksheetIndexNumericUpDown.Value = settings.WorksheetIndex.Value;
+                }
 #endif
 
                 // pass settings to the control
@@ -94,7 +100,7 @@ namespace DemosCommonCode.Imaging
 #if REMOVE_OFFICE_PLUGIN
             return new DocumentLayoutSettings();
 #else
-            return new XlsxDocumentLayoutSettings(); 
+            return new XlsxDocumentLayoutSettings();
 #endif
         }
 
@@ -111,6 +117,14 @@ namespace DemosCommonCode.Imaging
         private void defaultSettingsCheckBox_CheckedChanged(object sender, EventArgs e)
         {
             settingsGroupBox.Enabled = !defaultSettingsCheckBox.Checked;
+        }
+
+        /// <summary>
+        /// Handles the CheckedChanged event of worksheetIndexCheckBox object.
+        /// </summary>
+        private void worksheetIndexCheckBox_CheckedChanged(object sender, EventArgs e)
+        {
+            worksheetIndexNumericUpDown.Enabled = worksheetIndexCheckBox.Checked;
         }
 
         /// <summary>
@@ -132,6 +146,11 @@ namespace DemosCommonCode.Imaging
                 xlsxSettings.PageLayoutSettingsType = xlsxPageLayoutSettingsTypeControl1.Settings;
                 xlsxSettings.ShowHiddenSheets = showHiddenSheetsCheckBox.Checked;
                 xlsxSettings.ShowHiddenGraphics = showHiddenGraphicsCheckBox.Checked;
+
+                if (worksheetIndexCheckBox.Checked)
+                    xlsxSettings.WorksheetIndex = (int)worksheetIndexNumericUpDown.Value;
+                else
+                    xlsxSettings.WorksheetIndex = null;
 #endif
             }
 
