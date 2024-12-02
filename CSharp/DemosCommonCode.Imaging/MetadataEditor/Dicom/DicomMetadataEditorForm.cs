@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 using Vintasoft.Imaging;
@@ -35,6 +36,7 @@ namespace DemosCommonCode.Imaging
         /// <summary>
         /// Gets or sets an image.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public VintasoftImage Image
         {
             get
@@ -50,6 +52,7 @@ namespace DemosCommonCode.Imaging
         /// <summary>
         /// Gets or sets the root metadata node.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public MetadataNode RootMetadataNode
         {
             get
@@ -68,6 +71,7 @@ namespace DemosCommonCode.Imaging
         /// <value>
         /// <b>True</b> if DICOM metadata can be edited; otherwise, <b>false</b>.
         /// </value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool CanEdit
         {
             get

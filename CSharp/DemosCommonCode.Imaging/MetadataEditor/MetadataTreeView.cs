@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -52,6 +53,7 @@ namespace DemosCommonCode.Imaging
         /// <summary>
         /// Gets or sets the root metadata node.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public MetadataNode RootMetadataNode
         {
             get
@@ -73,6 +75,7 @@ namespace DemosCommonCode.Imaging
         /// <summary>
         /// Gets or sets the selected metadata node.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public MetadataNode SelectedMetadataNode
         {
             get

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 
 using Vintasoft.Imaging.UI;
@@ -74,15 +75,16 @@ namespace ImagingDemo
             previewCheckBox.Checked = IsPreviewEnabled;
 		}
 
-		#endregion
+        #endregion
 
 
 
-		#region Properties
+        #region Properties
 
         /// <summary>
         /// Gets or sets a value indicating whether the preview in image viewer is enabled.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsPreviewEnabled
         {
             get

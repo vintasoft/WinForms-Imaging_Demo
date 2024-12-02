@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -53,6 +54,7 @@ namespace ImagingDemo
         /// <value>
         /// <b>True</b> if image pixel format must be changed to the black-white; otherwise, <b>false</b>.
         /// </value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool ChangePixelFormatToBlackWhite
         {
             get

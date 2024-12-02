@@ -1,4 +1,6 @@
 ﻿using System.Windows.Forms;
+using System.ComponentModel;
+
 
 #if !REMOVE_BARCODE_SDK
 using Vintasoft.Barcode; 
@@ -9,6 +11,7 @@ namespace DemosCommonCode.Barcode
 {
     public partial class BarcodeWriterToolForm : Form
     {
+
         public BarcodeWriterToolForm()
         {
             InitializeComponent();
@@ -20,9 +23,12 @@ namespace DemosCommonCode.Barcode
         {
             barcodeWriterSettingsControl1.BarcodeWriterSettings = settings;
             barcodeWriterSettingsControl1.CanChangeBarcodeSize = false;
-        } 
+        }
 #endif
 
+
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Image BarcodeImage
         {
             set

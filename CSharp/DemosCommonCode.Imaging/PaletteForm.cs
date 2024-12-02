@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -53,6 +54,7 @@ namespace DemosCommonCode.Imaging
         /// <summary>
         /// Gets value indicating whether the <see cref="PaletteViewer"/> can change palette.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool CanChangePalette
         {
             get

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace DemosCommonCode.Imaging
@@ -54,6 +55,7 @@ namespace DemosCommonCode.Imaging
         /// <summary>
         /// Gets or sets the property description text.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public string PropertyDescriptionText
         {
             get
@@ -69,6 +71,7 @@ namespace DemosCommonCode.Imaging
         /// <summary>
         /// Gets or sets the label width of <see cref="PropertyDescriptionText"/>.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public float PropertyDescriptionWidth
         {
             get

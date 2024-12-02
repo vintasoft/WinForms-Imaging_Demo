@@ -39,6 +39,7 @@ using Vintasoft.Barcode;
 #if !REMOVE_PDF_PLUGIN
 using Vintasoft.Imaging.Pdf.Tree;
 using Vintasoft.Imaging.Pdf;
+using System.ComponentModel;
 #endif
 
 namespace ImagingDemo
@@ -394,7 +395,6 @@ namespace ImagingDemo
 
             imageViewer1.Focus();
 
-
 #if !REMOVE_OFFICE_PLUGIN
             // specify that image collection of image viewer must handle layout settings requests
             _imageCollectionDocxLayoutSettingsManager = new ImageCollectionDocxLayoutSettingsManager(imageViewer1.Images);
@@ -433,6 +433,7 @@ namespace ImagingDemo
         /// <summary>
         /// Gets or sets a value indicating whether image is processing.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal bool IsImageProcessing
         {
             get { return _isImageProcessing; }
@@ -448,6 +449,7 @@ namespace ImagingDemo
         /// <summary>
         /// Gets or sets a value indicating whether file is opening.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         internal bool IsFileOpening
         {
             get

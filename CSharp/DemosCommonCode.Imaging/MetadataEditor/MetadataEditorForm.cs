@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.IO;
 using System.Reflection;
 using System.Windows.Forms;
@@ -36,6 +37,7 @@ namespace DemosCommonCode.Imaging
         /// <summary>
         /// Gets or sets an image.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public VintasoftImage Image
         {
             get
@@ -53,6 +55,7 @@ namespace DemosCommonCode.Imaging
         /// <summary>
         /// Gets or sets the root metadata node.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public MetadataNode RootMetadataNode
         {
             get

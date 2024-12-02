@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 namespace DemosCommonCode.CustomControls
@@ -51,6 +52,7 @@ namespace DemosCommonCode.CustomControls
         /// <value>
         /// Default value is <b>null</b>.
         /// </value>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public TreeView TreeView
         {
             get

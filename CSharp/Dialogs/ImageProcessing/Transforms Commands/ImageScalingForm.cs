@@ -1,5 +1,6 @@
 ﻿using System;
-using System.Drawing.Drawing2D;
+using System.ComponentModel;
+
 using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.ImageProcessing.Transforms;
@@ -41,6 +42,7 @@ namespace ImagingDemo
         /// <summary>
         /// Gets or sets the image scaling command.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ImageScalingCommand Command
         {
             get

@@ -2,8 +2,6 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using System.Collections.Generic;
-using Vintasoft.Imaging;
 
 #if !REMOVE_BARCODE_SDK
 using Vintasoft.Barcode;
@@ -283,6 +281,7 @@ namespace DemosCommonCode.Barcode
         /// <summary>
         /// Gets or sets a selected barcode subset.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public BarcodeSymbologySubset SelectedBarcodeSubset
         {
             get
@@ -300,6 +299,7 @@ namespace DemosCommonCode.Barcode
         /// <summary>
         /// Gest or sets a writer settings.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Visible)]
         public WriterSettings BarcodeWriterSettings
         {
             get
@@ -380,12 +380,13 @@ namespace DemosCommonCode.Barcode
                     mainPanel.Enabled = false;
                 }
             }
-        } 
+        }
 #endif
 
         /// <summary>
         /// Gets a barcode image.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public Image BarcodeImage
         {
             set

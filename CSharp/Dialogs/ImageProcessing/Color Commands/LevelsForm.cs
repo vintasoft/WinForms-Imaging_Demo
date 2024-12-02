@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 
 using Vintasoft.Imaging.ImageProcessing.Color;
@@ -46,6 +47,7 @@ namespace ImagingDemo
         /// <summary>
         /// Gets or sets a value indicating whether the preview in ImageViewer is enabled.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsPreviewEnabled
         {
             get

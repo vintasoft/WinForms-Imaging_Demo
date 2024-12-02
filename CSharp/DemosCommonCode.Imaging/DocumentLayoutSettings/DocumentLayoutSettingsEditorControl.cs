@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
 
 using Vintasoft.Imaging.Codecs.Decoders;
@@ -32,6 +33,7 @@ namespace DemosCommonCode.Imaging
         /// Gets or sets document layout settings.
         /// </summary>
         /// <exception cref="ArgumentNullException">Thrown if <b>value</b> is null.</exception>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public DocumentLayoutSettings LayoutSettings
         {
             get

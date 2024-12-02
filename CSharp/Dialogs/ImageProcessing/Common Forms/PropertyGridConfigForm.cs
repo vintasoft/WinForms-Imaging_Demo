@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
 
 using Vintasoft.Imaging.ImageProcessing;
@@ -63,6 +64,7 @@ namespace ImagingDemo
         /// <summary>
         /// Gets or sets a value indicating whether the preview in image viewer is available.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool IsPreviewAvailable
         {
             get
@@ -80,6 +82,7 @@ namespace ImagingDemo
         /// <summary>
         /// Gets or sets a value indicating whether the preview in image viewer is enabled.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsPreviewEnabled
         {
             get

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Drawing;
 using System.Threading;
 using System.Windows.Forms;
@@ -111,6 +112,7 @@ namespace DemosCommonCode.Imaging
         /// <summary>
         /// Gets or sets an image viewer that stores images captured from webcam.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public ImageViewer SnapshotViewer
         {
             get

@@ -1,7 +1,8 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Drawing;
+
 using Vintasoft.Imaging;
-using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.ImageProcessing.Fft.Filtering;
 using Vintasoft.Imaging.ImageProcessing.Fft.Filters;
 using Vintasoft.Imaging.UI;
@@ -101,6 +102,7 @@ namespace ImagingDemo
         /// <summary>
         /// Gets or sets a value indicating whether the preview in image viewer is enabled.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public override bool IsPreviewEnabled
         {
             get

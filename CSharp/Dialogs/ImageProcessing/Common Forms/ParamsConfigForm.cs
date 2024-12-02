@@ -1,7 +1,6 @@
 using System.Windows.Forms;
 using System.ComponentModel;
 
-using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.UI;
 
@@ -62,6 +61,7 @@ namespace ImagingDemo
         /// Gets or sets a value indicating whether the preview in image viewer is enabled.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public virtual bool IsPreviewEnabled
         {
             get
@@ -93,6 +93,7 @@ namespace ImagingDemo
         /// Gets or sets a value indicating whether the zoom value, of image viewer, is used for previewing the image processing.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool UseCurrentViewerZoomWhenPreviewProcessing
         {
             get
@@ -112,6 +113,7 @@ namespace ImagingDemo
         /// of the processing image.
         /// </summary>
         [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool ExpandSupportedPixelFormats
         {
             get

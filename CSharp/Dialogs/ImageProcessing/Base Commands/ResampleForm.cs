@@ -1,6 +1,7 @@
 ﻿using System;
+using System.ComponentModel;
 using System.Windows.Forms;
-using System.Drawing.Drawing2D;
+
 using Vintasoft.Imaging;
 
 namespace ImagingDemo
@@ -84,6 +85,7 @@ namespace ImagingDemo
         /// <summary>
         /// Gets or sets a value indicating whether form must show the interpolation option.
         /// </summary>
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public bool ShowInterpolationComboBox
         {
             get
