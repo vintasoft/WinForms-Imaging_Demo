@@ -6,11 +6,13 @@ using System.Globalization;
 using System.IO;
 using System.Threading;
 using System.Windows.Forms;
+using System.ComponentModel;
 
 using Vintasoft.Data;
 using Vintasoft.Imaging;
 using Vintasoft.Imaging.Codecs.Decoders;
 using Vintasoft.Imaging.Codecs.Encoders;
+using Vintasoft.Imaging.Codecs.ImageFiles.Psd;
 using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.ImageProcessing.Color;
 using Vintasoft.Imaging.ImageProcessing.Document;
@@ -39,7 +41,6 @@ using Vintasoft.Barcode;
 #if !REMOVE_PDF_PLUGIN
 using Vintasoft.Imaging.Pdf.Tree;
 using Vintasoft.Imaging.Pdf;
-using System.ComponentModel;
 #endif
 
 namespace ImagingDemo
@@ -281,6 +282,9 @@ namespace ImagingDemo
             Vintasoft.Imaging.ImagingGlobalSettings.Register("REG_USER", "REG_EMAIL", "EXPIRATION_DATE", "REG_CODE");
 
             InitializeComponent();
+
+            // set view buffer to 32 MPX
+            imageViewer1.ViewerBufferSize = 32;
 
             Jbig2AssemblyLoader.Load();
             Jpeg2000AssemblyLoader.Load();
@@ -3232,6 +3236,35 @@ namespace ImagingDemo
             }
         }
 
+        /// <summary>
+        /// Handles the Click event of getPSDChannelsToolStripMenuItem object.
+        /// </summary>
+        private void getPSDChannelsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (imageViewer1.Image != null)
+            {
+                PsdDecoder psdDecoder = imageViewer1.Image.SourceInfo.Decoder as PsdDecoder;
+                if (psdDecoder == null)
+                {
+                    MessageBox.Show("Focused image is not PSD image.");
+                    return;
+                }
+                int insertIndex = imageViewer1.FocusedIndex + 1;
+                PsdPage page = psdDecoder.PsdFile.Page;
+                for (int i = 0; i < page.ChannelCount; i++)
+                {
+                    VintasoftImage channelImage = page.GetChannelImage(i);
+                    imageViewer1.Images.Insert(insertIndex++, channelImage);
+                    // if is extra channel (mask)
+                    if (i > page.ColorChannelCount)
+                    {
+                        // add source image with mask
+                        SetAlphaChannelMaskCommand setAlpha = new SetAlphaChannelMaskCommand(channelImage);
+                        imageViewer1.Images.Insert(insertIndex++, setAlpha.Execute(imageViewer1.Image));
+                    }
+                }
+            }
+        }
         #endregion
 
 
@@ -5312,5 +5345,6 @@ namespace ImagingDemo
 
         #endregion
 
+      
     }
 }

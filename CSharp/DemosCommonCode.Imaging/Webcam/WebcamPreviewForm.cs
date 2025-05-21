@@ -278,9 +278,6 @@ namespace DemosCommonCode.Imaging
         /// <param name="e">The <see cref="ImageCaptureCompletedEventArgs"/> instance containing the event data.</param>
         private void CaptureSource_CaptureCompleted(object sender, ImageCaptureCompletedEventArgs e)
         {
-            // save reference to the previously captured image
-            VintasoftImage oldImage = videoPreviewImageViewer.Image;
-
             // get captured image
             VintasoftImage newImage = e.GetCapturedImage();
 
@@ -289,12 +286,10 @@ namespace DemosCommonCode.Imaging
                 _processingCommand.ExecuteInPlace(newImage);
 
             // show captured image in the preview viewer           
-            videoPreviewImageViewer.Image = newImage;
-
-            // if previously captured image is exist
-            if (oldImage != null)
-                // dispose previously captured image
-                oldImage.Dispose();
+            if (videoPreviewImageViewer.Image != null)
+                videoPreviewImageViewer.Image.SetImage(newImage);
+            else
+                videoPreviewImageViewer.Image = newImage;
 
             // if capture source is started
             if (_imageCaptureSource.State == ImageCaptureState.Started)
