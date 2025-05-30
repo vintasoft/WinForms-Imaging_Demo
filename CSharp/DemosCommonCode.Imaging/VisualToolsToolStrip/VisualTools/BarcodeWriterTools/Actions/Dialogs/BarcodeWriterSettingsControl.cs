@@ -1014,8 +1014,18 @@ namespace DemosCommonCode.Barcode
         /// </summary>
         private void encodingInfoCheckBox_CheckedChanged(object sender, EventArgs e)
         {
-            encodingInfoComboBox.Enabled = encodingInfoCheckBox.Checked;
-            EncodeValue();
+#if !REMOVE_BARCODE_SDK
+            try
+            {
+                encodingInfoComboBox.Enabled = encodingInfoCheckBox.Checked;
+                EncodeValue();
+            }
+            catch
+            {
+                MessageBox.Show(string.Format("Barcode {0} is not supports encoding info.", BarcodeWriterSettings.Barcode));
+                encodingInfoCheckBox.Checked = false;
+            }
+#endif
         }
 
         #endregion
