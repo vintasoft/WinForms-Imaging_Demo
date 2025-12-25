@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net7.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows</TargetFramework>
     <UseWindowsForms>true</UseWindowsForms>
     <GenerateAssemblyCompanyAttribute>false</GenerateAssemblyCompanyAttribute>
     <GenerateAssemblyFileVersionAttribute>false</GenerateAssemblyFileVersionAttribute>
@@ -12,7 +12,7 @@
     <GenerateAssemblyProductAttribute>false</GenerateAssemblyProductAttribute>
     <GenerateAssemblyTitleAttribute>false</GenerateAssemblyTitleAttribute>    
     <EnableDefaultItems>false</EnableDefaultItems>
-    <Version>14.1.21.1</Version>
+    <Version>15.0.0.1</Version>
     <AssemblyName>ImagingDemo</AssemblyName>
     <RootNamespace>ImagingDemo</RootNamespace>
     <StartupObject>ImagingDemo.Program</StartupObject>
@@ -31,35 +31,35 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Win32.Registry" Version="5.0.0" />
-    <PackageReference Include="System.IO.Packaging" Version="7.0.0" />
-    <PackageReference Include="System.Text.Encoding.CodePages" Version="7.0.0" />
+    <PackageReference Include="System.IO.Packaging" Version="10.0.0" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="10.0.0" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Vintasoft.Barcode" Version="15.3.3.1" />
     <PackageReference Include="Vintasoft.Barcode.Gdi" Version="15.3.3.1" />
-    <PackageReference Include="Vintasoft.Imaging" Version="14.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Gdi" Version="14.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation" Version="14.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf" Version="14.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf.UI" Version="14.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation.UI" Version="14.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Dicom" Version="7.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.DocCleanup" Version="9.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Jbig2Codec" Version="11.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Jpeg2000Codec" Version="10.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Office.OpenXml" Version="6.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf" Version="11.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf.Mrc" Version="11.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf.Office" Version="11.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf.UI" Version="11.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.RawCodec" Version="14.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.WsiCodec" Version="14.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.Media" Version="14.1.21.1" />
-    <PackageReference Include="Vintasoft.Imaging.UI" Version="14.1.21.1" />
+    <PackageReference Include="Vintasoft.Imaging" Version="15.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Gdi" Version="15.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation" Version="15.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf" Version="15.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf.UI" Version="15.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation.UI" Version="15.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Dicom" Version="8.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.DocCleanup" Version="10.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Jbig2Codec" Version="12.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Jpeg2000Codec" Version="11.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Office.OpenXml" Version="7.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf" Version="12.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf.Mrc" Version="12.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf.Office" Version="12.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf.UI" Version="12.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.RawCodec" Version="15.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.WsiCodec" Version="15.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Media" Version="15.0.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.UI" Version="15.0.0.1" />
     <PackageReference Include="Vintasoft.Shared" Version="4.6.1.1" />
     <PackageReference Include="Vintasoft.Twain" Version="15.3.3.1" />
-    <PackageReference Include="Vintasoft.Imaging.WebpCodec" Version="14.1.21.1" />
+    <PackageReference Include="Vintasoft.Imaging.WebpCodec" Version="15.0.0.1" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomControls\AnchorTypeEditorControl.cs">
@@ -67,9 +67,6 @@
     </Compile>
     <Compile Include="CustomControls\AnchorTypeEditorControl.designer.cs">
       <DependentUpon>AnchorTypeEditorControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CustomControls\CheckedToolStripSplitButton.cs">
-      <SubType>Component</SubType>
     </Compile>
     <Compile Include="CustomControls\ColorPanelControl\ColorPanelControl.cs">
       <SubType>UserControl</SubType>
@@ -1291,15 +1288,15 @@
     <EmbeddedResource Include="Resources\Processing_Info.png" />
     <EmbeddedResource Include="Resources\Processing_Transform.png" />
     <EmbeddedResource Include="DemosCommonCode.Imaging\VisualTools\BarcodeWriterTool\Resources\RefreshBarcodeImage.png" />
-    <Content Include="Resources\DotNet7\VintasoftTwainService.exe">
+    <Content Include="..\..\..\..\Bin\DotNet10\AnyCPU\VintasoftTwainService.exe">
       <Link>VintasoftTwainService.exe</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\DotNet7\VintasoftTwainService.dll">
+    <Content Include="..\..\..\..\Bin\DotNet10\AnyCPU\VintasoftTwainService.dll">
       <Link>VintasoftTwainService.dll</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\DotNet7\VintasoftTwainService.runtimeconfig.json">
+    <Content Include="..\..\..\..\Bin\DotNet10\AnyCPU\VintasoftTwainService.runtimeconfig.json">
       <Link>VintasoftTwainService.runtimeconfig.json</Link>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
