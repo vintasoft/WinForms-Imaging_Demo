@@ -12,7 +12,7 @@ using Vintasoft.Imaging.ImageProcessing.Transforms;
 using Vintasoft.Imaging.Media;
 using Vintasoft.Imaging.UI;
 
-namespace DemosCommonCode.Imaging
+namespace CommonCode.Imaging
 {
     /// <summary>
     /// A form that allows to preview image from webcam, change webcam settings and

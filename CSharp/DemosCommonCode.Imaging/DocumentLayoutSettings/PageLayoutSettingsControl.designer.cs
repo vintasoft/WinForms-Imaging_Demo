@@ -1,4 +1,4 @@
-namespace DemosCommonCode.Imaging
+﻿namespace CommonCode.Imaging
 {
     partial class PageLayoutSettingsControl
     {
@@ -34,7 +34,7 @@ namespace DemosCommonCode.Imaging
             this.mmLabel = new System.Windows.Forms.Label();
             this.pageWidthNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.pageHeightNumericUpDown = new System.Windows.Forms.NumericUpDown();
-            this.pagePaddingFEditorControl = new DemosCommonCode.CustomControls.PaddingFEditorControl();
+            this.pagePaddingFEditorControl = new CommonCode.CustomControls.PaddingFEditorControl();
             this.contentScaleNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.contentScaleLabel = new System.Windows.Forms.Label();
             this.pagePaddingLabel = new System.Windows.Forms.Label();

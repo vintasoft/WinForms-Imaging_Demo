@@ -7,7 +7,7 @@ using Vintasoft.Imaging.UI;
 using Vintasoft.Imaging.UI.VisualTools.UserInteraction;
 using Vintasoft.Imaging.Utils;
 
-namespace DemosCommonCode.Barcode
+namespace CommonCode.Barcode
 {
     /// <summary>
     /// Represents an interaction button.

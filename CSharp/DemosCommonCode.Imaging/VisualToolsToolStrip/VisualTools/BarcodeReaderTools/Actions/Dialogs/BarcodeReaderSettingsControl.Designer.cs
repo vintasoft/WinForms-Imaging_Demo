@@ -1,4 +1,4 @@
-﻿namespace DemosCommonCode.Barcode
+﻿namespace CommonCode.Barcode
 {
     partial class BarcodeReaderSettingsControl
     {

@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using Vintasoft.Imaging;
 using Vintasoft.Imaging.Codecs.Decoders;
 
-namespace DemosCommonCode.Imaging
+namespace CommonCode.Imaging
 {
     /// <summary>
     /// Contains helper methods, which allow to manage the document layout settings.

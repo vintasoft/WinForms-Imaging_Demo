@@ -1,6 +1,6 @@
-using System.Reflection;
+﻿using System.Reflection;
 
-namespace DemosCommonCode.Imaging
+namespace CommonCode.Imaging
 {
     /// <summary>
     /// Executes the specified method.

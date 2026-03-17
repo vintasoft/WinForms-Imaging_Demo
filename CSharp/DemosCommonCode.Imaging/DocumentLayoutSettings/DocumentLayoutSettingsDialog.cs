@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 using Vintasoft.Imaging.Codecs.Decoders;
 
-namespace DemosCommonCode.Imaging
+namespace CommonCode.Imaging
 {
     /// <summary>
     /// Provides a base class for dialogs that allows to view and edit document layout settings.

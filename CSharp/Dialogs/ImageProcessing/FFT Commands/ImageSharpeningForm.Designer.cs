@@ -1,4 +1,4 @@
-namespace ImagingDemo
+﻿namespace ImagingDemo
 {
     partial class ImageSharpeningForm
     {
@@ -35,8 +35,8 @@ namespace ImagingDemo
             this.buttonCancel = new System.Windows.Forms.Button();
             this.okButton = new System.Windows.Forms.Button();
             this.grayscaleFiltrationCheckBox = new System.Windows.Forms.CheckBox();
-            this.radiusEditorControl = new DemosCommonCode.CustomControls.ValueEditorControl();
-            this.overlayAlphaEditorControl = new DemosCommonCode.CustomControls.ValueEditorControl();
+            this.radiusEditorControl = new CommonCode.CustomControls.ValueEditorControl();
+            this.overlayAlphaEditorControl = new CommonCode.CustomControls.ValueEditorControl();
             this.SuspendLayout();
             // 
             // blendingModeComboBox
@@ -186,7 +186,7 @@ namespace ImagingDemo
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.CheckBox grayscaleFiltrationCheckBox;
-        private DemosCommonCode.CustomControls.ValueEditorControl radiusEditorControl;
-        private DemosCommonCode.CustomControls.ValueEditorControl overlayAlphaEditorControl;
+        private CommonCode.CustomControls.ValueEditorControl radiusEditorControl;
+        private CommonCode.CustomControls.ValueEditorControl overlayAlphaEditorControl;
     }
 }

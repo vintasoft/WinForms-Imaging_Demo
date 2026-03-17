@@ -9,10 +9,10 @@ using Vintasoft.Barcode.BarcodeInfo;
 using Vintasoft.Barcode.SymbologySubsets;
 using Vintasoft.Barcode.GS1; 
 #endif
-using DemosCommonCode.Imaging;
+using CommonCode.Imaging;
 
 
-namespace DemosCommonCode.Barcode
+namespace CommonCode.Barcode
 {
     public partial class BarcodeWriterSettingsControl : UserControl
     {

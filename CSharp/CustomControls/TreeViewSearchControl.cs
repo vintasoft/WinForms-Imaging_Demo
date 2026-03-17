@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Windows.Forms;
 
-namespace DemosCommonCode.CustomControls
+namespace CommonCode.CustomControls
 {
     /// <summary>
     /// A control that allows to search <see cref="System.Windows.Forms.TreeNode"/> in the <see cref="System.Windows.Forms.TreeView"/>.

@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 using Vintasoft.Imaging.UI;
 
-namespace DemosCommonCode.Imaging
+namespace CommonCode.Imaging
 {
     /// <summary>
     /// A form that allows to view and edit an image palette.

@@ -1,4 +1,4 @@
-namespace DemosCommonCode.Imaging
+﻿namespace CommonCode.Imaging
 {
     partial class DocxLayoutSettingsDialog
     {
@@ -31,7 +31,7 @@ namespace DemosCommonCode.Imaging
             this.okButton = new System.Windows.Forms.Button();
             this.cancelBtn = new System.Windows.Forms.Button();
             this.settingsGroupBox = new System.Windows.Forms.GroupBox();
-            this.documentLayoutSettingsEditorControl1 = new DemosCommonCode.Imaging.DocumentLayoutSettingsEditorControl();
+            this.documentLayoutSettingsEditorControl1 = new CommonCode.Imaging.DocumentLayoutSettingsEditorControl();
             this.defaultSettingsCheckBox = new System.Windows.Forms.CheckBox();
             this.showHiddenContentCheckBox = new System.Windows.Forms.CheckBox();
             this.settingsGroupBox.SuspendLayout();

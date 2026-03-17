@@ -1,4 +1,4 @@
-namespace ImagingDemo
+﻿namespace ImagingDemo
 {
     partial class FillImageForm
     {
@@ -32,7 +32,7 @@ namespace ImagingDemo
             this.buttonOk = new System.Windows.Forms.Button();
             this.fillColorLabel = new System.Windows.Forms.Label();
             this.previewCheckBox = new System.Windows.Forms.CheckBox();
-            this.fillColorPanelControl = new DemosCommonCode.CustomControls.ColorPanelControl();
+            this.fillColorPanelControl = new CommonCode.CustomControls.ColorPanelControl();
             this.SuspendLayout();
             // 
             // buttonCancel
@@ -117,6 +117,6 @@ namespace ImagingDemo
         private System.Windows.Forms.Button buttonOk;
         private System.Windows.Forms.Label fillColorLabel;
         private System.Windows.Forms.CheckBox previewCheckBox;
-        private DemosCommonCode.CustomControls.ColorPanelControl fillColorPanelControl;
+        private CommonCode.CustomControls.ColorPanelControl fillColorPanelControl;
     }
 }

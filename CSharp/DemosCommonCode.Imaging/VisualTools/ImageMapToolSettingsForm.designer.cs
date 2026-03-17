@@ -1,4 +1,4 @@
-namespace DemosCommonCode.Imaging
+﻿namespace CommonCode.Imaging
 {
     partial class ImageMapToolSettingsForm
     {
@@ -41,9 +41,9 @@ namespace DemosCommonCode.Imaging
             this.canvasPenCheckBox = new System.Windows.Forms.CheckBox();
             this.visibleRectPenCheckBox = new System.Windows.Forms.CheckBox();
             this.imageBufferPenCheckBox = new System.Windows.Forms.CheckBox();
-            this.imageBufferPenColorPanelControl = new DemosCommonCode.CustomControls.ColorPanelControl();
-            this.visibleRectPenColorPanelControl = new DemosCommonCode.CustomControls.ColorPanelControl();
-            this.canvasPenColorPanelControl = new DemosCommonCode.CustomControls.ColorPanelControl();
+            this.imageBufferPenColorPanelControl = new CommonCode.CustomControls.ColorPanelControl();
+            this.visibleRectPenColorPanelControl = new CommonCode.CustomControls.ColorPanelControl();
+            this.canvasPenColorPanelControl = new CommonCode.CustomControls.ColorPanelControl();
             this.SuspendLayout();
             // 
             // enabledCheckBox
@@ -258,8 +258,8 @@ namespace DemosCommonCode.Imaging
         private System.Windows.Forms.CheckBox canvasPenCheckBox;
         private System.Windows.Forms.CheckBox visibleRectPenCheckBox;
         private System.Windows.Forms.CheckBox imageBufferPenCheckBox;
-        private DemosCommonCode.CustomControls.ColorPanelControl canvasPenColorPanelControl;
-        private DemosCommonCode.CustomControls.ColorPanelControl visibleRectPenColorPanelControl;
-        private DemosCommonCode.CustomControls.ColorPanelControl imageBufferPenColorPanelControl;
+        private CommonCode.CustomControls.ColorPanelControl canvasPenColorPanelControl;
+        private CommonCode.CustomControls.ColorPanelControl visibleRectPenColorPanelControl;
+        private CommonCode.CustomControls.ColorPanelControl imageBufferPenColorPanelControl;
     }
 }

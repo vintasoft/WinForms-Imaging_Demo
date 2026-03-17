@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Windows.Forms;
 
 using Vintasoft.Imaging;
@@ -6,7 +6,7 @@ using Vintasoft.Imaging;
 using Vintasoft.Twain; 
 #endif
 
-namespace DemosCommonCode.Twain
+namespace CommonCode.Twain
 {
     /// <summary>
     /// Represents a simple TWAIN manager.

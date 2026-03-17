@@ -4,8 +4,8 @@ using System.Windows.Forms;
 
 using Vintasoft.Imaging;
 using Vintasoft.Imaging.ImageColors;
-using DemosCommonCode;
-using DemosCommonCode.Imaging;
+using CommonCode;
+using CommonCode.Imaging;
 using Vintasoft.Imaging.UI;
 
 namespace ImagingDemo

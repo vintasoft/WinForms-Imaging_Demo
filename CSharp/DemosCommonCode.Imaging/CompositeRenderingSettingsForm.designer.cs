@@ -1,4 +1,4 @@
-namespace DemosCommonCode.Imaging
+﻿namespace CommonCode.Imaging
 {
     partial class CompositeRenderingSettingsForm
     {
@@ -65,7 +65,7 @@ namespace DemosCommonCode.Imaging
             this.officeSettingsTabPage = new System.Windows.Forms.TabPage();
             this.invisibleTableBordersGroupBox = new System.Windows.Forms.GroupBox();
             this.colorLabel = new System.Windows.Forms.Label();
-            this.invisibleTableBordersColorPanelControl = new DemosCommonCode.CustomControls.ColorPanelControl();
+            this.invisibleTableBordersColorPanelControl = new CommonCode.CustomControls.ColorPanelControl();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.renderingSettingsTabControl.SuspendLayout();
             this.commonSettingsTabPage.SuspendLayout();
@@ -587,7 +587,7 @@ namespace DemosCommonCode.Imaging
         private System.Windows.Forms.CheckBox showNonPrintableCharactersCheckBox;
         private System.Windows.Forms.Button buttonOk;
         private System.Windows.Forms.Button buttonCancel;
-        private DemosCommonCode.CustomControls.ColorPanelControl invisibleTableBordersColorPanelControl;
+        private CommonCode.CustomControls.ColorPanelControl invisibleTableBordersColorPanelControl;
         private System.Windows.Forms.Label textRenderingHintLabel;
         private System.Windows.Forms.ComboBox textRenderingHintComboBox;
         private System.Windows.Forms.TabControl renderingSettingsTabControl;

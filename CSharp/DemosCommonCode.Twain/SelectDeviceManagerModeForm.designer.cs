@@ -1,4 +1,4 @@
-namespace DemosCommonCode.Twain
+﻿namespace CommonCode.Twain
 {
     partial class SelectDeviceManagerModeForm
     {

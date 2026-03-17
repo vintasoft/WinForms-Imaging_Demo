@@ -1,4 +1,4 @@
-namespace ImagingDemo
+﻿namespace ImagingDemo
 {
 	partial class OneParamConfigForm
 	{
@@ -31,7 +31,7 @@ namespace ImagingDemo
             this.okButton = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.previewCheckBox = new System.Windows.Forms.CheckBox();
-            this.valueEditor = new DemosCommonCode.CustomControls.ValueEditorControl();
+            this.valueEditor = new CommonCode.CustomControls.ValueEditorControl();
             this.SuspendLayout();
             // 
             // okButton
@@ -104,6 +104,6 @@ namespace ImagingDemo
 		private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.CheckBox previewCheckBox;
-        private DemosCommonCode.CustomControls.ValueEditorControl valueEditor;
+        private CommonCode.CustomControls.ValueEditorControl valueEditor;
 	}
 }

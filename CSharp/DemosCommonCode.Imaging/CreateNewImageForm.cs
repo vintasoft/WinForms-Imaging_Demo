@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using Vintasoft.Imaging;
 
 
-namespace DemosCommonCode.Imaging
+namespace CommonCode.Imaging
 {
     /// <summary>
     /// A form that allows to specify parameters of new image.

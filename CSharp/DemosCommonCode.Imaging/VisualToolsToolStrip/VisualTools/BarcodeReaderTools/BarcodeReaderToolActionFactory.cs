@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Drawing;
 
-using DemosCommonCode.Imaging;
+using CommonCode.Imaging;
 
 
-namespace DemosCommonCode.Barcode
+namespace CommonCode.Barcode
 {
     /// <summary>
     /// Creates visual tool action, which allows to enable/disable visual tool <see cref="BarcodeReaderTool"/> in image viewer, and adds action to the toolstrip.

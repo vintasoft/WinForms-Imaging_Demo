@@ -14,9 +14,9 @@ using Vintasoft.Imaging.UI.VisualTools.UserInteraction;
 using Vintasoft.Imaging.Utils;
 using Vintasoft.Imaging.ImageProcessing;
 
-using DemosCommonCode;
+using CommonCode;
 
-namespace DemosCommonCode.Barcode
+namespace CommonCode.Barcode
 {
     /// <summary>
     /// Visual tool for barcode recognition on image in image viewer.

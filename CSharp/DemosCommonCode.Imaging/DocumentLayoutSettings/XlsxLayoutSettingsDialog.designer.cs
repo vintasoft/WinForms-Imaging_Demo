@@ -1,4 +1,4 @@
-namespace DemosCommonCode.Imaging
+﻿namespace CommonCode.Imaging
 {
     partial class XlsxLayoutSettingsDialog
     {
@@ -35,8 +35,8 @@ namespace DemosCommonCode.Imaging
             this.worksheetIndexNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.showHiddenGraphicsCheckBox = new System.Windows.Forms.CheckBox();
             this.showHiddenSheetsCheckBox = new System.Windows.Forms.CheckBox();
-            this.xlsxPageLayoutSettingsTypeControl1 = new DemosCommonCode.Imaging.XlsxPageLayoutSettingsTypeEditorControl();
-            this.documentLayoutSettingsEditorControl1 = new DemosCommonCode.Imaging.DocumentLayoutSettingsEditorControl();
+            this.xlsxPageLayoutSettingsTypeControl1 = new CommonCode.Imaging.XlsxPageLayoutSettingsTypeEditorControl();
+            this.documentLayoutSettingsEditorControl1 = new CommonCode.Imaging.DocumentLayoutSettingsEditorControl();
             this.defaultSettingsCheckBox = new System.Windows.Forms.CheckBox();
             this.checkBox1 = new System.Windows.Forms.CheckBox();
             this.settingsGroupBox.SuspendLayout();

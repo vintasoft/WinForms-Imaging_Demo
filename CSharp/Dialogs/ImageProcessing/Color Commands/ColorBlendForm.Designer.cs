@@ -1,4 +1,4 @@
-namespace ImagingDemo
+﻿namespace ImagingDemo
 {
     partial class ColorBlendForm
     {
@@ -30,7 +30,7 @@ namespace ImagingDemo
         {
             this.panel1 = new System.Windows.Forms.Panel();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.colorPickerControl = new DemosCommonCode.CustomControls.ColorPickerControl();
+            this.colorPickerControl = new CommonCode.CustomControls.ColorPickerControl();
             this.label5 = new System.Windows.Forms.Label();
             this.blendModeComboBox = new System.Windows.Forms.ComboBox();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -189,6 +189,6 @@ namespace ImagingDemo
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ComboBox blendModeComboBox;
-        private DemosCommonCode.CustomControls.ColorPickerControl colorPickerControl;
+        private CommonCode.CustomControls.ColorPickerControl colorPickerControl;
     }
 }

@@ -1,6 +1,6 @@
 ﻿using Vintasoft.Imaging.Metadata;
 
-namespace DemosCommonCode.Imaging
+namespace CommonCode.Imaging
 {
     /// <summary>
     /// A control that allows to view the DICOM metadata tree.

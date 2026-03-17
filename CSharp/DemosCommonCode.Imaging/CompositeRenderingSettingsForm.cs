@@ -10,7 +10,7 @@ using Vintasoft.Imaging.Drawing.Gdi;
 using Vintasoft.Imaging.Pdf;
 #endif
 
-namespace DemosCommonCode.Imaging
+namespace CommonCode.Imaging
 {
     /// <summary>
     /// A form that allows to view and edit the composite image rendering settings.

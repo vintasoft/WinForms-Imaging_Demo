@@ -29,12 +29,12 @@ using Vintasoft.Imaging.UI.VisualTools;
 using Vintasoft.Imaging.UI.VisualTools.UserInteraction;
 using Vintasoft.Imaging.Undo;
 
-using DemosCommonCode;
-using DemosCommonCode.Imaging;
-using DemosCommonCode.Imaging.Codecs;
-using DemosCommonCode.Imaging.ColorManagement;
-using DemosCommonCode.Twain;
-using DemosCommonCode.Barcode;
+using CommonCode;
+using CommonCode.Imaging;
+using CommonCode.Imaging.Codecs;
+using CommonCode.Imaging.ColorManagement;
+using CommonCode.Twain;
+using CommonCode.Barcode;
 #if !REMOVE_BARCODE_SDK
 using Vintasoft.Barcode;
 #endif

@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 using Vintasoft.Imaging.Codecs.Decoders;
 
-namespace DemosCommonCode.Imaging
+namespace CommonCode.Imaging
 {
     /// <summary>
     /// A form that allows to view and edit DOCX document layout settings.

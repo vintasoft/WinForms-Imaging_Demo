@@ -2,10 +2,10 @@
 using System.Windows.Forms;
 using Vintasoft.Imaging.Utils;
 
-using DemosCommonCode.Imaging;
+using CommonCode.Imaging;
 using Vintasoft.Imaging.Fonts;
 
-namespace DemosCommonCode.Imaging
+namespace CommonCode.Imaging
 {
     /// <summary>
     /// Allows to use custom PDF font program controller for PDF documents, which are opened in PDF demos.

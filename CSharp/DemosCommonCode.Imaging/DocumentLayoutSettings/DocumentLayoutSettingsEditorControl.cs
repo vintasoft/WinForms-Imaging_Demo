@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 using Vintasoft.Imaging.Codecs.Decoders;
 
-namespace DemosCommonCode.Imaging
+namespace CommonCode.Imaging
 {
     /// <summary>
     /// A control that allows to edit document layout settings.

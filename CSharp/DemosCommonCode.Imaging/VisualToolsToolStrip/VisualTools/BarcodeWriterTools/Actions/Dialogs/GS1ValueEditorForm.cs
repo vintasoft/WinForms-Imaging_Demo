@@ -6,7 +6,7 @@ using System.Windows.Forms;
 using Vintasoft.Barcode.GS1; 
 #endif
 
-namespace DemosCommonCode.Barcode
+namespace CommonCode.Barcode
 {
     public partial class GS1ValueEditorForm : Form
     {

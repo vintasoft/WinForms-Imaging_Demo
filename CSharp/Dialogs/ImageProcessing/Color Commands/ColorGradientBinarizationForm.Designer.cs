@@ -1,4 +1,4 @@
-namespace ImagingDemo
+﻿namespace ImagingDemo
 {
     partial class ColorGradientBinarizationForm
     {
@@ -35,8 +35,8 @@ namespace ImagingDemo
             this.stopColorLabel = new System.Windows.Forms.Label();
             this.startColorLabel = new System.Windows.Forms.Label();
             this.previewCheckBox = new System.Windows.Forms.CheckBox();
-            this.startColorPanelControl = new DemosCommonCode.CustomControls.ColorPanelControl();
-            this.stopColorPanelControl = new DemosCommonCode.CustomControls.ColorPanelControl();
+            this.startColorPanelControl = new CommonCode.CustomControls.ColorPanelControl();
+            this.stopColorPanelControl = new CommonCode.CustomControls.ColorPanelControl();
             ((System.ComponentModel.ISupportInitialize)(this.gradientRadiusNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
@@ -179,7 +179,7 @@ namespace ImagingDemo
         private System.Windows.Forms.Label stopColorLabel;
         private System.Windows.Forms.Label startColorLabel;
         private System.Windows.Forms.CheckBox previewCheckBox;
-        private DemosCommonCode.CustomControls.ColorPanelControl startColorPanelControl;
-        private DemosCommonCode.CustomControls.ColorPanelControl stopColorPanelControl;
+        private CommonCode.CustomControls.ColorPanelControl startColorPanelControl;
+        private CommonCode.CustomControls.ColorPanelControl stopColorPanelControl;
     }
 }

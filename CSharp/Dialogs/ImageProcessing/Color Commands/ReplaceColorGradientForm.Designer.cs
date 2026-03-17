@@ -1,4 +1,4 @@
-namespace ImagingDemo
+﻿namespace ImagingDemo
 {
     partial class ReplaceColorGradientForm
     {
@@ -35,9 +35,9 @@ namespace ImagingDemo
             this.stopColorLabel = new System.Windows.Forms.Label();
             this.startColorLabel = new System.Windows.Forms.Label();
             this.previewCheckBox = new System.Windows.Forms.CheckBox();
-            this.startColorPanelControl = new DemosCommonCode.CustomControls.ColorPanelControl();
-            this.stopColorPanelControl = new DemosCommonCode.CustomControls.ColorPanelControl();
-            this.replaceColorPanelControl = new DemosCommonCode.CustomControls.ColorPanelControl();
+            this.startColorPanelControl = new CommonCode.CustomControls.ColorPanelControl();
+            this.stopColorPanelControl = new CommonCode.CustomControls.ColorPanelControl();
+            this.replaceColorPanelControl = new CommonCode.CustomControls.ColorPanelControl();
             this.replaceColorLabel = new System.Windows.Forms.Label();
             this.interpolationRadiusNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label1 = new System.Windows.Forms.Label();
@@ -233,9 +233,9 @@ namespace ImagingDemo
         private System.Windows.Forms.Label stopColorLabel;
         private System.Windows.Forms.Label startColorLabel;
         private System.Windows.Forms.CheckBox previewCheckBox;
-        private DemosCommonCode.CustomControls.ColorPanelControl startColorPanelControl;
-        private DemosCommonCode.CustomControls.ColorPanelControl stopColorPanelControl;
-        private DemosCommonCode.CustomControls.ColorPanelControl replaceColorPanelControl;
+        private CommonCode.CustomControls.ColorPanelControl startColorPanelControl;
+        private CommonCode.CustomControls.ColorPanelControl stopColorPanelControl;
+        private CommonCode.CustomControls.ColorPanelControl replaceColorPanelControl;
         private System.Windows.Forms.Label replaceColorLabel;
         private System.Windows.Forms.NumericUpDown interpolationRadiusNumericUpDown;
         private System.Windows.Forms.Label label1;

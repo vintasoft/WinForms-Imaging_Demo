@@ -7,9 +7,9 @@ using Vintasoft.Barcode;
 #endif
 using Vintasoft.Imaging;
 
-using DemosCommonCode.Imaging;
+using CommonCode.Imaging;
 
-namespace DemosCommonCode.Barcode
+namespace CommonCode.Barcode
 {
     /// <summary>
     /// Contains information about <see cref="BarcodeWriterTool"/>, which is used in <see cref="VisualToolsToolStrip"/>.

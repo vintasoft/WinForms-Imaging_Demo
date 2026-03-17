@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using Vintasoft.Imaging;
 using Vintasoft.Imaging.UI.VisualTools;
 
-namespace DemosCommonCode.Imaging
+namespace CommonCode.Imaging
 {
     /// <summary>
     /// A form that allows to view and edit settings of image map.

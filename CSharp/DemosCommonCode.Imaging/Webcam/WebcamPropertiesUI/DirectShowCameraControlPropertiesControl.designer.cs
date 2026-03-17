@@ -1,4 +1,4 @@
-namespace DemosCommonCode.Imaging
+﻿namespace CommonCode.Imaging
 {
     partial class DirectShowCameraControlPropertiesControl
     {
@@ -29,13 +29,13 @@ namespace DemosCommonCode.Imaging
         private void InitializeComponent()
         {
             this.cameraControlPropertiesGroupBox = new System.Windows.Forms.GroupBox();
-            this.zoomDirectShowPropertyControl = new DemosCommonCode.Imaging.DirectShowPropertyControl();
-            this.tiltDirectShowPropertyControl = new DemosCommonCode.Imaging.DirectShowPropertyControl();
-            this.rollDirectShowPropertyControl = new DemosCommonCode.Imaging.DirectShowPropertyControl();
-            this.panDirectShowPropertyControl = new DemosCommonCode.Imaging.DirectShowPropertyControl();
-            this.irisDirectShowPropertyControl = new DemosCommonCode.Imaging.DirectShowPropertyControl();
-            this.focusDirectShowPropertyControl = new DemosCommonCode.Imaging.DirectShowPropertyControl();
-            this.exposureDirectShowPropertyControl = new DemosCommonCode.Imaging.DirectShowPropertyControl();
+            this.zoomDirectShowPropertyControl = new CommonCode.Imaging.DirectShowPropertyControl();
+            this.tiltDirectShowPropertyControl = new CommonCode.Imaging.DirectShowPropertyControl();
+            this.rollDirectShowPropertyControl = new CommonCode.Imaging.DirectShowPropertyControl();
+            this.panDirectShowPropertyControl = new CommonCode.Imaging.DirectShowPropertyControl();
+            this.irisDirectShowPropertyControl = new CommonCode.Imaging.DirectShowPropertyControl();
+            this.focusDirectShowPropertyControl = new CommonCode.Imaging.DirectShowPropertyControl();
+            this.exposureDirectShowPropertyControl = new CommonCode.Imaging.DirectShowPropertyControl();
             this.restoreButton = new System.Windows.Forms.Button();
             this.resetButton = new System.Windows.Forms.Button();
             this.cameraControlPropertiesGroupBox.SuspendLayout();
@@ -70,7 +70,7 @@ namespace DemosCommonCode.Imaging
             this.zoomDirectShowPropertyControl.PropertyDescriptionWidth = 114F;
             this.zoomDirectShowPropertyControl.Size = new System.Drawing.Size(376, 27);
             this.zoomDirectShowPropertyControl.TabIndex = 39;
-            this.zoomDirectShowPropertyControl.PropertyChanged += new System.EventHandler<DemosCommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.zoomDirectShowPropertyControl_PropertyChanged);
+            this.zoomDirectShowPropertyControl.PropertyChanged += new System.EventHandler<CommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.zoomDirectShowPropertyControl_PropertyChanged);
             // 
             // tiltDirectShowPropertyControl
             // 
@@ -83,7 +83,7 @@ namespace DemosCommonCode.Imaging
             this.tiltDirectShowPropertyControl.PropertyDescriptionWidth = 114F;
             this.tiltDirectShowPropertyControl.Size = new System.Drawing.Size(376, 27);
             this.tiltDirectShowPropertyControl.TabIndex = 38;
-            this.tiltDirectShowPropertyControl.PropertyChanged += new System.EventHandler<DemosCommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.tiltDirectShowPropertyControl_PropertyChanged);
+            this.tiltDirectShowPropertyControl.PropertyChanged += new System.EventHandler<CommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.tiltDirectShowPropertyControl_PropertyChanged);
             // 
             // rollDirectShowPropertyControl
             // 
@@ -96,7 +96,7 @@ namespace DemosCommonCode.Imaging
             this.rollDirectShowPropertyControl.PropertyDescriptionWidth = 114F;
             this.rollDirectShowPropertyControl.Size = new System.Drawing.Size(376, 27);
             this.rollDirectShowPropertyControl.TabIndex = 37;
-            this.rollDirectShowPropertyControl.PropertyChanged += new System.EventHandler<DemosCommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.rollDirectShowPropertyControl_PropertyChanged);
+            this.rollDirectShowPropertyControl.PropertyChanged += new System.EventHandler<CommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.rollDirectShowPropertyControl_PropertyChanged);
             // 
             // panDirectShowPropertyControl
             // 
@@ -109,7 +109,7 @@ namespace DemosCommonCode.Imaging
             this.panDirectShowPropertyControl.PropertyDescriptionWidth = 114F;
             this.panDirectShowPropertyControl.Size = new System.Drawing.Size(376, 27);
             this.panDirectShowPropertyControl.TabIndex = 36;
-            this.panDirectShowPropertyControl.PropertyChanged += new System.EventHandler<DemosCommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.panDirectShowPropertyControl_PropertyChanged);
+            this.panDirectShowPropertyControl.PropertyChanged += new System.EventHandler<CommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.panDirectShowPropertyControl_PropertyChanged);
             // 
             // irisDirectShowPropertyControl
             // 
@@ -122,7 +122,7 @@ namespace DemosCommonCode.Imaging
             this.irisDirectShowPropertyControl.PropertyDescriptionWidth = 114F;
             this.irisDirectShowPropertyControl.Size = new System.Drawing.Size(376, 27);
             this.irisDirectShowPropertyControl.TabIndex = 35;
-            this.irisDirectShowPropertyControl.PropertyChanged += new System.EventHandler<DemosCommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.irisDirectShowPropertyControl_PropertyChanged);
+            this.irisDirectShowPropertyControl.PropertyChanged += new System.EventHandler<CommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.irisDirectShowPropertyControl_PropertyChanged);
             // 
             // focusDirectShowPropertyControl
             // 
@@ -135,7 +135,7 @@ namespace DemosCommonCode.Imaging
             this.focusDirectShowPropertyControl.PropertyDescriptionWidth = 114F;
             this.focusDirectShowPropertyControl.Size = new System.Drawing.Size(376, 27);
             this.focusDirectShowPropertyControl.TabIndex = 34;
-            this.focusDirectShowPropertyControl.PropertyChanged += new System.EventHandler<DemosCommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.focusDirectShowPropertyControl_PropertyChanged);
+            this.focusDirectShowPropertyControl.PropertyChanged += new System.EventHandler<CommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.focusDirectShowPropertyControl_PropertyChanged);
             // 
             // exposureDirectShowPropertyControl
             // 
@@ -148,7 +148,7 @@ namespace DemosCommonCode.Imaging
             this.exposureDirectShowPropertyControl.PropertyDescriptionWidth = 114F;
             this.exposureDirectShowPropertyControl.Size = new System.Drawing.Size(376, 27);
             this.exposureDirectShowPropertyControl.TabIndex = 33;
-            this.exposureDirectShowPropertyControl.PropertyChanged += new System.EventHandler<DemosCommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.exposureDirectShowPropertyControl_PropertyChanged);
+            this.exposureDirectShowPropertyControl.PropertyChanged += new System.EventHandler<CommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.exposureDirectShowPropertyControl_PropertyChanged);
             // 
             // restoreButton
             // 

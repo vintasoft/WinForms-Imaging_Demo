@@ -4,10 +4,10 @@
 using Vintasoft.Barcode; 
 #endif
 
-using DemosCommonCode.Imaging;
+using CommonCode.Imaging;
 using System.Drawing;
 
-namespace DemosCommonCode.Barcode
+namespace CommonCode.Barcode
 {
     /// <summary>
     /// Contains information about <see cref="BarcodeReaderTool"/>, which is used in <see cref="VisualToolsToolStrip"/>.

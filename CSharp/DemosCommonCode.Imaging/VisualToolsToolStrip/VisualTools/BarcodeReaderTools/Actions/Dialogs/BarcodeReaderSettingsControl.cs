@@ -7,7 +7,7 @@ using Vintasoft.Barcode;
 using Vintasoft.Barcode.SymbologySubsets;
 #endif
 
-namespace DemosCommonCode.Barcode
+namespace CommonCode.Barcode
 {
     public partial class BarcodeReaderSettingsControl : UserControl
     {

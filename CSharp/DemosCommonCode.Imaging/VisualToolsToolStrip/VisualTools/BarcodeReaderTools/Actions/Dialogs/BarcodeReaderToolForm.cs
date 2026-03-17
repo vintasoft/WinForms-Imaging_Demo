@@ -2,7 +2,7 @@
 using System.Text;
 using System.Windows.Forms;
 
-using DemosCommonCode;
+using CommonCode;
 
 #if !REMOVE_BARCODE_SDK
 using Vintasoft.Barcode;
@@ -11,7 +11,7 @@ using Vintasoft.Barcode.GS1;
 #endif
 
 
-namespace DemosCommonCode.Barcode
+namespace CommonCode.Barcode
 {
     public partial class BarcodeReaderToolForm : Form
     {

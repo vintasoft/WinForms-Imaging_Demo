@@ -9,7 +9,7 @@ using Vintasoft.Imaging;
 using Vintasoft.Imaging.Codecs.ImageFiles.Tiff;
 using Vintasoft.Imaging.Metadata;
 
-namespace DemosCommonCode.Imaging
+namespace CommonCode.Imaging
 {
     /// <summary>
     /// A form that allows to edit an image metadata.

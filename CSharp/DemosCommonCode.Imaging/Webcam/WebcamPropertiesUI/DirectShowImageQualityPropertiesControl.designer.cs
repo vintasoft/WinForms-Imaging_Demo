@@ -1,4 +1,4 @@
-namespace DemosCommonCode.Imaging
+﻿namespace CommonCode.Imaging
 {
     partial class DirectShowImageQualityPropertiesControl
     {
@@ -29,16 +29,16 @@ namespace DemosCommonCode.Imaging
         private void InitializeComponent()
         {
             this.imageQualityPropertiesGroupBox = new System.Windows.Forms.GroupBox();
-            this.whiteBalanceDirectShowPropertyControl = new DemosCommonCode.Imaging.DirectShowPropertyControl();
-            this.sharpnessDirectShowPropertyControl = new DemosCommonCode.Imaging.DirectShowPropertyControl();
-            this.saturationDirectShowPropertyControl = new DemosCommonCode.Imaging.DirectShowPropertyControl();
-            this.hueDirectShowPropertyControl = new DemosCommonCode.Imaging.DirectShowPropertyControl();
-            this.gammaDirectShowPropertyControl = new DemosCommonCode.Imaging.DirectShowPropertyControl();
-            this.gainDirectShowPropertyControl = new DemosCommonCode.Imaging.DirectShowPropertyControl();
-            this.contrastDirectShowPropertyControl = new DemosCommonCode.Imaging.DirectShowPropertyControl();
-            this.colorEnableDirectShowPropertyControl = new DemosCommonCode.Imaging.DirectShowPropertyControl();
-            this.brightnessDirectShowPropertyControl = new DemosCommonCode.Imaging.DirectShowPropertyControl();
-            this.backlightCompensationDirectShowPropertyControl = new DemosCommonCode.Imaging.DirectShowPropertyControl();
+            this.whiteBalanceDirectShowPropertyControl = new CommonCode.Imaging.DirectShowPropertyControl();
+            this.sharpnessDirectShowPropertyControl = new CommonCode.Imaging.DirectShowPropertyControl();
+            this.saturationDirectShowPropertyControl = new CommonCode.Imaging.DirectShowPropertyControl();
+            this.hueDirectShowPropertyControl = new CommonCode.Imaging.DirectShowPropertyControl();
+            this.gammaDirectShowPropertyControl = new CommonCode.Imaging.DirectShowPropertyControl();
+            this.gainDirectShowPropertyControl = new CommonCode.Imaging.DirectShowPropertyControl();
+            this.contrastDirectShowPropertyControl = new CommonCode.Imaging.DirectShowPropertyControl();
+            this.colorEnableDirectShowPropertyControl = new CommonCode.Imaging.DirectShowPropertyControl();
+            this.brightnessDirectShowPropertyControl = new CommonCode.Imaging.DirectShowPropertyControl();
+            this.backlightCompensationDirectShowPropertyControl = new CommonCode.Imaging.DirectShowPropertyControl();
             this.restoreButton = new System.Windows.Forms.Button();
             this.resetButton = new System.Windows.Forms.Button();
             this.imageQualityPropertiesGroupBox.SuspendLayout();
@@ -79,7 +79,7 @@ namespace DemosCommonCode.Imaging
             this.whiteBalanceDirectShowPropertyControl.PropertyDescriptionWidth = 126F;
             this.whiteBalanceDirectShowPropertyControl.Size = new System.Drawing.Size(377, 27);
             this.whiteBalanceDirectShowPropertyControl.TabIndex = 42;
-            this.whiteBalanceDirectShowPropertyControl.PropertyChanged += new System.EventHandler<DemosCommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.whiteBalanceDirectShowPropertyControl_PropertyChanged);
+            this.whiteBalanceDirectShowPropertyControl.PropertyChanged += new System.EventHandler<CommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.whiteBalanceDirectShowPropertyControl_PropertyChanged);
             // 
             // sharpnessDirectShowPropertyControl
             // 
@@ -92,7 +92,7 @@ namespace DemosCommonCode.Imaging
             this.sharpnessDirectShowPropertyControl.PropertyDescriptionWidth = 126F;
             this.sharpnessDirectShowPropertyControl.Size = new System.Drawing.Size(377, 27);
             this.sharpnessDirectShowPropertyControl.TabIndex = 41;
-            this.sharpnessDirectShowPropertyControl.PropertyChanged += new System.EventHandler<DemosCommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.sharpnessDirectShowPropertyControl_PropertyChanged);
+            this.sharpnessDirectShowPropertyControl.PropertyChanged += new System.EventHandler<CommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.sharpnessDirectShowPropertyControl_PropertyChanged);
             // 
             // saturationDirectShowPropertyControl
             // 
@@ -105,7 +105,7 @@ namespace DemosCommonCode.Imaging
             this.saturationDirectShowPropertyControl.PropertyDescriptionWidth = 126F;
             this.saturationDirectShowPropertyControl.Size = new System.Drawing.Size(377, 27);
             this.saturationDirectShowPropertyControl.TabIndex = 40;
-            this.saturationDirectShowPropertyControl.PropertyChanged += new System.EventHandler<DemosCommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.saturationDirectShowPropertyControl_PropertyChanged);
+            this.saturationDirectShowPropertyControl.PropertyChanged += new System.EventHandler<CommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.saturationDirectShowPropertyControl_PropertyChanged);
             // 
             // hueDirectShowPropertyControl
             // 
@@ -118,7 +118,7 @@ namespace DemosCommonCode.Imaging
             this.hueDirectShowPropertyControl.PropertyDescriptionWidth = 126F;
             this.hueDirectShowPropertyControl.Size = new System.Drawing.Size(377, 27);
             this.hueDirectShowPropertyControl.TabIndex = 39;
-            this.hueDirectShowPropertyControl.PropertyChanged += new System.EventHandler<DemosCommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.hueDirectShowPropertyControl_PropertyChanged);
+            this.hueDirectShowPropertyControl.PropertyChanged += new System.EventHandler<CommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.hueDirectShowPropertyControl_PropertyChanged);
             // 
             // gammaDirectShowPropertyControl
             // 
@@ -131,7 +131,7 @@ namespace DemosCommonCode.Imaging
             this.gammaDirectShowPropertyControl.PropertyDescriptionWidth = 126F;
             this.gammaDirectShowPropertyControl.Size = new System.Drawing.Size(377, 27);
             this.gammaDirectShowPropertyControl.TabIndex = 38;
-            this.gammaDirectShowPropertyControl.PropertyChanged += new System.EventHandler<DemosCommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.gammaDirectShowPropertyControl_PropertyChanged);
+            this.gammaDirectShowPropertyControl.PropertyChanged += new System.EventHandler<CommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.gammaDirectShowPropertyControl_PropertyChanged);
             // 
             // gainDirectShowPropertyControl
             // 
@@ -144,7 +144,7 @@ namespace DemosCommonCode.Imaging
             this.gainDirectShowPropertyControl.PropertyDescriptionWidth = 126F;
             this.gainDirectShowPropertyControl.Size = new System.Drawing.Size(377, 27);
             this.gainDirectShowPropertyControl.TabIndex = 37;
-            this.gainDirectShowPropertyControl.PropertyChanged += new System.EventHandler<DemosCommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.gainDirectShowPropertyControl_PropertyChanged);
+            this.gainDirectShowPropertyControl.PropertyChanged += new System.EventHandler<CommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.gainDirectShowPropertyControl_PropertyChanged);
             // 
             // contrastDirectShowPropertyControl
             // 
@@ -157,7 +157,7 @@ namespace DemosCommonCode.Imaging
             this.contrastDirectShowPropertyControl.PropertyDescriptionWidth = 126F;
             this.contrastDirectShowPropertyControl.Size = new System.Drawing.Size(377, 27);
             this.contrastDirectShowPropertyControl.TabIndex = 36;
-            this.contrastDirectShowPropertyControl.PropertyChanged += new System.EventHandler<DemosCommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.contrastDirectShowPropertyControl_PropertyChanged);
+            this.contrastDirectShowPropertyControl.PropertyChanged += new System.EventHandler<CommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.contrastDirectShowPropertyControl_PropertyChanged);
             // 
             // colorEnableDirectShowPropertyControl
             // 
@@ -170,7 +170,7 @@ namespace DemosCommonCode.Imaging
             this.colorEnableDirectShowPropertyControl.PropertyDescriptionWidth = 126F;
             this.colorEnableDirectShowPropertyControl.Size = new System.Drawing.Size(377, 27);
             this.colorEnableDirectShowPropertyControl.TabIndex = 35;
-            this.colorEnableDirectShowPropertyControl.PropertyChanged += new System.EventHandler<DemosCommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.colorEnableDirectShowPropertyControl_PropertyChanged);
+            this.colorEnableDirectShowPropertyControl.PropertyChanged += new System.EventHandler<CommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.colorEnableDirectShowPropertyControl_PropertyChanged);
             // 
             // brightnessDirectShowPropertyControl
             // 
@@ -183,7 +183,7 @@ namespace DemosCommonCode.Imaging
             this.brightnessDirectShowPropertyControl.PropertyDescriptionWidth = 126F;
             this.brightnessDirectShowPropertyControl.Size = new System.Drawing.Size(377, 27);
             this.brightnessDirectShowPropertyControl.TabIndex = 34;
-            this.brightnessDirectShowPropertyControl.PropertyChanged += new System.EventHandler<DemosCommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.brightnessDirectShowPropertyControl_PropertyChanged);
+            this.brightnessDirectShowPropertyControl.PropertyChanged += new System.EventHandler<CommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.brightnessDirectShowPropertyControl_PropertyChanged);
             // 
             // backlightCompensationDirectShowPropertyControl
             // 
@@ -196,7 +196,7 @@ namespace DemosCommonCode.Imaging
             this.backlightCompensationDirectShowPropertyControl.PropertyDescriptionWidth = 126F;
             this.backlightCompensationDirectShowPropertyControl.Size = new System.Drawing.Size(377, 27);
             this.backlightCompensationDirectShowPropertyControl.TabIndex = 2;
-            this.backlightCompensationDirectShowPropertyControl.PropertyChanged += new System.EventHandler<DemosCommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.backlightCompensationDirectShowPropertyControl_PropertyChanged);
+            this.backlightCompensationDirectShowPropertyControl.PropertyChanged += new System.EventHandler<CommonCode.Imaging.DirectShowPropertyChangedEventArgs>(this.backlightCompensationDirectShowPropertyControl_PropertyChanged);
             // 
             // restoreButton
             // 

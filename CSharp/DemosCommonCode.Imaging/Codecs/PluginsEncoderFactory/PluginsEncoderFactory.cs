@@ -1,11 +1,11 @@
-using System.Windows.Forms;
+﻿using System.Windows.Forms;
 
 using Vintasoft.Imaging.Codecs.Encoders;
 
-using DemosCommonCode.Imaging.Codecs.Dialogs;
+using CommonCode.Imaging.Codecs.Dialogs;
 
 
-namespace DemosCommonCode.Imaging.Codecs
+namespace CommonCode.Imaging.Codecs
 {
     /// <summary>
     /// Provides the ability to create the encoder (<see cref="EncoderBase"/> or 

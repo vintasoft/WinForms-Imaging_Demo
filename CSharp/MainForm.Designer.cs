@@ -1,4 +1,4 @@
-namespace ImagingDemo
+﻿namespace ImagingDemo
 {
 	partial class MainForm
 	{
@@ -358,8 +358,8 @@ namespace ImagingDemo
             this.imagePrintDocument1 = new Vintasoft.Imaging.Print.ImagePrintDocument();
             this.pageSetupDialog1 = new System.Windows.Forms.PageSetupDialog();
             this.toolStripPanel1 = new System.Windows.Forms.ToolStripPanel();
-            this.viewerToolStrip = new DemosCommonCode.Imaging.ImageViewerToolStrip();
-            this.visualToolsToolStrip1 = new DemosCommonCode.Imaging.VisualToolsToolStrip();
+            this.viewerToolStrip = new CommonCode.Imaging.ImageViewerToolStrip();
+            this.visualToolsToolStrip1 = new CommonCode.Imaging.VisualToolsToolStrip();
             this.panel2 = new System.Windows.Forms.Panel();
             this.getPSDChannelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.formMenuStrip.SuspendLayout();
@@ -3139,7 +3139,7 @@ namespace ImagingDemo
         private System.Windows.Forms.ToolStripMenuItem saveChangesToolStripMenuItem;
 		private System.Windows.Forms.ToolStripSeparator toolStripSeparator15;
 
-        private DemosCommonCode.Imaging.ImageViewerToolStrip viewerToolStrip;
+        private CommonCode.Imaging.ImageViewerToolStrip viewerToolStrip;
         private System.Windows.Forms.ToolStripProgressBar imageCollectionSavingProgressBar;
         private System.Windows.Forms.ToolStripStatusLabel imageCollectionSavingStatusLabel;
         private System.Windows.Forms.ToolStripProgressBar imageProcessingProgressBar;
@@ -3344,7 +3344,7 @@ namespace ImagingDemo
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator30;
         private System.Windows.Forms.ToolStripMenuItem expandPixelFormatToolStripMenuItem;
         private System.Windows.Forms.ToolStripPanel toolStripPanel1;
-        private DemosCommonCode.Imaging.VisualToolsToolStrip visualToolsToolStrip1;
+        private CommonCode.Imaging.VisualToolsToolStrip visualToolsToolStrip1;
         private System.Windows.Forms.Panel panel2;
         private System.Windows.Forms.ToolStripMenuItem visualToolsToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator31;

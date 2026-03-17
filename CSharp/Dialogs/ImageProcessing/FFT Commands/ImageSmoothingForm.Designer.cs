@@ -1,4 +1,4 @@
-namespace ImagingDemo
+﻿namespace ImagingDemo
 {
     partial class ImageSmoothingForm
     {
@@ -36,8 +36,8 @@ namespace ImagingDemo
             this.filterTypeLabel = new System.Windows.Forms.Label();
             this.blendingModeComboBox = new System.Windows.Forms.ComboBox();
             this.blendingModeLabel = new System.Windows.Forms.Label();
-            this.radiusEditorControl = new DemosCommonCode.CustomControls.ValueEditorControl();
-            this.overlayAlphaEditorControl = new DemosCommonCode.CustomControls.ValueEditorControl();
+            this.radiusEditorControl = new CommonCode.CustomControls.ValueEditorControl();
+            this.overlayAlphaEditorControl = new CommonCode.CustomControls.ValueEditorControl();
             this.SuspendLayout();
             // 
             // grayscaleFiltrationCheckBox
@@ -186,8 +186,8 @@ namespace ImagingDemo
         private System.Windows.Forms.Label filterTypeLabel;
         private System.Windows.Forms.ComboBox blendingModeComboBox;
         private System.Windows.Forms.Label blendingModeLabel;
-        private DemosCommonCode.CustomControls.ValueEditorControl radiusEditorControl;
-        private DemosCommonCode.CustomControls.ValueEditorControl overlayAlphaEditorControl;
+        private CommonCode.CustomControls.ValueEditorControl radiusEditorControl;
+        private CommonCode.CustomControls.ValueEditorControl overlayAlphaEditorControl;
 
     }
 }

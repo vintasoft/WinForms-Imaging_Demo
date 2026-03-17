@@ -1,4 +1,4 @@
-namespace ImagingDemo
+﻿namespace ImagingDemo
 {
     partial class ReplaceColorForm
     {
@@ -37,8 +37,8 @@ namespace ImagingDemo
             this.newColorLabel = new System.Windows.Forms.Label();
             this.oldColorLabel = new System.Windows.Forms.Label();
             this.previewCheckBox = new System.Windows.Forms.CheckBox();
-            this.oldColorPanelControl = new DemosCommonCode.CustomControls.ColorPanelControl();
-            this.newColorPanelControl = new DemosCommonCode.CustomControls.ColorPanelControl();
+            this.oldColorPanelControl = new CommonCode.CustomControls.ColorPanelControl();
+            this.newColorPanelControl = new CommonCode.CustomControls.ColorPanelControl();
             ((System.ComponentModel.ISupportInitialize)(this.colorToleranceNumericUpDown)).BeginInit();
             this.SuspendLayout();
             // 
@@ -202,7 +202,7 @@ namespace ImagingDemo
         private System.Windows.Forms.Label newColorLabel;
         private System.Windows.Forms.Label oldColorLabel;
         private System.Windows.Forms.CheckBox previewCheckBox;
-        private DemosCommonCode.CustomControls.ColorPanelControl oldColorPanelControl;
-        private DemosCommonCode.CustomControls.ColorPanelControl newColorPanelControl;
+        private CommonCode.CustomControls.ColorPanelControl oldColorPanelControl;
+        private CommonCode.CustomControls.ColorPanelControl newColorPanelControl;
     }
 }

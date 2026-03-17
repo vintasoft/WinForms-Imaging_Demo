@@ -1,4 +1,4 @@
-namespace DemosCommonCode.Imaging
+﻿namespace CommonCode.Imaging
 {
     partial class DicomMetadataEditorForm
     {
@@ -28,7 +28,7 @@ namespace DemosCommonCode.Imaging
         /// </summary>
         private void InitializeComponent()
         {
-            this.dicomMetadataEditorControl1 = new DemosCommonCode.Imaging.DicomMetadataEditorControl();
+            this.dicomMetadataEditorControl1 = new CommonCode.Imaging.DicomMetadataEditorControl();
             this.SuspendLayout();
             // 
             // dicomMetadataEditorControl1

@@ -1,4 +1,4 @@
-namespace DemosCommonCode.Imaging
+﻿namespace CommonCode.Imaging
 {
     partial class DirectShowWebcamPropertiesForm
     {
@@ -28,8 +28,8 @@ namespace DemosCommonCode.Imaging
         /// </summary>
         private void InitializeComponent()
         {
-            this.directShowImageQualityPropertiesControl1 = new DemosCommonCode.Imaging.DirectShowImageQualityPropertiesControl();
-            this.directShowCameraControlPropertiesControl1 = new DemosCommonCode.Imaging.DirectShowCameraControlPropertiesControl();
+            this.directShowImageQualityPropertiesControl1 = new CommonCode.Imaging.DirectShowImageQualityPropertiesControl();
+            this.directShowCameraControlPropertiesControl1 = new CommonCode.Imaging.DirectShowCameraControlPropertiesControl();
             this.closeButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 

@@ -1,4 +1,4 @@
-namespace ImagingDemo
+﻿namespace ImagingDemo
 {
 	partial class TwoParamsConfigForm
 	{
@@ -31,8 +31,8 @@ namespace ImagingDemo
             this.okButton = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.previewCheckBox = new System.Windows.Forms.CheckBox();
-            this.valueEditorControl1 = new DemosCommonCode.CustomControls.ValueEditorControl();
-            this.valueEditorControl2 = new DemosCommonCode.CustomControls.ValueEditorControl();
+            this.valueEditorControl1 = new CommonCode.CustomControls.ValueEditorControl();
+            this.valueEditorControl2 = new CommonCode.CustomControls.ValueEditorControl();
             this.SuspendLayout();
             // 
             // okButton
@@ -117,7 +117,7 @@ namespace ImagingDemo
 		private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.CheckBox previewCheckBox;
-        private DemosCommonCode.CustomControls.ValueEditorControl valueEditorControl1;
-        private DemosCommonCode.CustomControls.ValueEditorControl valueEditorControl2;
+        private CommonCode.CustomControls.ValueEditorControl valueEditorControl1;
+        private CommonCode.CustomControls.ValueEditorControl valueEditorControl2;
 	}
 }

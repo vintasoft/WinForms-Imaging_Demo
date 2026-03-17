@@ -7,7 +7,7 @@ using Vintasoft.Barcode;
 #endif
 using System.Drawing;
 
-namespace DemosCommonCode.Barcode
+namespace CommonCode.Barcode
 {
     public partial class BarcodeWriterToolForm : Form
     {

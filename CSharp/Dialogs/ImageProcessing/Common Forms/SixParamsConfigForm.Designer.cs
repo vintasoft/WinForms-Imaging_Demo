@@ -1,4 +1,4 @@
-namespace ImagingDemo
+﻿namespace ImagingDemo
 {
     partial class SixParamsConfigForm
     {
@@ -31,12 +31,12 @@ namespace ImagingDemo
             this.okButton = new System.Windows.Forms.Button();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.previewCheckBox = new System.Windows.Forms.CheckBox();
-            this.valueEditorControl1 = new DemosCommonCode.CustomControls.ValueEditorControl();
-            this.valueEditorControl2 = new DemosCommonCode.CustomControls.ValueEditorControl();
-            this.valueEditorControl3 = new DemosCommonCode.CustomControls.ValueEditorControl();
-            this.valueEditorControl4 = new DemosCommonCode.CustomControls.ValueEditorControl();
-            this.valueEditorControl5 = new DemosCommonCode.CustomControls.ValueEditorControl();
-            this.valueEditorControl6 = new DemosCommonCode.CustomControls.ValueEditorControl();
+            this.valueEditorControl1 = new CommonCode.CustomControls.ValueEditorControl();
+            this.valueEditorControl2 = new CommonCode.CustomControls.ValueEditorControl();
+            this.valueEditorControl3 = new CommonCode.CustomControls.ValueEditorControl();
+            this.valueEditorControl4 = new CommonCode.CustomControls.ValueEditorControl();
+            this.valueEditorControl5 = new CommonCode.CustomControls.ValueEditorControl();
+            this.valueEditorControl6 = new CommonCode.CustomControls.ValueEditorControl();
             this.SuspendLayout();
             // 
             // okButton
@@ -163,11 +163,11 @@ namespace ImagingDemo
         private System.Windows.Forms.Button okButton;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.CheckBox previewCheckBox;
-        private DemosCommonCode.CustomControls.ValueEditorControl valueEditorControl1;
-        private DemosCommonCode.CustomControls.ValueEditorControl valueEditorControl2;
-        private DemosCommonCode.CustomControls.ValueEditorControl valueEditorControl3;
-        private DemosCommonCode.CustomControls.ValueEditorControl valueEditorControl4;
-        private DemosCommonCode.CustomControls.ValueEditorControl valueEditorControl5;
-        private DemosCommonCode.CustomControls.ValueEditorControl valueEditorControl6;
+        private CommonCode.CustomControls.ValueEditorControl valueEditorControl1;
+        private CommonCode.CustomControls.ValueEditorControl valueEditorControl2;
+        private CommonCode.CustomControls.ValueEditorControl valueEditorControl3;
+        private CommonCode.CustomControls.ValueEditorControl valueEditorControl4;
+        private CommonCode.CustomControls.ValueEditorControl valueEditorControl5;
+        private CommonCode.CustomControls.ValueEditorControl valueEditorControl6;
     }
 }

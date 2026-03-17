@@ -1,4 +1,4 @@
-namespace DemosCommonCode.Imaging
+﻿namespace CommonCode.Imaging
 {
     partial class MetadataEditorForm
     {
@@ -31,7 +31,7 @@ namespace DemosCommonCode.Imaging
             this.panel1 = new System.Windows.Forms.Panel();
             this.panel3 = new System.Windows.Forms.Panel();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.metadataTreeView = new DemosCommonCode.Imaging.MetadataTreeView();
+            this.metadataTreeView = new CommonCode.Imaging.MetadataTreeView();
             this.metadataNodeProperties = new System.Windows.Forms.GroupBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.panel6 = new System.Windows.Forms.Panel();

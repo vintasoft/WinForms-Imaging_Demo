@@ -13,7 +13,7 @@ using Vintasoft.Imaging.UI;
 using Vintasoft.Imaging.Utils;
 using Vintasoft.Imaging.Drawing;
 
-namespace DemosCommonCode.Barcode
+namespace CommonCode.Barcode
 {
     /// <summary>
     /// Visual tool for barcode generation on image in image viewer.

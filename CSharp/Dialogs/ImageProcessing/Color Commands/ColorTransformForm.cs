@@ -9,7 +9,7 @@ using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.ImageProcessing.Color;
 using Vintasoft.Imaging.UI;
 
-using DemosCommonCode;
+using CommonCode;
 
 namespace ImagingDemo
 {

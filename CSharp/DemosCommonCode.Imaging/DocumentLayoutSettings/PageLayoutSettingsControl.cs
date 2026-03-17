@@ -6,7 +6,7 @@ using Vintasoft.Imaging;
 using Vintasoft.Imaging.Codecs.Decoders;
 using Vintasoft.Imaging.Utils;
 
-namespace DemosCommonCode.Imaging
+namespace CommonCode.Imaging
 {
     /// <summary>
     /// A control that allows to edit page layout settings.

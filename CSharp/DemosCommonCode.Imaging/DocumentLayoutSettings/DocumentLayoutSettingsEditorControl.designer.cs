@@ -1,4 +1,4 @@
-namespace DemosCommonCode.Imaging
+﻿namespace CommonCode.Imaging
 {
     partial class DocumentLayoutSettingsEditorControl
     {
@@ -30,11 +30,11 @@ namespace DemosCommonCode.Imaging
         {
             this.documentSettingsTabControl = new System.Windows.Forms.TabControl();
             this.allPagesLayoutSettingsTabPage = new System.Windows.Forms.TabPage();
-            this.allPagesLayoutSettingsControl = new DemosCommonCode.Imaging.PageLayoutSettingsControl();
+            this.allPagesLayoutSettingsControl = new CommonCode.Imaging.PageLayoutSettingsControl();
             this.evenPagesLayoutSettingsTabPage = new System.Windows.Forms.TabPage();
-            this.evenPagesLayoutSettingsControl = new DemosCommonCode.Imaging.PageLayoutSettingsControl();
+            this.evenPagesLayoutSettingsControl = new CommonCode.Imaging.PageLayoutSettingsControl();
             this.oddPagesLayoutSettingsTabPage = new System.Windows.Forms.TabPage();
-            this.oddPagesLayoutSettingsControl = new DemosCommonCode.Imaging.PageLayoutSettingsControl();
+            this.oddPagesLayoutSettingsControl = new CommonCode.Imaging.PageLayoutSettingsControl();
             this.documentSettingsTabControl.SuspendLayout();
             this.allPagesLayoutSettingsTabPage.SuspendLayout();
             this.evenPagesLayoutSettingsTabPage.SuspendLayout();

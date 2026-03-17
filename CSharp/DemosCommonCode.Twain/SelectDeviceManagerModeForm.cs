@@ -3,7 +3,7 @@ using System.ComponentModel;
 using System.Windows.Forms;
 
 
-namespace DemosCommonCode.Twain
+namespace CommonCode.Twain
 {
     /// <summary>
     /// A form that allows to view and edit mode of 64-bit TWAIN2 device manager.

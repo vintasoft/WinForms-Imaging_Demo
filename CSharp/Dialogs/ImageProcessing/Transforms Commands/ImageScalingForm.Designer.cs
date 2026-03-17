@@ -1,4 +1,4 @@
-namespace ImagingDemo
+﻿namespace ImagingDemo
 {
     partial class ImageScalingForm
     {
@@ -28,7 +28,7 @@ namespace ImagingDemo
         /// </summary>
         private void InitializeComponent()
         {
-            this.valueEditor = new DemosCommonCode.CustomControls.ValueEditorControl();
+            this.valueEditor = new CommonCode.CustomControls.ValueEditorControl();
             this.buttonCancel = new System.Windows.Forms.Button();
             this.buttonOk = new System.Windows.Forms.Button();
             this.interpolationModeComboBox = new System.Windows.Forms.ComboBox();
@@ -118,7 +118,7 @@ namespace ImagingDemo
 
         #endregion
 
-        private DemosCommonCode.CustomControls.ValueEditorControl valueEditor;
+        private CommonCode.CustomControls.ValueEditorControl valueEditor;
         private System.Windows.Forms.Button buttonCancel;
         private System.Windows.Forms.Button buttonOk;
         private System.Windows.Forms.ComboBox interpolationModeComboBox;

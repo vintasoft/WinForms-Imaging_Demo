@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Text;
 using System.Windows.Forms;
@@ -7,7 +7,7 @@ using Vintasoft.Imaging.Codecs.ImageFiles.Tiff;
 using Vintasoft.Imaging.Metadata;
 
 
-namespace DemosCommonCode.Imaging
+namespace CommonCode.Imaging
 {
     /// <summary>
     /// A converter for TIFF tag metadata.

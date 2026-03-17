@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using Vintasoft.Imaging.Codecs.ImageFiles.Tiff;
 
 
-namespace DemosCommonCode.Imaging
+namespace CommonCode.Imaging
 {
     /// <summary>
     /// A form that allows to add new TIFF tag to a TIFF image.

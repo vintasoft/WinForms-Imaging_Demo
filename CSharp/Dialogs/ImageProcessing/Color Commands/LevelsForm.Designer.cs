@@ -1,4 +1,4 @@
-namespace ImagingDemo
+﻿namespace ImagingDemo
 {
     partial class LevelsForm
     {
@@ -28,11 +28,11 @@ namespace ImagingDemo
         /// </summary>
         private void InitializeComponent()
         {
-            this.sourceMinValueEditorControl = new DemosCommonCode.CustomControls.ValueEditorControl();
-            this.sourceMaxValueEditorControl = new DemosCommonCode.CustomControls.ValueEditorControl();
-            this.destinationMinValueEditorControl = new DemosCommonCode.CustomControls.ValueEditorControl();
-            this.destinationMaxValueEditorControl = new DemosCommonCode.CustomControls.ValueEditorControl();
-            this.gammaValueEditorControl = new DemosCommonCode.CustomControls.ValueEditorControl();
+            this.sourceMinValueEditorControl = new CommonCode.CustomControls.ValueEditorControl();
+            this.sourceMaxValueEditorControl = new CommonCode.CustomControls.ValueEditorControl();
+            this.destinationMinValueEditorControl = new CommonCode.CustomControls.ValueEditorControl();
+            this.destinationMaxValueEditorControl = new CommonCode.CustomControls.ValueEditorControl();
+            this.gammaValueEditorControl = new CommonCode.CustomControls.ValueEditorControl();
             this.redCheckBox = new System.Windows.Forms.CheckBox();
             this.greenCheckBox = new System.Windows.Forms.CheckBox();
             this.blueCheckBox = new System.Windows.Forms.CheckBox();
@@ -217,11 +217,11 @@ namespace ImagingDemo
 
         #endregion
 
-        private DemosCommonCode.CustomControls.ValueEditorControl sourceMinValueEditorControl;
-        private DemosCommonCode.CustomControls.ValueEditorControl sourceMaxValueEditorControl;
-        private DemosCommonCode.CustomControls.ValueEditorControl destinationMinValueEditorControl;
-        private DemosCommonCode.CustomControls.ValueEditorControl destinationMaxValueEditorControl;
-        private DemosCommonCode.CustomControls.ValueEditorControl gammaValueEditorControl;
+        private CommonCode.CustomControls.ValueEditorControl sourceMinValueEditorControl;
+        private CommonCode.CustomControls.ValueEditorControl sourceMaxValueEditorControl;
+        private CommonCode.CustomControls.ValueEditorControl destinationMinValueEditorControl;
+        private CommonCode.CustomControls.ValueEditorControl destinationMaxValueEditorControl;
+        private CommonCode.CustomControls.ValueEditorControl gammaValueEditorControl;
         private System.Windows.Forms.CheckBox redCheckBox;
         private System.Windows.Forms.CheckBox greenCheckBox;
         private System.Windows.Forms.CheckBox blueCheckBox;

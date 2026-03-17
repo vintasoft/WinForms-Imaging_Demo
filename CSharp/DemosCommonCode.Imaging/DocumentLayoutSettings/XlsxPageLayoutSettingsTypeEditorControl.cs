@@ -2,7 +2,7 @@
 
 using Vintasoft.Imaging.Codecs.Decoders;
 
-namespace DemosCommonCode.Imaging
+namespace CommonCode.Imaging
 {
     /// <summary>
     /// A control that allows to edit <see cref="XlsxPageLayoutSettingsType"/>.

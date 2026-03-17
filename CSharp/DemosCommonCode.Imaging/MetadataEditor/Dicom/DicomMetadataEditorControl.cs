@@ -10,7 +10,7 @@ using Vintasoft.Imaging.Codecs.ImageFiles.Dicom;
 using Vintasoft.Imaging.Metadata;
 
 
-namespace DemosCommonCode.Imaging
+namespace CommonCode.Imaging
 {
     /// <summary>
     /// A control that allows to edit the DICOM frame metadata.

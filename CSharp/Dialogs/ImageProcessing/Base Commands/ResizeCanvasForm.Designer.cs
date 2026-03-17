@@ -1,4 +1,4 @@
-namespace ImagingDemo
+﻿namespace ImagingDemo
 {
 	partial class ResizeCanvasForm
 	{
@@ -39,7 +39,7 @@ namespace ImagingDemo
             this.xPositionNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.canvasColorPanelControl = new DemosCommonCode.CustomControls.ColorPanelControl();
+            this.canvasColorPanelControl = new CommonCode.CustomControls.ColorPanelControl();
             ((System.ComponentModel.ISupportInitialize)(this.nWidth)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.nHeight)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.yPositionNumericUpDown)).BeginInit();
@@ -245,6 +245,6 @@ namespace ImagingDemo
         private System.Windows.Forms.NumericUpDown xPositionNumericUpDown;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label3;
-        private DemosCommonCode.CustomControls.ColorPanelControl canvasColorPanelControl;
+        private CommonCode.CustomControls.ColorPanelControl canvasColorPanelControl;
 	}
 }
