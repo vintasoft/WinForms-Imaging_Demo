@@ -433,7 +433,10 @@ namespace CommonCode.Barcode
         /// </summary>
         private void trackBarExpectedBarcodes_ValueChanged(object sender, EventArgs e)
         {
-            labelExpectedBarcodes.Text = trackBarExpectedBarcodes.Value.ToString();
+            if (trackBarExpectedBarcodes.Value == 0)
+                labelExpectedBarcodes.Text = "AUTO";
+            else
+                labelExpectedBarcodes.Text = trackBarExpectedBarcodes.Value.ToString();
         }
 
         /// <summary>

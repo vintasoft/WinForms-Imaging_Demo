@@ -1225,8 +1225,7 @@
             this.trackBarExpectedBarcodes.AutoSize = false;
             this.trackBarExpectedBarcodes.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.trackBarExpectedBarcodes.Location = new System.Drawing.Point(3, 30);
-            this.trackBarExpectedBarcodes.Maximum = 25;
-            this.trackBarExpectedBarcodes.Minimum = 1;
+            this.trackBarExpectedBarcodes.Maximum = 100;
             this.trackBarExpectedBarcodes.Name = "trackBarExpectedBarcodes";
             this.trackBarExpectedBarcodes.Size = new System.Drawing.Size(131, 48);
             this.trackBarExpectedBarcodes.TabIndex = 0;
