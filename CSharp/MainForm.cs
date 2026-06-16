@@ -270,7 +270,24 @@ namespace ImagingDemo
         /// </summary>
         static MainForm()
         {
-            WsiCodecAssembly.Init();
+            Jbig2AssemblyLoader.Load();
+            Jpeg2000AssemblyLoader.Load();
+            RawAssemblyLoader.Load();
+            DicomAssemblyLoader.Load();
+            PdfAnnotationsAssemblyLoader.Load();
+            PdfAssemblyLoader.Load();
+            DocxAssemblyLoader.Load();
+            PdfOfficeAssemblyLoader.Load();
+            WsiCodecAssemblyLoader.Load();
+            CadCodecAssemblyLoader.Load();
+#if NETCORE
+            WebpCodecAssemblyLoader.Load();
+#endif
+
+            ImagingTypeEditorRegistrator.Register();
+
+            // set CustomFontProgramsController for all opened documents
+            CustomFontProgramsController.SetDefaultFontProgramsController();
         }
 
         /// <summary>
@@ -285,23 +302,6 @@ namespace ImagingDemo
 
             // set view buffer to 32 MPX
             imageViewer1.ViewerBufferSize = 32;
-
-            Jbig2AssemblyLoader.Load();
-            Jpeg2000AssemblyLoader.Load();
-            RawAssemblyLoader.Load();
-            DicomAssemblyLoader.Load();
-            PdfAnnotationsAssemblyLoader.Load();
-            PdfAssemblyLoader.Load();
-            DocxAssemblyLoader.Load();
-            PdfOfficeAssemblyLoader.Load();
-#if NETCORE
-            WebpCodecAssemblyLoader.Load();
-#endif
-
-            ImagingTypeEditorRegistrator.Register();
-
-            // set CustomFontProgramsController for all opened documents
-            CustomFontProgramsController.SetDefaultFontProgramsController();
 
             _imageMapTool = new ImageMapTool();
 

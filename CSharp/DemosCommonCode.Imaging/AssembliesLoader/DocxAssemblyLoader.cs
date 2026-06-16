@@ -14,6 +14,7 @@
 #if REMOVE_OFFICE_PLUGIN
             Vintasoft.Imaging.Codecs.AvailableCodecs.RemoveCodecByName("Docx");
             Vintasoft.Imaging.Codecs.AvailableCodecs.RemoveCodecByName("Xlsx");
+            Vintasoft.Imaging.Codecs.AvailableCodecs.RemoveCodecByName("Pptx");
 #else
             using (Vintasoft.Imaging.Codecs.Decoders.DocxDecoder decoder =
                 new Vintasoft.Imaging.Codecs.Decoders.DocxDecoder())
