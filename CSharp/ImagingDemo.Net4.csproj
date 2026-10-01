@@ -82,30 +82,34 @@
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <PackageReference Include="Vintasoft.Barcode" Version="16.0.7.1" />
-    <PackageReference Include="Vintasoft.Barcode.Gdi" Version="16.0.7.1" />
-    <PackageReference Include="Vintasoft.Imaging" Version="15.1.9.1" />
-    <PackageReference Include="Vintasoft.Imaging.CadCodec" Version="15.1.9.1" />
-    <PackageReference Include="Vintasoft.Imaging.Gdi" Version="15.1.9.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation" Version="15.1.9.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf" Version="15.1.9.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf.UI" Version="15.1.9.1" />
-    <PackageReference Include="Vintasoft.Imaging.Annotation.UI" Version="15.1.9.1" />
-    <PackageReference Include="Vintasoft.Imaging.Dicom" Version="8.1.9.1" />
-    <PackageReference Include="Vintasoft.Imaging.DocCleanup" Version="10.1.1.1" />
-    <PackageReference Include="Vintasoft.Imaging.Jbig2Codec" Version="12.1.9.1" />
-    <PackageReference Include="Vintasoft.Imaging.Jpeg2000Codec" Version="10.1.9.1" />
-    <PackageReference Include="Vintasoft.Imaging.Office.OpenXml" Version="7.1.9.1" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf" Version="12.1.9.1" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf.Mrc" Version="12.1.9.1" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf.Office" Version="12.1.9.1" />
-    <PackageReference Include="Vintasoft.Imaging.Pdf.UI" Version="12.1.9.1" />
-    <PackageReference Include="Vintasoft.Imaging.RawCodec" Version="15.1.9.1" />
-    <PackageReference Include="Vintasoft.Imaging.WsiCodec" Version="15.1.9.1" />
-    <PackageReference Include="Vintasoft.Imaging.Media" Version="15.1.9.1" />
-    <PackageReference Include="Vintasoft.Imaging.UI" Version="15.1.9.1" />
-    <PackageReference Include="Vintasoft.Shared" Version="4.6.3.1" />
-    <PackageReference Include="Vintasoft.Twain" Version="15.4.0.1" />
+    <PackageReference Include="Vintasoft.Barcode" Version="16.1.0.1" />
+    <PackageReference Include="Vintasoft.Barcode.Gdi" Version="16.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging" Version="15.2.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.CadCodec" Version="15.2.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.EmailCodec" Version="15.2.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Gdi" Version="15.2.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation" Version="15.2.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf" Version="15.2.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation.Pdf.UI" Version="15.2.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Annotation.UI" Version="15.2.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Dicom" Version="8.2.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.DocCleanup" Version="10.2.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Jbig2Codec" Version="12.2.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Jpeg2000Codec" Version="10.1.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Office.OpenXml" Version="7.2.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf" Version="12.2.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf.Mrc" Version="12.2.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf.Office" Version="12.2.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Pdf.UI" Version="12.2.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.RawCodec" Version="15.2.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.WsiCodec" Version="15.2.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.Media" Version="15.2.0.1" />
+    <PackageReference Include="Vintasoft.Imaging.UI" Version="15.2.0.1" />
+    <PackageReference Include="Vintasoft.Shared" Version="4.7.0.1" />
+    <PackageReference Include="Vintasoft.Twain" Version="15.5.0.1" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="OpenMcdf" Version="3.1.4" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CustomControls\AnchorTypeEditorControl.cs">
@@ -161,6 +165,8 @@
     <Compile Include="DemosCommonCode.Imaging\AssembliesLoader\DicomAssemblyLoader.cs">
     </Compile>
     <Compile Include="DemosCommonCode.Imaging\AssembliesLoader\DocxAssemblyLoader.cs">
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\AssembliesLoader\EmailCodecAssemblyLoader.cs">
     </Compile>
     <Compile Include="DemosCommonCode.Imaging\AssembliesLoader\Jbig2AssemblyLoader.cs">
     </Compile>
@@ -315,11 +321,17 @@
     <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\DocxLayoutSettingsDialog.designer.cs">
       <DependentUpon>DocxLayoutSettingsDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\ImageCollectionDocxLayoutSettingsManager.cs">
+    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\EmailLayoutSettingsDialog.cs">
+      <SubType>Form</SubType>
     </Compile>
-    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\ImageCollectionLayoutSettingsManager.cs">
+    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\EmailLayoutSettingsDialog.Designer.cs">
+      <DependentUpon>EmailLayoutSettingsDialog.cs</DependentUpon>
     </Compile>
-    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\ImageCollectionXlsxLayoutSettingsManager.cs">
+    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\HtmlLayoutSettingsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\HtmlLayoutSettingsDialog.Designer.cs">
+      <DependentUpon>HtmlLayoutSettingsDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="DemosCommonCode.Imaging\DocumentLayoutSettings\PageLayoutSettingsControl.cs">
       <SubType>UserControl</SubType>
@@ -348,6 +360,12 @@
     <Compile Include="DemosCommonCode.Imaging\Fonts\CustomFontProgramsController.cs">
     </Compile>
     <Compile Include="DemosCommonCode.Imaging\Fonts\FontProgramsTools.cs">
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\ImagePreviewForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DemosCommonCode.Imaging\ImagePreviewForm.Designer.cs">
+      <DependentUpon>ImagePreviewForm.cs</DependentUpon>
     </Compile>
     <Compile Include="DemosCommonCode.Imaging\ImageViewerPrintManager.cs">
     </Compile>
@@ -936,6 +954,12 @@
     <EmbeddedResource Include="DemosCommonCode.Imaging\DocumentLayoutSettings\DocxLayoutSettingsDialog.resx">
       <DependentUpon>DocxLayoutSettingsDialog.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="DemosCommonCode.Imaging\DocumentLayoutSettings\EmailLayoutSettingsDialog.resx">
+      <DependentUpon>EmailLayoutSettingsDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DemosCommonCode.Imaging\DocumentLayoutSettings\HtmlLayoutSettingsDialog.resx">
+      <DependentUpon>HtmlLayoutSettingsDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="DemosCommonCode.Imaging\DocumentLayoutSettings\PageLayoutSettingsControl.resx">
       <DependentUpon>PageLayoutSettingsControl.cs</DependentUpon>
     </EmbeddedResource>
@@ -947,6 +971,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="DemosCommonCode.Imaging\DocumentPasswordForm.resx">
       <DependentUpon>DocumentPasswordForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DemosCommonCode.Imaging\ImagePreviewForm.resx">
+      <DependentUpon>ImagePreviewForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="DemosCommonCode.Imaging\MetadataEditor\Dicom\DicomMetadataEditorControl.resx">
       <DependentUpon>DicomMetadataEditorControl.cs</DependentUpon>

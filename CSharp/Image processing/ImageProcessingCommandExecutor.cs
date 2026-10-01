@@ -1,25 +1,27 @@
-﻿using System;
+﻿using CommonCode;
+using CommonCode.Imaging;
+using CommonCode.Imaging.Codecs;
+using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Threading;
 using System.Windows.Forms;
-
 using Vintasoft.Imaging;
+using Vintasoft.Imaging.Drawing;
+using Vintasoft.Imaging.Drawing.Gdi;
 using Vintasoft.Imaging.ImageProcessing;
 using Vintasoft.Imaging.ImageProcessing.Color;
 using Vintasoft.Imaging.ImageProcessing.Document;
 using Vintasoft.Imaging.ImageProcessing.Info;
+#if !REMOVE_DOCCLEANUP_PLUGIN
+using Vintasoft.Imaging.ImageProcessing.Info.TableDetection;
+#endif
 using Vintasoft.Imaging.ImageProcessing.Transforms;
 using Vintasoft.Imaging.UI;
 using Vintasoft.Imaging.UI.VisualTools;
 using Vintasoft.Imaging.Undo;
-
-using CommonCode;
-using CommonCode.Imaging;
-using CommonCode.Imaging.Codecs;
-using Vintasoft.Imaging.Drawing.Gdi;
-using Vintasoft.Imaging.Drawing;
 
 namespace ImagingDemo
 {
@@ -871,7 +873,6 @@ namespace ImagingDemo
 
             if (ExecuteProcessingCommand(command, false))
             {
-
                 GetTextOrientationCommandResult result = (GetTextOrientationCommandResult)command.Results[0];
                 ImageOrthogonalOrientation documentOrientation = result.Orientation;
 
@@ -894,6 +895,121 @@ namespace ImagingDemo
                         break;
                     default:
                         throw new NotImplementedException();
+                }
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Executes the ImageSegmentationCommand command.
+        /// </summary>
+        public void ExecuteImageSegmentationCommand()
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            // create the processing command
+            ImageSegmentationCommand command = new ImageSegmentationCommand();
+            command.Results = new ProcessingCommandResults();
+
+            if (ExecuteProcessingCommand(command, false))
+            {
+                if (command.Results != null)
+                {
+                    for (int i = 0; i < command.Results.Count; i++)
+                    {
+                        // if result is an image segmentation result
+                        ImageSegmentationCommandResult imageSegmentationResult = command.Results[i] as ImageSegmentationCommandResult;
+                        if (imageSegmentationResult != null)
+                        {
+                            // highlight the image segmentation result in the viewer
+                            _viewer.VisualTool = CreateHighlightTool(imageSegmentationResult.Regions);
+                        }
+                    }
+                }
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Executes the DocumentSegmentationCommand command.
+        /// </summary>
+        public void ExecuteDocumentSegmentationCommand()
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            // create the processing command
+            DocumentSegmentationCommand command = new DocumentSegmentationCommand();
+            command.Results = new ProcessingCommandResults();
+
+            if (ExecuteProcessingCommand(command, false))
+            {
+                if (command.Results != null)
+                {
+                    for (int i = 0; i < command.Results.Count; i++)
+                    {
+                        // if result is a document segmentation result
+                        DocumentSegmentationCommandResult documentSegmentationResult = command.Results[i] as DocumentSegmentationCommandResult;
+                        if (documentSegmentationResult != null)
+                        {
+                            // highlight the document segmentation result in the viewer
+                            _viewer.VisualTool = CreateHighlightTool(documentSegmentationResult.Regions);
+                        }
+                    }
+                }
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Executes the LineRecognitionCommand command.
+        /// </summary>
+        public void ExecuteLineRecognitionCommand()
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            // create the processing command
+            LineRecognitionCommand command = new LineRecognitionCommand();
+            command.Results = new ProcessingCommandResults();
+
+            if (ExecuteProcessingCommand(command, false))
+            {
+                if (command.Results != null)
+                {
+                    for (int i = 0; i < command.Results.Count; i++)
+                    {
+                        // if result is a line recognition result
+                        LineRecognitionCommandResult lineRecognitionResult = command.Results[i] as LineRecognitionCommandResult;
+                        if (lineRecognitionResult != null)
+                        {
+                            // highlight the line recognition result in the viewer
+                            _viewer.VisualTool = CreateHighlightTool(lineRecognitionResult.Lines);
+                        }
+                    }
+                }
+            }
+#endif
+        }
+
+        /// <summary>
+        /// Executes the TableWithBordersDetectionCommand command.
+        /// </summary>
+        public void ExecuteTableWithBordersDetectionCommand()
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            // create the processing command
+            TableWithBordersDetectionCommand command = new TableWithBordersDetectionCommand();
+
+            if (ExecuteProcessingCommand(command, false))
+            {
+                if (command.Results != null)
+                {
+                    for (int i = 0; i < command.Results.Count; i++)
+                    {
+                        // if result is a table recognition result
+                        TableDetectionCommandResult tableRecognitionResult = command.Results[i] as TableDetectionCommandResult;
+                        if (tableRecognitionResult != null)
+                        {
+                            // highlight the table recognition result in the viewer
+                            _viewer.VisualTool = CreateHighlightTool(tableRecognitionResult, true, false, false);
+                        }
+                    }
                 }
             }
 #endif
@@ -1212,6 +1328,226 @@ namespace ImagingDemo
             if (ImageProcessingCommandFinished != null)
                 ImageProcessingCommandFinished(command, e);
         }
+
+#if !REMOVE_DOCCLEANUP_PLUGIN
+        /// <summary>
+        /// Creates the highlight tool for the document segmentation result.
+        /// </summary>
+        /// <param name="segmentationRegions">The document segmentation regions.</param>
+        private VisualTool CreateHighlightTool(ReadOnlyCollection<ImageRegion> segmentationRegions)
+        {
+            // create an array of text/image/line regions
+            List<ImageRegion> textRegions = new List<ImageRegion>();
+            List<ImageRegion> imageRegions = new List<ImageRegion>();
+            List<ImageRegion> lineRegions = new List<ImageRegion>();
+            for (int i = 0; i < segmentationRegions.Count; i++)
+            {
+                if (segmentationRegions[i].IsText)
+                    textRegions.Add(segmentationRegions[i]);
+                else if (segmentationRegions[i].Type == ImageRegionType.Line)
+                    lineRegions.Add(segmentationRegions[i]);
+                else
+                    imageRegions.Add(segmentationRegions[i]);
+            }
+
+            // create the highlight objects for regions
+            //
+            SolidBrush highlightBrush = new SolidBrush(Color.FromArgb(100, Color.Yellow));
+
+            ColoredObjects<ImageRegion> highlightTextRegions = new ColoredObjects<ImageRegion>(textRegions);
+            highlightTextRegions.Pen = Pens.Green;
+            highlightTextRegions.Brush = highlightBrush;
+
+            ColoredObjects<ImageRegion> highlightLineRegions = new ColoredObjects<ImageRegion>(lineRegions);
+            highlightLineRegions.Pen = Pens.Blue;
+            highlightLineRegions.Brush = highlightBrush;
+
+            ColoredObjects<ImageRegion> highlightImageRegions = new ColoredObjects<ImageRegion>(imageRegions);
+            highlightImageRegions.Pen = Pens.Red;
+            highlightImageRegions.Brush = highlightBrush;
+
+
+            // create the highlight tool
+            HighlightTool<ImageRegion> highlightTool = new HighlightTool<ImageRegion>();
+
+            // add highlight objects to the highlight tool
+            highlightTool.Items.Add(highlightTextRegions);
+            highlightTool.Items.Add(highlightLineRegions);
+            highlightTool.Items.Add(highlightImageRegions);
+
+            return highlightTool;
+        }
+
+        /// <summary>
+        /// Creates the highlight tool for the image segmentation result.
+        /// </summary>
+        /// <param name="segmentationRegions">The image segmentation regions.</param>
+        private VisualTool CreateHighlightTool(ReadOnlyCollection<Rectangle> segmentationRegions)
+        {
+            // create an array of text/image/line regions
+            List<ImageRegion> imageRegions = new List<ImageRegion>();
+            for (int i = 0; i < segmentationRegions.Count; i++)
+            {
+                Rectangle rectangle = segmentationRegions[i];
+                ImageRegion imageRegion = new ImageRegion(rectangle.X, rectangle.Y, rectangle.Width, rectangle.Height);
+                imageRegions.Add(imageRegion);
+            }
+
+            ColoredObjects<ImageRegion> highlightImageRegions = new ColoredObjects<ImageRegion>(imageRegions);
+            highlightImageRegions.Pen = Pens.Green;
+            highlightImageRegions.Brush = new SolidBrush(Color.FromArgb(100, Color.Yellow));
+
+
+            // create the highlight tool
+            HighlightTool<ImageRegion> highlightTool = new HighlightTool<ImageRegion>();
+
+            // add highlight object to the highlight tool
+            highlightTool.Items.Add(highlightImageRegions);
+
+            return highlightTool;
+        }
+
+        /// <summary>
+        /// Creates the highlight tool for the line recognition result.
+        /// </summary>
+        /// <param name="lines">Lines.</param>
+        private VisualTool CreateHighlightTool(ReadOnlyCollection<LineInfo> lines)
+        {
+            // create an array that contains line regions
+
+            List<ImageRegion> lineRegions = new List<ImageRegion>();
+            for (int i = 0; i < lines.Count; i++)
+            {
+                LineInfo lineInfo = lines[i];
+                for (int j = 0; j < lineInfo.Points.Count; j++)
+                {
+                    lineRegions.Add(GetImageRegionForLine(lineInfo.Points[j]));
+                }
+            }
+
+            // create the highlight objects for regions
+
+            SolidBrush highlightBrush = new SolidBrush(Color.FromArgb(100, Color.Yellow));
+            ColoredObjects<ImageRegion> highlightLineRegions = new ColoredObjects<ImageRegion>(lineRegions);
+            highlightLineRegions.Pen = Pens.Red;
+            highlightLineRegions.Brush = highlightBrush;
+
+            // create the highlight tool
+            HighlightTool<ImageRegion> highlightTool = new HighlightTool<ImageRegion>();
+            // add highlight objects to the highlight tool
+            highlightTool.Items.Add(highlightLineRegions);
+
+            return highlightTool;
+        }
+
+        /// <summary>
+        /// Creates the highlight tool for the table recognition result.
+        /// </summary>
+        /// <param name="lines">Lines.</param>
+        private VisualTool CreateHighlightTool(
+            TableDetectionCommandResult tableRecognitionResult,
+            bool showTables, bool showTableRows, bool showTableCells)
+        {
+            // create an array that contains regions
+
+            List<ImageRegion> tableRegions = new List<ImageRegion>();
+            List<ImageRegion> tableRowRegions = new List<ImageRegion>();
+            List<ImageRegion> tableCellRegions = new List<ImageRegion>();
+
+            foreach (TableImage tableImage in tableRecognitionResult.Tables)
+            {
+                if (showTables)
+                {
+                    tableRegions.Add(
+                       new ImageRegion(
+                            (int)tableImage.ContentRect.X,
+                            (int)tableImage.ContentRect.Y,
+                            (int)tableImage.ContentRect.Width,
+                            (int)tableImage.ContentRect.Height));
+                }
+
+                foreach (TableImageRow tableImageRow in tableImage.Rows)
+                {
+                    if (showTableRows)
+                    {
+                        tableRowRegions.Add(
+                           new ImageRegion(
+                                (int)tableImageRow.BoundingBox.X,
+                                (int)tableImageRow.BoundingBox.Y,
+                                (int)tableImageRow.BoundingBox.Width,
+                                (int)tableImageRow.BoundingBox.Height));
+                    }
+
+                    foreach (TableImageCell tableImageCell in tableImageRow.Cells)
+                    {
+                        if (showTableCells)
+                        {
+                            tableCellRegions.Add(
+                               new ImageRegion(
+                                    (int)tableImageCell.ContentRect.X,
+                                    (int)tableImageCell.ContentRect.Y,
+                                    (int)tableImageCell.ContentRect.Width,
+                                    (int)tableImageCell.ContentRect.Height));
+                        }
+                    }
+                }
+            }
+
+            // create the highlight tool
+            HighlightTool<ImageRegion> highlightTool = new HighlightTool<ImageRegion>();
+
+            if (tableRegions.Count > 0)
+            {
+                ColoredObjects<ImageRegion> highlightTableRegions = new ColoredObjects<ImageRegion>(tableRegions);
+                highlightTableRegions.Pen = Pens.Green;
+                highlightTableRegions.Brush = new SolidBrush(Color.FromArgb(50, Color.Green));
+
+                // add highlight objects to the highlight tool
+                highlightTool.Items.Add(highlightTableRegions);
+            }
+
+            if (tableRowRegions.Count > 0)
+            {
+                ColoredObjects<ImageRegion> highlightTableRowRegions = new ColoredObjects<ImageRegion>(tableRowRegions);
+                highlightTableRowRegions.Pen = Pens.Blue;
+                highlightTableRowRegions.Brush = new SolidBrush(Color.FromArgb(50, Color.Blue));
+
+                // add highlight objects to the highlight tool
+                highlightTool.Items.Add(highlightTableRowRegions);
+            }
+
+            if (tableCellRegions.Count > 0)
+            {
+                ColoredObjects<ImageRegion> highlightTableCellRegions = new ColoredObjects<ImageRegion>(tableCellRegions);
+                highlightTableCellRegions.Pen = Pens.Yellow;
+                highlightTableCellRegions.Brush = new SolidBrush(Color.FromArgb(50, Color.Yellow));
+
+                // add highlight objects to the highlight tool
+                highlightTool.Items.Add(highlightTableCellRegions);
+            }
+
+            return highlightTool;
+        }
+
+        private ImageRegion GetImageRegionForLine(Point[] points)
+        {
+            int minX = points[0].X, minY = points[0].Y;
+            int maxX = minX, maxY = minY;
+            for (int i = 0; i < points.Length; i++)
+            {
+                if (minX > points[i].X)
+                    minX = points[i].X;
+                if (minY > points[i].Y)
+                    minY = points[i].Y;
+                if (maxX < points[i].X)
+                    maxX = points[i].X;
+                if (maxY < points[i].Y)
+                    maxY = points[i].Y;
+            }
+
+            return new ImageRegion(minX, minY, maxX - minX, maxY - minY);
+        }
+#endif
 
         #endregion
 

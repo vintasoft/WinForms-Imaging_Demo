@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
-
+using Vintasoft.Imaging;
 using Vintasoft.Imaging.Codecs.Decoders;
 
 namespace CommonCode.Imaging
@@ -13,6 +13,18 @@ namespace CommonCode.Imaging
     {
 
         #region Properties
+
+        /// <summary>
+        /// Gets the name of the codec.
+        /// </summary>
+        [Browsable(false)]
+        public virtual string CodecName
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
 
         DocumentLayoutSettings _layoutSettings;
         /// <summary>
@@ -35,22 +47,40 @@ namespace CommonCode.Imaging
             }
         }
 
-        #endregion
+        ImageCollectionLayoutSettingsManager _layoutSettingsManager;
+        /// <summary>
+        /// Gets or sets the manager of document layout settings.
+        /// </summary>
+        /// <value>
+        /// Default value is <b>null</b>.
+        /// </value>
+        [Browsable(false)]
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public ImageCollectionLayoutSettingsManager LayoutSettingsManager
+        {
+            get
+            {
+                return _layoutSettingsManager;
+            }
+            set
+            {
+                _layoutSettingsManager = value;
+                if (value != null)
+                    LayoutSettings = _layoutSettingsManager[CodecName];
+            }
+        }
 
+        #endregion
 
 
         #region Methods
 
         /// <summary>
-        /// Returns default document layout settings.
+        /// Creates the default layout settings.
         /// </summary>
-        /// <returns>
-        /// Default document layout settings.
-        /// </returns>
-        /// <exception cref="NotImplementedException">Thrown if method is not implemented.</exception>
         protected virtual DocumentLayoutSettings CreateDefaultLayoutSettings()
         {
-            throw new NotImplementedException();
+            return LayoutSettingsManager.GetDefaultSettings(CodecName);
         }
 
         #endregion

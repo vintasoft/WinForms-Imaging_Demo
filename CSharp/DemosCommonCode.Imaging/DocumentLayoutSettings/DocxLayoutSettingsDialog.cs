@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
-
+using Vintasoft.Imaging;
 using Vintasoft.Imaging.Codecs.Decoders;
 
 namespace CommonCode.Imaging
@@ -20,8 +20,15 @@ namespace CommonCode.Imaging
         public DocxLayoutSettingsDialog()
         {
             InitializeComponent();
+        }
 
-            LayoutSettings = CreateDefaultLayoutSettings();
+        /// <summary>
+        /// Inititalizes new instance of <see cref="DocxLayoutSettingsDialog"/>.
+        /// </summary>
+        public DocxLayoutSettingsDialog(ImageCollection images)
+            : this()
+        {
+            LayoutSettingsManager = images.LayoutSettings;
         }
 
         #endregion
@@ -29,6 +36,18 @@ namespace CommonCode.Imaging
 
 
         #region Properties
+
+        /// <summary>
+        /// Gets the name of the codec.
+        /// </summary>
+        [Browsable(false)]
+        public override string CodecName
+        {
+            get
+            {
+                return "Docx";
+            }
+        }
 
         /// <summary>
         /// Gets or sets the document layout settings.
@@ -76,31 +95,7 @@ namespace CommonCode.Imaging
 
 
 
-        #region Methods
-
-        #region PROTECTED
-
-        /// <summary>
-        /// Returns default document layout settings.
-        /// </summary>
-        /// <returns>
-        /// Default document layout settings.
-        /// </returns>
-        protected override DocumentLayoutSettings CreateDefaultLayoutSettings()
-        {
-#if REMOVE_OFFICE_PLUGIN
-            return new DocumentLayoutSettings();
-#else
-            return new DocxDocumentLayoutSettings();
-#endif
-        }
-
-        #endregion
-
-
-        #region PRIVATE
-
-        #region UI
+        #region Methods      
 
         /// <summary>
         /// Handles the CheckedChanged event of defaultSettingsCheckBox object.
@@ -131,7 +126,16 @@ namespace CommonCode.Imaging
 #endif
             }
 
-            DialogResult = DialogResult.OK;
+            try
+            {
+                LayoutSettingsManager[CodecName] = LayoutSettings;
+                DialogResult = DialogResult.OK;
+            }
+            catch (Exception ex)
+            {
+                DemosTools.ShowErrorMessage(ex);
+                DialogResult = DialogResult.Cancel;
+            }
         }
 
         /// <summary>
@@ -141,10 +145,6 @@ namespace CommonCode.Imaging
         {
             DialogResult = DialogResult.Cancel;
         }
-
-        #endregion
-
-        #endregion
 
         #endregion
 

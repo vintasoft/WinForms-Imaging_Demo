@@ -73,17 +73,6 @@ namespace ImagingDemo
         /// </summary>
         PointF _selectionContextMenuStripLocation;
 
-        /// <summary>
-        /// Manages the layout settings of DOCX document image collections.
-        /// </summary>
-        ImageCollectionDocxLayoutSettingsManager _imageCollectionDocxLayoutSettingsManager;
-
-        /// <summary>
-        /// Manages the layout settings of XLSX document image collections.
-        /// </summary>
-        ImageCollectionXlsxLayoutSettingsManager _imageCollectionXlsxLayoutSettingsManager;
-
-
         #region Open
 
         /// <summary>
@@ -280,6 +269,7 @@ namespace ImagingDemo
             PdfOfficeAssemblyLoader.Load();
             WsiCodecAssemblyLoader.Load();
             CadCodecAssemblyLoader.Load();
+            EmailCodecAssemblyLoader.Load();
 #if NETCORE
             WebpCodecAssemblyLoader.Load();
 #endif
@@ -403,17 +393,16 @@ namespace ImagingDemo
 
             imageViewer1.Focus();
 
-#if !REMOVE_OFFICE_PLUGIN
-            // specify that image collection of image viewer must handle layout settings requests
-            _imageCollectionDocxLayoutSettingsManager = new ImageCollectionDocxLayoutSettingsManager(imageViewer1.Images);
-            _imageCollectionXlsxLayoutSettingsManager = new ImageCollectionXlsxLayoutSettingsManager(imageViewer1.Images);
-#endif
-
 #if REMOVE_OFFICE_PLUGIN
             documentLayoutSettingsToolStripMenuItem.Visible = false;
 #endif
 
             DocumentPasswordForm.EnableAuthentication(imageViewer1);
+
+            // specify that SDK can download external resources when loading a document
+            ImagingEnvironment.ExternalResourceManager.AllowAccessToExternalResources = true;
+            // subscribe to the ExternalResourceManager.CreatingResourceStream event
+            ImagingEnvironment.ExternalResourceManager.CreatingResourceStream += ExternalResourceManager_CreatingResourceStream;
         }
 
         #endregion
@@ -540,6 +529,27 @@ namespace ImagingDemo
         #region UI
 
         #region Main form
+
+        /// <summary>
+        /// Handles the CreatingResourceStream event of the ExternalResourceManager.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="ExternalResourceStreamEventArgs"/> instance containing the event data.</param>
+        private void ExternalResourceManager_CreatingResourceStream(object sender, ExternalResourceStreamEventArgs e)
+        {
+            if (!e.Uri.IsFile)
+                Invoke(new ParameterizedThreadStart(SetStatus), string.Format("Downloading file '{0}'...", e.Uri));
+        }
+
+        /// <summary>
+        /// Sets the status.
+        /// </summary>
+        /// <param name="text">The text.</param>
+        private void SetStatus(object text)
+        {
+            imageLoadingStatusLabel.Visible = true;
+            imageLoadingStatusLabel.Text = text.ToString();
+        }
 
         /// <summary>
         /// Handles the Shown event of MainForm object.
@@ -689,6 +699,18 @@ namespace ImagingDemo
         }
 
         /// <summary>
+        /// Handles the Click event of addWithPreviewToolStripMenuItem object.
+        /// </summary>
+        private void addWithPreviewToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (ImagePreviewForm form = new ImagePreviewForm())
+            {
+                form.DestImagesManager = _imagesManager;
+                form.ShowDialog();
+            }
+        }
+
+        /// <summary>
         /// Handles the Click event of addToolStripMenuItem object.
         /// </summary>
         private void addToolStripMenuItem_Click(object sender, EventArgs e)
@@ -722,7 +744,11 @@ namespace ImagingDemo
         /// </summary>
         private void docxLayoutSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _imageCollectionDocxLayoutSettingsManager.EditLayoutSettingsUseDialog();
+#if !REMOVE_OFFICE_PLUGIN            
+            // create dialog with necessary layout settings
+            using (DocumentLayoutSettingsDialog dialog = new DocxLayoutSettingsDialog(imageViewer1.Images))
+                dialog.ShowDialog();
+#endif
         }
 
         /// <summary>
@@ -730,7 +756,33 @@ namespace ImagingDemo
         /// </summary>
         private void xlsxLayoutSettingsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            _imageCollectionXlsxLayoutSettingsManager.EditLayoutSettingsUseDialog();
+#if !REMOVE_OFFICE_PLUGIN            
+            // create dialog with necessary layout settings
+            using (DocumentLayoutSettingsDialog dialog = new XlsxLayoutSettingsDialog(imageViewer1.Images))
+                dialog.ShowDialog();
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of htmlToolStripMenuItem object.
+        /// </summary>
+        private void htmlToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // create dialog with necessary layout settings
+            using (DocumentLayoutSettingsDialog dialog = new HtmlLayoutSettingsDialog(imageViewer1.Images))
+                dialog.ShowDialog();
+        }
+
+        /// <summary>
+        /// Handles the Click event of emailToolStripMenuItem object.
+        /// </summary>
+        private void emailToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_EMAIL_CODEC
+            // create dialog with necessary layout settings
+            using (DocumentLayoutSettingsDialog dialog = new EmailLayoutSettingsDialog(imageViewer1.Images))
+                dialog.ShowDialog();
+#endif
         }
 
         /// <summary>
@@ -2726,6 +2778,46 @@ namespace ImagingDemo
         {
 #if !REMOVE_DOCCLEANUP_PLUGIN
             _imageProcessingCommandExecutor.ExecuteGetTextOrientationCommand();
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of imageSegmentationToolStripMenuItem object.
+        /// </summary>
+        private void imageSegmentationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            _imageProcessingCommandExecutor.ExecuteImageSegmentationCommand();
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of documentSegmentationToolStripMenuItem object.
+        /// </summary>
+        private void documentSegmentationToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            _imageProcessingCommandExecutor.ExecuteDocumentSegmentationCommand();
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of detectLinesOnImageToolStripMenuItem object.
+        /// </summary>
+        private void detectLinesOnImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            _imageProcessingCommandExecutor.ExecuteLineRecognitionCommand();
+#endif
+        }
+
+        /// <summary>
+        /// Handles the Click event of detectTablesWithBordersOnImageToolStripMenuItem object.
+        /// </summary>
+        private void detectTablesWithBordersOnImageToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+#if !REMOVE_DOCCLEANUP_PLUGIN
+            _imageProcessingCommandExecutor.ExecuteTableWithBordersDetectionCommand();
 #endif
         }
 
@@ -5347,8 +5439,9 @@ namespace ImagingDemo
 
 
 
+
         #endregion
 
-      
+     
     }
 }

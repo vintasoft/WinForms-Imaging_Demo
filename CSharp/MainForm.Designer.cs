@@ -1,4 +1,4 @@
-﻿namespace ImagingDemo
+namespace ImagingDemo
 {
 	partial class MainForm
 	{
@@ -30,21 +30,24 @@
 		{
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainForm));
-            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance6 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
-            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance7 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
-            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance8 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
-            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance9 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
-            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance10 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
-            Vintasoft.Imaging.UI.ThumbnailCaption thumbnailCaption2 = new Vintasoft.Imaging.UI.ThumbnailCaption();
+            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance1 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
+            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance2 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
+            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance3 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
+            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance4 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
+            Vintasoft.Imaging.UI.ThumbnailAppearance thumbnailAppearance5 = new Vintasoft.Imaging.UI.ThumbnailAppearance();
+            Vintasoft.Imaging.UI.ThumbnailCaption thumbnailCaption1 = new Vintasoft.Imaging.UI.ThumbnailCaption();
             this.formMenuStrip = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.newToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator34 = new System.Windows.Forms.ToolStripSeparator();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.addToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.addWithPreviewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.documentLayoutSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.docxLayoutSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.xlsxLayoutSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.htmlToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.emailToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator33 = new System.Windows.Forms.ToolStripSeparator();
             this.addFromClipboardToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.acquireFromScannerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -241,6 +244,10 @@
             this.getDocumentImageRotationAngleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.rotationAngleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.getTextOrientationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.imageSegmentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.documentSegmentationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.detectLinesOnImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.detectTablesWithBordersOnImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator26 = new System.Windows.Forms.ToolStripSeparator();
             this.despeckleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.deskewDocumentImageToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -294,6 +301,7 @@
             this.loadPathsFromMetadataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.animationToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.getPSDChannelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.panel1 = new System.Windows.Forms.Panel();
@@ -361,7 +369,6 @@
             this.viewerToolStrip = new CommonCode.Imaging.ImageViewerToolStrip();
             this.visualToolsToolStrip1 = new CommonCode.Imaging.VisualToolsToolStrip();
             this.panel2 = new System.Windows.Forms.Panel();
-            this.getPSDChannelsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.formMenuStrip.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.zoomTrackBar)).BeginInit();
@@ -398,6 +405,7 @@
             this.toolStripSeparator34,
             this.openToolStripMenuItem,
             this.addToolStripMenuItem,
+            this.addWithPreviewToolStripMenuItem,
             this.documentLayoutSettingsToolStripMenuItem,
             this.toolStripSeparator33,
             this.addFromClipboardToolStripMenuItem,
@@ -451,11 +459,20 @@
             this.addToolStripMenuItem.Text = "&Add...";
             this.addToolStripMenuItem.Click += new System.EventHandler(this.addToolStripMenuItem_Click);
             // 
+            // addWithPreviewToolStripMenuItem
+            // 
+            this.addWithPreviewToolStripMenuItem.Name = "addWithPreviewToolStripMenuItem";
+            this.addWithPreviewToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
+            this.addWithPreviewToolStripMenuItem.Text = "Add with Preview...";
+            this.addWithPreviewToolStripMenuItem.Click += new System.EventHandler(this.addWithPreviewToolStripMenuItem_Click);
+            // 
             // documentLayoutSettingsToolStripMenuItem
             // 
             this.documentLayoutSettingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.docxLayoutSettingsToolStripMenuItem,
-            this.xlsxLayoutSettingsToolStripMenuItem});
+            this.xlsxLayoutSettingsToolStripMenuItem,
+            this.htmlToolStripMenuItem,
+            this.emailToolStripMenuItem});
             this.documentLayoutSettingsToolStripMenuItem.Name = "documentLayoutSettingsToolStripMenuItem";
             this.documentLayoutSettingsToolStripMenuItem.Size = new System.Drawing.Size(201, 22);
             this.documentLayoutSettingsToolStripMenuItem.Text = "Layout Settings...";
@@ -473,6 +490,20 @@
             this.xlsxLayoutSettingsToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
             this.xlsxLayoutSettingsToolStripMenuItem.Text = "XLSX...";
             this.xlsxLayoutSettingsToolStripMenuItem.Click += new System.EventHandler(this.xlsxLayoutSettingsToolStripMenuItem_Click);
+            // 
+            // htmlToolStripMenuItem
+            // 
+            this.htmlToolStripMenuItem.Name = "htmlToolStripMenuItem";
+            this.htmlToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.htmlToolStripMenuItem.Text = "HTML...";
+            this.htmlToolStripMenuItem.Click += new System.EventHandler(this.htmlToolStripMenuItem_Click);
+            // 
+            // emailToolStripMenuItem
+            // 
+            this.emailToolStripMenuItem.Name = "emailToolStripMenuItem";
+            this.emailToolStripMenuItem.Size = new System.Drawing.Size(115, 22);
+            this.emailToolStripMenuItem.Text = "Email...";
+            this.emailToolStripMenuItem.Click += new System.EventHandler(this.emailToolStripMenuItem_Click);
             // 
             // toolStripSeparator33
             // 
@@ -1967,6 +1998,10 @@
             this.getDocumentImageRotationAngleToolStripMenuItem,
             this.rotationAngleToolStripMenuItem,
             this.getTextOrientationToolStripMenuItem,
+            this.imageSegmentationToolStripMenuItem,
+            this.documentSegmentationToolStripMenuItem,
+            this.detectLinesOnImageToolStripMenuItem,
+            this.detectTablesWithBordersOnImageToolStripMenuItem,
             this.toolStripSeparator26,
             this.despeckleToolStripMenuItem,
             this.deskewDocumentImageToolStripMenuItem,
@@ -2019,6 +2054,34 @@
             this.getTextOrientationToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
             this.getTextOrientationToolStripMenuItem.Text = "Get Text Orientation...";
             this.getTextOrientationToolStripMenuItem.Click += new System.EventHandler(this.getTextOrientationToolStripMenuItem_Click);
+            // 
+            // imageSegmentationToolStripMenuItem
+            // 
+            this.imageSegmentationToolStripMenuItem.Name = "imageSegmentationToolStripMenuItem";
+            this.imageSegmentationToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
+            this.imageSegmentationToolStripMenuItem.Text = "Image segmentation";
+            this.imageSegmentationToolStripMenuItem.Click += new System.EventHandler(this.imageSegmentationToolStripMenuItem_Click);
+            // 
+            // documentSegmentationToolStripMenuItem
+            // 
+            this.documentSegmentationToolStripMenuItem.Name = "documentSegmentationToolStripMenuItem";
+            this.documentSegmentationToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
+            this.documentSegmentationToolStripMenuItem.Text = "Document segmentation";
+            this.documentSegmentationToolStripMenuItem.Click += new System.EventHandler(this.documentSegmentationToolStripMenuItem_Click);
+            // 
+            // detectLinesOnImageToolStripMenuItem
+            // 
+            this.detectLinesOnImageToolStripMenuItem.Name = "detectLinesOnImageToolStripMenuItem";
+            this.detectLinesOnImageToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
+            this.detectLinesOnImageToolStripMenuItem.Text = "Detect lines on image";
+            this.detectLinesOnImageToolStripMenuItem.Click += new System.EventHandler(this.detectLinesOnImageToolStripMenuItem_Click);
+            // 
+            // detectTablesWithBordersOnImageToolStripMenuItem
+            // 
+            this.detectTablesWithBordersOnImageToolStripMenuItem.Name = "detectTablesWithBordersOnImageToolStripMenuItem";
+            this.detectTablesWithBordersOnImageToolStripMenuItem.Size = new System.Drawing.Size(278, 22);
+            this.detectTablesWithBordersOnImageToolStripMenuItem.Text = "Detect tables with borders on image";
+            this.detectTablesWithBordersOnImageToolStripMenuItem.Click += new System.EventHandler(this.detectTablesWithBordersOnImageToolStripMenuItem_Click);
             // 
             // toolStripSeparator26
             // 
@@ -2416,6 +2479,13 @@
             this.animationToolStripMenuItem.Text = "Show Animation...";
             this.animationToolStripMenuItem.Click += new System.EventHandler(this.animationToolStripMenuItem_Click);
             // 
+            // getPSDChannelsToolStripMenuItem
+            // 
+            this.getPSDChannelsToolStripMenuItem.Name = "getPSDChannelsToolStripMenuItem";
+            this.getPSDChannelsToolStripMenuItem.Size = new System.Drawing.Size(171, 22);
+            this.getPSDChannelsToolStripMenuItem.Text = "Get PSD Channels";
+            this.getPSDChannelsToolStripMenuItem.Click += new System.EventHandler(this.getPSDChannelsToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -2480,42 +2550,42 @@
             this.thumbnailViewer1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.thumbnailViewer1.ContextMenuStrip = this.thumbnailViewerContextMenuStrip;
             this.thumbnailViewer1.Dock = System.Windows.Forms.DockStyle.Fill;
-            thumbnailAppearance6.BackColor = System.Drawing.Color.Transparent;
-            thumbnailAppearance6.BorderColor = System.Drawing.Color.Gray;
-            thumbnailAppearance6.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Dotted;
-            thumbnailAppearance6.BorderWidth = 1;
-            this.thumbnailViewer1.FocusedThumbnailAppearance = thumbnailAppearance6;
+            thumbnailAppearance1.BackColor = System.Drawing.Color.Transparent;
+            thumbnailAppearance1.BorderColor = System.Drawing.Color.Gray;
+            thumbnailAppearance1.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Dotted;
+            thumbnailAppearance1.BorderWidth = 1;
+            this.thumbnailViewer1.FocusedThumbnailAppearance = thumbnailAppearance1;
             this.thumbnailViewer1.GenerateOnlyVisibleThumbnails = true;
-            thumbnailAppearance7.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(186)))), ((int)(((byte)(210)))), ((int)(((byte)(235)))));
-            thumbnailAppearance7.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(186)))), ((int)(((byte)(210)))), ((int)(((byte)(235)))));
-            thumbnailAppearance7.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
-            thumbnailAppearance7.BorderWidth = 2;
-            this.thumbnailViewer1.HoveredThumbnailAppearance = thumbnailAppearance7;
+            thumbnailAppearance2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(186)))), ((int)(((byte)(210)))), ((int)(((byte)(235)))));
+            thumbnailAppearance2.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(210)))), ((int)(((byte)(186)))), ((int)(((byte)(210)))), ((int)(((byte)(235)))));
+            thumbnailAppearance2.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            thumbnailAppearance2.BorderWidth = 2;
+            this.thumbnailViewer1.HoveredThumbnailAppearance = thumbnailAppearance2;
             this.thumbnailViewer1.ImageRotationAngle = 0;
             this.thumbnailViewer1.Location = new System.Drawing.Point(0, 0);
             this.thumbnailViewer1.MasterViewer = this.imageViewer1;
             this.thumbnailViewer1.Name = "thumbnailViewer1";
-            thumbnailAppearance8.BackColor = System.Drawing.Color.Black;
-            thumbnailAppearance8.BorderColor = System.Drawing.Color.Black;
-            thumbnailAppearance8.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
-            thumbnailAppearance8.BorderWidth = 0;
-            this.thumbnailViewer1.NotReadyThumbnailAppearance = thumbnailAppearance8;
-            thumbnailAppearance9.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(238)))), ((int)(((byte)(253)))));
-            thumbnailAppearance9.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(222)))), ((int)(((byte)(253)))));
-            thumbnailAppearance9.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
-            thumbnailAppearance9.BorderWidth = 1;
-            this.thumbnailViewer1.SelectedThumbnailAppearance = thumbnailAppearance9;
+            thumbnailAppearance3.BackColor = System.Drawing.Color.Black;
+            thumbnailAppearance3.BorderColor = System.Drawing.Color.Black;
+            thumbnailAppearance3.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            thumbnailAppearance3.BorderWidth = 0;
+            this.thumbnailViewer1.NotReadyThumbnailAppearance = thumbnailAppearance3;
+            thumbnailAppearance4.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(170)))), ((int)(((byte)(238)))), ((int)(((byte)(253)))));
+            thumbnailAppearance4.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(153)))), ((int)(((byte)(222)))), ((int)(((byte)(253)))));
+            thumbnailAppearance4.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            thumbnailAppearance4.BorderWidth = 1;
+            this.thumbnailViewer1.SelectedThumbnailAppearance = thumbnailAppearance4;
             this.thumbnailViewer1.Size = new System.Drawing.Size(280, 451);
             this.thumbnailViewer1.TabIndex = 0;
             this.thumbnailViewer1.Text = "thumbnailViewer1";
-            thumbnailAppearance10.BackColor = System.Drawing.Color.Transparent;
-            thumbnailAppearance10.BorderColor = System.Drawing.Color.Transparent;
-            thumbnailAppearance10.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
-            thumbnailAppearance10.BorderWidth = 1;
-            this.thumbnailViewer1.ThumbnailAppearance = thumbnailAppearance10;
-            thumbnailCaption2.Padding = new Vintasoft.Imaging.PaddingF(0F, 0F, 0F, 0F);
-            thumbnailCaption2.TextColor = System.Drawing.Color.Black;
-            this.thumbnailViewer1.ThumbnailCaption = thumbnailCaption2;
+            thumbnailAppearance5.BackColor = System.Drawing.Color.Transparent;
+            thumbnailAppearance5.BorderColor = System.Drawing.Color.Transparent;
+            thumbnailAppearance5.BorderStyle = System.Windows.Forms.ButtonBorderStyle.Solid;
+            thumbnailAppearance5.BorderWidth = 1;
+            this.thumbnailViewer1.ThumbnailAppearance = thumbnailAppearance5;
+            thumbnailCaption1.Padding = new Vintasoft.Imaging.PaddingF(0F, 0F, 0F, 0F);
+            thumbnailCaption1.TextColor = System.Drawing.Color.Black;
+            this.thumbnailViewer1.ThumbnailCaption = thumbnailCaption1;
             this.thumbnailViewer1.ThumbnailContextMenuStrip = this.thumbnailContextMenu;
             this.thumbnailViewer1.ThumbnailControlPadding = new Vintasoft.Imaging.PaddingF(0F, 0F, 0F, 0F);
             this.thumbnailViewer1.ThumbnailFlowStyle = Vintasoft.Imaging.UI.ThumbnailFlowStyle.WrappedRows;
@@ -2991,13 +3061,6 @@
             this.panel2.Size = new System.Drawing.Size(844, 25);
             this.panel2.TabIndex = 0;
             // 
-            // getPSDChannelsToolStripMenuItem
-            // 
-            this.getPSDChannelsToolStripMenuItem.Name = "getPSDChannelsToolStripMenuItem";
-            this.getPSDChannelsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-            this.getPSDChannelsToolStripMenuItem.Text = "Get PSD Channels";
-            this.getPSDChannelsToolStripMenuItem.Click += new System.EventHandler(this.getPSDChannelsToolStripMenuItem_Click);
-            // 
             // MainForm
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -3369,5 +3432,12 @@
         private System.Windows.Forms.ToolStripMenuItem saveToDocxToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem dottedLineRemovalToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem getPSDChannelsToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem detectLinesOnImageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem detectTablesWithBordersOnImageToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem imageSegmentationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem documentSegmentationToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem htmlToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem emailToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem addWithPreviewToolStripMenuItem;
     }
 }
